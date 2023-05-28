@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}StudentPeeps | Login{% endblock %}
+
+{% block linkshead %}
+<meta name="description"content="Login to your Studentpeeps’ Account and enjoy student discounts when you shop.">
+
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+<link rel="stylesheet" href="{% static 'css/google.css' %}">
+<style>
+  input.form-control {
+    height: 46px;
+    background: rgb(239, 244, 244);
+  }
+
+  h2 {
+    color: #272727;
+    font-family: Gibson SemiBold, Helvetica, Arial, Sans Serif;
+    font-weight: bold;
+  }
+
+  p {
+    font-family: Gibson SemiBold, Helvetica, Arial, Sans Serif;
+    font-size: 16px;
+  }
+
+  .col label {
+    color: black;
+    font-weight: 700;
+    padding-bottom: 10px;
+    font-size: 15px;
+  }
+
+  .btn-primary {
+        font-family: 'Quicksand', sans-serif;
+        font-weight: bold;
+        height: 40px;
+        line-height: 2.5rem;
+        padding: 0 3rem;
+        width: 100%;
+        border: 0;
+        border-radius: 0.5rem;
+        background-image: linear-gradient(131deg, #57408a, #433375, #452c79, #301e55)!important;
+        background-size: 300% 100%;
+        transition: all 0.3s ease-in-out;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-size: 100% 100%;
+        transform: translateY(-0.15em);
+        color: white;
+    }
+
+  section {
+    margin-top: 50px;
+  }
+
+  .fix {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    min-width: 320px;
+    margin: 0px auto;
+    padding: 2em 2em 1em;
+  }
+
+  .sign {
+    text-align: center;
+    margin-top: 2em;
+    width: 100%;
+    cursor: default;
+  }
+
+  .sign a {
+    background: none;
+    font-size: 1em;
+    font-family: Gibson, Helvetica, Arial, "Sans Serif";
+    text-decoration: underline;
+    color: #4A3082!important;
+  }
+
+  body {
+    background-image: url("/static/images/illustrator_signup.webp");
+    background-repeat: no-repeat;
+    background-position-y: 90px;
+  }
+
+  @media (max-width:786px) {
+    body {
+      background-image: url("");
+    }
+  }
+
+  .btn-goggle {
+    width: 260px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none !important;
+  }
+
+  .btn-goggle img{
+    margin-left: 10px;
+  }
+
+  .btn-goggle span{
+    margin-left: 10px;
+  }
+
+  .footer {
+    margin-top: 7em;
+  }
+</style>
+
+{% endblock %}
+
+{% block body %}
+<div class="con">
+  <section>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="fix col-12 col-md-8 col-lg-8 col-xl-6">
+          <div class="row">
+            <div class="col text-center">
+              <h2>LOGIN</h2>
+              <p>Enjoy exclusive student discounts when you shop😎</p>
+              <div class="row d-flex justify-content-center mt-4">
+                <div class="col d-flex justify-content-center">
+                  <a onclick="nextUrl();" href="{% url 'social:begin' backend='google-oauth2' %}" class="btn btn-goggle mb-2"><img
+                      src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                      class="goggle-icon" alt="">
+                    <span class="text-decoration-none text-dark text-center"
+                      style="font-weight: bold; font-family: Gibson SemiBold, Helvetica, Arial, Sans Serif;">Login With Google</span></a>
+                </div>
+              </div>
+              <div class="row justify-content-start mt-4">
+                <div class="col underline">
+                  <div class="underline-div"></div>
+                  <p class="underline-text">or</p>
+                  <div class="underline-div"></div>
+                </div>
+              </div>
+              {% for message in messages %}
+              <div class="alert alert-{{message.tags}}">{{message}}</div>
+              {% endfor %}
+            </div>
+          </div>
+          <form method="POST">
+            {% csrf_token %}
+            <div class="row align-items-center mt-4">
+              <div class="col">
+                <label class="input">Email Address</label>
+                <input type="email" name="email" class="form-control" required>
+              </div>
+            </div>
+            <div class="row align-items-center mt-4">
+              <div class="col">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control" required>
+              </div>
+            </div>
+            <div class="row justify-content-start mt-4">
+              <div class="col">
+                <button class="btn btn-primary mt-4">Log in</button>
+              </div>
+            </div>
+            <div class="sign">
+              <p>Don't have an account? <a href="/account/register">Sign up for free</a></p>
+              <p><a href="/account/reset_password">Forgot Password?</a></p>
+            </div>
+            <input type="hidden" name="next" value="{{ request.GET.next }}" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  const getParameterByName = (name, url = window.location.href) => {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+      results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  }
+
+  const nextUrl = async () => {
+    const next = getParameterByName('next');
+    let response;
+    if (next) response = await fetch(`/loginnext${next}`);
+    else response = await fetch(`/loginnext/null/`);
+  }
+</script>
+{% endblock %}

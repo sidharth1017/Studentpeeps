@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}StudentPeeps | Membership{% endblock %}
+
+{% block linkshead %}
+<meta name="description" content="Login to your Studentpeeps’ Account and enjoy student discounts when you shop.">
+
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+<link rel="stylesheet" href="{% static 'css/google.css' %}">
+<style>
+    input.form-control {
+        height: 46px;
+        background: rgb(239, 244, 244);
+    }
+
+    h2 {
+        color: #272727;
+        font-family: Gibson SemiBold, Helvetica, Arial, Sans Serif;
+        font-weight: bold;
+    }
+
+    p {
+        font-family: Gibson SemiBold, Helvetica, Arial, Sans Serif;
+        font-size: 16px;
+    }
+
+    .col label {
+        color: black;
+        font-weight: 700;
+        padding-bottom: 10px;
+        font-size: 15px;
+    }
+
+    .btn-primary {
+        font-family: 'Quicksand', sans-serif;
+        font-weight: bold;
+        height: 40px;
+        line-height: 2.5rem;
+        padding: 0 3rem;
+        width: 100%;
+        border: 0;
+        border-radius: 0.5rem;
+        background-image: linear-gradient(131deg, #57408a, #433375, #452c79, #301e55) !important;
+        background-size: 300% 100%;
+        transition: all 0.3s ease-in-out;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-size: 100% 100%;
+        transform: translateY(-0.15em);
+        color: white;
+    }
+
+    section {
+        margin-top: 50px;
+    }
+
+    .fix {
+        position: relative;
+        width: 100%;
+        max-width: 440px;
+        min-width: 320px;
+        margin: 0px auto;
+        padding: 2em 2em 1em;
+    }
+
+    .sign {
+        text-align: center;
+        margin-top: 2em;
+        width: 100%;
+        cursor: default;
+    }
+
+    .sign a {
+        background: none;
+        font-size: 1em;
+        font-family: Gibson, Helvetica, Arial, "Sans Serif";
+        text-decoration: underline;
+        color: #4A3082 !important;
+    }
+
+    body {
+        background-image: url("/static/images/illustrator_signup.webp");
+        background-repeat: no-repeat;
+        background-position-y: 90px;
+    }
+
+    @media (max-width:786px) {
+        body {
+            background-image: url("");
+        }
+    }
+
+    .btn-goggle {
+        width: 260px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none !important;
+    }
+
+    .btn-goggle img {
+        margin-left: 10px;
+    }
+
+    .btn-goggle span {
+        margin-left: 10px;
+    }
+
+    .footer {
+        margin-top: 7em;
+    }
+    
+    .apply_button {
+        margin-top: 0% !important;
+        line-height: 2;
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+<div class="con">
+    <section>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="fix col-12 col-md-8 col-lg-8 col-xl-6">
+                    <div class="row">
+                        <div class="col text-center">
+                            <h2>Membership</h2>
+                            <p>Enjoy exclusive student discounts when you shop😎</p>
+
+                            {% for message in messages %}
+                            <div class="alert alert-{{message.tags}}">{{message}}</div>
+                            {% endfor %}
+                            <div id="coupon_error" class="alert alert-danger d-none">Not a Valid Coupon Code!</div>
+                            <div id="coupon_success" class="alert alert-success d-none">Coupon Code Applied!</div>
+                        </div>
+                    </div>
+                    
+                    <div class="row align-items-center mt-4">
+                        <div class="col">
+                            <label class="input">Enter Coupon Code</label>
+                            <div class="row">
+                                <div class="col-lg-9">
+                                    <input id="input_coupon" type="text" name="coupon" class="form-control" required>
+                                </div>
+                                <div class="col-lg-3">
+                                    <button id="apply_coupon" class="btn btn-success mt-2 apply_button">
+                                        <span>Apply</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-start mt-4">
+                        <div class="col">
+                            <button id="pay_membership" class="btn btn-primary mt-4">Pay<span id="membership_amount" class="d-inline-block mx-1">199</span>/-</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    const csrftoken = '{{ csrf_token }}';
+    const apply_coupon = document.getElementById("apply_coupon");
+    apply_coupon.addEventListener("click", async (event) => {
+        event.preventDefault();
+        const input_coupon = document.getElementById("input_coupon");
+        const coupon_error = document.getElementById("coupon_error");
+        const coupon_success = document.getElementById("coupon_success");
+        const membership_amount = document.getElementById("membership_amount");
+        const res_json = await fetch("/account/coupon_code/", {
+            method: 'POST',
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrftoken,
+            }
+        });
+        const res = await res_json.json();
+        if (input_coupon.value == res["coupon_code"]) {
+            membership_amount.innerHTML = "0";
+            coupon_error.classList.add("d-none");
+            coupon_success.classList.remove("d-none");
+        } else {
+            coupon_error.classList.remove("d-none");
+            coupon_success.classList.add("d-none");
+        }
+    })
+
+    const pay_membership = document.getElementById("pay_membership");
+    pay_membership.addEventListener("click", (event) => {
+        event.preventDefault();
+        const membership_amount = document.getElementById("membership_amount");
+        if (membership_amount.innerHTML == "0") {
+            fetch("/", {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'}, 
+                body: JSON.stringify({"free": "true"})
+            }).then(res => {
+                console.log("Request Complete! Response:", res);
+                window.location.href = "/";
+            });
+        } else {
+            const options = {
+                "key": "{{ razorpay_merchant_id }}",
+                "amount": "19900.00",
+                "currency": "INR",
+                "order_id": "{{ order_id }}",
+                "name": "Studentpeeps Membership",
+                "description": "Studentpeeps Membership",
+                "callback_url": "{{ callback_url }}",
+                "prefill": {
+                    "name": "{{ request.user.first_name }} {{ request.user.last_name }}",
+                    "email": "{{ request.user.email }}"
+                },
+                "theme": {
+                    "color": "#6894ee"
+                }
+            }
+            const razorpay = new Razorpay(options);
+            razorpay.open();
+        }
+    })
+</script>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps >> Student Discounts Avni By Giva{% endblock %}
+
+{% block linkshead %}
+<meta name="description"content="Get student discount code for Avni by Giva. Get a 15% discount coupon code for Avni. Shop amazing jewelry on Avni.co  Sign up on Studentpeeps and get student discounts when you shop.">
+
+<link rel="stylesheet" href="{% static 'css/aftercode.css' %}">
+<script src="{% static 'js/aftercode.js' %}"></script>
+
+<style>
+    .bg-banner {
+        background-image: radial-gradient(circle,
+                #7c664b,
+                #836b4f,
+                #8a7153,
+                #917658,
+                #987c5c,
+                #8e7457,
+                #856d52,
+                #7b654d,
+                #5f4f3e,
+                #453a2f,
+                #2c2721,
+                #151413);
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="bg-banner">
+</div>
+<div class="prdouctimg">
+    <img class="final" src="{% static 'images\avni_inner.webp' %}" alt="">
+</div>
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img  id="center-img" class="final" src="{% static 'images\avnilogo.png' %}" alt="">
+        </div>
+
+        <div class="_all">
+            <div class="wrapper">
+                <div class="content">
+                    <h1>15% Student Discount</h1>
+                    <p><a href="https://cutt.ly/nnkWDAm" target="_blank">at avni By GIVA</a></p>
+                </div>
+                <div class="copy">
+                    <p>Copy code and enter on the<br>
+                        Avni By Giva Website</p>
+                </div>
+
+                <div class="showcode" id="text" onclick="copyElementText(this.id)">STUDENTPEEPS233 <div
+                        class="copy-btn"> <i class="fa fa-copy" onclick="copy()"></i></div>
+                </div>
+
+
+                <div class="button d-grid gap-2 col-6 mx-auto">
+                    <a href="https://cutt.ly/nnkWDAm" target="_blank"><button class="btn btn-primary" type="button">Open
+                            Site & Use Code</button></a>
+                </div>
+                <hr>
+            </div>
+            <div class="contenttext">
+                <h4>About this student discount</h4>
+                <p> • Shop any silver jewellery at a discount with Studentpeeps. <br>
+                    • Use our Avni student discount code at the checkout. <br>
+                    • Unlock flat 15% off on your desired jewellery. <br>
+                    • Shop from an exclusive oxidised jewellery collection, Now!
+                </p>
+            </div>
+            <hr>
+            <div class="contenttext">
+                <h4>Terms & Conditions</h4>
+                <p>• It is applicable on every jewellery at Avni.co. <br>
+                    • It cannot be clubbed with any other coupon/voucher. <br>
+                    • Valid only on minimum order of Rs. 899/-
+                </p>
+            </div>
+        </div>
+    </div>
+</center>
+
+
+{% endblock %}

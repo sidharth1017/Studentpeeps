@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps >> Student Discounts PharmEasy{% endblock %}
+
+{% block linkshead %}
+<meta name="description"
+    content="Get PharmEasy discount coupon on Studentpeeps. Get student discount codes for PharmEasy on Studentpeeps. Unlock flat 25% off on medicines using Promo Codes on Studentpeeps. Student discount available on PharmEasy medicines and healthcare necessities. Save up to Rs.300 on PharmEasy medicines with Studentpeeps.">
+
+<link rel="stylesheet" href="{% static 'css/aftercode.css' %}">
+<script src="{% static 'js/aftercode.js' %}"></script>
+
+<style>
+    .prdouctimg {
+        background-image: radial-gradient(circle, #fdbb29, #c5be30, #91bb49, #61b364, #34a87b, #34a87b, #34a87b, #34a87b, #61b364, #91bb49, #c5be30, #fdbb29);
+        }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="bg-banner">
+</div>
+<div class="prdouctimg">
+    <img class="final" src="{% static 'img/Tiles_inner/Pharmeasy_inner.webp' %}" alt="">
+</div>
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img  id="center-img" class="final" src="{% static 'img/Logos/pharmeasy_logo.webp' %}" alt="">
+        </div>
+        <div class="_all">
+            <div class="wrapper">
+                <div class="content">
+                    <h1>Flat 25% Student Discount</h1>
+                    <p><a href="https://pharmeasy.in/" target="_blank">at Pharmeasy</a></p>
+                </div>
+                <div class="copy">
+                    <p>Copy code and enter on the<br>
+                        Pharmeasy App</p>
+                </div>
+
+                <div class="showcode" id="text" onclick="copyElementText(this.id)">STUDENTP25<div
+                        class="copy-btn"><i class="fa fa-copy" onclick="copy()"></i></div>
+                </div>
+
+
+                <div class="button d-grid gap-2 col-6 mx-auto">
+                    <a href="https://pharmeasy.in/" target="_blank"><button class="btn btn-primary" type="button">Open
+                            Site & Use Code</button></a>
+                </div>
+                <hr>
+            </div>
+
+            <div class="contenttext">
+                <h4>About this student discount</h4>
+                <p> • Order medicines online at a discount with Studentpeeps<br>
+                    • Use our PharmEasy student discount code at the checkout<br>
+                    • Unlock flat 25% off on your first medicine orders<br>
+                    • Get all kinds of medical necessities delivered at your doorsteps within hours, Now!<br>
+                </p>
+            </div>
+            <hr>
+            <div class="contenttext">
+                <h4>Terms & Conditions</h4>
+                <p> • It is applicable on all new medicine orders at pharmeasy.in<br>
+                    • It cannot be clubbed with any other coupon/voucher.<br>
+                    • Offer valid only once per user.<br>
+                    • Valid only on minimum order of Rs.899<br>
+                    • The maximum discount is up to Rs.300<br>
+                    • For coupon code issues, please reach out to care@pharmeasy.in / 766100300<br>
+                    • Coupon Validity: 31st May, 2022
+                </p>
+            </div>
+        </div>
+    </div>
+</center>
+{% endblock %}
+

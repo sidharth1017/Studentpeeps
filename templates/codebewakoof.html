@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps >> Student Discounts Bewakoof{% endblock %}
+
+{% block linkshead %}
+<meta name="description"content="Get flat 15% Bewakoof coupons & Promo Codes on Studentpeeps. Get student discount coupons & discount codes for Bewakoof.com on Studentpeeps. Get 15% discount on Bewakoof t-shirts and phone cover on Studentpeeps.">
+<link rel="stylesheet" href="{% static 'css/aftercode.css' %}">
+<script src="{% static 'js/aftercode.js' %}"></script>
+<style>
+    .bg-banner {
+        background-image: linear-gradient(to right top, #c51d36, #d74330, #e66329, #f18122, #f8a01f, #fda84a, #ffb26a, #ffbc88, #ffc4ba, #ffd6e4, #fdebfa, #fdfdfd);
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="bg-banner">
+</div>
+<div class="prdouctimg">
+    <img class="final" src="{% static 'images\bewakoof_inner.webp' %}" alt="">
+</div>
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img  id="center-img" class="final" src="{% static 'images/bewakoof_logo.png' %}" alt="">
+        </div>
+        <div class="wrapper">
+            <div class="content">
+                <h1>15% Student Discount</h1>
+                <p><a href="https://cutt.ly/AESh5sh" target="_blank">at Bewakoof</a></p>
+            </div>
+            <div class="copy">
+                <p>Copy code and enter on the<br>
+                    Bewakoof Website</p>
+            </div>
+
+            <div class="showcode" id="text" onclick="copyElementText(this.id)">BWSP15 <div class="copy-btn"><i
+                        class="fa fa-copy" onclick="copy()"></i></div>
+            </div>
+
+
+            <div class="button d-grid gap-2 col-6 mx-auto">
+                <a href="https://cutt.ly/AESh5sh" target="_blank"><button class="btn btn-primary" type="button">Open
+                        Site & Use Code</button></a>
+            </div>
+            <hr>
+        </div>
+        <div class="contenttext">
+            <h4>About this student discount</h4>
+            <p> • Shop any trendy product at a discount with Studentpeeps.<br>
+                • Use our Bewakoof student discount code at the checkout.<br>
+                • Unlock flat 15% off on your favorite fashion product.<br>
+                • Boring wardrobes? Check out their Pop Culture, Hatke Collection, Indo Fusion, & try those crazy
+                caption tees, Now!
+            </p>
+        </div>
+        <hr>
+        <div class="contenttext">
+            <h4>Terms & Conditions</h4>
+            <p> • It is applicable on all products at bewakoof.com<br>
+                • It cannot be clubbed with any other coupon/voucher.<br>
+                • Valid only on minimum order of Rs. 499<br>
+                • Offer not applicable on COD.<br>
+                • Coupon Validity: 1st October, 2022
+            </p>
+        </div>
+    </div>
+    </div>
+</center>
+
+
+{% endblock %}

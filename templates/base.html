@@ -1,0 +1,1461 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Meta Tags -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Ayush Kumar Mittal | Sidharth Verma" />
+    <meta name="publisher" content="StudentPeeps" />
+    <meta name="copyright" content="StudentPeeps" />
+    <meta name="robots" content="INDEX,FOLLOW" />
+    {% block metadesc %} {% endblock %}
+    {% block metakeywords %} {% endblock %}
+
+    <meta name="audience" content="Everyone" />
+    <!-- meta tag for not zooming in Mobiles -->
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <!-- Meta Tags End -->
+
+    <!-- Faviconlogo -->
+    <link rel="shortcut icon" href="\static\images\logo_sp.png" type="image/x-icon" />
+    <!-- Faviconlogo End -->
+
+    <!-- Title Tag -->
+    <title>{% block title %} {% endblock %}</title>
+    <!-- Title Tag End -->
+
+    <!-- FontAwesome -->
+    <script src="https://kit.fontawesome.com/1906df1c3b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BHZQN087SM"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-BHZQN087SM');
+    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics End-->
+
+    <!-- Microsoft clarity -->
+    <script type="text/javascript">
+        (function (c, l, a, r, i, t, y) {
+            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, "clarity", "script", "9wwvdrkk9g");
+    </script>
+    <!-- Microsoft clarity -->
+
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-KBJVJMV');</script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Mixpanel -->
+
+    <script type="text/javascript">
+        (function (f, b) {
+            if (!b.__SV) {
+                var e, g, i, h; window.mixpanel = b; b._i = []; b.init = function (e, f, c) {
+                    function g(a, d) { var b = d.split("."); 2 == b.length && (a = a[b[0]], d = b[1]); a[d] = function () { a.push([d].concat(Array.prototype.slice.call(arguments, 0))) } } var a = b; "undefined" !== typeof c ? a = b[c] = [] : c = "mixpanel"; a.people = a.people || []; a.toString = function (a) { var d = "mixpanel"; "mixpanel" !== c && (d += "." + c); a || (d += " (stub)"); return d }; a.people.toString = function () { return a.toString(1) + ".people (stub)" }; i = "disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" ");
+                    for (h = 0; h < i.length; h++)g(a, i[h]); var j = "set set_once union unset remove delete".split(" "); a.get_group = function () { function b(c) { d[c] = function () { call2_args = arguments; call2 = [c].concat(Array.prototype.slice.call(call2_args, 0)); a.push([e, call2]) } } for (var d = {}, e = ["get_group"].concat(Array.prototype.slice.call(arguments, 0)), c = 0; c < j.length; c++)b(j[c]); return d }; b._i.push([e, f, c])
+                }; b.__SV = 1.2; e = f.createElement("script"); e.type = "text/javascript"; e.async = !0; e.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ?
+                    MIXPANEL_CUSTOM_LIB_URL : "file:" === f.location.protocol && "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//) ? "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js" : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; g = f.getElementsByTagName("script")[0]; g.parentNode.insertBefore(e, g)
+            }
+        })(document, window.mixpanel || []);
+
+        // Enabling the debug mode flag is useful during implementation,
+        // but it's recommended you remove it for production
+        mixpanel.init('ae951e0474b40c3f8ec27f8cc4151f16', { debug: true });
+        mixpanel.track('Visitor', {
+            'source': "Pat's affiliate site",
+            'Opted out of email': true,
+        });
+
+    </script>
+
+    <!-- Mixpanel -->
+
+    
+    <!-- Google optimise -->
+    <script src="https://www.googleoptimize.com/optimize.js?id=OPT-P5QV7J7"></script>
+    <!-- Google optimise -->
+
+
+
+
+    <!-- Extra Links -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+    <!------------ GOOGLE FONTS ------------>
+    <link href="https://fonts.googleapis.com/css?family=Anton|Cabin|Lato|Fjalla+One|Montserrat|Roboto&display=swap"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    {% block linkshead %} {% endblock %}
+    <!-- Extra Links End-->
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+        @font-face {
+            font-family: "San Francisco";
+            font-weight: 400;
+            src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
+        }
+
+        @font-face {
+            font-family: 'SF Pro Display Regular';
+            font-style: normal;
+            font-weight: normal;
+            src: local('SF Pro Display Regular'),
+            url("{% static 'fonts/SFPRODISPLAYREGULAR.woff' %}") format('woff');
+        }
+
+        @font-face {
+            font-family: 'SF Pro Display Medium';
+            font-style: normal;
+            font-weight: normal;
+            src: local('SF Pro Display Medium'),
+            url("{% static 'fonts/SFPRODISPLAYMEDIUM.woff' %}") format('woff');
+        }
+
+        @font-face {
+            font-family: 'SF Pro Display Bold';
+            font-style: normal;
+            font-weight: normal;
+            src: local('SF Pro Display Bold'),
+            url("{% static 'fonts/SFPRODISPLAYMEDIUM.woff' %}") format('woff');
+        }
+
+
+        nav .upper-nav {
+            font-family: 'SF Pro Display Regular';
+        }
+
+        .new_footer_area {
+            margin-top: 100px;
+            border-top: 1px solid rgb(165, 165, 165);
+        }
+
+        .logo img {
+            width: 3em;
+        }
+
+
+        @media(max-width:350px) {
+            .btn-outline-primary {
+                color: #4A3082;
+                border-color: #4A3082;
+                font-size: 8px;
+            }
+        }
+
+        .btn-primary {
+            font-family: 'SF Pro Display Regular';
+            height: 40px;
+            line-height: 2.5rem;
+            padding: 0 3rem;
+            font-size: 16px;
+            width: 100%;
+            border: 0;
+            border-radius: 0.2rem;
+            background-image: linear-gradient(131deg, #bb91e4, #a672da, #ab81d5, #9245df);
+            background-size: 300% 100%;
+            transition: all 0.3s ease-in-out;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn-primary:hover {
+            background-size: 100% 100%;
+            color: white;
+        }
+
+
+        .btn-outline-primary {
+            position: relative;
+            padding: 0.3rem 0.3rem;
+            width: 90px;
+            color: #fff !important;
+            font-weight: 600 !important;
+            display: inline-block;
+            outline: none !important;
+            border: none !important;
+            z-index: 0;
+            background: #4A3082 !important;
+            overflow: hidden;
+            letter-spacing: 0.5px !important;
+            font-size: 16px !important;
+        }
+
+        .btn-outline-primary:focus {
+            box-shadow: none !important;
+            border: none !important;
+            outline: none !important;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .col-lg-3.col-md-6 {
+            margin-top: 3em;
+        }
+
+        /* footer */
+        .footer {
+            padding-top: 2%;
+            padding-bottom: 0.5%;
+            background-color: #31343c;
+            color: whitesmoke;
+        }
+
+        .footer_content {
+            line-height: 1.5715;
+            padding-top: 50px;
+            color: whitesmoke;
+            display: flex;
+            flex-direction: row;
+            font-family: 'SF Pro Display Regular';
+        }
+
+        .footer_content p {
+            font-family: 'SF Pro Display Regular';
+        }
+
+        .ft_p {
+            font-family: 'SF Pro Display Regular';
+        }
+
+        .ul_style {
+            list-style: none;
+            padding: 0%;
+            font-family: 'SF Pro Display Regular';
+        }
+
+        a {
+            text-decoration: none;
+            color: whitesmoke;
+        }
+
+        .sub {
+            width: 25%;
+        }
+
+        .sub_p {
+            max-width: 303px;
+            font-family: 'SF Pro Display Regular';
+        }
+
+        .abt_hlp {
+            display: flex;
+            direction: row;
+            width: 50%;
+
+        }
+
+        .abt_hlp span {
+            width: 25%;
+        }
+
+        .abt {
+            margin-left: 20%;
+        }
+
+        .hlp {
+            margin-left: 20%;
+        }
+
+        .flws {
+            width: 25%;
+        }
+
+        .f_social_icon a {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            font-size: 25px;
+            line-height: 45px;
+            color: #ffffff;
+            display: inline-block;
+            background: #31343c;
+            text-align: center;
+            -webkit-transition: all 0.2s linear;
+            -o-transition: all 0.2s linear;
+            transition: all 0.2s linear;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #fff;
+        }
+
+        h4 {
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        .sub_p,
+        li,
+        a {
+            font-size: 16px;
+            font-weight: 300;
+        }
+
+        .flws_con {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .flws,
+        .con {
+            width: 100%;
+        }
+
+        .con a {
+            color: #FDC500;
+            text-decoration: underline;
+        }
+
+        li,
+        .sub_p,
+        h4 {
+            padding-top: 4%;
+        }
+
+        .flws {
+            padding-top: 20%;
+        }
+
+        .flws a {
+            margin-top: 4%;
+        }
+
+        hr {
+            margin-bottom: 0%;
+            padding: 0%;
+            width: 100%;
+            margin-top: 4%;
+        }
+
+        .ft_p {
+            text-align: center;
+            margin-top: 1%;
+        }
+
+        @media only screen and (max-width: 767px) {
+            .footer {
+                padding-bottom: 0%;
+            }
+
+            .footer_content {
+                padding-top: 10%;
+                padding-bottom: 0%;
+            }
+
+            .ft_p {
+                padding-top: 12%;
+                padding-left: 1%;
+                padding-right: 1%;
+            }
+
+            .con {
+                padding-top: 8%;
+            }
+
+            .flws {
+                padding-bottom: 8%;
+            }
+
+            .footer_content {
+                flex-direction: column;
+            }
+
+            .sub,
+            .abt_hlp,
+            .flws {
+                width: 100%;
+            }
+
+            .abt_hlp,
+            .flws {
+                padding-top: 10%;
+            }
+
+            .abt_hlp span {
+                width: 50%;
+            }
+
+            .abt {
+                margin-left: 0%;
+            }
+
+            .flws {
+                margin-left: 0%;
+            }
+
+            .sub .sub_p {
+                max-width: 90%;
+            }
+        }
+
+        @media only screen and (max-width: 915px) {
+            .user-name {
+                display: none;
+            }
+
+            .logout {
+                display: none;
+            }
+
+            .account-cont {
+                display: block !important;
+            }
+        }
+
+        @media only screen and (max-width: 786px) {
+            .account-dropdown {
+                right: 20px !important;
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+
+            .user-name i {
+                font-size: 20px;
+                margin-right: 3px;
+                cursor: pointer;
+            }
+
+            .footer {
+                padding-top: 5%;
+                padding-bottom: 5%;
+            }
+
+            .footer_content {
+                flex-direction: column;
+
+            }
+
+            .sub .sub_p {
+                max-width: 80%;
+            }
+
+
+            .flws a {
+                margin-top: 2%;
+            }
+
+            .con {
+                padding-top: 8%;
+            }
+
+
+            .ft_p {
+                padding-top: 2.5%;
+                padding-left: 1%;
+                padding-right: 1%;
+            }
+
+            .sub,
+            .abt_hlp,
+            .flws {
+                width: 100%;
+            }
+
+            .abt_hlp,
+            .flws {
+                padding-top: 10%;
+            }
+
+            .abt_hlp span {
+                width: 60%;
+            }
+
+            .abt {
+                margin-left: 0%;
+            }
+
+            .flws {
+                margin-left: 0%;
+            }
+
+            .sub_p {
+                max-width: 70%;
+            }
+
+            h3 {
+                font-size: 3vh;
+            }
+
+            .sub form .row input[type='submit'] {
+                margin-top: 5px;
+            }
+        }
+
+        .footer_logo {
+            width: 180px;
+            margin-bottom: 15px;
+        }
+
+        .footer a:hover {
+            color: #FDC500;
+        }
+
+        .account-cont {
+            display: none;
+        }
+
+        .account-cont i {
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .account-dropdown {
+            background: #fff;
+            position: absolute;
+            flex-direction: column;
+            box-shadow: 0px 7px 12px -3px rgba(0, 0, 0, 0.2);
+            z-index: 11;
+            top: 60px;
+            right: 35px;
+            min-width: 180px;
+            width: fit-content;
+            border-radius: 10px;
+            padding-bottom: 8px;
+            border: 0.5px solid rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .account-dropdown.active {
+            display: flex;
+        }
+
+        .account-dropdown .account-user-name {
+            font-weight: bold;
+            letter-spacing: 1.3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 7px 5px;
+            font-size: 17px;
+            margin-bottom: 10px;
+            color: rgba(0, 0, 0, 0.9);
+            width: 82%;
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+            align-self: center;
+        }
+
+        .account-dropdown .account-list {
+            padding: 5px 15px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .account-dropdown .account-list:hover a {
+            color: #542fa5;
+        }
+
+        .account-dropdown .account-list a {
+            color: #000;
+        }
+
+        .account-dropdown .account-list i {
+            font-size: 18px;
+            margin-right: 10px;
+            margin-top: 2px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBJVJMV" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Navbar Start -->
+    <nav>
+        <!-- Menu in Mobile View -->
+        <div class="menu-cont">
+            <div class="blank-card">
+            </div>
+            <ul>
+                <li><a href="/">&nbsp;Home</a></li>	
+                <li><a href="/community">&nbsp;Community</a></li>	
+                <li><a href="https://blog.studentpeeps.club/">&nbsp;Blog</a></li>	
+                <li><a href="/ourstory/">&nbsp;Our story</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="/account/logout">&nbsp;Logout</a></li>
+                {% else %}
+                <li><a class="menu-login" href="/account/login">&nbsp;Login/Sign up</a>
+                    {% endif %}
+            </ul>
+            <hr>
+            <div class="search-cont">
+                <div class="search-input">
+                    <input type="text" placeholder="Search" />
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="brand-list">
+                    <span class="brand-list-heading">Recommended for you</span>
+                    <div class="brand-names">
+                        <a href="/udemy">
+                            <li>
+                                <div class="brand-img"><img class="udemy-img" src="/static/img/Logos/udemy_logo.webp">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Udemy</span><span class="discount-info">Rs100 Gift Card</span></div>
+                            </li>
+                        </a>
+                        <a href="/rapido">
+                            <li>
+                                <div class="brand-img"><img class="rapido-img" src="/static/images/rapido_logo.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Rapido</span><span
+                                        class="discount-info">50%
+                                        Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a href="/avni-by-giva">
+                            <li>
+                                <div class="brand-img"><img class="avni-img" src="/static/images/avnilogo.png"></div>
+                                <div class="brand-text"><span class="brand-name">Avni</span><span
+                                        class="discount-info">15%
+                                        Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a href="/pee-safe">
+                            <li>
+                                <div class="brand-img"><img class="peesafe-img" src="/static/images/peesafe.jpg"></div>
+                                <div class="brand-text"><span class="brand-name">Pee Safe</span><span
+                                        class="discount-info">15%
+                                        Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a href="/bookchor">
+                            <li>
+                                <div class="brand-img"><img class="bookchor-img" src="/static/images/bookchor_logo.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Bookchor</span><span
+                                        class="discount-info">10%
+                                        Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a href="/bitclass">
+                            <li>
+                                <div class="brand-img"><img class="bitclass-img" src="/static/images/bitclass_logo.jpg">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">BitClass</span><span
+                                        class="discount-info">50%
+                                        Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a href="/bewakoof">
+                            <li>
+                                <div class="brand-img"><img class="bewakoof-img" src="/static/images/bewakoof_logo.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Bewakoof</span><span
+                                        class="discount-info">15%
+                                        Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a href="/unlu-class">
+                            <li>
+                                <div class="brand-img"><img class="unluclass-img" src="/static/images/unluclass.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Unlu Class</span><span
+                                        class="discount-info">40% Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a class="extra-brand" href="/indigo">
+                            <li>
+                                <div class="brand-img"><img class="indigo-img" src="/static/images/indigo_logo.jpg">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Indigo</span><span
+                                        class="discount-info">6%
+                                        Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a class="extra-brand" href="/microsoft">
+                            <li>
+                                <div class="brand-img"><img class="microsoft-img"
+                                        src="/static/images/Microsoft_logo.svg">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Microsoft</span><span
+                                        class="discount-info">Free Microsoft Office 365</span></div>
+                            </li>
+                        </a>
+                        <a class="extra-brand" href="/spotify">
+                            <li>
+                                <div class="brand-img"><img class="spotify-img" src="/static/images/spotify_logo.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Spotify</span><span
+                                        class="discount-info">50%
+                                        Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a class="extra-brand" href="/notion">
+                            <li>
+                                <div class="brand-img"><img class="notion-img" src="/static/images/notion_logo.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Notion</span><span
+                                        class="discount-info">50%
+                                        Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a class="extra-brand" href="/github">
+                            <li>
+                                <div class="brand-img"><img class="github-img" src="/static/images/github_logo.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">GitHub</span><span
+                                        class="discount-info">Student Developer Pack</span></div>
+                            </li>
+                        </a>
+                        <a class="extra-brand" href="/samsung">
+                            <li>
+                                <div class="brand-img"><img class="samsung-img" src="/static/images/samsung_logo.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Samsung</span><span
+                                        class="discount-info">30%
+                                        Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a class="extra-brand" href="/adobe">
+                            <li>
+                                <div class="brand-img"><img class="adobe-img" src="/static/images/adobe_logo.jpg">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Adobe</span><span
+                                        class="discount-info">70%
+                                        Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a class="extra-brand" href="/apple">
+                            <li>
+                                <div class="brand-img"><img class="apple-img" src="/static/images/apple_logo.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Apple</span><span
+                                        class="discount-info">10%
+                                        Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a class="extra-brand" href="/applemusic">
+                            <li>
+                                <div class="brand-img"><img class="applemusic-img"
+                                        src="/static/images/applemusic_logo.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Apple Music</span><span
+                                        class="discount-info">10% Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a class="extra-brand" href="/unlu-shoutout">
+                            <li>
+                                <div class="brand-img"><img class="unlushoutout-img" src="/static/images/unlulogo.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Unlu Shoutout</span><span
+                                        class="discount-info">20% Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a class="extra-brand" href="/whole-truth-food">
+                            <li>
+                                <div class="brand-img"><img class="wtf-img" src="/static/images/wtf.jpg">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Whole Truth Food</span><span
+                                        class="discount-info">25% Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a class="extra-brand" href="/the-womans-company">
+                            <li>
+                                <div class="brand-img"><img class="twc-img" src="/static/images/TWC_logo.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">The Women's Company</span><span
+                                        class="discount-info">25% Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a class="extra-brand" href="/inchpaper">
+                            <li>
+                                <div class="brand-img"><img class="inchpaper-img"
+                                        src="/static/images/inchpaper_logo.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Inch Paper</span><span
+                                        class="discount-info">15% Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a class="extra-brand" href="/ptal">
+                            <li>
+                                <div class="brand-img"><img class="ptal-img" src="/static/images/ptal_logo.jpg">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">PTal</span><span
+                                        class="discount-info">10%
+                                        Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a class="extra-brand" href="/mypaperclip">
+                            <li>
+                                <div class="brand-img"><img class="mypaperclip-img"
+                                        src="/static/images/mypaperclip_logo.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">My Paper Clip</span><span
+                                        class="discount-info">15% Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a class="extra-brand" href="/naagin">
+                            <li>
+                                <div class="brand-img"><img class="naagin-img" src="/static/images/naagin.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Naagin</span><span
+                                        class="discount-info">15%
+                                        Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a class="extra-brand" href="/to-be-honest">
+                            <li>
+                                <div class="brand-img"><img class="tbh-img" src="/static/images/tbh.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">To Be Honest</span><span
+                                        class="discount-info">15% Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a href="/mittihub">
+                            <li>
+                                <div class="brand-img"><img class="mittihub-img" src="/static/images/mittihub_logo.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">MittiHub</span><span
+                                        class="discount-info">15%
+                                        Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a href="/sattviko">
+                            <li>
+                                <div class="brand-img"><img class="satviko-img" src="/static/images/sattviko_logo.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Sattviko</span><span
+                                        class="discount-info">15%
+                                        Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a class="extra-brand" href="/propshop">
+                            <li>
+                                <div class="brand-img"><img class="propshop-img" src="/static/images/prop.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">PropShop</span><span
+                                        class="discount-info">10%
+                                        Student Discount</span></div>
+                            </li>
+                        </a>
+                        <a class="extra-brand" href="/trib">
+                            <li>
+                                <div class="brand-img"><img class="trib-img" src="/static/images/trib.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Trib Fashion</span><span
+                                        class="discount-info">15% Student Discount</span></div>
+                            </li>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="menu-overlay">
+        </div>
+        <!-- Upper Nav -->
+        <div class="upper-nav">
+            <div class="menu-icon">
+                {% if user.is_authenticated %}
+                <i class="fas fa-bars"></i>
+                 {% else %}
+                <i class="fas fa-bars notification"></i>
+                {% endif %}
+            </div>
+            <div class="sp-logo">
+                <a href="/">
+                    <img src="/static/images/sp_logo.png" alt="" />
+                </a>
+            </div>
+            <div class="menu-list">
+                <ul>
+                    <li><a href="/">&nbsp;Home</a></li>	
+                    <li><a href="/community">&nbsp;Community</a></li>	
+                    <li><a href="https://blog.studentpeeps.club/">&nbsp;Blog</a></li>	
+                    <li><a href="/ourstory/">&nbsp;Our story</a></li>
+                </ul>
+            </div>
+            <div class="account-btns">
+                {% if user.is_authenticated %}
+                <span class="user-name">
+                    <a href="/account/myaccount"><i class="uil uil-user-circle nav-item"></i><span> {{user.first_name}}</span></a>
+                </span>
+                <span class="logout log-btn">
+                    <a href="/account/logout">
+                    <i class="uil uil-sign-out-alt nav-item"></i>
+                    <span>Logout</span></a>
+                </span>
+                <div class="account-cont">
+                    <i class="fas fa-user-circle"></i>
+                    <div class="account-dropdown">
+                        <div class="account-user-name">
+                            <span>{{user.first_name}}</span>
+                        </div>
+                        <div class="account-list">
+                            <a href="/account/myaccount">
+                                <i class="far fa-user-circle"></i><span>My account</span>
+                            </a>
+                        </div>
+                        <div class="account-list">
+                            <a href="/account/logout">
+                                <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <span class="login log-btn">
+                    <a href="/account/login">Login</a>
+                </span>
+                <span class="signup">
+                    <a class="btn btn-outline-primary" href="/account/register">Sign Up</a>
+                </span>
+                {% endif %}
+                </ul>
+            </div>
+        </div>
+        <!-- Lower Nav -->
+        <div class="lower-nav">
+            <div class="category-list">
+                <ul>
+                    <li class="all-category"><a href="{% url 'All' %}">All</a></li>
+                    <li id="edtech-category"><a href="{% url 'Edtech' %}">Education</a></li>
+                    <li class="tech-category"><a href="{% url 'Tech' %}">Tech</a></li>
+                    <li class="fashion-category"><a href="{% url 'Fashion' %}">Fashion</a></li>
+                    <li class="travel-category"><a href="{% url 'Travel' %}">Travel</a></li>
+                    <li class="extra-category1 food-category" style="flex:0 0 132px; padding-right: 0;"><a
+                            href="{% url 'FoodsAndDrinks' %}">Food &
+                            Drinks</a></li>
+                    <li class="extra-category2 health-category"><a href="{% url 'HealthAndBeauty' %}">Health &
+                            Beauty</a></li>
+                    <li class="extra-category2 books-category" style="flex: 0 0 165px; padding-right: 0;"><a
+                            href="{% url 'BooksAndStationary' %}">Books &
+                            Stationary</a></li>
+                    <li class="extra-category2 entertainment-category"><a
+                            href="{% url 'Entertainment' %}">Entertainment</a></li>
+                    <li class="extra-category2 home-category" style="flex:0 0 130px; padding-right: 0;"><a
+                            href="{% url 'HomeAndUtilities' %}">Home & Utilities</a>
+                    </li>
+                    <li style="flex: 0 0 83px;" class="dropdown-cont">
+                        <a href="#">
+                            <span>More</span> <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul>
+                            <li id="food-category-drop" class="extra-dropdown"><a
+                                    href="{% url 'FoodsAndDrinks' %}">Foods & Drinks</a></li>
+                            <li id="entertainment-category-drop"><a href="{% url 'Entertainment' %}">Entertainment</a>
+                            </li>
+                            <li id="health-category-drop"><a href="{% url 'HealthAndBeauty' %}">Health & Beauty</a></li>
+                            <li id="books-category-drop"><a href="{% url 'BooksAndStationary' %}">Books & Stationary</a>
+                            </li>
+                            <li id="home-category-drop"><a href="{% url 'HomeAndUtilities' %}">Home & Utilities</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="search-bar">
+                <div class="search">
+                    <div class="input">
+                        <input type="text" placeholder="Search" id="search-input1">
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-search"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div id="desktop-search-cont" class="search-cont">
+        <div class="search-input">
+            <input type="text" placeholder="Search">
+            <i class="fa fa-times"></i>
+        </div>
+        <div class="brand-list">
+            <span class="brand-list-heading">Recommended for you</span>
+            <div class="brand-names">
+                <a href="/udemy">
+                    <li>
+                        <div class="brand-img"><img class="udemy-img" src="/static/img/Logos/udemy_logo.webp">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Udemy</span><span class="discount-info">Rs100 Gift Card</span></div>
+                    </li>
+                </a>
+                <a href="/rapido">
+                    <li>
+                        <div class="brand-img"><img class="rapido-img" src="/static/images/rapido_logo.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Rapido</span><span class="discount-info">50%
+                                Student Discount</span></div>
+                    </li>
+                </a>
+                <a href="/avni-by-giva">
+                    <li>
+                        <div class="brand-img"><img class="avni-img" src="/static/images/avnilogo.png"></div>
+                        <div class="brand-text"><span class="brand-name">Avni</span><span class="discount-info">15%
+                                Student Discount</span></div>
+                    </li>
+                </a>
+                <a href="/pee-safe">
+                    <li>
+                        <div class="brand-img"><img class="peesafe-img" src="/static/images/peesafe.jpg"></div>
+                        <div class="brand-text"><span class="brand-name">Pee Safe</span><span class="discount-info">15%
+                                Student Discount</span></div>
+                    </li>
+                </a>
+                <a href="/bookchor">
+                    <li>
+                        <div class="brand-img"><img class="bookchor-img" src="/static/images/bookchor_logo.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Bookchor</span><span class="discount-info">10%
+                                Student Discount</span></div>
+                    </li>
+                </a>
+                <a href="/bitclass">
+                    <li>
+                        <div class="brand-img"><img class="bitclass-img" src="/static/images/bitclass_logo.jpg">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">BitClass</span><span class="discount-info">50%
+                                Student Discount</span></div>
+                    </li>
+                </a>
+                <a href="/bewakoof">
+                    <li>
+                        <div class="brand-img"><img class="bewakoof-img" src="/static/images/bewakoof_logo.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Bewakoof</span><span class="discount-info">15%
+                                Student Discount</span></div>
+                    </li>
+                </a>
+                <a href="/unlu-class">
+                    <li>
+                        <div class="brand-img"><img class="unluclass-img" src="/static/images/unluclass.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Unlu Class</span><span
+                                class="discount-info">40% Student Discount</span></div>
+                    </li>
+                </a>
+                <a class="extra-brand" href="/indigo">
+                    <li>
+                        <div class="brand-img"><img class="indigo-img" src="/static/images/indigo_logo.jpg">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Indigo</span><span class="discount-info">6%
+                                Student Discount</span></div>
+                    </li>
+                </a>
+                <a class="extra-brand" href="/microsoft">
+                    <li>
+                        <div class="brand-img"><img class="microsoft-img" src="/static/images/Microsoft_logo.svg">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Microsoft</span><span
+                                class="discount-info">Free Microsoft Office 365</span></div>
+                    </li>
+                </a>
+                <a class="extra-brand" href="/spotify">
+                    <li>
+                        <div class="brand-img"><img class="spotify-img" src="/static/images/spotify_logo.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Spotify</span><span class="discount-info">50%
+                                Student Discount</span></div>
+                    </li>
+                </a>
+                <a class="extra-brand" href="/notion">
+                    <li>
+                        <div class="brand-img"><img class="notion-img" src="/static/images/notion_logo.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Notion</span><span class="discount-info">50%
+                                Student Discount</span></div>
+                    </li>
+                </a>
+                <a class="extra-brand" href="/github">
+                    <li>
+                        <div class="brand-img"><img class="github-img" src="/static/images/github_logo.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">GitHub</span><span
+                                class="discount-info">Student Developer Pack</span></div>
+                    </li>
+                </a>
+                <a class="extra-brand" href="/samsung">
+                    <li>
+                        <div class="brand-img"><img class="samsung-img" src="/static/images/samsung_logo.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Samsung</span><span class="discount-info">30%
+                                Student Discount</span></div>
+                    </li>
+                </a>
+                <a class="extra-brand" href="/adobe">
+                    <li>
+                        <div class="brand-img"><img class="adobe-img" src="/static/images/adobe_logo.jpg">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Adobe</span><span class="discount-info">70%
+                                Student Discount</span></div>
+                    </li>
+                </a>
+                <a class="extra-brand" href="/apple">
+                    <li>
+                        <div class="brand-img"><img class="apple-img" src="/static/images/apple_logo.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Apple</span><span class="discount-info">10%
+                                Student Discount</span></div>
+                    </li>
+                </a>
+                <a class="extra-brand" href="/applemusic">
+                    <li>
+                        <div class="brand-img"><img class="applemusic-img" src="/static/images/applemusic_logo.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Apple Music</span><span
+                                class="discount-info">10% Student Discount</span></div>
+                    </li>
+                </a>
+                <a class="extra-brand" href="/unlu-shoutout">
+                    <li>
+                        <div class="brand-img"><img class="unlushoutout-img" src="/static/images/unlulogo.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Unlu Shoutout</span><span
+                                class="discount-info">20% Student Discount</span></div>
+                    </li>
+                </a>
+                <a class="extra-brand" href="/whole-truth-food">
+                    <li>
+                        <div class="brand-img"><img class="wtf-img" src="/static/images/wtf.jpg">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Whole Truth Food</span><span
+                                class="discount-info">25% Student Discount</span></div>
+                    </li>
+                </a>
+                <a class="extra-brand" href="/the-womans-company">
+                    <li>
+                        <div class="brand-img"><img class="twc-img" src="/static/images/TWC_logo.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">The Women's Company</span><span
+                                class="discount-info">25% Student Discount</span></div>
+                    </li>
+                </a>
+                <a class="extra-brand" href="/inchpaper">
+                    <li>
+                        <div class="brand-img"><img class="inchpaper-img" src="/static/images/inchpaper_logo.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Inch Paper</span><span
+                                class="discount-info">15% Student Discount</span></div>
+                    </li>
+                </a>
+                <a class="extra-brand" href="/ptal">
+                    <li>
+                        <div class="brand-img"><img class="ptal-img" src="/static/images/ptal_logo.jpg">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">PTal</span><span class="discount-info">10%
+                                Student Discount</span></div>
+                    </li>
+                </a>
+                <a class="extra-brand" href="/mypaperclip">
+                    <li>
+                        <div class="brand-img"><img class="mypaperclip-img" src="/static/images/mypaperclip_logo.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">My Paper Clip</span><span
+                                class="discount-info">15% Student Discount</span></div>
+                    </li>
+                </a>
+                <a class="extra-brand" href="/naagin">
+                    <li>
+                        <div class="brand-img"><img class="naagin-img" src="/static/images/naagin.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Naagin</span><span class="discount-info">15%
+                                Student Discount</span></div>
+                    </li>
+                </a>
+                <a class="extra-brand" href="/to-be-honest">
+                    <li>
+                        <div class="brand-img"><img class="tbh-img" src="/static/images/tbh.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">To Be Honest</span><span
+                                class="discount-info">15% Student Discount</span></div>
+                    </li>
+                </a>
+                <a href="/mittihub">
+                    <li>
+                        <div class="brand-img"><img class="mittihub-img" src="/static/images/mittihub_logo.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">MittiHub</span><span class="discount-info">15%
+                                Student Discount</span></div>
+                    </li>
+                </a>
+                <a href="/sattviko">
+                    <li>
+                        <div class="brand-img"><img class="satviko-img" src="/static/images/sattviko_logo.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Sattviko</span><span class="discount-info">15%
+                                Student Discount</span></div>
+                    </li>
+                </a>
+                <a class="extra-brand" href="/propshop">
+                    <li>
+                        <div class="brand-img"><img class="propshop-img" src="/static/images/prop.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">PropShop</span><span class="discount-info">10%
+                                Student Discount</span></div>
+                    </li>
+                </a>
+                <a class="extra-brand" href="/trib">
+                    <li>
+                        <div class="brand-img"><img class="trib-img" src="/static/images/trib.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Trib Fashion</span><span
+                                class="discount-info">15% Student Discount</span></div>
+                    </li>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="overlay">
+    </div>
+    <!-- Navbar End -->
+
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'info' %}
+    <div class="container mt-2">
+        <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+            <strong>{{ message }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    {% block body %} {% endblock %}
+
+    <!-- new footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="footer_content">
+                <div class="sub">
+                    <!-- <img class="footer_logo" src="static\images\sp_logo.png" alt="" /> -->
+                    <h3>About us</h3>
+                    <p class="sub_p">Studentpeeps is a platform where university student get exclusive student discounts
+                        when they shop.<br>
+                        We aim to change how student shop in India</p>
+                    <form action="/subscribe/" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <input style="height: 40px;" type="email" name="subscribe_email" class="form-control"
+                                    placeholder="Enter your email" required>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="submit" value="Subscribe" class="btn btn-primary">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="abt_hlp">
+                    <span class="abt">
+                        <h3>Quick Links</h3>
+                        <ul class="ul_style">
+                            <li><a href="https://blog.studentpeeps.club/">Blog</a></li>
+                            <li><a href="/community">Community</a></li>
+                            <li><a href="/ourstory">Our story</a></li>
+                            <li><a href="/account/register">Signup</a></li>
+                            <li><a href="/account/login">Login</a></li>
+                            <li><a href="/contactus">Contact</a></li>
+                            <li><a href="/course-application">Course Application</a></li>
+                        </ul>
+                    </span>
+                    <span class="hlp">
+                        <h3>Legal</h3>
+                        <ul class="ul_style">
+                            <li><a href="/privacypolicy">Privacy Policy</a></li>
+                            <li><a href="/faq">FAQs</a></li>
+                        </ul>
+                    </span>
+                </div>
+
+                <div class="flws_con">
+
+                    <div class="con">
+                        <h3>Contact us</h3>
+                        <a href="mailto:hi@studentpeeps.club">Hi@studentpeeps.club</a>
+                    </div>
+
+                    <div class="flws">
+                        <h3>Follow us</h3>
+                        <span class="f_social_icon">
+                            <a href="https://www.instagram.com/studentpeeps/" class="fa fa-instagram"
+                                target="_blank"></a>
+                            <a href="https://www.facebook.com/studentpeeps/" class="fa fa-facebook" target="_blank"></a>
+                            <a href="https://www.twitter.com/studentpeeps/" class="fa fa-twitter" target="_blank"></a>
+                            <a href="https://www.linkedin.com/company/studentpeeps/" class="fa fa-linkedin"
+                                target="_blank"></a>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="ft_p">
+            <p>Copyright © 2021 StudentPeeps | Enigmee Ventures. All right reserved. <br>
+                Made with ❤️ in India 🇮🇳 StudentPeeps</p>
+        </div>
+    </div>
+    <!-- new footer end -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+        integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+        crossorigin="anonymous"></script>
+    <script>
+
+        let input = document.getElementById('search-input1');
+        let searchInput = document.querySelector('#desktop-search-cont .search-input input');
+        let searchCont = document.querySelector('#desktop-search-cont');
+        let overlay = document.querySelector('.overlay');
+        let searchBtns = document.querySelectorAll(".icon");
+        let closeBtn = document.querySelector("#desktop-search-cont .search-input i");
+        let searchBtnsArr = Array.from(searchBtns);
+        let dropdownCont = document.querySelector("nav .lower-nav ul .dropdown-cont");
+        let dropdown = document.querySelector("nav .lower-nav ul li ul");
+        let more = document.querySelector("nav .lower-nav ul li span");
+        let dropArrow = document.querySelector("nav .lower-nav ul li i");
+        let extraDrop = document.querySelector(".extra-dropdown");
+        let brandNames = document.querySelector("#desktop-search-cont .brand-names");
+        let menuBrandNames = document.querySelector(".menu-cont .search-cont .brand-names");
+        let brand = document.querySelectorAll(".brand-names a");
+        let brandArr = Array.from(brand);
+        let extraBrands = document.querySelectorAll(".search-cont .brand-list .extra-brand");
+        let extraBrandArr = Array.from(extraBrands);
+        let recommended = document.querySelectorAll(".search-cont .brand-list .brand-list-heading");
+        let recommendedArr = Array.from(recommended);
+        let menuIcon = document.querySelector("nav .upper-nav .menu-icon");
+        let menuIconInner = document.querySelector("nav .upper-nav .menu-icon i");
+        let menuCont = document.querySelector("nav .menu-cont");
+        let menuSearchInput = document.querySelector("nav .menu-cont .search-cont .search-input input");
+        let menuOverlay = document.querySelector("nav .menu-overlay");
+        let accountIcon = document.querySelector(".account-cont i");
+        let accountDropdown = document.querySelector(".account-cont .account-dropdown");
+        let accountUserName = document.querySelector(".account-cont .account-user-name");
+        let accountUserNameSpan = document.querySelector(".account-cont .account-user-name span");
+
+        if (accountIcon !== null && accountDropdown !== null) {
+            accountIcon.onclick = () => {
+                accountDropdown.classList.toggle("active");
+            }
+        };
+
+        [menuIcon, menuOverlay].forEach(element => {
+            element.onclick = () => {
+                document.body.classList.toggle("menu-active");
+                menuCont.classList.toggle("active");
+                if (menuIconInner.classList.contains("fa-bars")) {
+                    setTimeout(() => {
+                        menuIconInner.classList.remove("fa-bars");
+                        menuIconInner.classList.add("fa-times");
+                    }, 120);
+                }
+                else {
+                    menuIconInner.classList.remove("fa-times");
+                    menuIconInner.classList.add("fa-bars");
+                }
+                menuOverlay.classList.toggle("active");
+            };
+        });
+
+        ["input", "click"].forEach((event) => {
+            input.addEventListener(event, () => {
+                searchCont.classList.add('active');
+                overlay.classList.add('active');
+                searchInput.select();
+            });
+        });
+        searchBtnsArr.forEach(element => {
+            element.addEventListener("click", () => {
+                searchCont.classList.add('active');
+                overlay.classList.add('active');
+                searchInput.select();
+            });
+        });
+
+        [overlay, closeBtn].forEach(element => {
+            element.addEventListener("click", () => {
+                searchCont.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+        });
+
+        [menuSearchInput, searchInput].forEach(element => {
+            element.addEventListener("keyup", (e) => {
+                let term = e.target.value.toLowerCase();
+                recommendedArr.forEach(element => {
+                    element.textContent = "Discounts";
+                });
+                brandNames.style.overflow = "hidden scroll";
+                menuBrandNames.style.overflow = "hidden scroll";
+                brandArr.forEach((list) => {
+                    listText = list.firstElementChild.lastElementChild.firstElementChild.textContent;
+                    if (listText.toLowerCase().indexOf(term) != -1) list.style.display = "flex";
+                    else list.style.display = "none";
+                });
+                if (term == "") {
+                    extraBrandArr.forEach(element => {
+                        element.style.display = "none";
+                        recommendedArr.forEach(element => {
+                            element.textContent = "Recommended for You";
+                        });
+                        brandNames.style.overflow = "hidden";
+                        menuBrandNames.style.overflow = "hidden scroll";
+                    })
+                }
+            });
+        });
+
+        [more, dropArrow].forEach(element => {
+            element.addEventListener("click", () => {
+                dropdown.classList.toggle("open");
+            });
+        });
+        document.onclick = function (e) {
+            if (e.target != more && e.target != dropArrow && e.target != extraDrop && e.target != dropdown) {
+                dropdown.classList.remove("open");
+            }
+            if (accountIcon !== null && accountDropdown !== null && accountUserName !== null && accountUserNameSpan !== null) {
+                if (e.target != accountIcon && e.target != accountDropdown && e.target != accountUserName && e.target != accountUserNameSpan) {
+                    accountDropdown.classList.remove("active");
+                }
+            }
+        }
+    </script>
+    {% block linksbody %} {% endblock %}
+</body>
+
+</html>

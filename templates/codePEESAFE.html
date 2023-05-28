@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps >> Stuudent Discount Pee Safe{% endblock %}
+
+{% block linkshead %}
+<meta name="description"
+    content="Pee Safe Coupon Code student coupon codes & promo codes on Studentpeeps. Get 15% student discount codes for Pee Safe on Studentpeeps. Get flat 15% on Pee Safe Promo Codes on Studentpeeps.">
+
+<link rel="stylesheet" href="{% static 'css/aftercode.css' %}">
+<script src="{% static 'js/aftercode.js' %}"></script>
+<style>
+    .bg-banner {
+        background: rgb(244, 255, 255);
+        background: radial-gradient(circle, rgba(244, 255, 255, 1) 31%, rgba(58, 217, 222, 1) 79%);
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="bg-banner">
+</div>
+<div class="prdouctimg">
+    <img id="center-img" class="final" src="{% static 'images\peesafe_inner.webp' %}" alt="">
+</div>
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img class="final" src="{% static 'images/peesafe.jpg' %}" alt="">
+        </div>
+
+        <div class="_all">
+            <div class="wrapper">
+                <div class="content">
+                    <h1>15% Student Discount</h1>
+                    <p><a href="https://bit.ly/3ooMUNq" target="_blank">at PEE SAFE</a></p>
+                </div>
+                <div class="copy">
+                    <p>Copy code and enter on the<br>
+                        Pee Safe Website</p>
+                </div>
+
+                <div class="showcode" id="text" onclick="copyElementText(this.id)">STUDENTPEEPS15 <div class="copy-btn">
+                        <i class="fa fa-copy" onclick="copy()"></i></div>
+                </div>
+                <div class="button d-grid gap-2 col-6 mx-auto">
+                    <a href="https://bit.ly/3ooMUNq" target="_blank"><button class="btn btn-primary" type="button">Open
+                            Site & Use Code</button></a>
+                </div>
+                <hr>
+            </div>
+            <div class="contenttext">
+                <h4>About this student discount</h4>
+                <p>• Pick any personal hygiene product at a discount with Studentpeeps. <br>
+                    • Use our Pee Safe student discount code at the checkout. <br>
+                    • Unlock 15% off on your desired hygiene essential. <br>
+                    • Take your hygiene & grooming routine a notch higher with organic products, Now!
+                </p>
+            </div>
+            <hr>
+            <div class="contenttext">
+                <h4>Terms & Conditions</h4>
+                <p>• It is applicable on every personal hygiene product at peesafe.com. <br>
+                    • It cannot be clubbed with any other coupon/voucher. <br>
+                    • Valid only on minimum order of Rs. 499/-
+                </p>
+            </div>
+        </div>
+    </div>
+</center>
+
+{% endblock %}

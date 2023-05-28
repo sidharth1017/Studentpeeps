@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}StudentPeeps | Create Account{% endblock %}
+
+{% block linkshead %}
+<meta name="description"content="Sign up on Studentpeeps to get student discounts when you shop. Enter your email and password to make an account on Studentpeeps.">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+<link rel="stylesheet" href="{% static 'css/google.css' %}">
+<style>
+  input.form-control {
+    height: 46px;
+    background: rgb(239, 244, 244);
+  }
+
+  h2 {
+    color: #272727;
+    font-family: Gibson SemiBold, Helvetica, Arial, Sans Serif;
+    font-weight: bold;
+  }
+
+  p {
+    font-family: Gibson SemiBold, Helvetica, Arial, Sans Serif;
+    font-size: 16px;
+  }
+
+  .col label {
+    color: black;
+    font-weight: 700;
+    padding-bottom: 10px;
+    font-size: 15px;
+  }
+
+  .btn-primary {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+    height: 40px;
+    line-height: 2.5rem;
+    padding: 0 3rem;
+    width: 100%;
+    border: 0;
+    border-radius: 0.5rem;
+    background-image: linear-gradient(131deg, #57408a, #433375, #452c79, #301e55)!important;
+    background-size: 300% 100%;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .btn-primary:hover {
+    background-size: 100% 100%;
+    transform: translateY(-0.15em);
+    color: white;
+  }
+
+  section {
+    margin-top: 50px;
+  }
+
+  .fix {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    min-width: 320px;
+    margin: 0px auto;
+    padding: 2em 2em 1em;
+  }
+
+  .sign {
+    text-align: center;
+    margin-top: 2em;
+    width: 100%;
+    cursor: default;
+  }
+
+  .sign a {
+    background: none;
+    font-size: 1em;
+    font-family: Gibson, Helvetica, Arial, "Sans Serif";
+    text-decoration: underline;
+    color: #4A3082;
+  }
+
+  body {
+    background-image: url("/static/images/illustrator_signup.webp");
+    background-repeat: no-repeat;
+    background-position-y: 90px;
+  }
+
+  @media (max-width:786px) {
+    body {
+      background-image: url("");
+    }
+  }
+
+  .new_footer_area {
+    margin-top: 310px;
+    border-top: 1px solid rgb(165, 165, 165);
+  }
+  .btn-goggle {
+    width: 260px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none !important;
+  }
+
+
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<section>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="fix col-12 col-md-8 col-lg-8 col-xl-6">
+        <div class="row">
+          <div class="col text-center">
+            <h2>Join StudentPeeps</h2>
+            <p>Join 2000+ students who enjoy exclusive student discounts on their favourite brands.</p>
+            <div class="row d-flex justify-content-center mt-4">
+              <div class="col d-flex justify-content-center">
+                <a href="{% url 'social:begin' backend='google-oauth2' %}" class="btn btn-goggle mb-2"><img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" class="goggle-icon" alt="">
+                  <span class="text-decoration-none text-dark text-center" style="font-weight: bold; font-family: Gibson SemiBold, Helvetica, Arial, Sans Serif;">Signup With Google</span></a>
+              </div>
+            </div>
+            <div class="row justify-content-start mt-4">
+              <div class="col underline">
+                <div class="underline-div"></div><p class="underline-text">or</p><div class="underline-div"></div>
+              </div>
+            </div>
+            {% for message in messages %}
+            <div class="alert alert-success">{{message}}</div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="row align-items-center">
+        </div>
+        <form method="POST">
+          {% csrf_token %}
+          <div class="row align-items-center mt-4">
+            <div class="col">
+              <label class="input">Personal Email Address</label>
+              <input type="email" name="email" class="form-control" required>
+            </div>
+          </div>
+          <div class="row align-items-center mt-4">
+            <div class="col">
+              <label>Create a password</label>
+              <input type="password" name="password" class="form-control" required>
+            </div>
+          </div>
+          <div class="row justify-content-start mt-4">
+            <div class="col">
+              <button class="btn btn-primary mt-4">Create account</button>
+            </div>
+          </div>
+          <div class="sign">
+            <p>Already have an account? <a href="/account/login">Log in</a></p>
+            <p>Let me play around first! <a href="/">Here</a></p>
+          </div>
+      </div>
+    </div>
+  </div>
+  </form>
+</section>
+
+
+{% endblock %}

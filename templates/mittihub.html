@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps >> Mittihub{% endblock %}
+
+{% block linkshead %}
+<meta name="description"content="Get student discount code for Mittihub. Get a 15% discount coupon code for Mittihub. Shop handmade terracotta products on Mittihub. Sign up on Studentpeeps and get student discounts when you shop on Mittihub. ">
+<link rel="stylesheet" href="{% static 'css/getcode.css' %}">
+<style>
+    .prdouctimg {
+        background-image: radial-gradient(circle,
+                #7c664b,
+                #836b4f,
+                #8a7153,
+                #917658,
+                #987c5c,
+                #8e7457,
+                #856d52,
+                #7b654d,
+                #5f4f3e,
+                #453a2f,
+                #2c2721,
+                #151413);
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="prdouctimg">
+    <img class="final" src="{% static 'images/mittihub_inner.webp' %}" alt="">
+</div>
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img class="final" src="{% static 'images/mittihub_logo.png' %}" alt="">
+        </div>
+
+        <div class="content">
+            <h1>15% Student Discount</h1>
+            <p> <a href="https://cutt.ly/IQbqD7G" target="_blank">at Mittihub</a></p>
+        </div>
+        <div class="button d-grid gap-2 col-6 mx-auto">
+            <a class="btn btn-primary" href="/student-discount-mittihub">Get Code</a>
+        </div>
+        <hr>
+        <div class="contenttext">
+            <h4>About this student discount</h4>
+            <p> • Pick any terracotta product at a discount with Studentpeeps.<br>
+                • Use our Mittihub student discount code at the checkout.<br>
+                • Unlock flat 15% off on your favorite product.<br>
+                • Order customized hand crafted products, soaked in the freshness of clay, Now!
+                </p>
+        </div>
+        <hr>
+        <div class="contenttext">
+            <h4>Terms & Conditions</h4>
+            <p> • Applicable on all Terracotta products at.<br>
+                • It cannot be clubbed with any other coupon/voucher.<br>
+                • Avail 10% discount on minimum order of Rs. 700.<br>
+                • Avail 15% discount on minimum order of Rs. 1100.
+            </p>
+        </div>
+    </div>
+</center>
+
+
+{% endblock %}

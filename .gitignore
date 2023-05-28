@@ -1,0 +1,6 @@
+.env
+account/__pycache__
+main/__pycache__
+studentpeeps/__pycache__
+account/migrations/__pycache__
+main/migrations/__pycache__

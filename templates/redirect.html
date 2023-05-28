@@ -1,0 +1,87 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Event |
+StudentPeeps{% endblock %} {% block linkshead %}
+<link
+  rel="stylesheet"
+  href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
+/>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    font-family: "SF Pro Display Regular";
+  }
+
+  body,
+  html {
+    width: 100%;
+    min-height: 100vh;
+  }
+  section {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .wrapper {
+    transform: translateY(-80px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #4a4a4a;
+  }
+
+  .text {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .text h1 {
+    font-size: 36px;
+    font-weight: 600;
+  }
+
+  .text span {
+    font-size: 18px;
+    letter-spacing: 0.8px;
+  }
+  .loader {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+  }
+  .loader:after {
+    content: " ";
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 5.3px solid #4a4a4a;
+    border-color: #4a4a4a transparent #4a4a4a transparent;
+    animation: loader 1.2s linear infinite;
+  }
+  @keyframes loader {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+{% endblock %} {% block body %}
+<section>
+  <div class="wrapper">
+    <div class="icon">
+      <div class="loader"></div>
+    </div>
+    <div class="text">
+      <h1>Hang Tight!</h1>
+      <span>You're being redirected to another page.</span>
+    </div>
+  </div>
+</section>
+{% endblock %}

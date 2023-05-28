@@ -1,0 +1,290 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Student Peeps: Free
+Student Discounts | Student Deals & Offers{% endblock %} {% block linkshead %}
+
+<style>
+  /* the newest one */
+  /* for larger screen */
+  @font-face {
+    font-family: SF-Pro;
+    src: url("{% static 'fonts/SF-Pro.dmg' %}");
+  }
+
+  @font-face {
+    font-family: "San Francisco";
+    font-weight: 400;
+    src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
+  }
+
+  .home-category {
+    position: relative;
+    flex: 0 0 159px !important;
+  }
+
+  .home-category a {
+    color: #542fa5 !important;
+    font-family: "SF Pro Display Bold" !important;
+    font-weight: 600 !important;
+    letter-spacing: 1.05px;
+  }
+
+  #home-category-drop a {
+    color: #542fa5 !important;
+    font-family: "SF Pro Display Bold" !important;
+    font-weight: 600 !important;
+    letter-spacing: 1.05px;
+  }
+
+  .home-category::after {
+    content: "";
+    position: absolute;
+    width: 85%;
+    height: 3px;
+    background-color: #542fa5;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  @media only screen and (max-width: 649px) {
+    .home-category::after {
+      left: 46%;
+    }
+  }
+
+  .illustration {
+    position: absolute;
+    height: 440px;
+    left: 50%;
+    transform: translate(-50%, -31%);
+    z-index: -1;
+    opacity: 0.15;
+  }
+
+  body {
+    z-index: -2;
+  }
+
+  .section-tiles {
+    z-index: -2;
+  }
+
+  @media only screen and (min-width: 1200px) {
+    .tiles-card .tiles-card-lg {
+      grid-template-columns: repeat(6, 1fr) !important;
+      grid-template-rows: repeat(6, 1fr) !important;
+    }
+  }
+
+  @media only screen and (min-width: 1200px) {
+    .tiles-card-img-lg {
+      grid-row: 1 / span 4 !important;
+      grid-column: 1 / -1 !important;
+      height: 100% !important;
+    }
+  }
+
+  @media only screen and (min-width: 1200px) {
+    .tiles-card-company-img-lg {
+      width: 110px !important;
+      left: 15% !important;
+      bottom: -80px !important;
+    }
+  }
+
+  @media only screen and (min-width: 1200px) {
+    .tiles-card-content-lg {
+      grid-row: 5 / span 2 !important;
+      grid-column: 2 / -1 !important;
+      padding: 0 0 !important;
+      padding-top: 20px !important;
+    }
+
+    .tiles-card-content-lg h3 {
+      margin: 0 0 !important;
+      margin-bottom: 0 !important;
+      text-align: center !important;
+    }
+
+    .tiles-card-content-lg p {
+      margin-top: 10px !important;
+    }
+  }
+
+  @media only screen and (max-width: 900px) {
+    .section-tutorial-media {
+      order: 1;
+      padding: 10px 0 15px 0;
+    }
+
+    .section-tutorial-content {
+      order: 2;
+    }
+  }
+
+  /* expire time */
+
+  .expire {
+    position: absolute;
+    top: 20px;
+    left: -10px;
+    width: 115px;
+    height: 27px;
+    z-index: 95;
+    background-color: #b9000c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border-radius: 3px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  }
+
+  .expire-img {
+    position: relative;
+    height: 20px;
+    width: 20px;
+  }
+
+  .expire-p {
+    position: relative;
+    font-size: 13px;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+  }
+</style>
+
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+  crossorigin="anonymous"
+/>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+/>
+
+<link rel="stylesheet" href="{% static 'css/index2.css' %}" />
+
+{% endblock %} {% block body %}
+
+<section class="section-tiles">
+  <div class="tiles-container">
+    <img class="illustration" src="{% static 'images/pattern6.png' %}" alt="" />
+    <h1
+      class="tiles-heading"
+      style="margin: 25px 0 70px 0; font-size: 38px; text-align: center"
+    >
+      Home & Utilities
+    </h1>
+    <div class="tiles-cards">
+      <a href="/nestaway">
+        <div class="tiles-card">
+          <div class="tiles-card-img">
+            <img
+              src="{% static 'img/Tiles_outer/nestaway_outer.webp' %}"
+              alt=""
+            />
+            <div class="tiles-card-company-img">
+              <img src="{% static 'img/Logos/nestaway_logo.webp' %}" alt="" />
+            </div>
+          </div>
+          <div class="tiles-card-content">
+            <h3 class="tiles-card-heading">Rs.1000 Student Discount</h3>
+            <p class="tiles-card-paragraph">
+              Find student accommodation easily at affordable prices
+            </p>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://cutt.ly/spptal">
+        <div class="tiles-card">
+          <div class="tiles-card-img">
+            <img src="{% static 'img/Tiles_outer/ptal_outer.webp' %}" alt="" />
+            <div class="tiles-card-company-img">
+              <img src="{% static 'img/Logos/ptal_logo.webp' %}" alt="" />
+            </div>
+          </div>
+          <div class="tiles-card-content">
+            <h3 class="tiles-card-heading">10% Student Discount</h3>
+            <p class="tiles-card-paragraph">
+              Shop handcrafted copper & brass home decor
+            </p>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://cutt.ly/spmittihub">
+        <div class="tiles-card">
+          <div class="expire">
+            <img
+              src="{% static 'images/clock.svg' %}"
+              class="expire-img"
+              alt=""
+            />
+            <p id="expire-time-mittihub" class="expire-p"></p>
+          </div>
+          <div class="tiles-card-img">
+            <img
+              src="{% static 'img/Tiles_outer/mittihub_outer.webp' %}"
+              alt=""
+            />
+            <div class="tiles-card-company-img">
+              <img src="{% static 'img/Logos/mittihub_logo.webp' %}" alt="" />
+            </div>
+          </div>
+          <div class="tiles-card-content">
+            <h3 class="tiles-card-heading">15% Student Discount</h3>
+            <p class="tiles-card-paragraph">Shop organic terracotta products</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock %} {% block linksbody %}
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="{% static 'js/expire2.js' %}"></script>
+
+<script>
+  AOS.init();
+</script>
+
+<script
+  src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+  integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+  integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+  crossorigin="anonymous"
+></script>
+
+<script
+  type="text/javascript"
+  scr="https://cdnjs.cloudflare.com/ajax/libs/animateCSS/1.2.2/jquery.animatecss.min.js"
+></script>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Upload Email Secret page{% endblock %}
+{% block linkshead %}
+<style>
+
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="container" style="margin-top: 50px;">
+    <center>
+        <div id="emailHelp" class="form-text" style="color: black;">Enter email on which you want to send upload
+            verification</div>
+    </center>
+
+    {% if message %}
+    <div class="alert alert-success" role="alert">
+        <p>{{message}}</p>
+    </div>
+    {% endif %}
+    <form method="POST" action="/account/636756-secret-upload-email-page">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="Email">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,356 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block title %}Studentpeeps >> FAQs{% endblock %}
+
+{% block linkshead %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+
+<style>
+    *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.container-fluid {
+    position: relative;
+    text-align: center;
+    color: white;
+  }
+
+  figure {
+      display: flex;
+      justify-content: center;  
+  }
+  figure .security-img {
+      height: 280px;  
+  }
+  figure .privacy-img {
+      height: 450px;  
+  }
+
+  figure i {
+      font-size: 80px;
+      color:  #4A3082;
+  }
+/* Top left text */
+.top-left {
+    position: absolute;
+    top: 80px;
+    left: 60px;
+  }
+
+.top-left2 {
+    position: absolute;
+    top: 200px;
+    left: 40px;
+  }
+
+  .para3{
+    width: 700px;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    padding-bottom: 2rem;
+  }
+
+.img-fluid{
+    width: 100%;
+    height: 500px;
+}
+
+.title2{
+    font-style: normal;
+    font-size: 4.5rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    padding-bottom: 0;
+}
+
+.container{
+    max-width: 1440px;
+    width: 90%;
+    margin-top: 2.5rem;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    padding-right:0 !important;
+    padding-left:0 !important;
+  
+}
+
+
+.introduction img {
+    max-width: 100%;
+    max-height: 500px;
+}
+
+.lazyloaded {
+    opacity: 1;
+    transition: opacity 50ms;
+    transition-delay: 0ms;
+}
+
+.title{
+    color:  #4A3082;
+    font-size: x-large;
+    font-weight: 600;
+    margin-bottom: 2.3rem;
+    line-height: 130%;
+    letter-spacing: -0.04em;
+}
+
+.main-title {
+    font-size: xx-large;
+    font-weight: 700;
+}
+
+.link {
+    text-decoration: none;
+    color: black;
+    border-bottom: 1px solid #26c1db;
+    cursor: pointer;
+}
+
+.introduction p {
+    line-height: 150%;
+    margin-bottom: 1.5rem;
+    font-size: 18px;
+}
+
+@media(max-width:500px){
+
+    .title{
+        font-size:20px;
+    }
+
+    .introduction p{
+        font-size: 14px;
+    }
+}
+
+
+@media(max-width:400px){
+    .para3{
+        width: auto;
+        font-size: 1.2rem;
+        padding: 5px;
+    }
+
+    .title2{
+        font-size: 2.5rem;
+        padding: 5px;
+    }
+}
+
+
+@media(min-width:400px) and (max-width:700px){
+
+    .para3{
+        width: auto;
+        font-size: 1.3rem;
+        padding: 5px;
+    }
+
+    .title2{
+        font-size: 3.0rem;
+        padding: 5px;
+    }
+
+}
+
+@media(min-width:700px) and (max-width:900px){
+
+    .para3{
+        width: auto;
+        font-size: 1.3rem;
+        padding: 5px;
+    }
+
+    .title2{
+        font-size: 3.0rem;
+        padding: 5px;
+    }
+
+}
+</style>
+{% endblock %}
+
+{% block body %}
+    <div class="container features introduction">
+
+        <div class="row align-items-center justify-content-between">
+            <div class="col-lg-6">
+                <img src="/static/images/verifiedimg.png">
+            </div>
+            <div class="col-lg-5">
+                <h5 class="title">An Approach to Privacy You Can Trust
+                </h5>
+                <p>StudentPeeps verifies thousands of students for personalized student offers from hundreds of leading
+                    brands in India and the world. Providing world class experience privacy is part of our vision. . To
+                    ensure that all data is shielded and unharmed, we are always cautious and follow all the security
+                    protocols to protect your personal information from anyone else.</p>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="container features introduction" style="margin-bottom: 5rem;">
+        <h2 class="title main-title text-center">Transparency</h2>
+
+        <div class="row align-items-center justify-content-between" style="margin: 1rem 0;">
+            <div class="col-lg-6">
+                <figure><img alt="How We Use Information" src="/static/images/transparency.png"></figure>
+            </div>
+            <div class="col-lg-5">
+                <h5 class="title">How We Verify</h5>
+                <p>Studentpeeps determines if you are a student and does that by working with Universities across India,
+                    Registrars and Govt. trusted sources to collect data points and make an extensive database. </p>
+                <p>We work with these providers to enable benefits to its members through special rewards and offers
+                    from leading brands We ensure that a non-student never gets in. </p>
+                <p>We only use the data you submit to verify your eligibility and communicate with you.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="container" style="margin-bottom: 5rem;">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="container introduction" style="margin-bottom: 5rem;">
+                    <div class="row align-items-center justify-content-between">
+                        <div class="col-2">
+                            <figure class="center"><i class="uil uil-save"></i></figure>
+                        </div>
+                        <div class="col-10">
+                            <h5 class="title left">Your data is never shared
+                            </h5>
+                            <p>We’re committed to treating your data responsibility. We don’t share or sell your
+                                personal information to a brand without your consent to verify eligibility. And we don’t
+                                sell or rent your information to outside companies at any cost. </p>
+                            <p>Your data is never shared or sold to a third party or any of our partner brands.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="container introduction" style="margin-bottom: 5rem;">
+                    <div class="row align-items-center justify-content-between">
+                        <div class="col-2">
+                            <figure class="center"><i class="uil uil-layer-group"></i></figure>
+                        </div>
+                        <div class="col-10">
+                            <h5 class="title left">How we use 
+                            </h5>
+                            <p>To make user experience better. <br>
+                                To make our product more customer-centric and desirable. <br>
+                                To bring relevant brands for the customer base. <br>
+                                To promote only the brands and deals you are likely to get value from. <br>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <div class="container features introduction" style="margin-bottom: 5rem;">
+        <h2 class="main-title title text-center">Privacy</h2>
+
+        <div class="row align-items-center justify-content-between" style="margin: 1rem 0">
+            <div class="col-lg-6">
+                <figure><img class="privacy-img" src="/static/images/privacyimg.svg"></figure>
+            </div>
+            <div class="col-lg-5">
+                <h5 class="title">Your Privacy Comes First</h5>
+                <p>Whenever a student enters his/her personal information. We use the data to match with our database.
+                    In the process, your data is not shared with a third party.
+                    On top of that, while we process the information, we follow certain regulatory policies to comply
+                    with Governmental requirements.
+                    Ethical and fair use of the data and building something with Privacy First Approach is part of our
+                    vision.
+                    StudentPeeps will not use your data for any additional purposes beyond these. Read our privacy
+                    policy. </p>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="container features introduction" style="margin-bottom: 5rem;">
+        <h2 class="main-title title text-center">Security</h2>
+
+        <div class="row align-items-center justify-content-between" style="margin: 1rem 0 2rem 0">
+            <div class="col-lg-6">
+                <figure><img class="security-img" src="/static/images/securityimg.svg"></figure>
+            </div>
+            <div class="col-lg-5">
+                <h5 class="title">We Keep Your Data Safe</h5>
+                <p>StudentPeeps considers itself a responsible and accountable entity of the information it utilizes.
+                    Our responsibility is to ensure the security and privacy of the information in our care and to
+                    maintain the privacy of our peeps to build trust, and a long term relationship. </p>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="container" style="margin-bottom: 5rem;">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="container introduction" style="margin-bottom: 5rem;">
+                    <div class="row align-items-center justify-content-between">
+                        <div class="col-2">
+                            <figure class="center"><i class="uil uil-shield-check"></i></figure>
+                        </div>
+                        <div class="col-10">
+                            <h5 class="title left">Encryption &amp; Data Purges</h5>
+                            <p>As soon as you enter and submit your personal information to StudentPeeps, we encrypt it,
+                                and your data remains encrypted at all times within our database. After you are
+                                verified, StudentPeeps securely transfers the data you provide to the brand making the
+                                offer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="container introduction" style="margin-bottom: 5rem;">
+                    <div class="row align-items-center justify-content-between">
+                        <div class="col-2">
+                            <figure class="center">
+                                <i class="uil uil-cloud-lock"></i>
+                            </figure>
+                        </div>
+                        <div class="col-10">
+                            <h5 class="title left">Secure Cloud Infrastructure &amp; Regular Audits</h5>
+                            <p>All StudentPeeps systems are hosted within Amazon’s data centers and cloud services
+                                platforms. These data centers and platforms have world-leading security and privacy
+                                practices. In addition, every year, StudentPeeps has an independent security and privacy
+                                audit to ensure we appropriately manage risk throughout your data’s lifecycle from
+                                collection to transmission, to storage and retention, to purging and deletion.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+{% endblock %}

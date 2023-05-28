@@ -1,0 +1,21 @@
+
+
+  .container {
+    margin: auto;
+    height: 500px;
+    width: 80%;
+}
+
+
+
+.input{
+    margin: 0px;;
+}
+input[type=email] {
+    width: 90%;
+    background:  linear-gradient(#eeefef, #ffffff 50%);
+  }
+  input[type=password] {
+    width:90%;
+    background-color:  linear-gradient(#eeefef, #ffffff 30%);;
+  }

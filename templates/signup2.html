@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}StudentPeeps | Your Details{% endblock %}
+
+{% block linkshead %}
+<meta name="description"content="Enter your details on Studentpeeps to make an account on Studentpeeps. Get student discounts when you shop.">
+
+<link rel="stylesheet" href={%static 'css/signup2.css' %}>
+
+<style>
+  input.form-control,
+  select#inputGroupSelect03 {
+    height: 46px;
+    background: rgb(239, 244, 244);
+  }
+
+  h2 {
+    color: #272727;
+    font-family: Gibson SemiBold, Helvetica, Arial, Sans Serif;
+    font-weight: bold;
+  }
+
+  p {
+    font-size: 16px;
+    font-family: Gibson SemiBold, Helvetica, Arial, Sans Serif;
+  }
+
+  label {
+    color: black;
+    font-weight: 700;
+    padding-bottom: 10px;
+    font-size: 15px;
+  }
+
+  label.btn.btn-outline-dark {
+    padding-right: 2.1em;
+    padding-left: 2.1em;
+    height: 46px;
+    line-height: 30px;
+  }
+
+  @media(max-width:320px){
+    label.btn.btn-outline-dark {
+    padding-right: 0.9em;
+    padding-left: 0.9em;
+  }
+  }
+  /* @media(max-width:375px){
+    label.btn.btn-outline-dark {
+    padding-right: 0.9em;
+    padding-left: 0.9em;
+  }
+  } */
+  @media(min-width:330px) and (max-width:360px){
+    label.btn.btn-outline-dark {
+    padding-right: 1.3em;
+    padding-left: 1.3em;
+  }
+  }
+  @media(min-width:370px) and (max-width:390px){
+    label.btn.btn-outline-dark {
+    padding-right: 1.4em;
+    padding-left: 1.4em;
+  }
+  }
+  
+  @media(min-width:380px) and (max-width:420px){
+    label.btn.btn-outline-dark {
+    padding-right: 1.9em;
+    padding-left: 1.9em;
+  }
+  }
+  
+  .btn-primary {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+    height: 40px;
+    line-height: 2.5rem;
+    padding: 0 3rem;
+    width: 100%;
+    border: 0;
+    border-radius: 0.5rem;
+    background-image: linear-gradient(131deg, #57408a, #433375, #452c79, #301e55)!important;
+    background-size: 300% 100%;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .btn-primary:hover {
+    background-size: 100% 100%;
+    transform: translateY(-0.15em);
+    color: white;
+  }
+  section{
+    margin-top: 30px;
+  }
+  .fix{
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    min-width: 320px;
+    height: 710px;
+    margin: 0px auto;
+    padding: 2em 2em 1em;
+  }
+  body {
+    background-image: url("/static/images/illustrator_signup.webp");
+    background-repeat: no-repeat;
+    background-position-y: 90px;
+  }
+
+  @media (max-width:786px) {
+    body {
+      background-image: url("");
+    }
+  }
+</style>
+
+{% endblock %}
+
+
+{% block body %}
+
+<section>
+  <div class="container">
+    <div class="row justify-content-center" style="font-size: 12px;">
+      <div class="fix col-12 col-md-8 col-lg-8 col-xl-6">
+        <div class="row">
+          <div class="col text-center">
+            <br>
+            <br>
+            <h2>Your Details</h2>
+            <p>This information will be used to verify create your StudentPeeps iD. Make sure it's correct. </p>
+
+          </div>
+        </div>
+        <form method="Post">
+          {% csrf_token %}
+          <div class="row align-items-center">
+
+          </div>
+          <div class="row align-items-center mt-4">
+            <div class="col">
+              <label class="input">Firstname</label>
+              <input type="text" value="{{values.FirstName}}" name="fname" class="form-control" required>
+            </div>
+          </div>
+          <div class="row align-items-center mt-4">
+            <div class="col">
+              <label>Lastname</label>
+              <input type="text" name="lname" value="{{values.LastName}}" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="row align-items-center mt-4">
+            <div class="col">
+              <label>what are your pronouns ?</label> <br>
+              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="Gender" id="btnradio1" autocomplete="off" value="He/His"
+                  checked>
+                <label class="btn btn-outline-dark" for="btnradio1">He/His</label>
+
+                <input type="radio" class="btn-check" name="Gender" id="btnradio2" autocomplete="off" value="She/Her">
+                <label class="btn btn-outline-dark" for="btnradio2">She/Her</label>
+
+                <input type="radio" class="btn-check" name="Gender" id="btnradio3" autocomplete="off" value="They/Them">
+                <label class="btn btn-outline-dark" for="btnradio3">They/Them</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="row align-items-center mt-4">
+            <div class="col">
+              <label>Date of birth</label>
+              <div class="input-group">
+                <input type="text" value="{{values.Date}}" class="form-control
+                    input-sm" name="date" placeholder="Date" required />
+                <span class="input-group-btn" style="width:0px;"></span>
+                <select class="custom-select form-control
+            input-sm" id="inputGroupSelect03" value="{{values.Month}}" name="month" aria-label="Example select with button addon">
+                  <option>January</option>
+                  <option>Febuary</option>
+                  <option>March</option>
+                  <option>April</option>
+                  <option>May</option>
+                  <option>June</option>
+                  <option>July</option>
+                  <option>August</option>
+                  <option>September</option>
+                  <option>October</option>
+                  <option>November</option>
+                  <option>December</option>
+                </select>
+                <span class="input-group-btn" style="width:0px;"></span>
+                <input type="text" class="form-control input-sm" placeholder="Year" name="year" value="{{values.Year}}" required/>
+              </div>
+            </div>
+          </div> -->
+          <button class="btn btn-primary mt-4">Continue</button>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+  </form>
+</section>
+
+
+{% endblock %}

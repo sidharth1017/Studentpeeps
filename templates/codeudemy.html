@@ -1,0 +1,129 @@
+{% extends 'base.html' %} {% load static %} {% block title %}StudentPeeps >>
+Student Discounts Udemy{% endblock %} {% block linkshead %}
+<meta
+  name="keywords"
+  content="udemy student discount, is udemy free for students, how often does udemy offer discounts, udemy coupon codes, udemy coupon codes 2021"
+/>
+
+<meta
+  name="description"
+  content="Get udemy student discount. Unlock Rs.100 off with udemy coupon codes. Learn skills by accessing courses at Udemy. Is udemy free for students? Maybe not, but avail udemy student discount with Studentpeeps. Udemy coupon codes 2021 are available for students. Wondering how often does udemy offer discounts? With Studentpeeps, the answer is always."
+/>
+
+<link rel="stylesheet" href="{% static 'css/aftercode.css' %}" />
+<script src="{% static 'js/aftercode.js' %}"></script>
+
+<style>
+  .bg-banner {
+    background: rgb(238, 238, 236);
+    background: radial-gradient(
+      circle,
+      rgba(238, 238, 236, 1) 19%,
+      rgba(182, 176, 171, 1) 100%
+    );
+  }
+</style>
+
+{% endblock %} {% block body %}
+
+<div class="bg-banner"></div>
+<div class="prdouctimg">
+  <img
+    class="final"
+    src="{% static 'img/Tiles_inner/udemy_inner.webp' %}"
+    alt=""
+  />
+</div>
+<center>
+  <div class="complete">
+    <div class="brandlogo">
+      <img
+        id="center-img"
+        class="final"
+        src="{% static 'img/Logos/udemy_logo.webp' %}"
+        alt=""
+      />
+    </div>
+
+    <div class="_all">
+      <div class="wrapper">
+        <div class="content">
+          <h1>Rs.100 Gift Card for Students</h1>
+          <p><a href="https://www.udemy.com/" target="_blank">at Udemy</a></p>
+        </div>
+        <div class="copy">
+          <p>
+            Copy code and enter on the<br />
+            Udemy website
+          </p>
+        </div>
+
+        <div class="showcode">
+          {{code}}
+          <div class="copy-btn">
+            <i class="fa fa-copy" onclick="copy()"></i>
+          </div>
+        </div>
+        <div class="button d-grid gap-2 col-6 mx-auto">
+          <a
+            href="https://www.udemy.com/gift-promo-code/redeem/"
+            target="_blank"
+            ><button class="btn btn-primary" type="button">
+              Open Site & Use Code
+            </button></a
+          >
+        </div>
+        <hr />
+      </div>
+      <div class="contenttext">
+        <h4>About this student discount</h4>
+        <p>
+          •
+          <b
+            >After clicking on get code, coupon will get you 100 credits, and
+            might not work, <br />at checkout.</b
+          ><br />
+          • Avail Udemy student discount on all courses at Udemy.<br />
+          • Click on Get Offer to avail the offer.<br />
+          • Unlock Rs.100 off when you redeem the Udemy coupon codes.<br />
+          • Wondering how often does Udemy offer discounts? With Studentpeeps,
+          the answer is always.<br />
+          • Skill-up with online courses at Udemy. Brush up your design and
+          marketing skills, or master softwares or photography learning, Now!
+        </p>
+      </div>
+      <hr />
+      <div class="contenttext">
+        <h4>Terms & Conditions</h4>
+        <p>
+          • This offer is for a promotional code. <br />
+          • Limit one per person. <br />
+          • Udemy student discount offer is valid only in India.<br />
+          • Udemy student discount code can only be redeemed once and cannot be
+          combined with other promotional codes at checkout. <br />
+          • Udemy student discount code is non-transferrable and cannot be
+          redeemed for cash.<br />
+          • Please read Udemy's Terms of Use for additional terms. <br />
+          • Still searching Udemy coupon codes 2021? Avail them here with us<br />
+        </p>
+      </div>
+    </div>
+  </div>
+</center>
+<script>
+  //   window.onload = function () {
+  //     if (localStorage.getItem("counter") === null) {
+  //       var coupon = document.querySelector(".showcode").childNodes[0];
+  //       localStorage.setItem("couponShown", coupon.nodeValue);
+  //       localStorage.setItem("counter", 1);
+  //     }
+  //   };
+  //   console.log(localStorage.getItem("counter"));
+  //   if (localStorage.getItem("counter") == 1) {
+  //     var coupon = document.querySelector(".showcode").childNodes[0];
+  //     var couponShown = localStorage.getItem("couponShown");
+  //     coupon.nodeValue = couponShown;
+  //     localStorage.setItem("counter", 2);
+  //   }
+</script>
+{% endblock %}

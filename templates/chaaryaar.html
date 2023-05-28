@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps >> Chaaryaar{% endblock %}
+
+{% block linkshead %}
+<meta name="description"content="Order food on Manipal Jaipur Campus. Get student discounts on Chaaryaar on Studentpeeps.">
+
+<link rel="stylesheet" href="{% static 'css/getcode.css' %}">
+<style>
+    .prdouctimg {
+        background-image: radial-gradient(circle, #ffcf48, #ffc43b, #ffb92e, #ffad21, #ffa114, #ff9a0d, #ff9305, #ff8c00, #ff8900, #ff8500, #ff8200, #ff7e00) !important;
+    }
+</style>
+
+
+{% endblock %}
+
+{% block body %}
+
+<div class="prdouctimg">
+    <img class="final" src="{% static 'images/Chaaryaar_inner.webp' %}" alt="">
+</div>
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img class="final" src="{% static 'images/chaaryaar_logo.png' %}" alt="">
+        </div>
+
+        <div class="content">
+            <h1>30% Student Discount</h1>
+            <p><a href="https://cutt.ly/LQjJFeN" target="_blank">at Chaaryaar</a></p>
+        </div>
+        <div class="button d-grid gap-2 col-6 mx-auto">
+            <a class="btn btn-primary" href="/student-discount-chaaryaar">Get Code</a>
+        </div>
+        <hr>
+        <div class="contenttext">
+            <h4>About this student discount</h4>
+            <p>• Order delicious foods from top restaurants, at a discount with Studentpeeps.<br>
+               • Use our Chaar Yaar student discount code at the checkout.<br>
+               • Unlock 30% off on all food orders to MUJ campus.<br>
+               • Savour the taste of exotic cuisines, delivered straight to your MUJ Campus, Now!</p>
+        </div>
+        <hr>
+        <div class="contenttext">
+            <h4>Terms & Conditions</h4>
+            <p> • It is applicable on every food order at chaaryaaronline.com.<br>
+                • It cannot be clubbed with any other coupon/voucher.<br>
+                • Valid only on minimum order of Rs. 599.<br>
+                • Limited only to Manipal Jaipur Students.<br>
+                • Coupon Validity : 30th August, 2021.                        
+            </p>
+        </div>
+    </div>
+</center>
+
+
+{% endblock %}

@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps | Verification Email{% endblock %}
+
+{% block linkshead %}
+<style>
+
+    .btn-primary {
+        font-family: 'Quicksand', sans-serif;
+        font-weight: bold;
+        height: 40px;
+        line-height: 1.5rem;
+        padding: 0 1rem;
+        width: 100%;
+        border: 0;
+        border-radius: 0.5rem;
+        background-image: linear-gradient(131deg, #bb91e4, #a672da, #ab81d5, #9245df);
+        background-size: 300% 100%;
+        transition: all 0.3s ease-in-out;
+        color: white;
+    }
+
+    #re-enter {
+        background: #4A3082;
+        color: #fff;
+        border: 2px solid #4A3082;
+        font-weight: 500;
+        height: 40px;
+        line-height: 1.5rem;
+        padding: 0 1rem;
+        width: 100% !important;
+    }
+
+    #use-id {
+        background: white;
+        color: #4A3082;
+        border: 2px solid #4A3082;
+        font-weight: 600;
+        height: 40px;
+        line-height: 1.5rem;
+        padding: 0 1rem;
+        width: 100% !important;
+    }
+
+    @media screen and (max-width:520px) {
+        #buttons {
+            display: flex;
+            flex-direction: column;
+        }   
+    }
+
+    #notreceive {
+        background: none;
+        text-decoration: none;
+        color: rgb(28, 189, 207);
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1em;
+    }
+
+    #notreceive:hover {
+        text-decoration: underline;
+    }
+
+    .another {
+        font-family: 'Quicksand', sans-serif;
+        font-weight: bold;
+        height: 40px;
+        line-height: 2.5rem;
+        padding: 0 3rem;
+        width: 100% !important;
+        transition: all 0.3s ease-in-out;
+        border: 1px solid #9245df;
+        color: #9245df;
+    }
+
+    .another:hover {
+        box-shadow: 0 0.5em 0.5em -0.4em #a044fd;
+        background-size: 100% 100%;
+        transform: translateY(-0.15em);
+        background-color: #b36ef8;
+        border: 1px solid #9245df;
+    }
+    body {
+        background-image: url("/static/images/illustrator_signup.webp");
+        background-repeat: no-repeat;
+    }
+
+    @media (max-width:786px) {
+        body {
+            background-image: url(""); 
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div style="position: relative; overflow: hidden auto;">
+    <div
+        style="position: relative; width: 100%; max-width: 520px; min-width: 320px; margin: 10px auto; padding: 2em 2em 1em; text-align: center; background-color: rgb(255, 255, 255);">
+        <img style="width: 70%;" src="\static\images\emaillog.png" alt="">
+        
+        <h2>Check your college email</h2> 
+        <p style="color: rgb(60, 61, 61); margin-top: 0.5em;"><span>To confirm your student status, hit the activation link we just sent you on this email <strong>{% for message in msg %}{{message}}{% endfor %}
+        </strong>
+        </p>
+        
+        <div style="margin-top: 1.5em;">
+            <div style="margin-top: -8px;">
+                <div style="text-align: left;">
+                    <div id="datashow"
+                        style="border-radius: 5px; background: rgb(239, 244, 244); padding: 0px; margin-top: 0.5em; transition: max-height 0.15s ease-out 0s;display: none;">
+                        <div style="font-size: 14px; margin-left: 10px;">
+                            <p style="margin-bottom: 0.5em;">If you don't see an email from us within a few minutes,
+                                follow these steps:</p>
+                            <ul style="padding-left: 1em; margin-bottom: 0px;">
+                                <li>Check your college/university email not your personal email. </li>
+                                <li>Make sure you've entered the correct college email. 
+                                    Check your spam</li>  
+                                <li>In case of any further help, mail us at <a href="mailto: hi@studentpeeps.club"> hi@studentpeeps.club</a></li>                           
+                            </ul>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
+            <div style="margin-top: 1.5em;">
+                <div style="margin-top: 0.5em;">
+                    <div id="buttons" class="row justify-content-start mt-4">
+                        <div class="button col">
+                            <a href="/account/signup"><button id="re-enter" class="btn btn-primary mt-2 another">Re-enter college email</button></a>
+                        </div>
+                        <div class="button col">
+                            <a href="/account/upload"><button id="use-id" class="btn btn-primary mt-2 another">Use ID Card Method</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function PointShow() {
+        var dataShow = document.getElementById("datashow");
+
+        if (dataShow.style.display == "none") {
+            dataShow.style.display = "block";
+        }
+
+        else {
+            dataShow.style.display = "none";
+        }
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+    crossorigin="anonymous"></script>
+{% endblock %}

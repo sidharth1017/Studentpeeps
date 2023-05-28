@@ -1,0 +1,145 @@
+@font-face {
+    font-family: 'SF Pro Display Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('SF Pro Display Regular'), url("{% static 'fonts/SFPRODISPLAYREGULAR.woff' %}") format('woff');
+}
+
+@font-face {
+    font-family: 'SF Pro Display Medium';
+    font-style: normal;
+    font-weight: normal;
+    src: local('SF Pro Display Medium'), url("{% static 'fonts/SFPRODISPLAYMEDIUM.woff' %}") format('woff');
+}
+
+@font-face {
+    font-family: 'SF Pro Display Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('SF Pro Display Bold'), url("{% static 'fonts/SFPRODISPLAYMEDIUM.woff' %}") format('woff');
+}
+
+* {
+    font-family: 'SF Pro Display Regular';
+}
+
+.prdouctimg {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle, #2a0f46, #4c3363, #6e5982, #9282a1, #b7acc1, #c3b5cf, #cebfdd, #dac8eb, #ceb1e9, #c19ae7, #b383e4, #a56be1);
+}
+
+.brandlogo {
+    text-align: center;
+    margin-top: -5em;
+
+}
+
+.brandlogo img {
+    border: 2px solid black;
+    width: 10em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.523);
+
+}
+
+.content {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.content h1 {
+    font-size: 36px;
+    font-family: 'SF Pro Display Bold';
+    font-weight: 600;
+}
+
+.content p a {
+    text-decoration: underline;
+    color: #542fa5;
+}
+
+.complete {
+    width: 40em;
+    border: 0.1px solid rgb(199, 199, 199);
+    margin-bottom: 30px;
+}
+
+.button {
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+.contenttext {
+    text-align: left;
+    padding: 0 10px;
+}
+.contenttext p {
+    letter-spacing: 0.6px;
+    line-height: 28px;
+    font-weight: 300;
+    color: #4c4c4c;
+}
+
+.contenttext h4 {
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-weight: bold;
+    font-family: 'SF Pro Display Bold';
+    color: #1e1e1e;
+}
+
+@media only screen and (max-width: 500px) {
+    .contenttext h4 {
+        text-align: center;
+    }    
+}
+
+@media only screen and (max-width: 650px) {
+    .contenttext {
+        padding: 0 10px;
+    }    
+}
+
+.btn-primary {
+    font-weight: bold;
+    height: 46px;
+    line-height: 3rem;
+    padding: 0 3rem;
+    width: 100%;
+    border: 0;
+    border-radius: 0.5rem;
+    background-image: linear-gradient(131deg, #57408a, #433375, #452c79, #301e55) !important;
+    background-size: 300% 100%;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-size: 100% 100%;
+    transform: translateY(-0.15em);
+    color: white;
+}
+
+@media(max-width:650px) {
+
+    .complete {
+        width: 100%;
+    }
+
+    @media (max-width: 650px) {
+        .complete {
+            width: 100%;
+        }
+
+        img.final {
+            width: 100%;
+        }
+
+        .brandlogo {
+            text-align: center;
+            margin-top: -3em;
+            width: 36%;
+        }
+    }
+
+}

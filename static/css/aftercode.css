@@ -1,0 +1,269 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  position: relative;
+}
+
+@font-face {
+  font-family: 'SF Pro Display Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: local('SF Pro Display Regular'), url("{% static 'fonts/SFPRODISPLAYREGULAR.woff' %}") format('woff');
+}
+
+@font-face {
+  font-family: 'SF Pro Display Medium';
+  font-style: normal;
+  font-weight: normal;
+  src: local('SF Pro Display Medium'), url("{% static 'fonts/SFPRODISPLAYMEDIUM.woff' %}") format('woff');
+}
+
+@font-face {
+  font-family: 'SF Pro Display Bold';
+  font-style: normal;
+  font-weight: normal;
+  src: local('SF Pro Display Bold'), url("{% static 'fonts/SFPRODISPLAYMEDIUM.woff' %}") format('woff');
+}
+
+* {
+  font-family: 'SF Pro Display Regular';
+}
+
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 10;
+  transition: 0.1s ease-in-out;
+  display: none;
+}
+
+body.active::before {
+  display: block;
+}
+
+.bg-banner {
+  position: absolute;
+  width: 100%;
+  height: 321px;
+  z-index: -1;
+}
+
+.wrapper {
+  position: relative;
+  z-index: 100;
+  width: 100%;
+  margin: auto;
+  padding-top: 1px;
+  background: #fff;
+}
+
+.wrapper.active {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.prdouctimg {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+
+.brandlogo {
+  text-align: center;
+  margin-top: -5em;
+}
+
+.brandlogo img {
+  border: 2px solid black;
+  width: 10em;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.523);
+}
+
+.content {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.content h1 {
+  font-size: 36px;
+  font-family: 'SF Pro Display Bold';
+  font-weight: 600;
+}
+
+.content p a {
+  text-decoration: underline;
+  color: #542fa5;
+}
+
+.complete {
+  width: 40em;
+  border: 0.1px solid rgb(199, 199, 199);
+  margin-bottom: 30px;
+}
+
+.button {
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+.contenttext {
+  text-align: left;
+  padding: 0 10px;
+}
+
+.contenttext p {
+  letter-spacing: 0.6px;
+  line-height: 28px;
+  font-weight: 300;
+  color: #4c4c4c;
+}
+
+.contenttext h4 {
+  font-size: 20px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  font-family: 'SF Pro Display Bold';
+  color: #1e1e1e;
+}
+
+@media only screen and (max-width: 500px) {
+    .contenttext h4 {
+        text-align: center;
+    }    
+}
+
+@media only screen and (max-width: 650px) {
+    .contenttext {
+        padding: 0 10px;
+    }    
+}
+
+.showcode {
+  border: 3px dashed #ff2e2e !important;
+  width: 50% !important;
+  font-size: 18px !important;
+  font-weight: bold !important;
+  padding: 16px 0px !important;
+  margin: 16px auto !important;
+  text-align: center !important;
+}
+
+.btn-primary {
+  font-weight: bold;
+  height: 46px;
+  line-height: 3rem;
+  padding: 0 0.5rem !important;
+  width: 100%;
+  border: 0;
+  border-radius: 0.5rem;
+  background-image: linear-gradient(131deg, #57408a, #433375, #452c79, #301e55) !important;
+  background-size: 300% 100%;
+  transition: all 0.3s ease-in-out;
+}
+@media only screen and (max-width: 360px) {
+  .btn-primary{
+     font-size: 15px !important;
+  }
+}
+.btn-primary:hover {
+  background-size: 100% 100%;
+  transform: translateY(-0.15em);
+  color: white;
+}
+
+@media (max-width: 650px) {
+  .complete {
+    width: 100%;
+  }
+  .bg-banner {
+    display: none;
+  }
+  @media (max-width: 650px) {
+    .complete {
+      width: 100%;
+    }
+    img.final {
+      width: 100%;
+    }
+    .brandlogo {
+      text-align: center;
+      margin-top: -3em;
+      width: 36%;
+    }
+  }
+}
+
+i.fa.fa-copy {
+  margin-left: 10px;
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+/* Copy code button */
+
+.copy-btn {
+  display: inline-block;
+  position: absolute;
+}
+
+.copy-btn.copy {
+  pointer-events: none;
+}
+
+.copy-btn::before {
+  content: "copied";
+  position: absolute;
+  top: -48px;
+  right: -30px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 6px 15px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 200;
+  display: none;
+}
+
+.copy-btn::after {
+  position: absolute;
+  content: '';
+  width: 0;
+  height: 0;
+  top: -15px;
+  right: 2px;
+  border: 6px solid transparent;
+  border-top: 0;
+  border-bottom: 6px solid rgba(0, 0, 0, 0.85);
+  transform: rotate(180deg);
+  display: none;
+}
+.copy-btn:hover::before {
+  content: "copy";
+  display: block;
+  right: -25px;
+}
+
+.copy-btn:hover::after {
+ display: block;
+}
+
+.copy-btn.active::before, .copy-btn.active::after {
+  display: block;
+}
+
+.copy-btn.copied:hover::before {
+  content: "copied";
+  display: block;
+  right: -30px;
+}
+
+
+
+/* tooltip css */

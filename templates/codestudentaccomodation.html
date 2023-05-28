@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps >> Student Discounts Student Accomodation{% endblock %}
+
+{% block linkshead %}
+
+<link rel="stylesheet" href="{% static 'css/aftercode.css' %}">
+<script src="{% static 'js/aftercode.js' %}"></script>
+
+<style>
+    .bg-banner {
+        background-image: radial-gradient(circle,
+                #7c664b,
+                #836b4f,
+                #8a7153,
+                #917658,
+                #987c5c,
+                #8e7457,
+                #856d52,
+                #7b654d,
+                #5f4f3e,
+                #453a2f,
+                #2c2721,
+                #151413);
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="bg-banner">
+</div>
+<div class="prdouctimg">
+    <img  id="center-img" class="final" src="{% static 'images\student_inner.png' %}" alt="">
+</div>
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img class="final" src="{% static 'images/student_logo.jpeg' %}" alt="">
+        </div>
+
+        <div class="_all">
+        <div class="wrapper">
+            <div class="content">
+                <h1>15% Student Discount</h1>
+                <p>at Student Accomodation</p>
+            </div>
+
+            <div class="button d-grid gap-2 col-6 mx-auto">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfIsGAOxQyeLrhSlAoQIC1Z36kmFHd3b6XzpYtbmq-kneyLBw/viewform?usp=sf_link" target="_blank"><button class="btn btn-primary" type="button">Avail the Offer</button></a>
+            </div>
+            <hr>
+            </div>
+            <div class="contenttext">
+                <h4>About this student discount</h4>
+                <p> • Get into TopClass Hostels, 50% less costly then campus hostels. <br> 
+                    • Book your seats by advance payment. <br>
+                    • Only 15 students will get this offer.
+                    </p>
+            </div>
+        </div>
+    </div>
+</center>
+
+
+{% endblock %}

@@ -1,0 +1,150 @@
+{% extends 'base.html' %} {% load static %} {% block title %}404 Stucks |
+StudentPeeps{% endblock %} {% block linkshead %}
+<link
+  rel="stylesheet"
+  href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
+/>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    font-family: "SF Pro Display Regular";
+  }
+
+  body,
+  html {
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  .error-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    height: 100vh;
+  }
+
+  .error-container .left-cont {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .error-container .left-cont img {
+    width: 450px;
+    margin-right: 30px;
+  }
+
+  .error-container .right-cont {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .error-container .right-cont .heading {
+    font-size: 150px;
+    font-weight: 600;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: #4a3082;
+    -webkit-text-fill-color: #4a3082;
+    transform: translateY(-40%);
+    letter-spacing: 2px;
+  }
+
+  .error-container .right-cont .sub-heading {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111111;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #111111;
+    -webkit-text-fill-color: #111111;
+    transform: translateY(-60px);
+    letter-spacing: 1.3px;
+  }
+
+  .error-container .right-cont .para {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    transform: translateY(-50px);
+    color: #9c9c9c;
+  }
+
+  .error-container .right-cont button.go-to-home {
+    color: #111111;
+    outline: none;
+    border: none;
+    background: none;
+    width: fit-content;
+    font-size: 18px;
+    font-weight: 600;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #111111;
+    -webkit-text-fill-color: #111111;
+    letter-spacing: 1.3px;
+    transition: 0.5s;
+    cursor: pointer;
+  }
+
+  @media only screen and (max-width: 1024px) {
+    .error-container .left-cont img {
+      width: 380px;
+      margin-right: 30px;
+    }
+
+    .error-container .right-cont .heading {
+      font-size: 120px;
+    }
+
+    .error-container .right-cont .sub-heading,
+    .error-container .right-cont button.go-to-home {
+      font-size: 16px;
+    }
+
+    .error-container .right-cont .para {
+      font-size: 14px;
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    .error-container {
+      grid-template-columns: 100%;
+      grid-template-rows: 50% 50%;
+    }
+
+    .error-container .left-cont {
+      justify-content: center;
+      align-items: center;
+    }
+
+    .error-container .left-cont img {
+      margin: 0;
+      width: 400px;
+    }
+
+    .error-container .right-cont {
+      margin-top: 20px;
+      justify-content: flex-start;
+      align-items: center;
+    }
+  }
+</style>
+
+{% endblock %} {% block body %}
+
+<div class="error-container">
+  <div class="left-cont">
+    <img src="https://studentpeeps.club/static/images/error.jpg" alt="" />
+  </div>
+  <div class="right-cont">
+    <span class="heading">404</span>
+    <span class="sub-heading">LOOK'S LIKE YOU'RE LOST</span>
+    <span class="para">The page you are looking for is not available!</span>
+    <button
+      onclick="location.href='https://studentpeeps.club';"
+      class="go-to-home"
+    >
+      GO TO HOME <i class="uil uil-arrow-right"></i>
+    </button>
+  </div>
+</div>
+{% endblock %}

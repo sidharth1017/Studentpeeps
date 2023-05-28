@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps >> Resources{% endblock %}
+
+{% block linkshead %}
+
+<link rel="stylesheet" href="{% static 'css\resource.css' %}">
+<style>
+    .form-control {
+        border: 0px;
+    }
+
+    .section-cards .card-1 li {
+        display: inline-block;
+        font-size: 30px;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        display: flex;
+        font-style: normal;
+        align-items: flex-start;
+        color: #423B52;
+        gap: 15px;
+    }
+
+    .btn {
+        display: inline-block;
+        font-weight: 400;
+        line-height: 2.5;
+        color: #212529;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        background-color: transparent;
+        border: 1px solid transparent;
+        padding: .375rem .75rem;
+        font-size: 1.45rem;
+        border-radius: .25rem;
+        transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+<header class="header">
+    <div class="header-container">
+        <div class="header-content">
+            <h1 class="header-content-heading">We Make Your Life Easier!</h1>
+            <!-- <p class="header-content-paragraph">Lorem ipsum dolor sit amet.</p>
+            <p class="header-content-paragraph">Lorem ipsum dolor amet.</p>
+            <p class="header-content-paragraph">Lorem ipsum dolor.</p> -->
+            <!-- <div class="header-text"></div> -->
+        </div>
+        <div class="header-img">
+            <img src="{% static 'images\happy.svg' %}" alt="">
+        </div>
+    </div>
+</header>
+
+<section class="section-form">
+    <div class="form-container">
+        <h2>Get amazing tools now!</h2>
+
+        {% if message %}
+        <div class="alert alert-success" role="alert">
+          <p>{{message}}</p>
+        </div>
+        {% endif %}
+        <form action="/resource/" method="POST" class="form" id="form">
+            {% csrf_token %}
+            <div class="form-control">
+                <label for="emal">Email</label>
+                <input type="email" name="email" id="email" required>
+            </div>
+            <div class="form-control">
+                <label for="number">Phone Number</label>
+                <input type="tel" name="phone" id="number" required>
+                <!-- <span class="phone-icon"><img src="{% static 'images\phone.svg' %}" alt=""></span> -->
+            </div>
+            <div class="form-control-radio">
+                <h3>Do you study in college/university?</h3>
+                <div class="form-radio-container">
+                    <div class="form-radio-group">
+                        <input type="radio" name="college" class="form-radio-input" id="yes" name="study">
+                        <label for="yes" class="form-radio-label">
+                            <span class="form-radio-button"></span>
+                            Yes
+                        </label>
+                    </div>
+
+                    <div class="form-radio-group">
+                        <input type="radio" name="college" class="form-radio-input" id="no" name="study">
+                        <label for="no" class="form-radio-label">
+                            <span class="form-radio-button"></span>
+                            No
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-submit" type="submit">Submit</button>
+        </form>
+    </div>
+</section>
+
+<section class="section-cards">
+    <div class="section-card card-1">
+        <ul>
+            <li><span><img src="{% static 'images\send-icon.png' %}" alt=""></span> How to find anyone's email.</li>
+            <li><span><img src="{% static 'images\send-icon.png' %}" alt=""></span> How to write an email.</li>
+            <li><span><img src="{% static 'images\send-icon.png' %}" alt=""></span> Examples of good emails.</li>
+        </ul>
+    </div>
+    <div class="section-card card-2">
+        <h3 class="card-2-heading">Get free resources that helps you</h3>
+        <img src="{% static 'images\reward.svg' %}" alt="">
+    </div>
+</section>
+
+<section class="cold-email">
+    <img src="{% static 'images\Cold-Email.png' %}" alt="">
+</section>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadesc %}
+    <meta name="description" content="Get Spotify Premium free for 1 month and then pay Rs.59/month after trial ends. Unlock 50% off on your regular Premium Spotify plan." />
+{% endblock %}
+{% block metakeywords %}
+    <meta name="keywords" content="get spotify premium free, spotify student discount, spotify premium free, spotify premium, spotify india" />
+{% endblock %}
+{% block title %}Spotify Student Discount | 50% off {% endblock %}
+
+{% block linkshead %}
+<link rel="stylesheet" href="{% static 'css/getcode.css' %}" />
+<style>
+    .prdouctimg {
+        background: rgb(143, 140, 255);
+        background: radial-gradient(circle, rgba(143, 140, 255, 1) 0%, rgba(27, 215, 97, 1) 100%);
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="prdouctimg">
+    <img class="final" src="{% static 'img/Tiles_inner/spotify_inner.webp' %}" alt="">
+</div>
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img class="final" src="{% static 'img/Logos/spotify_logo.webp' %}" alt="">
+        </div>
+
+        <div class="content">
+            <h1>50% Student Discount</h1>
+            <p><a href="https://www.spotify.com/in-en/" target="_blank">at Spotify</a></p>
+        </div>
+        <div class="button d-grid gap-2 col-6 mx-auto">
+            <a class="btn btn-primary" href="https://www.spotify.com/in-en/premium/#plans" target="_blank">Get Offer</a>
+        </div>
+        <hr>
+        <div class="contenttext" style="padding-right: 10px;">
+            <h4>About this Student offer</h4>
+            <p>
+                • Get Spotify Premium free for 1 month and then pay Rs.59/month after trial ends.<br>
+                • Click on Get Offer to avail the offer.<br>
+                • Unlock 50% off on your regular Premium Spotify plan.<br>
+                • Listen to music ad free and stream unlimited podcasts by availing your Spotify student discount, Now!
+            </p>
+        </div>
+        <hr>
+        <div class="contenttext" style="padding-right: 10px;">
+            <h4>Terms & Conditions</h4>
+            <p> • Offer is applicable only for University students in India. <br>
+                • Offer is not applicable for those who already tried Spotify Premium.<br>
+                • It cannot be clubbed with any other coupon/voucher. <br>
+                • Offer Validity : 31st March, 2022 <br>
+                • Read detailed Terms & Conditions at https://www.spotify.com/in-en/student/ <br>
+                • Studentpeeps only redirects you to the official brand’s website, and has not partnered up with Spotify
+                India. All the queries and questions have to be entertained by Spotify India and not Studentpeeps.
+            </p>
+        </div>
+    </div>
+</center>
+
+
+{% endblock %}

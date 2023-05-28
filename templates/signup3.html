@@ -1,0 +1,411 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}StudentPeeps | Institution Details{% endblock %}
+
+{% block linkshead %}
+<meta name="description"
+    content="Enter your college details on Studentpeeps to verify your student status on Studentpeeps. Get student discounts when you shop.">
+
+<style>
+    .footer {
+        margin-top: 310px !important;
+        border-top: 1px solid rgb(165, 165, 165);
+    }
+
+    input.form-control,
+    .form-select {
+        height: 46px;
+    }
+
+    .fa-plus-circle {
+        margin-right: 5px;
+    }
+
+    .addCol {
+        font-weight: 500;
+    }
+
+    #add-your-institution-div {
+        z-index: 0;
+        margin-top: 1.5rem;
+        background-color: rgb(207, 252, 214);
+        border: 15px solid rgb(207, 252, 214);
+    }
+
+    #add-your-institution:focus {
+        border: 1px solid rgba(184, 223, 189);
+        box-shadow: 0 0 0 4px rgba(185, 226, 191, 0.719);
+    }
+
+    #create-one:hover {
+        background-color: rgb(0, 155, 0);
+    }
+
+    h2 {
+        color: #272727;
+        font-family: Gibson SemiBold, Helvetica, Arial, Sans Serif;
+        font-weight: bold;
+    }
+
+    p {
+        font-family: Gibson SemiBold, Helvetica, Arial, Sans Serif;
+        font-size: 16px;
+    }
+
+    .col label {
+        color: black;
+        font-weight: 700;
+        padding-bottom: 10px;
+        font-size: 15px;
+    }
+
+    .form-text {
+        color: #178ccf;
+    }
+
+    #verify {
+        margin-top: 20px;
+        background-color: #fffbdd;
+        border-top: 1px solid rgba(27, 31, 35, 0.15);
+        border-bottom: 1px solid rgba(27, 31, 35, 0.15);
+        color: #735c0f;
+        width: 600px;
+        padding: 15px;
+    }
+
+    .btn-primary {
+        font-family: 'Quicksand', sans-serif;
+        font-weight: bold;
+        height: 40px;
+        line-height: 2.5rem;
+        padding: 0 3rem;
+        width: 100%;
+        border: 0;
+        border-radius: 0.5rem;
+        background-image: linear-gradient(131deg, #57408a, #433375, #452c79, #301e55) !important;
+        background-size: 300% 100%;
+        transition: all 0.3s ease-in-out;
+        color: white;
+    }
+
+    .out {
+        font-family: 'Quicksand', sans-serif;
+        font-weight: bold;
+        height: 40px;
+        line-height: 2.5rem;
+        padding: 0 3rem;
+        width: 100% !important;
+        transition: all 0.3s ease-in-out;
+        background: white;
+        border: 1px solid #9245df;
+        color: #9245df;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-primary:hover {
+        background-size: 100% 100%;
+        transform: translateY(-0.15em);
+        color: white;
+    }
+
+    #use-id {
+        background: white;
+        color: #4A3082;
+        border: 1.5px solid #4A3082;
+
+    }
+
+    #use-id:hover {
+        box-shadow: none;
+        transform: translate(0, 0);
+    }
+
+    section {
+        margin-top: 50px;
+    }
+
+    .fix {
+        position: relative;
+        width: 100%;
+        max-width: 440px;
+        min-width: 320px;
+        height: 710px;
+        margin: 0px auto;
+        padding: 2em 2em 1em;
+    }
+
+    body {
+        background-image: url("/static/images/illustrator_signup.webp");
+        background-repeat: no-repeat;
+        background-position-y: 90px;
+    }
+
+    @media (max-width:786px) {
+        body {
+            background-image: url("");
+        }
+    }
+
+    .select-box .options-container.active~.search-box input {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .search-box {
+        position: relative;
+    }
+
+    .suggestions {
+        display: none;
+        position: absolute;
+        width: 100%;
+        overflow-y: scroll;
+        max-height: 240px;
+        margin-top: 3px;
+        box-shadow: -4px 5px 15px rgb(48 48 48 / 20%);
+        border-radius: 5px;
+        background-color: #ffffff;
+    }
+
+    .suggestions::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .suggestions::-webkit-scrollbar-track {
+        background-color: #ececec;
+        border-radius: 5px;
+    }
+
+    .suggestions::-webkit-scrollbar-thumb {
+        background-color: rgba(119, 119, 119, 0.3);
+        border-radius: 5px;
+    }
+
+    .suggestions li {
+        list-style: none;
+        width: 100%;
+        padding: 8px 12px;
+        border-radius: 3px;
+    }
+
+    .suggestions li:hover {
+        background-color: rgb(61, 61, 61);
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .modal-body label {
+        font-size: 20px;
+        font-weight: bold;
+        margin: 10px 0px;
+    }
+
+    #add-your-institution,
+    #exampleDataList {
+        text-transform: capitalize;
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<section>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="fix col-12 col-md-8 col-lg-8 col-xl-6">
+                <div class="row">
+                    <div class="col text-center">
+                        <h2>SIGNUP</h2>
+                        <p>Join thousands of students who enjoy exclusive student discounts on their favourite brands.</p>
+                    </div>
+                </div>
+                <div class="alert alert-info mt-2" role="alert">
+                    NOTE - If your institution is not listed here you can add yours or if you were not provided with
+                    dedicated college email
+                    address use iD card method below.
+                </div>
+
+                <body onload="Names()"></body>
+                <form id="app-cover" method="POST">
+                    {% csrf_token %}
+                    <div class="row align-items-center mt-4">
+                        <div class="col">
+                            {% for message in messages %}
+                            <div class="alert alert-{{message.tags}}">{{message}}</div>
+                            {% endfor %}
+                            <div id="institution_error"></div>
+                            <label for="exampleDataList" class="form-label">Institution</label>
+                            <div class="datalist">
+                                <div class="search-box">
+                                    <input type="text" class="form-control" list="datalistOptions" autocomplete="off"
+                                        name="institution" id="exampleDataList"
+                                        placeholder="Search for your institution">
+                                    <div class="suggestions">
+                                        {% for Int in Institution %}
+                                        <li>{{Int}}</li>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div id="add-your-institution-div" class="d-none">
+                                    <div class="addInst">
+                                        <label for="add-your-institution" class="form-label mt-0">Add Your
+                                            Institution <div class="pop-over"
+                                                style="display: inline-block; margin-left: 5px"><i
+                                                    class="fas fa-info-circle" data-toggle="tooltip"
+                                                    data-placement="left"
+                                                    title="Add full name of your Institution along with Institution Email ID for your student verification."></i>
+                                            </div>
+                                        </label>
+                                        <input type="text" class="form-control" list="datalistOptions"
+                                            autocomplete="nope" name="institution_name" id="add-your-institution"
+                                            placeholder="Name of your Institution">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center mt-4">
+                        <div class="col">
+                            <label for="exampleInputEmail1" class="form-label mt-2">Enter your college email</label>
+                            <input style='text-transform:lowercase' type="email" name="institution_email"
+                                class="form-control" id="exampleInputEmail1" autocomplete="off"
+                                placeholder="University email id" required>
+                            <input type="hidden" id="check" name="domain">
+                        </div>
+                    </div>
+                    <div class="row align-items-center mt-4">
+                        <div class="col">
+                            <label for="year" class="form-label mt-2">Graduation year</label>
+                            <select class="form-select" id="year" name="graduation_year" required>
+                                <option selected value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2021">2026</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row justify-content-start mt-4">
+                        <div class="button col">
+                            <button onclick="createOne(event);" class="btn btn-primary mt-4">Sign Up</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="button col">
+                    <a href="/account/upload"><button id="use-id" class="btn btn-primary1 mt-2 out">Use ID Card
+                            Method</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <script src="\static/js/index.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/datalist-css/dist/datalist-css.min.js"></script> -->
+
+<script src="https://kit.fontawesome.com/1906df1c3b.js" crossorigin="anonymous"></script>
+<script src="{% static 'js/signupview.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+    integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+    crossorigin="anonymous"></script>
+
+<script>
+    const input = document.getElementById('exampleDataList');
+    let list = document.querySelectorAll(".suggestions li");
+    let listArr = Array.from(list);
+    const suggestions = document.querySelector(".suggestions");
+    const addYourInstitution = document.getElementById('add-your-institution-div');
+
+
+    ["input", "click"].forEach((event) => {
+        input.addEventListener(event, () => {
+            suggestions.style.display = "block";
+        });
+    });
+
+    let flag = false;
+    input.addEventListener("keyup", (e) => {
+        let term = e.target.value.toLowerCase();
+        listArr.forEach((list) => {
+            listText = list.textContent;
+            if (listText.toLowerCase().indexOf(term) != -1) list.style.display = "block";
+            else list.style.display = "none";
+        });
+
+        if (flag === false) {
+            const li = document.createElement('li');
+            li.id = "create-one";
+            li.innerHTML = '<i class="fas fa-plus-circle"></i><span class="addCol">College not listed? Create one</b>';
+            suggestions.appendChild(li);
+            flag = true;
+        }
+
+        if (flag) {
+            document.getElementById('create-one').addEventListener('click', () => {
+                addYourInstitution.classList.remove('d-none');
+                document.getElementById('add-your-institution').value = document.getElementById('exampleDataList').value;
+                document.getElementById('app-cover').action = "/account/college/";
+            })
+        }
+    });
+    listArr.forEach((list) => {
+        list.addEventListener("click", () => {
+            input.value = list.textContent;
+        });
+    });
+    document.addEventListener("click", (e) => {
+        if (e.target !== input) {
+            suggestions.style.display = "none";
+        }
+    });
+
+    const createOne = (event) => {
+        event.preventDefault();
+        let collegeName = document.getElementById('add-your-institution');
+        if (addYourInstitution.classList.contains('d-none')) collegeName = document.getElementById('exampleDataList');
+        const collegeEmail = document.getElementById('exampleInputEmail1');
+        const institutionError = document.getElementById('institution_error');
+
+        if (collegeName.value.length === 0 || collegeEmail.value.length === 0) {
+            institutionError.innerHTML = `<div id="institution_error" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <span class="text-dark">Please Enter Valid Data!</span>
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                              </div>`;
+        } else {
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (re.test(collegeEmail.value.toLowerCase()) === false) {
+                institutionError.innerHTML = `<div id="institution_error" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                    <span class="text-dark">Please Enter Valid Email!</span>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                  </div>`;
+            } else {
+                collegeDomains = ["yahoo.com", "gmail.com", "live.com", "outlook.com", "hotmail.com", "yahoomail.com", "icloud.com", "yandex.mail", "yahoo.fr", "yahoo.it", "yahoo.co.in", "ru", "fr", "mail.ru"];
+                collegeDomain = collegeEmail.value.split("@")[1];
+                if (collegeDomains.includes(collegeDomain)) {
+                    institutionError.innerHTML = `<div id="institution_error" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                        <span class="text-dark">Personal Email Ids Not Allowed!</span>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                      </div>`;
+                } else {
+                    const collegeForm = document.getElementById('app-cover');
+                    collegeForm.submit();
+                }
+            }
+        }
+    };
+
+    listArr.forEach((li) => {
+        li.addEventListener('click', () => {
+            addYourInstitution.classList.add('d-none');
+            document.getElementById('app-cover').action = "";
+        })
+    })
+</script>
+{% endblock %}

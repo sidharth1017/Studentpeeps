@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps >> Beardo{% endblock %}
+
+{% block linkshead %}
+<meta name="description"
+    content="Get Beardo discount coupon codes on Studentpeeps. Get student discount codes for Beardo on Studentpeeps. Unlock upto Rs.500 off on Beardo products using Promo Codes on Studentpeeps. Student discount available on men’s grooming, personal care and skincare products. Save upto Rs.500 on Beardo products with Studentpeeps.">
+
+<link rel="stylesheet" href="{% static 'css/getcode.css' %}">
+<style>
+    .prdouctimg {
+        background: rgb(238, 238, 236);
+        background: radial-gradient(circle, rgba(238, 238, 236, 1) 19%, rgba(182, 176, 171, 1) 100%);}
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="prdouctimg">
+    <img class="final" src="{% static 'img/Tiles_inner/beardo_inner.png' %}" alt="">
+</div>
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img class="final" src="{% static 'img/Logos/beardo_logo.png' %}" alt="">
+        </div>
+
+        <div class="content">
+            <h1>Up to Rs. 500 Student Discount</h1>
+            <p><a href="https://www.beardo.in/" target="_blank">at Beardo</a></p>
+        </div>
+        <div class="button d-grid gap-2 col-6 mx-auto">
+            <a class="btn btn-primary" href="https://studentpeeps.club/student-discount-beardo/">Get Code</a>
+        </div>
+        <hr>
+        <div class="contenttext">
+            <h4>About this student discount</h4>
+            <p> • Grab any men’s grooming product at a discount with Studentpeeps<br>
+                • Use our Beardo student discount code at the checkout<br>
+                • Unlock up to Rs.500 off on your desired personal care product<br>
+                • Grow, maintain and style that beard plus take care of your skincare, with huge discounts at Beardo,
+                Now!<br>
+            </p>
+        </div>
+        <hr>
+        <div class="contenttext">
+            <h4>Terms & Conditions</h4>
+            <p>• It is applicable on all grooming products at beardo.in<br>
+                • It cannot be clubbed with any other coupon/voucher.<br>
+                • Avail Rs.100 off sitewide without any minimum order value.<br>
+                • Avail Rs.500 off on a minimum order of Rs.1500 and above.<br>
+                • Coupon code will not be valid at the time of any sale event at Beardo.<br>
+                • Coupon Validity: 31st December, 2022
+            </p>
+        </div>
+    </div>
+</center>
+
+
+{% endblock %}

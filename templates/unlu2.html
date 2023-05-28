@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps >> UnluShoutout{% endblock %}
+
+{% block linkshead %}
+<meta name="description"content="Get flat 20% Unlu coupon codes and promo codes on Studentpeeps. Get student discount codes for Unlu on Studentpeeps. Get flat 20% Unlu Promo Codes on Studentpeeps.">
+
+
+<link rel="stylesheet" href="{% static 'css/getcode.css' %}">
+
+<style>
+    .prdouctimg {
+        background: rgb(246,46,139);
+        background: radial-gradient(circle, rgba(246,46,139,1) 31%, rgba(242,118,87,1) 88%);
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="prdouctimg">
+    <img class="final" src="{% static 'images\unlubrand_inner.webp' %}" alt="">
+</div>
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img class="final" src="{% static 'images/unlulogo.png' %}" alt="">
+        </div>
+
+        <div class="content">
+            <h1>20% Student Discount</h1>
+            <p><a href="https://cutt.ly/TRYJNQX" target="_blank">at UnluShoutout</a></p>
+        </div>
+        <div class="button d-grid gap-2 col-6 mx-auto">
+            <a class="btn btn-primary" href="/student-discount-unlu-shoutout">Get Code</a>
+        </div>
+        <hr>
+        <div class="contenttext">
+            <h4>About this student discount</h4>
+            <p>• Request celebrity video at a discount with Studentpeeps. <br>
+               • Use our UnluShoutout student discount code at the checkout. <br>
+               • Unlock 20% off on your favorite celebrity’s video booking. <br>
+               • Gift a celebrity wish to your loved ones, and make every moment special, Now!                                                 
+            </p>
+        </div>
+        <hr>
+        <div class="contenttext">
+            <h4>Terms & Conditions</h4>
+            <p>• It is applicable on every celebrity video shout/out at Unlu.io.<br>
+               • It cannot be clubbed with any other coupon/voucher. <br>
+               • Requests placed using these codes cannot be modified                               
+            </p>
+        </div>
+    </div>
+</center>
+
+
+{% endblock %}

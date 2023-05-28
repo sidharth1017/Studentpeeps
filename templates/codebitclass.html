@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps >> Student Discount Bitclass{% endblock %}
+
+{% block linkshead %}
+<meta name="description"content="Learn new skills live on Bitclass. Get a promo coupon code for Bitclass. Get a flat 50% student discount code for Bitclass on Studentpeeps. Sign up on Studentpeeps and get student discounts when you shop.">
+
+<link rel="stylesheet" href="{% static 'css/aftercode.css' %}">
+<script src="{% static 'js/aftercode.js' %}"></script>
+<style>
+    .bg-banner {
+        background-image: radial-gradient(circle, #108285, #0d8688, #0b8a8a, #098e8d, #07928f, #06908e, #058e8e, #048c8d, #088488, #0e7b83, #15737d, #1a6b77) !important;
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="bg-banner">
+</div>
+<div class="prdouctimg">
+    <img class="final" src="{% static 'images\bitclass_inner.webp' %}" alt="">
+</div>
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img id="center-img" class="final" src="{% static 'images/bitclass_logo.jpg' %}" alt="">
+        </div>
+
+        <div class="_all">
+            <div class="wrapper">
+                <div class="content">
+                    <h1>50% Student Discount</h1>
+                    <p><a href="https://cutt.ly/oQf9pgC" target="_blank">at Bitclass</a></p>
+                </div>
+                <div class="copy">
+                    <p>Copy code and enter on the<br>
+                        Bitclass Website</p>
+                </div>
+                <div class="showcode" id="text" onclick="copyElementText(this.id)">BEATS50 <div class="copy-btn"><i
+                            class="fa fa-copy" onclick="copy()"></i></div>
+                </div>
+
+                <div class="button d-grid gap-2 col-6 mx-auto">
+                    <a href="https://cutt.ly/oQf9pgC" target="_blank"><button class="btn btn-primary" type="button">Open
+                            Site & Use Code</button></a>
+                </div>
+                <hr>
+            </div>
+            <div class="contenttext">
+                <h4>About this student discount</h4>
+                <p>• Avail every workshop @49 only with Studentpeeps. <br>
+                    • Use our Bitclass student discount code at the checkout. <br>
+                    • Unlock 50% off on your favorite workshop.<br>
+                    • Blogging, Sketching, Dance, or a Cooking Masterclass, enroll in the best workshops, Now!</p>
+            </div>
+            <hr>
+            <div class="contenttext">
+                <h4>Terms & Conditions</h4>
+                <p> • It is applicable on all workshops on Bitclass.live.<br>
+                    • It cannot be clubbed with any other coupon/voucher<br>
+                    • Coupon Validity : 1 Month<br>
+                </p>
+            </div>
+        </div>
+    </div>
+</center>
+
+{% endblock %}

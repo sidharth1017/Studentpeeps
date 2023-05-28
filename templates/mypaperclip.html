@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps >> MyPaperClip{% endblock %}
+
+{% block linkshead %}
+<meta name="description"content="Get student discount code for myPaperClip. Get a 15% discount coupon code for myPaperClip. Shop custom made stationary on myPaperClip.  Sign up on Studentpeeps and get student discounts when you shop on myPaperClip Store.">
+
+<link rel="stylesheet" href="{% static 'css/getcode.css' %}">
+<style>
+    .prdouctimg {
+background: rgb(227,202,30);
+background: radial-gradient(circle, rgba(227,202,30,1) 48%, rgba(182,137,73,1) 90%);
+    }
+</style>
+
+
+{% endblock %}
+
+{% block body %}
+
+<div class="prdouctimg">
+    <img class="final" src="{% static 'images/paperclip_inner.webp' %}" alt="">
+</div>
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img class="final" src="{% static 'images/mypaperclip_logo.png' %}" alt="">
+        </div>
+
+        <div class="content">
+            <h1>15% Student Discount</h1>
+            <p><a href="https://cutt.ly/RQxV4QE" target="_blank">at MyPaperClip</a></p>
+        </div>
+        <div class="button d-grid gap-2 col-6 mx-auto">
+            <a class="btn btn-primary" href="/student-discount-mypaperclip">Get Code</a>
+        </div>
+        <hr>
+        <div class="contenttext">
+            <h4>About this student discount</h4>
+            <p>• Shop any stationery or desk accessory at a discount with Studentpeeps.<br>
+               • Use our myPaperClip student discount code at the checkout.<br>
+               • Unlock 15% off on your favorite stationery order.<br>
+               • Explore an aesthetic collection of notebooks, journals & planners, Now!
+                </p>
+        </div>
+        <hr>
+        <div class="contenttext">
+            <h4>Terms & Conditions</h4>
+            <p> • It is applicable on every classic stationery product at paperclipstore.in.<br>
+                • It cannot be clubbed with any other coupon/voucher.<br>
+                • Valid only on minimum order of Rs. 495.               
+            </p>
+        </div>
+    </div>
+</center>
+
+
+{% endblock %}

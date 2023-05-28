@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps >> Sattviko{% endblock %}
+
+{% block linkshead %}
+<meta name="description"content="Get student discount codes for Sattviko. Get 15% Sattviko Coupons. Sattviko Offers & Discount Codes. Sign up on Studentpeeps and get student discounts when you shop.">
+
+
+<link rel="stylesheet" href="{% static 'css/getcode.css' %}">
+<style>
+    .prdouctimg {
+  background: rgb(210,255,240);
+background: radial-gradient(circle, rgba(210,255,240,1) 36%, rgba(170,213,203,1) 86%);    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="prdouctimg">
+    <img class="final" src="{% static 'images/saatviko_inner.webp' %}" alt="">
+</div>
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img class="final" src="{% static 'images/sattviko_logo.png' %}" alt="">
+        </div>
+
+        <div class="content">
+            <h1>15% Student Discount</h1>
+            <p><a href="https://cutt.ly/8Qb3lfn" target="_blank">at Sattviko</a></p>
+        </div>
+        <div class="button d-grid gap-2 col-6 mx-auto">
+            <a class="btn btn-primary" href="/student-discount-sattviko">Get Code</a>
+        </div>
+        <hr>
+        <div class="contenttext">
+            <h4>About this student discount</h4>
+            <p> • Enjoy any instant superfood at a discount with Studentpeeps.<br>
+                • Use our Sattviko student discount code at the checkout.<br>
+                • Unlock flat 15% off on your favorite fitness-snack order.<br>
+                • Stuff your gym bags with these fibre rich, super crunchy, protein shots, Now!
+                </p>
+        </div>
+        <hr>
+        <div class="contenttext">
+            <h4>Terms & Conditions</h4>
+            <p> • It is applicable on all supermeals at in.sattviko.com <br>
+                • It cannot be clubbed with any other coupon/voucher.<br>
+                • Avail 10% discount on minimum order of Rs. 499.<br>
+                • Avail 15% discount on minimum order of Rs. 799.                
+            </p>
+        </div>
+    </div>
+</center>
+
+
+{% endblock %}

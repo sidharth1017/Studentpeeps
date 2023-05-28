@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps >> Student Discounts Inchpaper{% endblock %}
+
+{% block linkshead %}
+<meta name="description"content="Get student coupon codes for Inchpaper. 15% off on Inchpaper. Get student discount coupons & discount codes for Inchpaper on Studentpeeps. Get 15% discount on Inchpaper products on Studentpeeps.">
+
+<link rel="stylesheet" href="{% static 'css/aftercode.css' %}">
+<script src="{% static 'js/aftercode.js' %}"></script>
+
+<style>
+    .bg-banner {
+        background-image: radial-gradient(circle, #f8f8f6, #f7f4ee, #f8efe8, #faeae3, #fce4e2, #fde0dc, #fedcd5, #ffd9ce, #f7dabd, #e3deb4, #c5e3b7, #a0e7ca);
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="bg-banner">
+</div>
+<div class="prdouctimg">
+    <img  id="center-img" class="final" src="{% static 'images\inchpaper_inner.webp' %}" alt="">
+</div>
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img class="final" src="{% static 'images/inchpaper_logo.png' %}" alt="">
+        </div>
+        <div class="wrapper">
+            <div class="content">
+                <h1>15% Student Discount</h1>
+                <p><a href="https://cutt.ly/aEgsz4g" target="_blank">at Inchpaper</a></p>
+            </div>
+            <div class="copy">
+                <p>Copy code and enter on the<br>
+                    Inchpaper Website</p>
+            </div>
+
+            <div class="showcode" id="text" onclick="copyElementText(this.id)">STUPEEPS <div class="copy-btn"> <i
+                        class="fa fa-copy" onclick="copy()"></i></div>
+            </div>
+            <div class="button d-grid gap-2 col-6 mx-auto">
+                <a href="https://cutt.ly/aEgsz4g" target="_blank"><button class="btn btn-primary" type="button">Open
+                        Site & Use Code</button></a>
+            </div>
+            <hr>
+        </div>
+        <div class="contenttext">
+            <h4>About this student discount</h4>
+            <p> • Shop any stationery, fine art, or party decor item at a discount with Studentpeeps. <br>
+                • Use our inchpaper student discount code at the checkout. <br>
+                • Unlock 15% off on your favorite stationery order. <br>
+                • Discover your creative sides. Get a bunch of stationery items with just a click, Now!
+            </p>
+        </div>
+        <hr>
+        <div class="contenttext">
+            <h4>Terms & Conditions</h4>
+            <p> • It is applicable on every stationery product at inchpaper.com <br>
+                • It cannot be clubbed with any other coupon/voucher. <br>
+                • No minimum order value.
+            </p>
+        </div>
+    </div>
+    </div>
+</center>
+
+
+{% endblock %}

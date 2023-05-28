@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadesc %}
+    <meta name="description"content="Avail the entire Github Student Developer Pack for free. A student's treasure of free trials, plans, and subscriptions. Also get a free domain and hosting for 1 year at Github, Now!" />
+{% endblock %}
+{% block metakeywords %} 
+    <meta name="keywords" content="github student developer pack, how to use github student developer pack, how to get github student developer pack, github student discount, how to get free domain and hosting, free domain and hosting for 1 year, digitalocean free credit">
+{% endblock %}
+{% block title %}Github Student Discount | Free Student Developer Pack{% endblock %}
+
+{% block linkshead %}
+<link rel="stylesheet" href="{% static 'css/getcode.css' %}" />
+<style>
+    .prdouctimg {
+      background: rgb(255,243,161);
+    background: radial-gradient(circle, rgba(255,243,161,1) 0%, rgba(252,195,101,1) 100%);
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="prdouctimg">
+    <img class="final" src="{% static 'img/Tiles_inner/github_inner.webp' %}" alt="" />
+</div>
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img class="final" src="{% static 'img/Logos/github_logo.webp' %}" alt="" />
+        </div>
+
+        <div class="content">
+            <h1>Free Student Developer Pack</h1>
+            <p><a href="https://github.com/" target="_blank">at GitHub</a></p>
+        </div>
+        <div class="button d-grid gap-2 col-6 mx-auto">
+            <a class="btn btn-primary" href="https://education.github.com/pack" target="_blank">Get Offer</a>
+        </div>
+        <hr>
+        <div class="contenttext" style="padding-right: 10px;">
+            <h4>About this Student offer</h4>
+            <p>
+            • Avail the entire Github Student Developer Pack for free.<br>
+            • Click on Get Offer to avail the offer.<br>
+            • Unlock 100% off on any developer tool, software, or domain you need.<br>
+            • A student’s treasure of free trials, plans, and subscriptions. Also get a free domain and hosting for 1 year at Github, Now!<br>
+            • Github Student Developer Pack includes :<br>
+            • Canva student discount (Free 12 month subscription of Canva's Pro tier)<br>
+            • Free Namecheap domain (1 year domain name registration on the .me TLD)<br>
+            • Digitalocean free credit ($100 in platform credit for new users)<br>
+            • JetBrains Subscription (A free subscription for students, to be renewed annually)<br>
+            • Virtual Event Kit, Intro to Web Development and so much more!<br>
+            </p>
+        </div>
+        <hr>
+        <div class="contenttext" style="padding-right: 10px;">
+            <h4>Terms & Conditions</h4>
+            <p> • Offer is applicable only for University students in India.<br>
+                • Offer is not applicable for those who already tried the Github student discount in India. <br>
+                • Offer Validity : 31st March, 2022 <br>
+                • Read detailed Terms & Conditions before availing the Github Student Developer Pack.<br>
+                • Still wondering how to use Github student developer pack, or how to get free domain and hosting?<a style="color:#0d6efd" href="https://education.github.com/pack"> Click here.</a><br>
+                • StudentPeeps only redirects you to the official brand’s website, and has not partnered up with Github. All queries and disputes concerning Github student discount have to be entertained by Github and not StudentPeeps.
+            </p>
+        </div>
+    </div>
+</center>
+
+
+{% endblock %}

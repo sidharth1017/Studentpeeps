@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps >> Student Discount Propshop24{% endblock %}
+
+{% block linkshead %}
+<meta name="description"content="PropShop24 Offers & Promo Codes on Studentpeeps. Get 15% student student discount codes for PropShop24 on Studentpeeps. Get flat 15% on PropShop24 Promo Codes on Studentpeeps.">
+
+
+<link rel="stylesheet" href="{% static 'css/aftercode.css' %}">
+<script src="{% static 'js/aftercode.js' %}"></script>
+<style>
+    .bg-banner {
+        background: rgb(78,24,23);
+        background: radial-gradient(circle, rgba(78,24,23,1) 36%, rgba(40,30,30,1) 86%);
+    }
+</style>
+
+
+{% endblock %}
+
+{% block body %}
+
+<div class="bg-banner">
+</div>
+
+<div class="prdouctimg">
+    <img class="final" src="{% static 'images/propshop_inner.webp' %}" alt="">
+</div>
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img  id="center-img" class="final" src="{% static 'images/prop.png' %}" alt="">
+        </div>
+
+        <div class="_all">
+            <div class="wrapper">
+                <div class="content">
+                    <h1>24% Student Discount</h1>
+                    <p><a href="https://cutt.ly/6nkWE1H" target="_blank">at Propshop24</a></p>
+                </div>
+                <div class="copy">
+                    <p>Copy code and enter on the<br>
+                        Propshop24 Website</p>
+                </div>
+                <div class="showcode" id="text" onclick="copyElementText(this.id)">STUDENTPEEPS10<div
+                        class="copy-btn"> <i class="fa fa-copy" onclick="copy()"></i></div>
+                </div>
+
+                <div class="button d-grid gap-2 col-6 mx-auto">
+                    <a href="https://cutt.ly/6nkWE1H" target="_blank"><button class="btn btn-primary" type="button">Open
+                            Site & Use Code</button></a>
+                </div>
+                <hr>
+            </div>
+            <div class="contenttext">
+                <h4>About this student discount</h4>
+                <p> • Shop any assorted product at a discount with Studentpeeps.<br>
+                    • Use our propshop24 student discount code at the checkout.<br>
+                    • Unlock 10% off on your favorite sundry product.<br>
+                    • Spruce up your home, gadgets, closet & upgrade your wishlist, Now!
+                </p>
+            </div>
+            <hr>
+            <div class="contenttext">
+                <h4>Terms & Conditions</h4>
+                <p> • It is applicable on every product at propshop24.com<br>
+                    • It cannot be clubbed with any other coupon/voucher.<br>
+                    • Valid only on minimum order of Rs. 1000.<br>
+                </p>
+            </div>
+        </div>
+    </div>
+</center>
+
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps >> Rapido{% endblock %}
+
+{% block linkshead %}
+<meta name="description"content="Flat 50% Off Rapido Bike Student Discount Coupon & Voucher Codes Today.
+Get a student discount code for Rapido Bike Taxi . Sign up on Studentpeeps and get student discounts on Rapido using Studentpeeps.
+">
+
+<link rel="stylesheet" href="{% static 'css/getcode.css' %}">
+<style>
+    .prdouctimg {
+        background-image: radial-gradient(circle, #f8efb5, #f9ec9f, #f9e989, #fae671, #fae358, #f8de49, #f7da39, #f5d525, #f2ce1e, #eec717, #ebc00e, #e7b903)!important;
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="prdouctimg">
+    <img class="final" src="{% static 'images\rapido_inner.webp' %}" alt="">
+</div>
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img class="final" src="{% static 'images/rapido_logo.png' %}" alt="">
+        </div>
+
+        <div class="content">
+            <h1>50% Student Discount</h1>
+            <p><a href="https://cutt.ly/DQUzoBR" target="_blank">at Rapido</a></p>
+        </div>
+        <div class="button d-grid gap-2 col-6 mx-auto">
+            <a class="btn btn-primary" href="/student-discount-rapido">Get Code</a>
+        </div>
+        <hr>
+        <div class="contenttext">
+            <h4>About this student discount</h4>
+            <p> Book a smooth Bike-Taxi ride at a discount with Studentpeeps. <br>
+                • Use our Rapido student discount code at the checkout. <br>
+                • The code can be used 5 times per user. <br>
+                • Unlock 50% upto Rs 20 for first time users. <br>
+                • Unlock 20% upto Rs 10 for repeat users. <br>
+                • Running late and panicking at the rush hours? Book your most feasible Bike Taxi Now!            
+                </p>
+        </div>
+        <hr>
+        <div class="contenttext">
+            <h4>Terms & Conditions</h4>
+            <p>• It is applicable on Rapido Bike Taxi on rapido.bike (Rapido Bike Taxi App). <br>
+                • The code can be used 5 times per user. <br>
+               • It cannot be clubbed with any other coupon/voucher. <br>
+               • New users can avail 50% off capped at Rs. 20.<br>
+               • Repeat users can avail 20% off capped at Rs. 10.                
+                </p>
+        </div>
+    </div>
+</center>
+
+
+{% endblock %}

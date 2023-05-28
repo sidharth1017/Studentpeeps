@@ -1,0 +1,267 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Our Community | Studentpeeps{% endblock %}
+
+{% block linkshead %}
+<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+<link rel="stylesheet" href="{% static 'css/community.css' %}" />
+
+{% endblock %}
+{% block body %}
+<header class="header section">
+    <div class="cont">
+        <div class="left-cont">
+            <h1 class="title">Top 1% people<br>community</h1>
+            <span class="sub-title">All the nerds, tech geeks, finance fanatics, startup enthusiasts, and dreamers,
+                Assemble!</span>
+            {% comment %} Because we're building the most genius content community {% endcomment %}
+            <a href="#communities" class="community-link">Join Community</a>
+        </div>
+        <div class="right-cont">
+            <video class="desktop-video" loop="true" autoplay="autoplay" muted>
+                <source src="/static/images/community_video_desktop.mp4" type="video/mp4">
+            </video>
+            <video class="mobile-video" loop="true" autoplay="autoplay" muted>
+                <source src="/static/images/community_video.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+</header>
+<!-- 
+<section class="testimonial">
+    <div class="cont">
+        <h1 class="heading">Students are <span style="color:#FDC500;">loving</span> it</h1>
+        <span class="sub-heading">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium.</span>
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="content">
+                        <i class="fas fa-quote-right"></i>
+                        <span class="message">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni
+                            assumenda totam modi laudantium sed beatae mollitia adipisci atque laboriosam!</span>
+                    </div>
+                    <div class="details">
+                        <img src="/static/images/avni.png" alt="">
+                        <span class="name">Ishani Gupta</span>
+                        <span class="description">Student at Christ University</span>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="content">
+                        <i class="fas fa-quote-right"></i>
+                        <span class="message">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni
+                            assumenda totam modi laudantium sed beatae mollitia adipisci atque laboriosam!</span>
+                    </div>
+                    <div class="details">
+                        <img src="/static/images/avni.png" alt="">
+                        <span class="name">Ishani Gupta</span>
+                        <span class="description">Student at Christ University</span>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="content">
+                        <i class="fas fa-quote-right"></i>
+                        <span class="message">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni
+                            assumenda totam modi laudantium sed beatae mollitia adipisci atque laboriosam!</span>
+                    </div>
+                    <div class="details">
+                        <img src="/static/images/avni.png" alt="">
+                        <span class="name">Ishani Gupta</span>
+                        <span class="description">Student at Christ University</span>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="content">
+                        <i class="fas fa-quote-right"></i>
+                        <span class="message">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni
+                            assumenda totam modi laudantium sed beatae mollitia adipisci atque laboriosam!</span>
+                    </div>
+                    <div class="details">
+                        <img src="/static/images/avni.png" alt="">
+                        <span class="name">Ishani Gupta</span>
+                        <span class="description">Student at Christ University</span>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="content">
+                        <i class="fas fa-quote-right"></i>
+                        <span class="message">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni
+                            assumenda totam modi laudantium sed beatae mollitia adipisci atque laboriosam!</span>
+                    </div>
+                    <div class="details">
+                        <img src="/static/images/avni.png" alt="">
+                        <span class="name">Ishani Gupta</span>
+                        <span class="description">Student at Christ University</span>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="content">
+                        <i class="fas fa-quote-right"></i>
+                        <span class="message">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni
+                            assumenda totam modi laudantium sed beatae mollitia adipisci atque laboriosam!</span>
+                    </div>
+                    <div class="details">
+                        <img src="/static/images/avni.png" alt="">
+                        <span class="name">Ishani Gupta</span>
+                        <span class="description">Student at Christ University</span>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="content">
+                        <i class="fas fa-quote-right"></i>
+                        <span class="message">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit magni
+                            assumenda totam modi laudantium sed beatae mollitia adipisci atque laboriosam!</span>
+                    </div>
+                    <div class="details">
+                        <img src="/static/images/avni.png" alt="">
+                        <span class="name">Ishani Gupta</span>
+                        <span class="description">Student at Christ University</span>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+</section> -->
+<section id="communities" class="communities">
+    <div class="cont">
+        <h1 class="heading">Not your regular <span
+                style="color:#25D366;  webkit-text-stroke-width: 1px;  -webkit-text-stroke-color: #25D366;">Whatsapp</span>
+            group</h1>
+        <!-- <span class="sub-heading"></span> -->
+        <div class="community lr">
+            <div class="left-cont">
+                <h2 class="title"><span>Nerds</span> By Studentpeeps</h2>
+                <span class="description">We wake up and send you 1 resource that'll improve you, each day. Here you'll
+                    get-<br>
+                    • Tools and resources to upskill yourself. <br>
+                    • Access to weekend workshops and events <br>
+                    • Verified internships for students and much more!<br>
+                </span>
+                <a href="https://chat.whatsapp.com/CRssRaj9zUPCpNJ7FebLWN" target="_blank" class="join-btn">
+                    Join now
+                </a>
+            </div>
+            <div class="right-cont">
+                <img src="/static/images/nerds.webp" class="community-img"></img>
+            </div>
+        </div>
+        <div class="community rl">
+            <div class="left-cont">
+                <img src="/static/images/finance.webp" class="community-img"></img>
+            </div>
+            <div class="right-cont">
+                <h2 class="title"><span>Finance </span>Freaks</h2>
+                <span class="description">
+                    Ditch the finance background, the only thing needed to join this club is the spirit to learn. Here
+                    you'll get-<br>
+                    • Exclusive cheat sheets and resources on Finance (A-Z)<br>
+                    • Beginner's guide to Investment journey (Stock Market, Crypto, Forex)<br>
+                    • Resources to manage personal finance (Filing of ITRs, saving taxes, GST)
+                </span>
+                <a href="https://chat.whatsapp.com/LsPbGt2Hxc01Mh2xey73Na" target="_blank" class="join-btn">
+                    Join now
+                </a>
+            </div>
+        </div>
+        <div class="community lr">
+            <div class="left-cont">
+                <h2 class="title"><span> ChatRoom</span> By Studentpeeps</h2>
+                <span class="description">
+                    The room where you -<br>
+                    • Meet new people<br>
+                    • Network with college students all over India<br>
+                    • Match with folks of similar interests.
+                </span>
+                <a href="https://chat.whatsapp.com/E44crtOORy308KPVkLlsQV" target="_blank" class="join-btn">
+                    Join now
+                </a>
+            </div>
+            <div class="right-cont">
+                <img src="/static/images/chatroom.webp" class="community-img"></img>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="statistics">
+    <div class="cont">
+        <h1 class="title">OUR IMPACT</h1>
+        <div class="stats-cont">
+            <div class="stat">
+                <i class="fas fa-files-o"></i>
+                <h1 class="numbers">200+</h1>
+                <span class="description">RESOURCES SHARED</span>
+            </div>
+            <div class="stat">
+                <i class="fas fa-users"></i>
+                <h1 class="numbers">400+</h1>
+                <span class="description">TOTAL COMMUNITY MEMBERS</span>
+            </div>
+            <div class="stat">
+                <i class="fas fa-tags"></i>
+                <h1 class="numbers">40+</h1>
+                <span class="description">BRAND DISCOUNTS</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="join-sp">
+    <div class="cont">
+        <h1 class="heading">Why Studentpeeps?</h1>
+        
+        <div class="features">
+            <div class="feature">
+                <img src="/static/images/content_icon.webp" alt="">
+                <span class="title">Best content</span>
+                <span class="description">Get access to the Top 1 % content from best in the industry</span>
+            </div>
+            <div class="feature">
+                <img src="/static/images/network_icon.webp" alt="">
+                <span class="title">Networking</span>
+                <span class="description">Network with your peers from other colleges, and universities </span>
+            </div>
+            <div class="feature">
+                <img src="/static/images/mentorship_icon.webp" alt="">
+                <span class="title">Events and mentorship
+                </span>
+                <span class="description">Attend free events, and get mentored by our team 1:1 </span>
+            </div>
+            <div class="feature">
+                <img src="/static/images/growth_icon.webp" alt="">
+                <span class="title">Growth</span>
+                <span class="description">We give you a path to grow, head one of our communities and grow yourself with
+                    us</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
+
+
+{% block linksbody %}
+<script src="https://kit.fontawesome.com/1906df1c3b.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+<script>
+    var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        slidesPerGroup: 1,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        autoplay: true
+    });
+</script>
+{% endblock %}

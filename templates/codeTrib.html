@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps >> Student Discount Trib Fashion{% endblock %}
+
+{% block linkshead %}
+<meta name="description"content="Get Trib Fashion coupon codes and promo codes on Studentpeeps. Get student discount codes for Trib Fashion on Studentpeeps. Get 15% on TribFashion Promo Codes on Studentpeeps.">
+
+
+<link rel="stylesheet" href="{% static 'css/aftercode.css' %}">
+<script src="{% static 'js/aftercode.js' %}"></script>
+<style>
+    .bg-banner {
+        background-image: radial-gradient(circle, #eadfe3, #ebe0e4, #ede1e5, #eee2e6, #f0e3e7, #f1dbe1, #f3d3db, #f4cbd4, #f5b7c5, #f5a3b5, #f48fa6, #f27996);
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+<div class="bg-banner">
+</div>
+<div class="prdouctimg">
+    <img class="final" src="{% static 'images/trib_inner.webp' %}" alt="">
+</div>
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img  id="center-img" class="final" src="{% static 'images/trib.png' %}" alt="">
+        </div>
+
+        <div class="_all">
+            <div class="wrapper">
+                <div class="content">
+                    <h1>15% Student Discount</h1>
+                    <p><a href="https://cutt.ly/tQIreND" target="_blank">at TRIB Fashion</a></p>
+                </div>
+                <div class="copy">
+                    <p>Copy code and enter on the<br>
+                        Trib Fashion Website</p>
+                </div>
+                <div class="showcode" id="text" onclick="copyElementText(this.id)">TRIB621 <div
+                        class="copy-btn"> <i class="fa fa-copy" onclick="copy()"></i></div>
+                </div>
+                <div class="button d-grid gap-2 col-6 mx-auto">
+                    <a href="https://cutt.ly/tQIreND" target="_blank"><button class="btn btn-primary" type="button">Open
+                            Site & Use Code</button></a>
+                </div>
+                <hr>
+            </div>
+            <div class="contenttext">
+                <h4>About this student discount</h4>
+                <p> • Grab any customized Pride product at a discount with Studentpeeps.<br>
+                    • Use our Trib Fashion student discount code at the checkout.<br>
+                    • Unlock 15% off on your favorite Pride accessories.<br>
+                    • Dive into the colorful store of LGBT products, and put on something funky, Now!
+                </p>
+            </div>
+            <hr>
+            <div class="contenttext">
+                <h4>Terms & Conditions</h4>
+                <p> • It is applicable on all Pride products at tribfashion.com <br>
+                    • It cannot be clubbed with any other coupon/voucher.<br>
+                    • Coupon Validity: 3 Months.
+                </p>
+            </div>
+        </div>
+    </div>
+</center>
+
+{% endblock %}

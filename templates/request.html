@@ -1,0 +1,368 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block title %}Studentpeeps >> Request background-image{% endblock %}
+{% block linkshead %}
+<meta name="description" content="Hi Peep, request your favourite brands.">
+{% endblock %}
+
+{% block body %}
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .allbody {
+        height: 700px;
+    }
+
+    .contact {
+        background-color: #2a0f46;
+        position: relative;
+        width: 100% !important;
+        height: 280px;
+    }
+
+    .contact-heading {
+        position: absolute;
+        color: #fff;
+        top: 50px;
+        left: 300px;
+        font-weight: 700;
+        font-size: 45px;
+    }
+
+    .contact-para {
+        position: absolute;
+        color: #fff;
+        width: 540px;
+        top: 120px;
+        left: 300px;
+    }
+
+    .bg-side {
+        width: 320px;
+        height: auto;
+    }
+
+    @media(max-width:350px) {
+
+        .contact-heading {
+            top: 20px;
+            left: 50px;
+            font-size: 40px;
+        }
+
+        .contact-para {
+            width: 220px;
+            top: 80px;
+            left: 50px;
+        }
+
+        .bg-side {
+            width: 300px;
+            height: auto;
+        }
+    }
+
+    @media(min-width:350px) and (max-width:500px) {
+
+        .contact-heading {
+            top: 30px;
+            left: 60px;
+            font-size: 40px;
+        }
+
+        .contact-para {
+            width: 270px;
+            top: 100px;
+            left: 60px;
+        }
+    }
+
+    @media(min-width:500px) and (max-width:650px) {
+
+        .contact-heading {
+            top: 30px;
+            left: 80px;
+            font-size: 42px;
+        }
+
+        .contact-para {
+            width: 370px;
+            top: 100px;
+            left: 80px;
+        }
+    }
+
+    @media(min-width:650px) and (max-width:768px) {
+
+        .contact-heading {
+            top: 45px;
+            left: 100px;
+            font-size: 45px;
+        }
+
+        .contact-para {
+            width: 400px;
+            top: 110px;
+            left: 100px;
+        }
+    }
+
+    @media(min-width:768px) and (max-width:800px) {
+
+        .contact-heading {
+            top: 45px;
+            left: 100px;
+            font-size: 45px;
+        }
+
+        .contact-para {
+            width: 400px;
+            top: 110px;
+            left: 100px;
+        }
+
+        .bg-side {
+            width: 250px;
+            height: auto;
+        }
+    }
+
+
+
+
+    @media(min-width:800px) and (max-width:1000px) {
+
+        .contact-heading {
+            top: 60px;
+            left: 150px;
+            font-size: 45px;
+        }
+
+        .contact-para {
+            width: 420px;
+            top: 135px;
+            left: 150px;
+        }
+
+        .bg-side {
+            width: 250px;
+            height: auto;
+        }
+    }
+
+
+    input.form-control,
+    select#inputGroupSelect03 {
+        height: 46px;
+        background: #fff;
+    }
+
+    textarea.form-control {
+        background: #fff;
+    }
+
+    #label1 {
+        color: black;
+        font-weight: 700;
+        padding-bottom: 10px;
+        font-size: 15px;
+    }
+
+    .form-design {
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 2rem rgb(0 0 0 / 10%);
+        margin-bottom: 2rem;
+        border-radius: 10px;
+    }
+
+    .policy {
+        color: #1264a3;
+        cursor: pointer;
+        word-break: break-word;
+    }
+
+    .contact2 {
+        position: absolute;
+        top: 270px;
+    }
+
+    @media(max-width:400px) {
+
+        .contact2 {
+            position: absolute;
+            top: 220px;
+        }
+    }
+
+    @media(min-width:400px) and (max-width:550px) {
+
+        .contact2 {
+            position: absolute;
+            top: 220px;
+        }
+    }
+
+    @media(min-width:550px) and (max-width:768px) {
+
+        .contact2 {
+            position: absolute;
+            top: 210px;
+        }
+    }
+
+    @media(min-width:768px) and (max-width:1000px) {
+
+        .contact2 {
+            position: absolute;
+            top: 230px;
+        }
+    }
+
+    @media(max-width:768px) {
+        .contact2 {
+            position: absolute;
+            top: 280px;
+        }
+
+        img.bg-side {
+            display: none;
+        }
+
+        .contact-heading {
+            font-size: 24px;
+            left: 50px;
+        }
+
+        .contact-para {
+            width: 220px;
+            top: 95px;
+            left: 50px;
+        }
+    }
+
+    .btn-primary {
+        font-family: 'Quicksand', sans-serif;
+        font-weight: bold;
+        height: 40px;
+        width: 30%;
+        border: 0;
+        border-radius: 0.5rem;
+        background-image: linear-gradient(131deg, #44107c, #2a0f46, #4c2872, #4f1a88);
+        background-size: 300% 100%;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-primary:hover {
+        box-shadow: 0 0.5em 0.5em -0.4em #2a0f46;
+        background-size: 100% 100%;
+        transform: translateY(-0.15em);
+        color: white;
+    }
+
+    .footer{
+        margin-top: 380px;
+        border-top: 1px solid rgb(165, 165, 165);
+    }
+</style>
+<div class="allbody">
+    <div class="contact">
+
+        <h1 class="contact-heading">Want your favourite brand?</h1>
+        <p class="contact-para">Fill in the details and we'll get in touch with them
+            Also make sure you share why you want it so we can share it with them.</p>
+    </div>
+
+    <div class="container-fluid contact2">
+        <div class="row">
+            <div class="col-lg-1 col-md-1 col-12">
+
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-12 form-design">
+                {% if message %}
+                <div class="alert alert-success" role="alert">
+                  <p>{{message}}</p>
+                </div>
+                {% endif %}
+
+                <form action="/request-your-fav-brand/" method="POST">
+                    {% csrf_token %}
+                    <div class="row align-items-center mt-4">
+                        <div class="col">
+                            <label id="label1" for="fullname" class="input">Name*</label>
+                            <input type="text" name="name" id="fullname" class="form-control" placeholder="Name"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-4">
+                        <div class="col">
+                            <label id="label1" for="exampleInputEmail1" class="form-label">Email address*</label>
+                            <input type="email" name="email" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Email" required>
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-4">
+                        <div class="col">
+                            <label id="label1" for="exampleInputEmail1" class="form-label">Brand Name*</label>
+                            <input type="text" name="BrandName" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Brand Name" required>
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-4">
+                        <div class="col">
+                            <label id="label1" for="exampleInputEmail1" class="form-label">Brand Site</label>
+                            <input type="text" name="BrandSite" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Brand Site">
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-4">
+                        <div class="col">
+                            <label id="label1" class="input" for="floatingTextarea2">Why you want this brand on
+                                Studentpeeps?*</label>
+                            <div class="form-floating">
+                                <textarea class="form-control" name="want" placeholder="Leave a comment here"
+                                    id="floatingTextarea2" style="height: 100px" required></textarea>
+                                <label style="color:#8a8a8a;" for="floatingTextarea2">Type here...</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 mb-5">
+                        <button type="submit" class="btn btn-primary mt-4">Send</button>
+                    </div>
+
+                    <a href="/privacypolicy" class="policy">
+                        <p>Privacy Policy</p>
+                    </a>
+                </form>
+
+            </div>
+
+            <div class="col-lg-1 col-md-1 col-12">
+
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-12">
+                <img class="bg-side" src="{% static 'images/ce-agents-contact.png' %}" alt="bg-side">
+            </div>
+
+            <div class="col-lg-1 col-md-1 col-12">
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}
