@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include, re_path 
+from django.urls import path, include, re_path
 from django.conf.urls.static import static
 from django.views.static import serve
 from . import settings
@@ -28,6 +28,8 @@ urlpatterns = [
     path('social-auth/', include('social_django.urls', namespace='social')),
     path('google-upload/', views.UploadFunc, name="google-upload"),
     path('sitemap.xml/', views.Sitemap.as_view(), name="Sitemap"),
+    path('ads.txt/', views.Ads.as_view(), name="Ads"),
+    path('.well-known/pki-validation/3E4612F07E9BF0ED441A9D77F76CCF06.txt/', views.ssl.as_view(), name="ssl"),
     path('loginnext/<str:nexturl>/', views.LoginNext.as_view(), name="LoginNext"),
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root' : settings.MEDIA_ROOT})
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

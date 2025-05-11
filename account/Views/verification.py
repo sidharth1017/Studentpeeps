@@ -3,7 +3,7 @@ from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.template.loader import render_to_string
 from django.views import View
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from ..models import *
 from ..tasks import send_welcome_email
@@ -12,7 +12,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 
 class VerificationView(View):
     def get(self, request, uidb64, token, new):
-        uid = force_text(urlsafe_base64_decode(uidb64))
+        uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
         user.is_active = True
         if UnVerified.objects.filter(username=user.username).exists():
