@@ -13,7 +13,7 @@ def UploadFunc(request):
         if next:
             return HttpResponseRedirect(f'/{next}/')
         else:
-            return HttpResponseRedirect('/')   
+            return HttpResponseRedirect('/')
     else:
         user = User.objects.get(pk=request.user.id)
         logout(request)
@@ -26,9 +26,9 @@ def UploadFunc(request):
         # request.session['month'] = ""
         # request.session['year'] = ""
         request.session['email'] = user.email
-        request.session['password'] = user.password      
+        request.session['password'] = user.password
         return HttpResponseRedirect('/account/upload/')
-        
+
 
 class Campus(View):
     def get(self, request):
@@ -37,8 +37,16 @@ class Campus(View):
 
 class Sitemap(View):
     def get(self, request):
-        return render(request, 'sitemap.xml', content_type='text/xml')    
-    
+        return render(request, 'sitemap.xml', content_type='text/xml')
+
+class Ads(View):
+    def get(self, request):
+        return render(request, 'ads.txt', content_type='text/xml')
+
+class ssl(View):
+    def get(self, request):
+        return render(request, '3E4612F07E9BF0ED441A9D77F76CCF06.txt', content_type='text/xml')
+
 
 class LoginNext(View):
     def get(self, request, nexturl):
@@ -47,4 +55,4 @@ class LoginNext(View):
             next = ''
         else:
             next = nexturl
-        return JsonResponse({"message" : "Done"}) 
+        return JsonResponse({"message" : "Done"})
