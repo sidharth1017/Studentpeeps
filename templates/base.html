@@ -200,8 +200,8 @@
 
         .btn-outline-primary {
             position: relative;
-            padding: 0.3rem 0.3rem;
-            width: 90px;
+            padding: 0.5rem 0.7rem;
+            width: auto;
             color: #fff !important;
             font-weight: 600 !important;
             display: inline-block;
@@ -616,7 +616,7 @@
                 {% if user.is_authenticated %}
                 <li><a href="/account/logout">&nbsp;Logout</a></li>
                 {% else %}
-                <li><a class="menu-login" href="/account/login">&nbsp;Login/Sign up</a>
+                <li><a class="menu-login" href="/account/v2/identify">&nbsp;Login/Sign up</a>
                     {% endif %}
             </ul>
             <hr>
@@ -935,11 +935,8 @@
                     </div>
                 </div>
                 {% else %}
-                <span class="login log-btn">
-                    <a href="/account/login">Login</a>
-                </span>
                 <span class="signup">
-                    <a class="btn btn-outline-primary" href="/account/register">Sign Up</a>
+                    <a class="btn btn-outline-primary" href="/account/v2/identify">Login/Sign Up</a>
                 </span>
                 {% endif %}
                 </ul>

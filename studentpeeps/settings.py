@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['studentpeeps.club', '139.59.79.183', 'www.studentpeeps.club', 
 # Application definition
 INSTALLED_APPS = [
     'account',
+    'accounts_v2',
     'main',
     'brands',
     'django.contrib.admin',
@@ -177,6 +178,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_SAVE_EVERY_REQUEST = True
 
 AUTHENTICATION_BACKENDS = (
+    'accounts_v2.backends.PhoneBackend', 
     'django.contrib.auth.backends.ModelBackend',
     'social_core.backends.google.GoogleOAuth2',
 )
@@ -206,3 +208,8 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = "Asia/Kolkata"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
+
+# Twilio SMS Service
+TWILIO_ACCOUNT_SID="ACc62a8fc1687874cac3f21218f7f6e174"
+TWILIO_AUTH_TOKEN="3da59ffa71b20f8be8165a9c38823d02"
+TWILIO_PHONE_NUMBER="+15075688222"
