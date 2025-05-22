@@ -15,20 +15,22 @@ class YourdetailsView(View):
         phone = request.session.get('phone')
         password = request.session.get('password')
 
-        # Create Django User
-        user = User.objects.create(
-            username=email,
-            email=email,
-            first_name=name,
-            password=make_password(password)
-        )
+        # Create or update the Django User
+        user, created = User.objects.get_or_create(email=email)
+        user.username = email
+        user.email = email
+        user.first_name = name
+        user.password = make_password(password)  # Update password every time
+        user.save()
 
-        # Create entry in custom Register model
-        register = Register.objects.create(
+        # Create or update the Register model
+        register, _ = Register.objects.get_or_create(
             user=user,
-            phone=phone,
-            is_verified=True
+            defaults={'phone': phone, 'is_verified': True}
         )
+        register.phone = phone
+        register.is_verified = True
+        register.save()
 
         # Login the user
         user.backend = 'django.contrib.auth.backends.ModelBackend'

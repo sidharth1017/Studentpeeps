@@ -24,9 +24,9 @@ class SendOtpView(View):
         
         masked_phone = phone[:2] + 'X' * 6 + phone[-2:]
 
-        # if not send_otp_sms(phone, otp):
-        #     messages.error(request, "Failed to send OTP. Please try again.")
-        #     return redirect('/account/v2/login')
+        if not send_otp_sms(phone, otp):
+            messages.error(request, "Failed to send OTP. Please try again.")
+            return redirect('/account/v2/identify')
 
         return render(request, 'account/sendOtp.html', {'phone': masked_phone})
 
@@ -48,7 +48,7 @@ class SendOtpView(View):
                 if request.session.get('email'):
                     return redirect('/account/v2/your-details')
                 else:
-                    return redirect('/account/v2/identify')
+                    return redirect('/account/v2/security')
 
         else:
             messages.error(request, "Invalid OTP.")

@@ -110,9 +110,9 @@ class Tech(View):
     def get(self, request):
         return render(request,'tech.html')
 
-class Entertainment(View):
-    def get(self, request):
-        return render(request,'entertainment.html')
+# class Entertainment(View):
+#     def get(self, request):
+#         return render(request,'entertainment.html')
 
 class FoodsAndDrinks(View):
     def get(self, request):
@@ -157,10 +157,14 @@ class SubscribeView(View):
             messages.info(request, "You are already a member of our community.")
         else:
             subscribe = Subscribe(email=email)
-            message = render_to_string('mail_body_subscribe.html')
-            send_subscribe_email(subject="your community access😎", email=email, message=message)
             subscribe.save()
             messages.info(request, "Check your email, we have sent you your community invite. Welcome to the most productive community for students!")
+            try:
+                message = render_to_string('mail_body_subscribe.html')
+                send_subscribe_email(subject="your community access😎", email=email, message=message)
+            except Exception as e:
+                print(f"Email sending failed: {e}")
+
         return HttpResponseRedirect('/')
 
 class UnSubscribeView(View):
@@ -303,7 +307,6 @@ class WTF(View):
         return render(request,'wtf.html')
 
 class CodeWTF(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         return render(request,'codeWtf.html')
         
@@ -313,7 +316,6 @@ class Avni(View):
         return render(request,'avni.html')
 
 class CodeAvni(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         avniBrand = Brand.objects.get(name="Avni")
         avniBrand.count += 1
@@ -326,7 +328,6 @@ class Peesafe(View):
         return render(request,'PEESAFE.html')    
 
 class CodePeesafe(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         peesafeBrand = Brand.objects.get(name="Peesafe")
         peesafeBrand.count += 1
@@ -339,7 +340,6 @@ class Naagin(View):
         return render(request,'Naagin.html')
 
 class CodeNaagin(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         naaginBrand = Brand.objects.get(name="Naagin")
         naaginBrand.count += 1
@@ -352,7 +352,6 @@ class TBH(View):
         return render(request,'TBH.html')
 
 class CodeTBH(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         TBHBrand = Brand.objects.get(name="ToBeHonestFoods")
         TBHBrand.count += 1
@@ -365,98 +364,28 @@ class PropShop(View):
         return render(request,'propshop.html')
 
 class CodePropShop(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         propShopBrand = Brand.objects.get(name="PropShop24")
         propShopBrand.count += 1
         propShopBrand.save()
         return render(request,'codePropshop.html')
-        
-
-class Unlu(View):
-    def get(self, request):
-        return render(request,'unlu.html')
-
-class CodeUnlu(View):
-    @method_decorator(login_required(login_url='/account/login'))
-    def get(self, request):
-        unluBrand = Brand.objects.get(name="UnluClass")
-        unluBrand.count += 1
-        unluBrand.save()
-        return render(request,'codeUnlu.html')
-            
-
-class Unlu2(View):
-    def get(self, request):
-        return render(request,'unlu2.html')
-
-class CodeUnlu2(View):
-    @method_decorator(login_required(login_url='/account/login'))
-    def get(self, request):
-        unlu2Brand = Brand.objects.get(name="UnluShoutout")
-        unlu2Brand.count += 1
-        unlu2Brand.save()
-        return render(request,'codeUnlu2.html')
-        
-
-class Trib(View):
-    def get(self, request):
-        return render(request,'Trib.html')
-
-class CodeTrib(View):
-    @method_decorator(login_required(login_url='/account/login'))
-    def get(self, request):
-        tribBrand = Brand.objects.get(name="TribFashion")
-        tribBrand.count += 1
-        tribBrand.save()
-        return render(request,'codeTrib.html')
-
 
 class Bitclass(View):
     def get(self, request):
         return render(request,'bitclass.html')
 
 class CodeBitclass(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         bitClassBrand = Brand.objects.get(name="BitClass")
         bitClassBrand.count += 1
         bitClassBrand.save()
         return render(request,'codebitclass.html')
 
-
-class MyPaperClip(View):
-    def get(self, request):
-        return render(request,'mypaperclip.html')
-
-class CodeMyPaperClip(View):
-    @method_decorator(login_required(login_url='/account/login'))
-    def get(self, request):
-        myPaperClipBrand = Brand.objects.get(name="MyPaperClip")
-        myPaperClipBrand.count += 1
-        myPaperClipBrand.save()
-        return render(request,'codemypaperclip.html')
-
-
-class MittiHub(View):
-    def get(self, request):
-        return render(request,'mittihub.html')
-
-class CodeMittiHub(View):
-    @method_decorator(login_required(login_url='/account/login'))
-    def get(self, request):
-        mittiHubBrand = Brand.objects.get(name="MittiHub")
-        mittiHubBrand.count += 1
-        mittiHubBrand.save()
-        return render(request,'codemittihub.html')
-        
-
 class SattViko(View):
     def get(self, request):
         return render(request,'sattviko.html')
 
 class CodeSattViko(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         sattVikoBrand = Brand.objects.get(name="SattViko")
         sattVikoBrand.count += 1
@@ -469,7 +398,6 @@ class Rapido(View):
         return render(request,'rapido.html')
 
 class CodeRapido(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         rapidoBrand = Brand.objects.get(name="Rapido")
         rapidoBrand.count += 1
@@ -482,7 +410,6 @@ class TWC(View):
         return render(request,'TWC.html')
 
 class CodeTWC(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         TWCBrand = Brand.objects.get(name="TheWomensCompany")
         TWCBrand.count += 1
@@ -495,7 +422,6 @@ class Ptal(View):
         return render(request,'ptal.html')
 
 class CodePtal(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         ptalBrand = Brand.objects.get(name="PTAL")
         ptalBrand.count += 1
@@ -508,7 +434,6 @@ class Bookchor(View):
         return render(request,'bookchor.html')
 
 class CodeBookchor(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         bookchorBrand = Brand.objects.get(name="BookChor")
         bookchorBrand.count += 1
@@ -531,7 +456,6 @@ class Bewakoof(View):
         return render(request,'bewakoof.html')
 
 class CodeBewakoof(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         bewakoofBrand = Brand.objects.get(name="Bewakoof")
         bewakoofBrand.count += 1
@@ -544,7 +468,6 @@ class Inchpaper(View):
         return render(request,'inchpaper.html')
 
 class CodeInchpaper(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         inchpaperBrand = Brand.objects.get(name="Inchpaper")
         inchpaperBrand.count += 1
@@ -557,7 +480,6 @@ class Udemy(View):
         return render(request,'udemy.html')
 
 class CodeUdemy(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         udemyBrand = Brand.objects.get(name="Udemy")
         udemyBrand.count += 1
@@ -580,7 +502,6 @@ class RageCoffee(View):
         return render(request,'ragecoffee.html')
 
 class CodeRageCoffee(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         RagecoffeeBrand = Brand.objects.get(name="Ragecoffee")
         RagecoffeeBrand.count += 1
@@ -593,7 +514,6 @@ class Myntra(View):
         return render(request,'myntra.html')
 
 class CodeMyntra(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         MyntraBrand = Brand.objects.get(name="Myntra")
         MyntraBrand.count += 1
@@ -615,7 +535,6 @@ class Beardo(View):
         return render(request,'beardo.html')
 
 class CodeBeardo(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         BeardoBrand = Brand.objects.get(name="Beardo")
         BeardoBrand.count += 1
@@ -643,7 +562,6 @@ class CodeBeardo(View):
         
 
 class Nestaway(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         return render(request,'nestaway.html')
             
@@ -654,7 +572,6 @@ class PharmEasy(View):
 
 
 class CodePharmEasy(View):
-    @method_decorator(login_required(login_url='/account/login'))
     def get(self, request):
         PharmEasyBrand = Brand.objects.get(name="Pharmeasy")
         PharmEasyBrand.count += 1

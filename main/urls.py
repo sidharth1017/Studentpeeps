@@ -21,12 +21,12 @@ urlpatterns = [
     path('request-your-fav-brand/', views.Favorite.as_view(), name="Favroiute"),
     path('course-application/', views.Course.as_view(), name="Course"),
     path('resource/', views.Tools.as_view(), name="Resource"),
-    path('subscribe/', views.SubscribeView.as_view(), name="SubscribeView"),
-    path('unsubscribe/', views.UnSubscribeView.as_view(), name="UnSubscribeView"),
+    path('subscribe', views.SubscribeView.as_view(), name="SubscribeView"),
+    path('unsubscribe', views.UnSubscribeView.as_view(), name="UnSubscribeView"),
     path('community/', views.Community.as_view(), name="Community"),
     path('all/', views.All.as_view(), name="All"),
     path('tech/', views.Tech.as_view(), name="Tech"),
-    path('entertainment/', views.Entertainment.as_view(), name="Entertainment"),
+#     path('entertainment/', views.Entertainment.as_view(), name="Entertainment"),
     path('foodsanddrinks/', views.FoodsAndDrinks.as_view(), name="FoodsAndDrinks"),
     path('travel/', views.Travel.as_view(), name="Travel"),
     path('healthandbeauty/', views.HealthAndBeauty.as_view(), name="HealthAndBeauty"),
@@ -72,26 +72,11 @@ urlpatterns = [
     path('propshop/', views.PropShop.as_view(), name='Propshop'),
     path('student-discount-propshop/', views.CodePropShop.as_view(), name='CodePropshop'),
 
-    path('trib/', views.Trib.as_view(), name='TRIB'),
-    path('student-discount-trib/', views.CodeTrib.as_view(), name='CodeTRIB'),
-
     path('to-be-honest/', views.TBH.as_view(), name='TBH'),
     path('student-discount-to-be-honest/', views.CodeTBH.as_view(), name='CodeTBH'),
 
-    path('unlu-class/', views.Unlu.as_view(), name='Unlu'),
-    path('student-discount-unlu-class/', views.CodeUnlu.as_view(), name='CodeUnlu'),
-
-    path('unlu-shoutout/', views.Unlu2.as_view(), name='Unlu2'),
-    path('student-discount-unlu-shoutout/', views.CodeUnlu2.as_view(), name='CodeUnlu2'),
-
     path('bitclass/', views.Bitclass.as_view(), name='bitclass'),
     path('student-discount-bitclass/', views.CodeBitclass.as_view(), name='Codebitclass'),
-
-    path('mypaperclip/', views.MyPaperClip.as_view(), name='MyPaperClip'),
-    path('student-discount-mypaperclip/', views.CodeMyPaperClip.as_view(), name='CodeMyPaperClip'),
-
-    path('mittihub/', views.MittiHub.as_view(), name='Mittihub'),
-    path('student-discount-mittihub/', views.CodeMittiHub.as_view(), name='CodeMittihub'),
 
     path('sattviko/', views.SattViko.as_view(), name='Sattviko'),
     path('student-discount-sattviko/', views.CodeSattViko.as_view(), name='CodeSattviko'),

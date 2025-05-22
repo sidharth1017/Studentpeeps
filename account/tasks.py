@@ -38,6 +38,7 @@ def send_subscribe_email(subject, email, message):
                 f'Sanskriti from Studentpeeps <{settings.DEFAULT_FROM_EMAIL}>',
                 [email],
             )
+    print(msg, "message")
     msg.content_subtype = "html"  # Main content is now text/html
     msg.send(fail_silently=False)
     return None
