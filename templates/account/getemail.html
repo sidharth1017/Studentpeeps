@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}StudentPeeps | Create Account{% endblock %}
+
+{% block linkshead %}
+<meta name="description"
+  content="Sign up on Studentpeeps to get student discounts when you shop. Enter your email and password to make an account on Studentpeeps.">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+<link rel="stylesheet" href="{% static 'css/google.css' %}">
+<style>
+  input.form-control {
+    height: 46px;
+    background: rgb(239, 244, 244);
+  }
+
+  h2 {
+    color: #272727;
+    font-family: Gibson SemiBold, Helvetica, Arial, Sans Serif;
+    font-weight: bold;
+  }
+
+  p {
+    font-family: Gibson SemiBold, Helvetica, Arial, Sans Serif;
+    font-size: 16px;
+  }
+
+  .col label {
+    color: black;
+    font-weight: 700;
+    padding-bottom: 10px;
+    font-size: 15px;
+  }
+
+  .btn-primary {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+    height: 40px;
+    line-height: 2.5rem;
+    padding: 0 3rem;
+    width: 100%;
+    border: 0;
+    border-radius: 0.5rem;
+    background-image: linear-gradient(131deg, #57408a, #433375, #452c79, #301e55) !important;
+    background-size: 300% 100%;
+    transition: all 0.3s ease-in-out;
+    margin-top: 10px !important;
+    margin-bottom: 100px;
+  }
+
+  .btn-primary:hover {
+    background-size: 100% 100%;
+    transform: translateY(-0.15em);
+    color: white;
+  }
+
+  section {
+    margin-top: 50px;
+  }
+
+  .fix {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    min-width: 320px;
+    margin: 0px auto;
+    padding: 2em 2em 1em;
+  }
+
+  .sign {
+    text-align: center;
+    margin-top: 2em;
+    width: 100%;
+    cursor: default;
+  }
+
+  .sign a {
+    background: none;
+    font-size: 1em;
+    font-family: Gibson, Helvetica, Arial, "Sans Serif";
+    text-decoration: underline;
+    color: #4A3082;
+  }
+
+  body {
+    background-image: url("/static/images/illustrator_signup.webp");
+    background-repeat: no-repeat;
+    background-position-y: 90px;
+  }
+
+  @media (max-width:786px) {
+    body {
+      background-image: url("");
+    }
+  }
+
+  .new_footer_area {
+    margin-top: 310px;
+    border-top: 1px solid rgb(165, 165, 165);
+  }
+
+  .btn-goggle {
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none !important;
+  }
+
+  .passwordField {
+    margin-top: 0.20px !important;
+  }
+
+  .disabled-input {
+    background: rgb(239, 244, 244);
+    pointer-events: none;      /* disables mouse actions */
+    user-select: none;         /* disables text selection */
+    color: #333 !important;    /* override gray if disabled */
+  }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<section>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="fix col-12 col-md-8 col-lg-8 col-xl-6">
+        <div class="row">
+          <div class="col text-center">
+            <h2>Enter your email</h2>
+            <p>For additional security</p>
+            {% for message in messages %}
+            <div class="alert alert-success">{{message}}</div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="row align-items-center">
+        </div>
+        <form id="email-form" method="POST">
+          {% csrf_token %}
+          <div class="row align-items-center mt-4">
+            <div class="col">
+              <label class="input">Email</label>
+              <input type="email" name="email" class="form-control" id="email-input" required>
+            </div>
+          </div>
+          <div class="row justify-content-start mt-4">
+            <div class="col">
+              <button type="submit" class="btn btn-primary mt-4">Continue</button>
+            </div>
+          </div>
+        </form>
+        <div id="password-section" style="display:none;">
+          <form id="password-form" method="POST" action="/account/v2/setup-password">
+            {% csrf_token %}
+            <div class="row align-items-center mt-4 passwordField">
+              <div class="col">
+                <label class="input">Enter password</label>
+                <input type="password" name="password" class="form-control" required>
+              </div>
+            </div>
+            <div class="row justify-content-start mt-4">
+              <div class="col">
+                <button type="submit" class="btn btn-primary mt-4">Continue</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <script>
+          document.getElementById('email-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const emailInput = document.getElementById('email-input');
+            const email = emailInput.value;
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            fetch("{% url 'Email' %}", {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': csrfToken,
+              },
+              body: new URLSearchParams({
+                email: email
+              }),
+            })
+              .then(response => {
+                if (response.ok) {
+                  emailInput.readOnly = true; // freeze the email input
+                  emailInput.classList.add('disabled-input');
+                  emailInput.tabIndex = -1; // prevents keyboard focus
+                  emailInput.blur(); // removes any active focus
+                  document.getElementById('password-section').style.display = 'block'; // show password section
+                  document.getElementById('email-form').querySelector('button').style.display = 'none'; // hide continue button
+                } else {
+                  alert("Error submitting email.");
+                }
+              });
+          });
+        </script>
+
+</section>
+
+
+{% endblock %}
