@@ -19,6 +19,7 @@ from django.conf.urls.static import static
 from django.views.static import serve
 from . import settings
 from . import views
+from accounts_v2.views.googleAuthView import GoogleAuthFun
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +28,7 @@ urlpatterns = [
     path('event/', views.Campus.as_view(), name="Event"),
     path("", include("main.urls")),
     path('social-auth/', include('social_django.urls', namespace='social')),
+    path('google-auth/', GoogleAuthFun, name='googleAuth'),
     path('google-upload/', views.UploadFunc, name="google-upload"),
     path('sitemap.xml/', views.Sitemap.as_view(), name="Sitemap"),
     path('ads.txt/', views.Ads.as_view(), name="Ads"),

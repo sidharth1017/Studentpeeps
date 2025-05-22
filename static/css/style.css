@@ -57,7 +57,7 @@ nav .menu-cont {
   height: 100vh;
   background-color: #fff;
   position: fixed;
-  z-index: 100;
+  z-index: 9999;
   display: none;
 }
 
@@ -519,7 +519,7 @@ nav .upper-nav .search {
 .brand-names li {
   list-style: none;
   width: 100%;
-  padding: 8px 12px;
+  padding: 8px 10px;
   border-radius: 3px;
   font-family: "SF Pro Display Regular";
 }
@@ -1025,3 +1025,14 @@ nav .upper-nav .search {
 }
 
 /* Navbar End */
+
+
+.illustration {
+    position: absolute !important;
+    height: 440px !important;
+    width: 100% !important;
+    left: 50% !important;
+    transform: translate(-50%, -31%) !important;
+    z-index: -1 !important;
+    opacity: 0.15 !important;
+}

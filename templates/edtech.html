@@ -36,28 +36,29 @@
         font-weight: 600 !important;
         letter-spacing: 1.05px;
     }
+
     #edtech-category::after {
-        content : "";
-        position : absolute;
-        width : 85%;
-        height : 3px;
+        content: "";
+        position: absolute;
+        width: 85%;
+        height: 3px;
         background-color: #542fa5;
         bottom: -10px;
         left: 50%;
         transform: translateX(-50%);
     }
+  
 
 
-
-    .illustration {
-        position: absolute;
-        height: 440px;
-        left: 50%;
-        transform: translate(-50%, -31%);
-        z-index: -1;
-        opacity: 0.15;
-    }
-
+  .illustration {
+    position: absolute;
+    height: 440px;
+    left: 50%;
+    transform: translate(-50%, -31%);
+    z-index: -1;
+    opacity: 0.15;
+  }
+  
     body {
         z-index: -2;
     }
@@ -176,7 +177,8 @@
 <section class="section-tiles">
     <div class="tiles-container">
         <img class="illustration" src="{% static 'images/pattern9.png' %}" alt="">
-        <h1 class="tiles-heading" style="margin:25px 0 70px 0; font-size: 38px; text-align: center;">Education Discounts</h1>
+        <h1 class="tiles-heading" style="margin:25px 0 70px 0; font-size: 38px; text-align: center;">Education Discounts
+        </h1>
         <div class="tiles-cards">
             <a href="https://cutt.ly/spudemy">
                 <div class="tiles-card">
@@ -194,8 +196,12 @@
                     </div>
                 </div>
             </a>
-           <a href="/notion">
+            <a href="/notion">
                 <div class="tiles-card">
+                    <div class="expire">
+                        <img src="{% static 'images/clock.svg' %}" class="expire-img" alt="">
+                        <p id="expire-time-unlu-1" class="expire-p"></p>
+                    </div>
                     <div class="tiles-card-img">
                         <img src="{% static 'img/Tiles_outer/notion_outer.webp' %}" alt="">
                         <div class="tiles-card-company-img">
@@ -207,25 +213,7 @@
                         <p class="tiles-card-paragraph">Organize your notes and personal tasks</p>
                     </div>
                 </div>
-            </a>      
-            <a href="/unlu-class">
-                <div class="tiles-card">
-                    <div class="expire">
-                        <img src="{% static 'images/clock.svg' %}" class="expire-img" alt="">
-                        <p id="expire-time-unlu-1" class="expire-p"></p>
-                    </div>
-                    <div class="tiles-card-img">
-                        <img src="{% static 'img/Tiles_outer/unluclass_outer.webp' %}" alt="">
-                        <div class="tiles-card-company-img">
-                            <img src="{% static 'img/Logos/unluclass.webp' %}" alt="">
-                        </div>
-                    </div>
-                    <div class="tiles-card-content">
-                        <h3 class="tiles-card-heading">Flat 40% Student Discount</h3>
-                        <p class="tiles-card-paragraph">Learn from your favorite Indian celebrities</p>
-                    </div>
-                </div>
-            </a>   
+            </a>
         </div>
     </div>
 </section>
