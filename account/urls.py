@@ -13,7 +13,7 @@ urlpatterns = [
     path('logout/', logout.Logout.as_view(), name='logout'),
     # path('email/', include(email_urls)),
     # path('activate/<uidb64>/<token>/<new>', verification.VerificationView.as_view(), name="activate"),
-    # path('myaccount/', myaccount.myaccount, name="myaccount"),    
+    path('myaccount/', myaccount.myaccount, name="myaccount"),    
     # path('636756-secret-upload-email-page', uploademail.UploadEmail.as_view(), name="Secret Page"),
     # path('send/', send.Send.as_view(), name="send"),
     # path('sendmailtounverifieds/', sendmailtounverifieds.SendMailToUnverifieds.as_view(), name="SendMailToUnverifieds"),
