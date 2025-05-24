@@ -4,7 +4,8 @@
 {% block title %}StudentPeeps | Create Account{% endblock %}
 
 {% block linkshead %}
-<meta name="description"content="Sign up on Studentpeeps to get student discounts when you shop. Enter your email and password to make an account on Studentpeeps.">
+<meta name="description"
+  content="Sign up on Studentpeeps to get student discounts when you shop. Enter your email and password to make an account on Studentpeeps.">
 <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
 <link rel="stylesheet" href="{% static 'css/google.css' %}">
 <style>
@@ -40,9 +41,11 @@
     width: 100%;
     border: 0;
     border-radius: 0.5rem;
-    background-image: linear-gradient(131deg, #57408a, #433375, #452c79, #301e55)!important;
+    background-image: linear-gradient(131deg, #57408a, #433375, #452c79, #301e55) !important;
     background-size: 300% 100%;
     transition: all 0.3s ease-in-out;
+    margin-top: 10px !important;
+    margin-bottom: 100px;
   }
 
   .btn-primary:hover {
@@ -95,6 +98,7 @@
     margin-top: 310px;
     border-top: 1px solid rgb(165, 165, 165);
   }
+
   .btn-goggle {
     width: auto;
     display: flex;
@@ -102,8 +106,6 @@
     align-items: center;
     text-decoration: none !important;
   }
-
-
 </style>
 
 {% endblock %}
@@ -116,8 +118,7 @@
       <div class="fix col-12 col-md-8 col-lg-8 col-xl-6">
         <div class="row">
           <div class="col text-center">
-            <h2>Login or signup</h2>
-            <p>Join 50000+ users who enjoy exclusive discounts.</p>
+            <h2>Verify Yourself</h2>
             {% for message in messages %}
             <div class="alert alert-success">{{message}}</div>
             {% endfor %}
@@ -138,9 +139,9 @@
               <button class="btn btn-primary mt-4">Continue</button>
             </div>
           </div>
-          <div class="sign">
+          <!-- <div class="sign">
             <p>Let me play around first! <a href="/">Here</a></p>
-          </div>
+          </div> -->
       </div>
     </div>
   </div>

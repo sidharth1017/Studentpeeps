@@ -16,12 +16,10 @@ class ResendOtpView(View):
         hashed_otp = make_password(otp)
         request.session['studentpeepsV2'] = hashed_otp
 
-        print("Resent OTP:", otp)
-
         # Try sending via SMS
-        # if not send_otp_sms(phone, otp):
-        #     messages.error(request, "Failed to resend OTP. Please try again.")
-        # else:
-        #     messages.success(request, "OTP resent successfully.")
+        if not send_otp_sms(phone, otp):
+            messages.error(request, "Failed to resend OTP. Please try again.")
+        else:
+            messages.success(request, "OTP resent successfully.")
 
         return redirect('/account/v2/verify')

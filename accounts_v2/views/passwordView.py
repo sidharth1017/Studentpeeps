@@ -4,6 +4,7 @@ from django.views.generic.base import View
 from django.contrib import messages
 from ..models import *
 import re
+from django.contrib.auth.hashers import check_password
 
 class EnterPasswordView(View):
     def get(self, request):
@@ -15,12 +16,12 @@ class EnterPasswordView(View):
 
         try:
             user = Register.objects.get(user__email=email)
-            if user.password == password:
+            if check_password(password, user.user.password):
                 request.session['user_id'] = user.id
                 return redirect('/')
             else:
-                messages.error(request, "Incorrect password.")
-                return redirect('enter_password')
+                messages.error(request, "User with this email already exists. Please log in.")
+                return redirect('/account/v2/identify')
         except Register.DoesNotExist:
             request.session['password'] = password
             return redirect('/account/v2/your-details')

@@ -630,11 +630,11 @@ Deals & Offers{% endblock %} {% block linkshead %}
       </span>
       <div class="home-btns">
         {% if request.user.is_authenticated %}
-        <a href="/" class="community-link">
+        <a href="/account/v2/identify" class="community-link">
           Get Membership<br />
         </a>
         {% else %}
-        <a href="{% url 'register' %}" class="community-link">
+        <a href="/account/v2/identify" class="community-link">
           Get Membership<br />
         </a>
         {% endif %}

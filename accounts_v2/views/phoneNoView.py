@@ -13,6 +13,10 @@ class GetPhoneView(View):
         identifier = request.POST['identifier']
 
         if re.match(r'^\d{10}$', identifier):
+            if Register.objects.filter(phone=identifier).exists():
+                messages.error(request, "User with this phone number already exists. Please log in.")
+                return redirect('/account/v2/identify')
+
             request.session['phone'] = identifier
             return redirect('/account/v2/verify')
         else:

@@ -29,6 +29,11 @@
         transform: translateY(-0.15em);
         color: white;
     }
+    .no-edit {
+        background-color: #e9ecef;
+        pointer-events: none;
+        user-select: none;
+    }
 </style>
 {% endblock %}
 
@@ -44,15 +49,22 @@
                 <div class="row align-items-center mt-4">
                     <div class="col">
                         <label id="label1" class="input">Name</label>
-                        <input type="text" name="fname" class="form-control" value="{{ profile.first_name }}">
+                        <input type="text" name="fname" class="form-control" value="{{ profile.user.first_name }}">
+                    </div>
+                </div>
+
+                <div class="row align-items-center mt-4">
+                    <div class="col">
+                        <label id="label1" class="input">Phone No</label>
+                        <input type="text" name="phone" class="form-control no-edit" value="{{ profile.phone }}">
                     </div>
                 </div>
 
                 <div class="row align-items-center mt-4">
                     <div class="col">
                         <label id="label1" for="exampleInputEmail1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" readonly
-                            value="{{ profile.email }}">
+                        <input type="email" name="email" class="form-control no-edit" id="exampleInputEmail1" readonly
+                            value="{{ profile.user.email }}">
                     </div>
                 </div>
 
