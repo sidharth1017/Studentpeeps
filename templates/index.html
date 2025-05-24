@@ -598,7 +598,7 @@ Deals & Offers{% endblock %} {% block linkshead %}
     <span class="popup-title">Get our free community access</span>
     <span class="popup-desc">Join Studentpeep's community and get free resources and guidance on
       Whatsapp.</span>
-    <form action="/subscribe/" method="POST">
+    <form action="/subscribe" method="POST">
       {% csrf_token %}
       <input type="email" id="popup-emailInput" name="subscribe_email" placeholder="Email" required />
       <button type="submit">Email my invite</button>
