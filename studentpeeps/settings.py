@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['studentpeeps.club', '139.59.79.183', 'www.studentpeeps.club', 
 # Application definition
 INSTALLED_APPS = [
     'account',
+    'accounts_v2',
     'main',
     'brands',
     'django.contrib.admin',
@@ -153,14 +154,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # EMAIL_HOST_USER = 'AKIA4LBWP2D7CCXP75EW'
 # EMAIL_HOST_PASSWORD = 'BMn72G7Xl916/GWk15DL7Is4kHPC3g0GQDrV9vH3M1s9'
 # DEFAULT_FROM_EMAIL = 'user@studentpeeps.club'
+
 #SMTP Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.hostinger.com'
+EMAIL_HOST = config('ZOHO_SMTP_HOST')
 EMAIL_PORT = 465
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'user@studentpeeps.club'
-EMAIL_HOST_PASSWORD = 'ayushmittal1A@'
-DEFAULT_FROM_EMAIL = 'user@studentpeeps.club'
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
+EMAIL_HOST_USER = config('ZOHO_EMAIL_USERNAME')
+EMAIL_HOST_PASSWORD = config('ZOHO_EMAIL_PASSWORD')
+DEFAULT_FROM_EMAIL = config('ZOHO_EMAIL_USERNAME')
 # EMAIL_ACTIVE_FIELD = 'is_active'
 
 MESSAGE_TAGS = \
@@ -177,6 +180,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_SAVE_EVERY_REQUEST = True
 
 AUTHENTICATION_BACKENDS = (
+    'accounts_v2.backends.PhoneBackend', 
     'django.contrib.auth.backends.ModelBackend',
     'social_core.backends.google.GoogleOAuth2',
 )
@@ -184,16 +188,16 @@ AUTHENTICATION_BACKENDS = (
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 # Local System
-# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY_LOCAL')
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET_LOCAL')
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY_LOCAL')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET_LOCAL')
 
 # Production
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config(
-    'SOCIAL_AUTH_GOOGLE_OAUTH2_KEY_PRODUCTION')
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config(
-    'SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET_PRODUCTION')
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config(
+#     'SOCIAL_AUTH_GOOGLE_OAUTH2_KEY_PRODUCTION')
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config(
+#     'SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET_PRODUCTION')
 
-LOGIN_REDIRECT_URL = '/google-upload/'
+LOGIN_REDIRECT_URL = '/google-auth/'
 
 # CELERY STUFF
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
@@ -206,3 +210,8 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = "Asia/Kolkata"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
+
+# Twilio SMS Service
+TWILIO_ACCOUNT_SID=config('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN=config('TWILIO_AUTH_TOKEN')
+TWILIO_PHONE_NUMBER=config('TWILIO_PHONE_NUMBER')

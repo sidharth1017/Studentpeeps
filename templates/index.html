@@ -630,11 +630,11 @@ Deals & Offers{% endblock %} {% block linkshead %}
       </span>
       <div class="home-btns">
         {% if request.user.is_authenticated %}
-        <a href="/" class="community-link">
+        <a href="/account/v2/identify" class="community-link">
           Get Membership<br />
         </a>
         {% else %}
-        <a href="{% url 'register' %}" class="community-link">
+        <a href="/account/v2/identify" class="community-link">
           Get Membership<br />
         </a>
         {% endif %}
@@ -1313,27 +1313,6 @@ Deals & Offers{% endblock %} {% block linkshead %}
             <h3 class="tiles-card-heading">Rs.100 Student Discount</h3>
             <p class="tiles-card-paragraph">
               Buy used books at super low prices
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="https://cutt.ly/spunluclass">
-        <div class="tiles-card">
-          <div class="expire">
-            <img src="{% static 'images/clock.svg' %}" class="expire-img" alt="" />
-            <p id="expire-time-unlu-1" class="expire-p"></p>
-          </div>
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/unluclass_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/unluclass.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">Flat 40% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Learn from your favorite Indian celebrities
             </p>
           </div>
         </div>

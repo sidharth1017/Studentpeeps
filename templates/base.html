@@ -29,8 +29,7 @@
     <!-- Title Tag End -->
 
     <!-- FontAwesome -->
-    <script src="https://kit.fontawesome.com/1906df1c3b.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <script src="https://kit.fontawesome.com/5762f5d7a2.js" crossorigin="anonymous"></script>
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3076555873685321" crossorigin="anonymous"></script>	
 
@@ -200,8 +199,8 @@
 
         .btn-outline-primary {
             position: relative;
-            padding: 0.3rem 0.3rem;
-            width: 90px;
+            padding: 0.5rem 0.7rem;
+            width: auto;
             color: #fff !important;
             font-weight: 600 !important;
             display: inline-block;
@@ -610,13 +609,11 @@
             </div>
             <ul>
                 <li><a href="/">&nbsp;Home</a></li>	
-                <li><a href="/community">&nbsp;Community</a></li>	
-                <li><a href="https://blog.studentpeeps.club/">&nbsp;Blog</a></li>	
                 <li><a href="/ourstory/">&nbsp;Our story</a></li>
                 {% if user.is_authenticated %}
                 <li><a href="/account/logout">&nbsp;Logout</a></li>
                 {% else %}
-                <li><a class="menu-login" href="/account/login">&nbsp;Login/Sign up</a>
+                <li><a class="menu-login" href="/account/v2/identify">&nbsp;Login/Sign up</a>
                     {% endif %}
             </ul>
             <hr>
@@ -685,14 +682,6 @@
                                 <div class="brand-text"><span class="brand-name">Bewakoof</span><span
                                         class="discount-info">15%
                                         Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a href="/unlu-class">
-                            <li>
-                                <div class="brand-img"><img class="unluclass-img" src="/static/images/unluclass.png">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">Unlu Class</span><span
-                                        class="discount-info">40% Student Discount</span></div>
                             </li>
                         </a>
                         <a class="extra-brand" href="/indigo">
@@ -817,15 +806,6 @@
                                         Student Discount</span></div>
                             </li>
                         </a>
-                        <a class="extra-brand" href="/mypaperclip">
-                            <li>
-                                <div class="brand-img"><img class="mypaperclip-img"
-                                        src="/static/images/mypaperclip_logo.png">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">My Paper Clip</span><span
-                                        class="discount-info">15% Student Discount</span></div>
-                            </li>
-                        </a>
                         <a class="extra-brand" href="/naagin">
                             <li>
                                 <div class="brand-img"><img class="naagin-img" src="/static/images/naagin.png">
@@ -870,14 +850,6 @@
                                         Student Discount</span></div>
                             </li>
                         </a>
-                        <a class="extra-brand" href="/trib">
-                            <li>
-                                <div class="brand-img"><img class="trib-img" src="/static/images/trib.png">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">Trib Fashion</span><span
-                                        class="discount-info">15% Student Discount</span></div>
-                            </li>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -901,8 +873,6 @@
             <div class="menu-list">
                 <ul>
                     <li><a href="/">&nbsp;Home</a></li>	
-                    <li><a href="/community">&nbsp;Community</a></li>	
-                    <li><a href="https://blog.studentpeeps.club/">&nbsp;Blog</a></li>	
                     <li><a href="/ourstory/">&nbsp;Our story</a></li>
                 </ul>
             </div>
@@ -935,11 +905,8 @@
                     </div>
                 </div>
                 {% else %}
-                <span class="login log-btn">
-                    <a href="/account/login">Login</a>
-                </span>
                 <span class="signup">
-                    <a class="btn btn-outline-primary" href="/account/register">Sign Up</a>
+                    <a class="btn btn-outline-primary" href="/account/v2/identify">Login/Sign Up</a>
                 </span>
                 {% endif %}
                 </ul>
@@ -962,8 +929,6 @@
                     <li class="extra-category2 books-category" style="flex: 0 0 165px; padding-right: 0;"><a
                             href="{% url 'BooksAndStationary' %}">Books &
                             Stationary</a></li>
-                    <li class="extra-category2 entertainment-category"><a
-                            href="{% url 'Entertainment' %}">Entertainment</a></li>
                     <li class="extra-category2 home-category" style="flex:0 0 130px; padding-right: 0;"><a
                             href="{% url 'HomeAndUtilities' %}">Home & Utilities</a>
                     </li>
@@ -974,7 +939,6 @@
                         <ul>
                             <li id="food-category-drop" class="extra-dropdown"><a
                                     href="{% url 'FoodsAndDrinks' %}">Foods & Drinks</a></li>
-                            <li id="entertainment-category-drop"><a href="{% url 'Entertainment' %}">Entertainment</a>
                             </li>
                             <li id="health-category-drop"><a href="{% url 'HealthAndBeauty' %}">Health & Beauty</a></li>
                             <li id="books-category-drop"><a href="{% url 'BooksAndStationary' %}">Books & Stationary</a>
@@ -1055,14 +1019,6 @@
                         </div>
                         <div class="brand-text"><span class="brand-name">Bewakoof</span><span class="discount-info">15%
                                 Student Discount</span></div>
-                    </li>
-                </a>
-                <a href="/unlu-class">
-                    <li>
-                        <div class="brand-img"><img class="unluclass-img" src="/static/images/unluclass.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Unlu Class</span><span
-                                class="discount-info">40% Student Discount</span></div>
                     </li>
                 </a>
                 <a class="extra-brand" href="/indigo">
@@ -1201,14 +1157,6 @@
                                 class="discount-info">15% Student Discount</span></div>
                     </li>
                 </a>
-                <a href="/mittihub">
-                    <li>
-                        <div class="brand-img"><img class="mittihub-img" src="/static/images/mittihub_logo.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">MittiHub</span><span class="discount-info">15%
-                                Student Discount</span></div>
-                    </li>
-                </a>
                 <a href="/sattviko">
                     <li>
                         <div class="brand-img"><img class="satviko-img" src="/static/images/sattviko_logo.png">
@@ -1265,15 +1213,15 @@
                     <p class="sub_p">Studentpeeps is a platform where university student get exclusive student discounts
                         when they shop.<br>
                         We aim to change how student shop in India</p>
-                    <form action="/subscribe/" method="POST">
+                    <form action="/subscribe" method="POST">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-lg-8">
                                 <input style="height: 40px;" type="email" name="subscribe_email" class="form-control"
                                     placeholder="Enter your email" required>
                             </div>
-                            <div class="col-lg-4">
-                                <input type="submit" value="Subscribe" class="btn btn-primary">
+                            <div class="col-lg-4 mt-4">
+                                <Button type="submit" class="btn btn-primary">Subscribe</Button>
                             </div>
                         </div>
                     </form>
@@ -1283,8 +1231,6 @@
                     <span class="abt">
                         <h3>Quick Links</h3>
                         <ul class="ul_style">
-                            <li><a href="https://blog.studentpeeps.club/">Blog</a></li>
-                            <li><a href="/community">Community</a></li>
                             <li><a href="/ourstory">Our story</a></li>
                             <li><a href="/account/register">Signup</a></li>
                             <li><a href="/account/login">Login</a></li>
@@ -1325,7 +1271,7 @@
         </div>
         <hr>
         <div class="ft_p">
-            <p>Copyright © 2021 StudentPeeps | Enigmee Ventures. All right reserved. <br>
+            <p>Copyright © 2025 StudentPeeps | Enigmee Ventures. All right reserved. <br>
                 Made with ❤️ in India 🇮🇳 StudentPeeps</p>
         </div>
     </div>
