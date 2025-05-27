@@ -33,22 +33,22 @@
             grid-row: 1 / span 1 !important;
             grid-column: 1 /span 2 !important;
         }
-   
+
         .tiles-cards a:nth-of-type(7) {
             grid-row: 3 / span 1 !important;
             grid-column: 2 /span 2 !important;
         }
-   
+
         .tiles-cards a:nth-of-type(11) {
             grid-row: 5 / span 1 !important;
             grid-column: 1 /span 2 !important;
         }
- 
+
         .tiles-cards a:nth-of-type(17) {
             grid-row: 7 / span 1 !important;
             grid-column: 2 /span 2 !important;
         }
-   
+
         .tiles-cards a:nth-of-type(21) {
             grid-row: 9 / span 1 !important;
             grid-column: 1 /span 2 !important;
@@ -159,6 +159,15 @@
         font-family: 'Montserrat', sans-serif;
         font-weight: bold;
     }
+
+    .illustration {
+        opacity: 0.1;
+        position: absolute;
+        height: 440px;
+        left: 50%;
+        transform: translate(-50%, -31%);
+        z-index: -1;
+    }
 </style>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -180,9 +189,10 @@
 <section class="section-tiles">
     <div class="tiles-container">
         <img class="illustration" src="{% static 'images/pattern3.png' %}" alt="">
-        <h1 class="tiles-heading" style="margin:25px 0 70px 0; font-size: 38px; text-align: center;">Non Exclusive Discounts</h1>
+        <h1 class="tiles-heading" style="margin:25px 0 70px 0; font-size: 38px; text-align: center;">Non Exclusive
+            Discounts</h1>
         <div class="tiles-cards">
-            <a href="https://cutt.ly/spprime">
+            <a href="/amazonprime">
                 <div class="tiles-card tiles-card-lg">
                     <div class="tiles-card-img tiles-card-img-lg">
                         <img src="{% static 'img/Tiles_inner/amazonprime_inner.webp' %}" alt="">
@@ -199,7 +209,7 @@
             </a>
 
 
-            <a href="https://cutt.ly/spspotify">
+            <a href="/spotify">
                 <div class="tiles-card">
                     <div class="tiles-card-img">
                         <img src="{% static 'img/Tiles_outer/spotify_outer.webp' %}" alt="">
@@ -214,7 +224,7 @@
                 </div>
             </a>
 
-            <a href="https://cutt.ly/spyoutube">
+            <a href="/ytpremium">
                 <div class="tiles-card">
                     <div class="tiles-card-img">
                         <img src="{% static 'img/Tiles_outer/youtube_outer.webp' %}" alt="">
@@ -223,14 +233,14 @@
                         </div>
                     </div>
                     <div class="tiles-card-content">
-                        <h3 class="tiles-card-heading">Free Youtube premium</h3>
+                        <h3 class="tiles-card-heading">40% Student Discount</h3>
                         <p class="tiles-card-paragraph">Watch Your favorite content ad-free and in the background</p>
                     </div>
                 </div>
             </a>
 
 
-            <a href="https://cutt.ly/sponeplus">
+            <a href="/oneplus">
                 <div class="tiles-card">
                     <div class="tiles-card-img">
                         <img src="{% static 'img/Tiles_outer/oneplus_outer.webp' %}" alt="">
@@ -239,13 +249,13 @@
                         </div>
                     </div>
                     <div class="tiles-card-content">
-                        <h3 class="tiles-card-heading">5% Student Discount</h3>
+                        <h3 class="tiles-card-heading">Upto Rs 2000 Student Discount</h3>
                         <p class="tiles-card-paragraph">Shop a selection of OnePlus smartphones and accessories</p>
                     </div>
                 </div>
             </a>
 
-            <a href="https://cutt.ly/spindigo">
+            <a href="/indigo">
                 <div class="tiles-card">
                     <div class="tiles-card-img">
                         <img src="{% static 'img/Tiles_inner/indigo_inner.webp' %}" alt="">
@@ -254,14 +264,14 @@
                         </div>
                     </div>
                     <div class="tiles-card-content">
-                        <h3 class="tiles-card-heading">Upto 6% Student Discount</h3>
+                        <h3 class="tiles-card-heading">10% Student Discount</h3>
                         <p class="tiles-card-paragraph">Travel via the domestic flight network of IndiGo</p>
                     </div>
                 </div>
             </a>
 
-            
-            <a href="https://cutt.ly/spapplemusic">
+
+            <a href="/applemusic">
                 <div class="tiles-card">
                     <div class="tiles-card-img">
                         <img src="{% static 'img/Tiles_outer/applemusic_outer.webp' %}" alt="">
@@ -292,7 +302,7 @@
                 </div>
             </a>
 
-            <a href="https://cutt.ly/spapple">
+            <a href="/apple">
                 <div class="tiles-card">
                     <div class="tiles-card-img">
                         <img src="{% static 'img/Tiles_outer/apple_outer.webp' %}" alt="">
@@ -306,7 +316,6 @@
                     </div>
                 </div>
             </a>
-
             <a href="/easemytrip">
                 <div class="tiles-card">
                     <div class="tiles-card-img">
@@ -316,43 +325,15 @@
                         </div>
                     </div>
                     <div class="tiles-card-content">
-                        <h3 class="tiles-card-heading">5% Student Discount</h3>
-                        <p class="tiles-card-paragraph">Book domestic and international flights at lowest cost via EaseMyTrip</p>
+                        <h3 class="tiles-card-heading">Upto Rs. 3000 discount</h3>
+                        <p class="tiles-card-paragraph">Book domestic and international flights at lowest cost via
+                            EaseMyTrip</p>
                     </div>
                 </div>
             </a>
 
-            <a href="/gofirst">
-                <div class="tiles-card">
-                    <div class="tiles-card-img">
-                        <img src="{% static 'img/Tiles_outer/gofirst_outer.webp' %}" alt="">
-                        <div class="tiles-card-company-img">
-                            <img src="{% static 'img/Logos/gofirst_logo.webp' %}" alt="">
-                        </div>
-                    </div>
-                    <div class="tiles-card-content">
-                        <h3 class="tiles-card-heading">5% Student Discount</h3>
-                        <p class="tiles-card-paragraph">Fly to your favourite destinations with GoFirst</p>
-                    </div>
-                </div>
-            </a>  
-            
-            <a href="/microsoft">
-                <div class="tiles-card  tiles-card-lg">
-                    <div class="tiles-card-img tiles-card-img-lg">
-                        <img src="{% static 'img/Tiles_inner/microsoft_inner.webp' %}" alt="">
-                        <div class="tiles-card-company-img tiles-card-company-img-lg">
-                            <img src="{% static 'img/Logos/Microsoft_logo.webp' %}" alt="">
-                        </div>
-                    </div>
-                    <div class="tiles-card-content tiles-card-content-lg">
-                        <h3 class="tiles-card-heading">Free Microsoft Office 365</h3>
-                        <p class="tiles-card-paragraph">Learn a suite of skills from Office 365 Education</p>
-                    </div>
-                </div>
-            </a>         
 
-            <a href="https://cutt.ly/spwix">
+            <a href="/wix">
                 <div class="tiles-card">
                     <div class="tiles-card-img">
                         <img src="{% static 'img/Tiles_outer/wix_outer.webp' %}" alt="">
@@ -368,6 +349,22 @@
                 </div>
             </a>
 
+            <a href="/microsoft">
+                <div class="tiles-card  tiles-card-lg">
+                    <div class="tiles-card-img tiles-card-img-lg">
+                        <img src="{% static 'img/Tiles_inner/microsoft_inner.webp' %}" alt="">
+                        <div class="tiles-card-company-img tiles-card-company-img-lg">
+                            <img src="{% static 'img/Logos/Microsoft_logo.webp' %}" alt="">
+                        </div>
+                    </div>
+                    <div class="tiles-card-content tiles-card-content-lg">
+                        <h3 class="tiles-card-heading">50% Discount on Microsoft Office 365</h3>
+                        <p class="tiles-card-paragraph">Learn a suite of skills from Office 365 Education</p>
+                    </div>
+                </div>
+            </a>
+
+
             <a href="/spicejet">
                 <div class="tiles-card">
                     <div class="tiles-card-img">
@@ -377,15 +374,16 @@
                         </div>
                     </div>
                     <div class="tiles-card-content">
-                        <h3 class="tiles-card-heading">10% Student Discount</h3>
-                        <p class="tiles-card-paragraph">Enjoy air travel via India's favourite domestic airlines, SpiceJet</p>
+                        <h3 class="tiles-card-heading">Upto 10% Student Discount</h3>
+                        <p class="tiles-card-paragraph">Enjoy air travel via India's favourite domestic airlines,
+                            SpiceJet</p>
                     </div>
                 </div>
             </a>
 
 
 
-            <a href="https://cutt.ly/spsamsung">
+            <a href="/samsung">
                 <div class="tiles-card">
                     <div class="tiles-card-img">
                         <img src="{% static 'img/Tiles_outer/samsung_outer.webp' %}" alt="">
@@ -409,13 +407,14 @@
                         </div>
                     </div>
                     <div class="tiles-card-content">
-                        <h3 class="tiles-card-heading">Upto 50&#8364; Student Discount</h3>
-                        <p class="tiles-card-paragraph">Enjoy air travel to your favourite destination with Lufthansa</p>
+                        <h3 class="tiles-card-heading">Upto 10% Student Discount</h3>
+                        <p class="tiles-card-paragraph">Enjoy air travel to your favourite destination with Lufthansa
+                        </p>
                     </div>
                 </div>
             </a>
 
-            
+
             <a href="/github">
                 <div class="tiles-card">
                     <div class="tiles-card-img">
@@ -431,22 +430,7 @@
                 </div>
             </a>
 
-            <a href="https://cutt.ly/spadobe">
-                <div class="tiles-card tiles-card-lg">
-                    <div class="tiles-card-img tiles-card-img-lg">
-                        <img src="{% static 'img/Tiles_inner/adobe_inner.webp' %}" alt="">
-                        <div class="tiles-card-company-img tiles-card-company-img-lg">
-                            <img src="{% static 'img/Logos/adobe_logo.webp' %}" alt="">
-                        </div>
-                    </div>
-                    <div class="tiles-card-content tiles-card-content-lg">
-                        <h3 class="tiles-card-heading">Upto 70% Student Discount</h3>
-                        <p class="tiles-card-paragraph"> Design, edit and create your projects like a pro</p>
-                    </div>
-                </div>
-            </a>
-
-            <a href="https://cutt.ly/spnotion">
+            <a href="/notion">
                 <div class="tiles-card">
                     <div class="tiles-card-img">
                         <img src="{% static 'img/Tiles_outer/notion_outer.webp' %}" alt="">
@@ -457,6 +441,21 @@
                     <div class="tiles-card-content">
                         <h3 class="tiles-card-heading">Free Notion Pro Plan</h3>
                         <p class="tiles-card-paragraph">Organize your notes and personal tasks</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="/adobe">
+                <div class="tiles-card tiles-card-lg">
+                    <div class="tiles-card-img tiles-card-img-lg">
+                        <img src="{% static 'img/Tiles_inner/adobe_inner.webp' %}" alt="">
+                        <div class="tiles-card-company-img tiles-card-company-img-lg">
+                            <img src="{% static 'img/Logos/adobe_logo.webp' %}" alt="">
+                        </div>
+                    </div>
+                    <div class="tiles-card-content tiles-card-content-lg">
+                        <h3 class="tiles-card-heading">Upto 70% Student Discount</h3>
+                        <p class="tiles-card-paragraph"> Design, edit and create your projects like a pro</p>
                     </div>
                 </div>
             </a>
