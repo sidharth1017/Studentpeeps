@@ -6,3 +6,6 @@ account/migrations/__pycache__
 main/migrations/__pycache__
 env38
 scratch
+account/Views/__pycache__
+accounts_v2/Views/__pycache__
+db.sqlite3
