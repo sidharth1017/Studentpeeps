@@ -595,17 +595,12 @@ Deals & Offers{% endblock %} {% block linkshead %}
 <div class="popup-cont">
   <div class="left-cont">
     <i class="fas fa-times-circle cancel-btn"></i>
-    <span class="popup-title">Get our free community access</span>
-    <span class="popup-desc">Join Studentpeep's community and get free resources and guidance on
-      Whatsapp.</span>
-    <form action="/subscribe" method="POST">
-      {% csrf_token %}
-      <input type="email" id="popup-emailInput" name="subscribe_email" placeholder="Email" required />
-      <button type="submit">Email my invite</button>
-    </form>
-    <a href="#">No, thanks</a>
-    <span class="popup-note">* By entering your email address, you agree to recieve our newsletter and
-      promotional mails</span>
+    <span class="popup-title">Join Our Exclusive Whatsapp Community!</span>
+    <span class="popup-desc">🎓 Get hidden student deals and discount coupons directly on WhatsApp.</span>
+    <span class="popup-desc">🎁 Unlock exclusive freebies, giveaways, and limited-time offers.</span>
+    <span class="popup-desc">🚀 Join 10,000+ students already saving big and staying ahead.</span>
+    <button type="submit"><a href="https://chat.whatsapp.com/Ji0iuidzfq57cNI5gCBNlO" target="_blank">Join Whatsapp Community</a></button>
+    <a href="#" class="secondary-btn">No, thanks</a>
   </div>
   <div class="right-cont">
     <i class="fas fa-times-circle cancel-btn"></i>
@@ -620,9 +615,9 @@ Deals & Offers{% endblock %} {% block linkshead %}
 <section class="section-header">
   <div class="home-content">
     <div class="left-cont">
-      {% for message in messages %}
+      <!-- {% for message in messages %}
       <div class="alert alert-{{message.tags}}">{{message}}</div>
-      {% endfor %}
+      {% endfor %} -->
       <span class="heading"> Get student discounts when you shop </span>
       <span class="sub-heading">
         Join thousands of students enjoying student discounts on 40+ brands
@@ -630,12 +625,12 @@ Deals & Offers{% endblock %} {% block linkshead %}
       </span>
       <div class="home-btns">
         {% if request.user.is_authenticated %}
-        <a href="/account/v2/identify" class="community-link">
-          Get Membership<br />
+        <a href="{% url 'Exclusive' %}" class="community-link">
+          Check Best Offer<br />
         </a>
         {% else %}
         <a href="/account/v2/identify" class="community-link">
-          Get Membership<br />
+          Login/Signup<br />
         </a>
         {% endif %}
         <a href="{% url 'All' %}" class="scroll-down">

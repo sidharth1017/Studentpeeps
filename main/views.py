@@ -154,11 +154,11 @@ class SubscribeView(View):
     def post(self, request):
         email = request.POST.get('subscribe_email')
         if Subscribe.objects.filter(email=email).exists():
-            messages.info(request, "You are already a member of our community.")
+            messages.info(request, "Thanks for subscribing to the Studentpeeps' community! We'll be sure to send you exclusive offers and deals straight to your inbox😊")
         else:
             subscribe = Subscribe(email=email)
             subscribe.save()
-            messages.info(request, "Check your email, we have sent you your community invite. Welcome to the most productive community for students!")
+            messages.info(request, "Thanks for subscribing to the Studentpeeps' community! We'll be sure to send you exclusive offers and deals straight to your inbox😊")
             try:
                 message = render_to_string('mail_body_subscribe.html')
                 send_subscribe_email(subject="your community access😎", email=email, message=message)
