@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views import View
 from accounts_v2.models import Register
-from accounts_v2.communication import send_otp_sms
+from accounts_v2.communication import send_otp_sms, send_otp_sms_via_AWS_SNS
 import random
 
 class SendOtpView(View):
@@ -21,7 +21,7 @@ class SendOtpView(View):
             request.session['studentpeepsV2'] = hashed_otp        
         masked_phone = phone[:2] + 'X' * 6 + phone[-2:]
 
-        if not send_otp_sms(phone, otp):
+        if not send_otp_sms_via_AWS_SNS(phone, otp):
             messages.error(request, "Failed to send OTP. Please try again.")
             return redirect('/account/v2/identify')
 
