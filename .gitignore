@@ -7,8 +7,9 @@ main/migrations/__pycache__
 env38
 scratch
 account/Views/__pycache__
+brands_v2/views/__pycache__
+brands_v2/migrations
+brands_v2/__pycache__
 accounts_v2/views/__pycache__
 accounts_v2/__pycache__
 db.sqlite3
-brands_v2/__pycache__
-brands_v2/migrations
