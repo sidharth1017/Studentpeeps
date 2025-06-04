@@ -13,7 +13,7 @@ class SendOtpView(View):
     def get(self, request):
         phone = request.session.get('phone')
         if not phone:
-            return redirect('/account/v2/login')
+            return redirect('/account/v2/identify')
 
         if not request.session.get('studentpeepsV2'):
             otp = str(random.randint(100000, 999999))
