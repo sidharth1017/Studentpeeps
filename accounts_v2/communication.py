@@ -5,8 +5,9 @@ import boto3
 from botocore.exceptions import BotoCoreError, ClientError
 from django.conf import settings
 from django.core.mail import EmailMessage
+from utilities.models import Communication
 
-def send_otp_sms(phone: str, otp: str) -> bool:
+def send_otp_sms_via_Twillio(phone: str, otp: str) -> bool:
     try:
         client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
         client.messages.create(
@@ -42,6 +43,20 @@ def send_otp_sms_via_AWS_SNS(phone: str, otp: str) -> bool:
         print(f"Error sending OTP to {phone}: {e}")
         return False
 
+def send_otp(phone: str, otp: str) -> bool:
+    try:
+        sms_service = Communication.objects.get(channel='sms').service.lower().strip()
+    except Communication.DoesNotExist:
+        sms_service = 'sns'
+
+    if sms_service == 'twilio':
+        return send_otp_sms_via_Twillio(phone, otp)
+    elif sms_service == 'sns':
+        return send_otp_sms_via_AWS_SNS(phone, otp)
+    else:
+        print(f"Unsupported SMS service: {sms_service}")
+        return send_otp_sms_via_AWS_SNS(phone, otp)
+
 
 def send_welcome_email(subject, email, message):
     msg = EmailMessage(
@@ -53,3 +68,4 @@ def send_welcome_email(subject, email, message):
     msg.content_subtype = "html"  # Main content is now text/html
     msg.send(fail_silently=False)
     return None
+
