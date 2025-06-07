@@ -3,7 +3,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.views import View
-from ..communication import send_otp_sms, send_otp_sms_via_AWS_SNS
+from ..communication import send_otp
 import random
 
 class ResendOtpView(View):
@@ -17,7 +17,7 @@ class ResendOtpView(View):
         request.session['studentpeepsV2'] = hashed_otp
 
         # Try sending via SMS
-        if not send_otp_sms_via_AWS_SNS(phone, otp):
+        if not send_otp(phone, otp):
             messages.error(request, "Failed to resend OTP. Please try again.")
         else:
             messages.success(request, "OTP resent successfully.")
