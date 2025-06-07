@@ -1036,3 +1036,8 @@ nav .upper-nav .search {
     z-index: -1 !important;
     opacity: 0.15 !important;
 }
+
+.icon-v2 {
+  width: 24px;
+  height: 24px;
+}

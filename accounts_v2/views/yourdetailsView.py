@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.hashers import make_password
 from ..models import Register
+from ..communication import send_welcome_email
+from django.template.loader import render_to_string
 
 class YourdetailsView(View):
     def get(self, request):
@@ -35,6 +37,9 @@ class YourdetailsView(View):
         # Login the user
         user.backend = 'django.contrib.auth.backends.ModelBackend'
         login(request, user)
+
+        message = render_to_string('emailers/signup_email_body.html', {'fname': name})
+        send_welcome_email(subject=f"Welcome to the club {name}", email=email, message=message)
 
         request.session['user_id'] = register.id
         return redirect('/')

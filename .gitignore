@@ -15,3 +15,4 @@ accounts_v2/__pycache__
 db.sqlite3
 __pycache__/
 *.py[cod]
+staticfiles

@@ -4,6 +4,7 @@ from twilio.rest import Client
 import boto3
 from botocore.exceptions import BotoCoreError, ClientError
 from django.conf import settings
+from django.core.mail import EmailMessage
 
 def send_otp_sms(phone: str, otp: str) -> bool:
     try:
@@ -40,3 +41,15 @@ def send_otp_sms_via_AWS_SNS(phone: str, otp: str) -> bool:
     except (BotoCoreError, ClientError) as e:
         print(f"Error sending OTP to {phone}: {e}")
         return False
+
+
+def send_welcome_email(subject, email, message):
+    msg = EmailMessage(
+                subject,
+                message,
+                f'Ayush from Studentpeeps <{settings.DEFAULT_FROM_EMAIL}>',
+                [email],
+            )
+    msg.content_subtype = "html"  # Main content is now text/html
+    msg.send(fail_silently=False)
+    return None
