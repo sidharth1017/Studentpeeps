@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'main',
     'brands',
     'utilities',
+    'brands_v2',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'social_django',
+    'ckeditor'
 ]
 
 MIDDLEWARE = [
