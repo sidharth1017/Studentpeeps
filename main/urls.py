@@ -114,6 +114,9 @@ urlpatterns = [
     path('pharmeasy/', views.PharmEasy.as_view(), name='PharmEasy'),
     path('student-discount-pharmeasy/', views.CodePharmEasy.as_view(), name='CodePharmEasy'),
 
+    path('lenovo-flat-5000-off/', views.LenovoOffer1.as_view(), name='LenovoOffer1'),
+    path('student-discount-lenovo-flat-5000-off/', views.CodeLenovoOffer1.as_view(), name='CodeLenovoOffer1'),
+
 #     path('paymentuser/', views.paymentuser, name='paymentuser'),
 ]
 
