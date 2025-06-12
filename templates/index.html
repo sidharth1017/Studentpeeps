@@ -571,7 +571,8 @@ Deals & Offers{% endblock %} {% block linkshead %}
       width: 58px;
     }
   }
-    /* home page section end */
+
+  /* home page section end */
 </style>
 
 {% comment %}
@@ -642,6 +643,9 @@ Deals & Offers{% endblock %} {% block linkshead %}
   <!-- logo slider start -->
   <div class="swiper mySwiper">
     <div class="swiper-wrapper">
+          <div class="swiper-slide">
+        <img class="lenovo-logo" src="{% static 'img/Logos/lenovoLogo.png' %}" alt="" />
+      </div>
       <div class="swiper-slide">
         <img class="spotify-logo" src="{% static 'img/Logos/spotify_logo_alt.webp' %}" alt="" />
       </div>
@@ -720,8 +724,45 @@ Deals & Offers{% endblock %} {% block linkshead %}
       </label>
     </div>
 
-    <div class="feature-cards exclusive">
+    <div class="feature-cards exclusive tiles-cards">
       <!-- Exlusive card desktop -->
+      <a href="/lenovo-flat-5000-off/">
+        <div class="tiles-card tiles-card-lg">
+          <div class="tiles-card-img tiles-card-img-lg">
+            <picture>
+              <source media="(min-width:1200px)" srcset="{% static 'img/Tiles_inner/lenovoOffer1Inner.png' %}" />
+              <source media="(min-width:480px)" srcset="{% static 'img/Tiles_inner/lenovoOffer1Inner.png' %}" />
+              <img src="{% static 'img/Tiles_inner/lenovoOffer1Inner.png' %}" alt="" />
+            </picture>
+            <div class="tiles-card-company-img tiles-card-company-img-lg">
+              <img src="{% static 'img/Logos/lenovoLogo.png' %}" alt="" />
+            </div>
+          </div>
+          <div class="tiles-card-content tiles-card-content-lg">
+            <h3 class="tiles-card-heading">Flat ₹5000 student Off</h3>
+            <p class="tiles-card-paragraph">
+              High-performance laptops for gaming, design & work
+            </p>
+          </div>
+        </div>
+      </a>
+      <a href="/lenovo-flat-2000-off/">
+        <div class="tiles-card">
+          <div class="tiles-card-img">
+            <img src="{% static 'images/lenovoOffer2OuterTile.jpg' %}" alt="" />
+            <div class="tiles-card-company-img">
+              <img src="{% static 'img/Logos/lenovoLogo.png' %}" alt="" />
+            </div>
+          </div>
+          <div class="tiles-card-content">
+            <h3 class="tiles-card-heading">Flat ₹2000 student Off</h3>
+            <p class="tiles-card-paragraph">
+              Affordable, powerful laptops for everyday use
+            </p>
+          </div>
+        </div>
+      </a>
+
       <a href="/udemy/">
         <div class="tiles-card">
           <div class="tiles-card-img">
@@ -756,57 +797,6 @@ Deals & Offers{% endblock %} {% block linkshead %}
         </div>
       </a>
 
-      <a href="/beardo/">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/beardo_outer.png' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/beardo_logo.png' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">Upto Rs.500 Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              One-stop for men's grooming and skincare needs
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="/bookchor/">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/Bookchor_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/bookchor_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">Rs.100 Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Buy used books at super low prices
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="/pharmeasy/">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/Pharmeasy_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/pharmeasy_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">Flat 25% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Rapid medicine delivery at your doorsteps
-            </p>
-          </div>
-        </div>
-      </a>
-
       <a href="https://cutt.ly/spbewakoof">
         <div class="tiles-card">
           <div class="tiles-card-img">
@@ -823,6 +813,7 @@ Deals & Offers{% endblock %} {% block linkshead %}
           </div>
         </div>
       </a>
+  
 
       <!-- Exlusive card desktop end -->
 
