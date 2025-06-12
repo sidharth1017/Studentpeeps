@@ -4,7 +4,6 @@ main/__pycache__
 studentpeeps/__pycache__
 account/migrations/__pycache__
 main/migrations/__pycache__
-env38
 scratch
 account/Views/__pycache__
 brands_v2/views/__pycache__
@@ -17,3 +16,4 @@ __pycache__/
 *.py[cod]
 staticfiles
 utilities/migrations
+venv
