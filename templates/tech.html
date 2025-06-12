@@ -29,17 +29,18 @@
         font-weight: 600 !important;
         letter-spacing: 1.05px;
     }
+
     .tech-category::after {
-        content : "";
-        position : absolute;
-        width : 80%;
-        height : 3px;
+        content: "";
+        position: absolute;
+        width: 80%;
+        height: 3px;
         background-color: #542fa5;
         bottom: -10px;
         left: 50%;
         transform: translateX(-50%);
     }
-    
+
 
     .illustration {
         opacity: 0.1;
@@ -182,16 +183,54 @@
     <div class="tiles-container">
         <img class="illustration" src="{% static 'images/pattern2.png' %}" alt="">
         <h1 class="tiles-heading" style="margin:25px 0 70px 0; font-size: 38px; text-align: center;">Tech Discounts</h1>
-          <div class="tiles-cards">
-            <a href="https://cutt.ly/sponeplus">
+        <div class="tiles-cards">
+            <a href="/lenovo-flat-5000-off/">
                 <div class="tiles-card tiles-card-lg">
                     <div class="tiles-card-img tiles-card-img-lg">
-                        <img src="{% static 'img/Tiles_inner/oneplus_inner.webp' %}" alt="">
+                        <picture>
+                            <source media="(min-width:1200px)"
+                                srcset="{% static 'img/Tiles_inner/lenovoOffer1Inner.png' %}" />
+                            <source media="(min-width:480px)"
+                                srcset="{% static 'img/Tiles_inner/lenovoOffer1Inner.png' %}" />
+                            <img src="{% static 'img/Tiles_inner/lenovoOffer1Inner.png' %}" alt="" />
+                        </picture>
                         <div class="tiles-card-company-img tiles-card-company-img-lg">
-                            <img src="{% static 'img/Logos/oneplus_logo.webp' %}" alt="">
+                            <img src="{% static 'img/Logos/lenovoLogo.png' %}" alt="" />
                         </div>
                     </div>
                     <div class="tiles-card-content tiles-card-content-lg">
+                        <h3 class="tiles-card-heading">Flat ₹5000 student Off</h3>
+                        <p class="tiles-card-paragraph">
+                            High-performance laptops for gaming, design & work
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <a href="/lenovo-flat-2000-off/">
+                <div class="tiles-card">
+                    <div class="tiles-card-img">
+                        <img src="{% static 'images/lenovoOffer2OuterTile.jpg' %}" alt="" />
+                        <div class="tiles-card-company-img">
+                            <img src="{% static 'img/Logos/lenovoLogo.png' %}" alt="" />
+                        </div>
+                    </div>
+                    <div class="tiles-card-content">
+                        <h3 class="tiles-card-heading">Flat ₹2000 student Off</h3>
+                        <p class="tiles-card-paragraph">
+                            Affordable, powerful laptops for everyday use
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <a href="https://cutt.ly/sponeplus">
+                <div class="tiles-card tiles-card-lg">
+                    <div class="tiles-card-img">
+                        <img src="{% static 'img/Tiles_inner/oneplus_inner.webp' %}" alt="">
+                        <div class="tiles-card-company-img">
+                            <img src="{% static 'img/Logos/oneplus_logo.webp' %}" alt="">
+                        </div>
+                    </div>
+                    <div class="tiles-card-content">
                         <h3 class="tiles-card-heading">5% Student Discount</h3>
                         <p class="tiles-card-paragraph">Shop a selection of OnePlus smartphones and accessories</p>
                     </div>
@@ -243,7 +282,7 @@
             </a>
 
             <a href="https://cutt.ly/spspotify">
-                <div class="tiles-card"  >
+                <div class="tiles-card">
                     <div class="tiles-card-img">
                         <img src="{% static 'img/Tiles_outer/spotify_outer.webp' %}" alt="">
                         <div class="tiles-card-company-img">
@@ -256,9 +295,9 @@
                     </div>
                 </div>
             </a>
-            
+
             <a href="https://cutt.ly/spapplemusic">
-                <div class="tiles-card"  >
+                <div class="tiles-card">
                     <div class="tiles-card-img">
                         <img src="{% static 'img/Tiles_outer/applemusic_outer.webp' %}" alt="">
                         <div class="tiles-card-company-img">
@@ -274,7 +313,7 @@
             </a>
 
             <a href="https://cutt.ly/spsamsung">
-                <div class="tiles-card tiles-card-lg"  >
+                <div class="tiles-card tiles-card-lg">
                     <div class="tiles-card-img tiles-card-img-lg">
                         <img src="{% static 'img/Tiles_inner/samsung_inner.webp' %}" alt="">
                         <div class="tiles-card-company-img tiles-card-company-img-lg">
@@ -289,7 +328,7 @@
             </a>
 
             <a href="https://cutt.ly/spmicrosoft">
-                <div class="tiles-card"  >
+                <div class="tiles-card">
                     <div class="tiles-card-img">
                         <img src="{% static 'img/Tiles_outer/microsoft_outer.webp' %}" alt="">
                         <div class="tiles-card-company-img">
@@ -303,7 +342,7 @@
                 </div>
             </a>
             <a href="https://cutt.ly/spgithub">
-                <div class="tiles-card"  >
+                <div class="tiles-card">
                     <div class="tiles-card-img">
                         <img src="{% static 'img/Tiles_outer/github_outer.webp' %}" alt="">
                         <div class="tiles-card-company-img">
@@ -317,7 +356,7 @@
                 </div>
             </a>
             <a href="https://cutt.ly/spapple">
-                <div class="tiles-card"  >
+                <div class="tiles-card">
                     <div class="tiles-card-img">
                         <img src="{% static 'img/Tiles_outer/apple_outer.webp' %}" alt="">
                         <div class="tiles-card-company-img">
@@ -331,7 +370,7 @@
                 </div>
             </a>
             <a href="https://cutt.ly/spadobe">
-                <div class="tiles-card"  >
+                <div class="tiles-card">
                     <div class="tiles-card-img">
                         <img src="{% static 'img/Tiles_outer/adobe_outer.webp' %}" alt="">
                         <div class="tiles-card-company-img">

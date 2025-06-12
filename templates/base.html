@@ -34,7 +34,8 @@
     <!-- FontAwesome -->
     <script src="https://kit.fontawesome.com/5762f5d7a2.js" crossorigin="anonymous"></script>
 
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3076555873685321" crossorigin="anonymous"></script>	
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3076555873685321"
+        crossorigin="anonymous"></script>
 
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -94,7 +95,7 @@
 
     <!-- Mixpanel -->
 
-    
+
     <!-- Google optimise -->
     <script src="https://www.googleoptimize.com/optimize.js?id=OPT-P5QV7J7"></script>
     <!-- Google optimise -->
@@ -611,7 +612,7 @@
             <div class="blank-card">
             </div>
             <ul>
-                <li><a href="/">&nbsp;Home</a></li>	
+                <li><a href="/">&nbsp;Home</a></li>
                 <li><a href="/ourstory/">&nbsp;Our story</a></li>
                 {% if user.is_authenticated %}
                 <li><a href="/account/logout">&nbsp;Logout</a></li>
@@ -628,11 +629,28 @@
                 <div class="brand-list">
                     <span class="brand-list-heading">Recommended for you</span>
                     <div class="brand-names">
+                        <a href="/lenovo-flat-5000-off/">
+                            <li>
+                                <div class="brand-img"><img class="udemy-img" src="/static/img/Logos/lenovoLogo.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Lenovo</span><span
+                                        class="discount-info">Flat ₹5000 student Off</span></div>
+                            </li>
+                        </a>
+                        <a href="/lenovo-flat-2000-off/">
+                            <li>
+                                <div class="brand-img"><img class="rapido-img" src="/static/img/Logos/lenovoLogo.png">
+                                </div>
+                                <div class="brand-text"><span class="brand-name">Lenovo</span><span
+                                        class="discount-info">Flat ₹2000 student Off</span></div>
+                            </li>
+                        </a>
                         <a href="/udemy">
                             <li>
                                 <div class="brand-img"><img class="udemy-img" src="/static/img/Logos/udemy_logo.webp">
                                 </div>
-                                <div class="brand-text"><span class="brand-name">Udemy</span><span class="discount-info">Rs100 Gift Card</span></div>
+                                <div class="brand-text"><span class="brand-name">Udemy</span><span
+                                        class="discount-info">Rs100 Gift Card</span></div>
                             </li>
                         </a>
                         <a href="/rapido">
@@ -846,7 +864,7 @@
             <div class="menu-icon">
                 {% if user.is_authenticated %}
                 <i class="fas fa-bars"></i>
-                 {% else %}
+                {% else %}
                 <i class="fas fa-bars notification"></i>
                 {% endif %}
             </div>
@@ -857,19 +875,20 @@
             </div>
             <div class="menu-list">
                 <ul>
-                    <li><a href="/">&nbsp;Home</a></li>	
+                    <li><a href="/">&nbsp;Home</a></li>
                     <li><a href="/ourstory/">&nbsp;Our story</a></li>
                 </ul>
             </div>
             <div class="account-btns">
                 {% if user.is_authenticated %}
                 <span class="user-name">
-                    <a href="/account/myaccount"><i class="uil uil-user-circle nav-item"></i><span> {{user.first_name}}</span></a>
+                    <a href="/account/myaccount"><i class="uil uil-user-circle nav-item"></i><span>
+                            {{user.first_name}}</span></a>
                 </span>
                 <span class="logout log-btn">
                     <a href="/account/logout">
-                    <i class="uil uil-sign-out-alt nav-item"></i>
-                    <span>Logout</span></a>
+                        <i class="uil uil-sign-out-alt nav-item"></i>
+                        <span>Logout</span></a>
                 </span>
                 <div class="account-cont">
                     <i class="fas fa-user-circle"></i>
@@ -924,13 +943,13 @@
                         <ul>
                             <li id="food-category-drop" class="extra-dropdown"><a
                                     href="{% url 'FoodsAndDrinks' %}">Foods & Drinks</a></li>
-                            </li>
-                            <li id="health-category-drop"><a href="{% url 'HealthAndBeauty' %}">Health & Beauty</a></li>
-                            <li id="books-category-drop"><a href="{% url 'BooksAndStationary' %}">Books & Stationary</a>
-                            </li>
-                            <li id="home-category-drop"><a href="{% url 'HomeAndUtilities' %}">Home & Utilities</a></li>
-                        </ul>
                     </li>
+                    <li id="health-category-drop"><a href="{% url 'HealthAndBeauty' %}">Health & Beauty</a></li>
+                    <li id="books-category-drop"><a href="{% url 'BooksAndStationary' %}">Books & Stationary</a>
+                    </li>
+                    <li id="home-category-drop"><a href="{% url 'HomeAndUtilities' %}">Home & Utilities</a></li>
+                </ul>
+                </li>
                 </ul>
             </div>
             <div class="search-bar">
@@ -953,11 +972,28 @@
         <div class="brand-list">
             <span class="brand-list-heading">Recommended for you</span>
             <div class="brand-names">
+                <a href="/lenovo-flat-5000-off/">
+                    <li>
+                        <div class="brand-img"><img class="udemy-img" src="/static/img/Logos/lenovoLogo.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Lenovo</span><span class="discount-info">Flat
+                                ₹5000 student Off</span></div>
+                    </li>
+                </a>
+                <a href="/lenovo-flat-2000-off/">
+                    <li>
+                        <div class="brand-img"><img class="rapido-img" src="/static/img/Logos/lenovoLogo.png">
+                        </div>
+                        <div class="brand-text"><span class="brand-name">Lenovo</span><span class="discount-info">Flat
+                                ₹2000 student Off</span></div>
+                    </li>
+                </a>
                 <a href="/udemy">
                     <li>
                         <div class="brand-img"><img class="udemy-img" src="/static/img/Logos/udemy_logo.webp">
                         </div>
-                        <div class="brand-text"><span class="brand-name">Udemy</span><span class="discount-info">Rs100 Gift Card</span></div>
+                        <div class="brand-text"><span class="brand-name">Udemy</span><span class="discount-info">Rs100
+                                Gift Card</span></div>
                     </li>
                 </a>
                 <a href="/rapido">
