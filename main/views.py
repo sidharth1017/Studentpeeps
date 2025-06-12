@@ -584,4 +584,16 @@ class CodePharmEasy(View):
 #         payment = Payment(user=user, payment_status=1, amount=0.0)
 #         payment.save()
 #     return HttpResponse("Done")
+
+class LenovoOffer1(View):
+    def get(self, request):
+        return render(request,'lenovoOffer1.html')
+
+
+class CodeLenovoOffer1(View):
+    def get(self, request):
+        LenovoOffer1Brand = Brand.objects.get(name="LenovoOffer1")
+        LenovoOffer1Brand.count += 1
+        LenovoOffer1Brand.save()
+        return render(request,'codeLenovoOffer1.html')
     

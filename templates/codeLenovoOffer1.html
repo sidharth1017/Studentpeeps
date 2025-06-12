@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps >> Flat ₹5000 Off on Lenovo Laptops{% endblock %}
+
+{% block linkshead %}
+<meta name="description"
+    content="Get PharmEasy discount coupon on Studentpeeps. Get student discount codes for PharmEasy on Studentpeeps. Unlock flat 25% off on medicines using Promo Codes on Studentpeeps. Student discount available on PharmEasy medicines and healthcare necessities. Save up to Rs.300 on PharmEasy medicines with Studentpeeps.">
+
+<link rel="stylesheet" href="{% static 'css/aftercode.css' %}">
+<script src="{% static 'js/aftercode.js' %}"></script>
+
+<style>
+    .prdouctimg {
+        background-image: radial-gradient(circle, rgba(121, 2, 224, 1) 0%, rgba(219, 37, 52, 1) 100%);
+    }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="bg-banner">
+</div>
+<div class="prdouctimg">
+    <img class="final" src="{% static 'img/Tiles_inner/lenovoOffer1Inner.png' %}" alt="">
+</div>
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img class="final" src="{% static 'img/Logos/lenovoLogo.png' %}" alt="">
+        </div>
+        <div class="_all">
+            <div class="wrapper">
+                <div class="content">
+                    <h1>Flat ₹5000 Off on Lenovo Laptops</h1>
+                    <p><a href="https://lenovo-in.zlvv.net/EEVnaQ" target="_blank">at Lenovo</a></p>
+                </div>
+                <div class="copy">
+                    <p>Copy code and enter on the<br>
+                        Lenovo website</p>
+                </div>
+
+                <div class="showcode" id="text" onclick="copyElementText(this.id)">STUDENT5000<div class="copy-btn"><i
+                            class="fa fa-copy" onclick="copy()"></i></div>
+                </div>
+
+
+                <div class="button d-grid gap-2 col-6 mx-auto">
+                    <a href="https://lenovo-in.zlvv.net/EEVnaQ" target="_blank"><button class="btn btn-primary" type="button">Open
+                            Site & Use Code</button></a>
+                </div>
+                <hr>
+            </div>
+
+            <div class="contenttext">
+                <h4>About this student discount</h4>
+                <p> • Offer valid only on <strong style="font-weight: bold;">Legion, Yoga, Gaming Desktops, ThinkPad
+                        P/T/X/L/E/Z series, and Workstations series</strong><br>
+                    • Visit Lenovo's official website<br>
+                    • Browse eligible laptop categories listed above<br>
+                    • Add the product to cart<br>
+                    • At checkout, apply the code (case-sensitive)<br>
+                    • Enjoy your discount!<br>
+                </p>
+            </div>
+            <hr>
+            <div class="contenttext">
+                <h4>Terms & Conditions</h4>
+                <p> • Offer valid only for registered users on Studentpeeps<br>
+                    • Offer valid only for limited series laptops<br>
+                    • Code is case-sensitive and must be entered exactly as shown<br>
+                    • Valid only on Lenovo’s official website<br>
+                    • Cannot be clubbed with other student discount offers<br>
+                    • One-time use per student only<br>
+                    • Lenovo and Studentpeeps reserves the right to amend or withdraw the offer at any time<br>
+                </p>
+            </div>
+        </div>
+    </div>
+</center>
+{% endblock %}
