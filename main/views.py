@@ -596,4 +596,16 @@ class CodeLenovoOffer1(View):
         LenovoOffer1Brand.count += 1
         LenovoOffer1Brand.save()
         return render(request,'codeLenovoOffer1.html')
+
+class LenovoOffer2(View):
+    def get(self, request):
+        return render(request,'lenovoOffer2.html')
+
+
+class CodeLenovoOffer2(View):
+    def get(self, request):
+        LenovoOffer1Brand = Brand.objects.get(name="LenovoOffer2")
+        LenovoOffer1Brand.count += 1
+        LenovoOffer1Brand.save()
+        return render(request,'codeLenovoOffer2.html')
     
