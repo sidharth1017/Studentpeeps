@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class Communication(models.Model):
     CHANNEL_CHOICES = [
@@ -28,3 +29,14 @@ class Communication(models.Model):
             return dict(self.SERVICE_CHOICES_SMS)
         if self.channel == 'email':
             return dict(self.SERVICE_CHOICES_EMAIL)
+
+class OTPSendLog(models.Model):
+    phone = models.CharField(max_length=15)
+    date = models.DateField(default=timezone.now)
+    count = models.IntegerField(default=0)
+
+    class Meta:
+        unique_together = ('phone', 'date')
+
+    def __str__(self):
+        return f"{self.phone} - {self.date} : {self.count} times"
