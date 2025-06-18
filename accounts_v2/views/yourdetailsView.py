@@ -38,8 +38,11 @@ class YourdetailsView(View):
         user.backend = 'django.contrib.auth.backends.ModelBackend'
         login(request, user)
 
-        message = render_to_string('emailers/signup_email_body.html', {'fname': name})
-        send_welcome_email(subject=f"Welcome to the club {name}", email=email, message=message)
+        try:
+            message = render_to_string('emailers/signup_email_body.html', {'fname': name})
+            send_welcome_email(subject=f"Welcome to the club {name}", email=email, message=message)
+        except Exception as e:
+            print(f"Email sending failed: {e}")
 
         request.session['user_id'] = register.id
         return redirect('/')

@@ -3,7 +3,8 @@ from django.contrib import admin
 from .models import Register
 
 class RegisterAdmin(admin.ModelAdmin):
-    list_display = ('user_email', 'phone', 'user_name')
+    list_display = ('user_email', 'phone', 'user_name', 'created_at')
+    readonly_fields = ('created_at',)
 
     def user_email(self, obj):
         return obj.user.email

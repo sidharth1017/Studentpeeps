@@ -1,10 +1,14 @@
 from django.urls import path, include
+from django.views.generic.base import RedirectView
 from django_email_verification import urls as email_urls
 from django.contrib.auth import views as auth_views
 from . import views
 from .Views import login, logout, register, signup, upload, myaccount, yourdetail, uploademail, verification, send, sendmailtounverifieds, college
 
 urlpatterns = [
+    path('register/', RedirectView.as_view(url='/account/v2/identify', permanent=False)),
+    path('signup/', RedirectView.as_view(url='/account/v2/identify', permanent=False)),
+    path('login/', RedirectView.as_view(url='/account/v2/identify', permanent=False)),
     # path('register/', register.Register.as_view(), name='register'),
     # path('yourdetail/', yourdetail.YourDetail.as_view(), name='yourdetail'),
     # path('signup/', signup.SignUp.as_view(), name='signup'),
