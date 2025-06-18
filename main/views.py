@@ -5,7 +5,7 @@ from django.contrib import messages
 from .models import Contact, RequestBrand, Foundation, Resource, Brand, Subscribe
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from account.tasks import send_brand_mail, send_course_mail, send_subscribe_email
+from account.tasks import send_brand_mail, send_course_mail, send_subscribe_email, send_contact_mail
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -95,6 +95,13 @@ class ContactUs(View):
         message = request.POST.get('message')
         contact = Contact(name=name, email=email, message=message)
         contact.save()
+
+        try:
+            subject = f"Somebody Contacted Us"
+            send_contact_mail(subject, name, email, message, ["ayush@studentpeeps.club"])
+        except Exception as e:
+            print(f"Email sending failed: {e}")
+
         messages = "Thanks for contacting us, we'll reach out you soon."
         return render(request,'contactus.html',{'message' : messages})
 

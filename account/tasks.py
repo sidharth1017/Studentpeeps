@@ -45,9 +45,14 @@ def send_subscribe_email(subject, email, message):
 
 @shared_task
 def send_contact_mail(subject, name, email, message, emailList):
+    body = f"""New Contact Us submission:
+    Name: {name}
+    Email: {email}
+    Message: {message}"""
+
     msg = EmailMessage(
     subject,
-    "Name: "+name+ ", Email: "+email+ ", Message: "+message,
+    body,
     settings.DEFAULT_FROM_EMAIL,
     emailList,
     )
