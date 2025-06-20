@@ -616,3 +616,9 @@ class CodeLenovoOffer2(View):
         LenovoOffer1Brand.save()
         return render(request,'codeLenovoOffer2.html')
     
+
+class EtihadOffer1(View):
+    def get(self, request):
+        return render(request,'etihadOffer1.html')
+
+

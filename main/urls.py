@@ -120,6 +120,8 @@ urlpatterns = [
     path('lenovo-flat-2000-off/', views.LenovoOffer2.as_view(), name='LenovoOffer2'),
     path('student-discount-lenovo-flat-2000-off/', views.CodeLenovoOffer2.as_view(), name='CodeLenovoOffer2'),
 
+    path('etihad-10-percent-off/', views.EtihadOffer1.as_view(), name='EtihadOffer1'),
+
 #     path('paymentuser/', views.paymentuser, name='paymentuser'),
 ]
 
