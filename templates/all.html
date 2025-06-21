@@ -202,19 +202,71 @@ Student Discounts | Student Deals & Offers{% endblock %} {% block linkshead %}
       All Discounts
     </h1>
     <div class="tiles-cards">
-      <a href="/lenovo-flat-5000-off/">
+      <a href="/etihad-10-percent-off/">
         <div class="tiles-card tiles-card-lg">
           <div class="tiles-card-img tiles-card-img-lg">
+            <picture>
+              <source media="(min-width:1200px)" srcset="{% static 'img/Tiles_inner/etihad_inner.png' %}" />
+              <source media="(min-width:480px)" srcset="{% static 'img/Tiles_inner/etihad_inner.png' %}" />
+              <img src="{% static 'img/Tiles_inner/etihad_inner.png' %}" alt="" />
+            </picture>
+            <div class="tiles-card-company-img tiles-card-company-img-lg">
+              <img src="{% static 'img/Logos/etihad_logo.png' %}" alt="" />
+            </div>
+          </div>
+          <div class="tiles-card-content tiles-card-content-lg">
+            <h3 class="tiles-card-heading">10% Student Discount on Economy Class</h3>
+            <p class="tiles-card-paragraph">
+              Your passport to affordable global travel
+            </p>
+          </div>
+        </div>
+      </a>
+      <a href="/free-two-night-stay-with-etihad/">
+        <div class="tiles-card">
+          <div class="tiles-card-img">
+            <img src="{% static 'img/Tiles_inner/etihad_inner.png' %}" alt="" />
+            <div class="tiles-card-company-img">
+              <img src="{% static 'img/Logos/etihad_logo.png' %}" alt="" />
+            </div>
+          </div>
+          <div class="tiles-card-content">
+            <h3 class="tiles-card-heading">Complimentary 2-Night Abu Dhabi Stay for Students</h3>
+            <p class="tiles-card-paragraph">
+              Explore Abu Dhabi with a free layover stay
+            </p>
+          </div>
+        </div>
+      </a>
+      <a href="/etihad-5-percent-off/">
+        <div class="tiles-card">
+          <div class="tiles-card-img">
+            <img src="{% static 'img/Tiles_inner/etihad_inner.png' %}" alt="" />
+            <div class="tiles-card-company-img">
+              <img src="{% static 'img/Logos/etihad_logo.png' %}" alt="" />
+            </div>
+          </div>
+          <div class="tiles-card-content">
+            <h3 class="tiles-card-heading">5% Discount on Business Class</h3>
+            <p class="tiles-card-paragraph">
+              Enjoy luxury business class flights 
+            </p>
+          </div>
+        </div>
+      </a>
+      <a href="/lenovo-flat-5000-off/">
+        <div class="tiles-card">
+          <div class="tiles-card-img">
             <picture>
               <source media="(min-width:1200px)" srcset="{% static 'img/Tiles_inner/lenovoOffer1Inner.png' %}" />
               <source media="(min-width:480px)" srcset="{% static 'img/Tiles_inner/lenovoOffer1Inner.png' %}" />
               <img src="{% static 'img/Tiles_inner/lenovoOffer1Inner.png' %}" alt="" />
             </picture>
-            <div class="tiles-card-company-img tiles-card-company-img-lg">
+            <div class="tiles-card-company-img">
               <img src="{% static 'img/Logos/lenovoLogo.png' %}" alt="" />
             </div>
           </div>
-          <div class="tiles-card-content tiles-card-content-lg">
+          <div class="tiles-card-content">
             <h3 class="tiles-card-heading">Flat ₹5000 student Off</h3>
             <p class="tiles-card-paragraph">
               High-performance laptops for gaming, design & work

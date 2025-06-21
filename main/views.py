@@ -621,4 +621,12 @@ class EtihadOffer1(View):
     def get(self, request):
         return render(request,'etihadOffer1.html')
 
+class EtihadOffer2(View):
+    def get(self, request):
+        return render(request,'etihadOffer2.html')
+
+class EtihadOffer3(View):
+    def get(self, request):
+        return render(request,'etihadOffer3.html')
+
 

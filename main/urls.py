@@ -121,6 +121,8 @@ urlpatterns = [
     path('student-discount-lenovo-flat-2000-off/', views.CodeLenovoOffer2.as_view(), name='CodeLenovoOffer2'),
 
     path('etihad-10-percent-off/', views.EtihadOffer1.as_view(), name='EtihadOffer1'),
+    path('etihad-5-percent-off/', views.EtihadOffer2.as_view(), name='EtihadOffer2'),
+    path('free-two-night-stay-with-etihad/', views.EtihadOffer3.as_view(), name='EtihadOffer3'),
 
 #     path('paymentuser/', views.paymentuser, name='paymentuser'),
 ]
