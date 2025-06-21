@@ -624,7 +624,7 @@
             <div class="search-cont">
                 <div class="search-input">
                     <input type="text" placeholder="Search" />
-                    <i class="fas fa-search"></i>
+                    <i class="fa fa-search"></i>
                 </div>
                 <div class="brand-list">
                     <span class="brand-list-heading">Recommended for you</span>
@@ -863,9 +863,9 @@
         <div class="upper-nav">
             <div class="menu-icon">
                 {% if user.is_authenticated %}
-                <i class="fas fa-bars"></i>
+                <i class="fa fa-bars"></i>
                 {% else %}
-                <i class="fas fa-bars notification"></i>
+                <i class="fa fa-bars notification"></i>
                 {% endif %}
             </div>
             <div class="sp-logo">
@@ -891,7 +891,7 @@
                         <span>Logout</span></a>
                 </span>
                 <div class="account-cont">
-                    <i class="fas fa-user-circle"></i>
+                    <i class="fa fa-user-circle"></i>
                     <div class="account-dropdown">
                         <div class="account-user-name">
                             <span>{{user.first_name}}</span>
@@ -903,7 +903,7 @@
                         </div>
                         <div class="account-list">
                             <a href="/account/logout">
-                                <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+                                <i class="fa fa-sign-out-alt"></i><span>Logout</span>
                             </a>
                         </div>
                     </div>
