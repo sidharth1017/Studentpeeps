@@ -18,12 +18,12 @@ class SendOtpView(View):
         if not request.session.get('studentpeepsV2'):
             otp = str(random.randint(100000, 999999))
             hashed_otp = make_password(otp)
-            request.session['studentpeepsV2'] = hashed_otp        
+            request.session['studentpeepsV2'] = hashed_otp      
+            if not send_otp(phone, otp):
+                messages.error(request, "Failed to send OTP. Please try again.")
+                return redirect('/account/v2/identify')  
         masked_phone = phone[:2] + 'X' * 6 + phone[-2:]
 
-        if not send_otp(phone, otp):
-            messages.error(request, "Failed to send OTP. Please try again.")
-            return redirect('/account/v2/identify')
 
         return render(request, 'account/sendOtp.html', {'phone': masked_phone})
 
