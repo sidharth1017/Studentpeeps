@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['studentpeeps.club', '139.59.79.183', 'www.studentpeeps.club', 'localhost', '127.0.0.1', '*']
 
@@ -221,3 +221,5 @@ TWILIO_PHONE_NUMBER=config('TWILIO_PHONE_NUMBER')
 AWS_ACCESS_KEY_ID=config('AWS_ACCESS_KEY')
 AWS_SECRET_ACCESS_KEY=config('AWS_SECRET_KEY')
 AWS_REGION=config('AWS_REGION')
+
+FAST2SMS_ACCESS_KEY_ID = config('FAST2SMS_ACCESS_KEY_ID')
