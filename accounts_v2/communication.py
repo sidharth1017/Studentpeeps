@@ -9,6 +9,7 @@ from utilities.models import Communication, OTPSendLog
 from django.utils.timezone import now
 from django.db import transaction
 from email.utils import formataddr
+import requests
 
 
 def send_otp_sms_via_Twillio(phone: str, otp: str) -> bool:
@@ -47,6 +48,32 @@ def send_otp_sms_via_AWS_SNS(phone: str, otp: str) -> bool:
         print(f"Error sending OTP to {phone}: {e}")
         return False
 
+def send_otp_sms_via_fast2sms(phone: str, otp: str) -> bool:
+    try:
+        url = "https://www.fast2sms.com/dev/bulkV2"
+
+        payload = {
+            'authorization': settings.FAST2SMS_ACCESS_KEY_ID,
+            'sender_id': 'SDNT',
+            'message': '189200',
+            'variables_values': f"{otp}|{otp}",
+            'route': 'dlt',
+            'numbers': phone,
+        }
+
+        headers = {
+            'cache-control': 'no-cache'
+        }
+
+        response = requests.get(url, params=payload, headers=headers)
+
+        print("Fast2SMS response:", response.text)
+
+        return response.status_code == 200 and "true" in response.text.lower()
+    except Exception as e:
+        print(f"Error sending OTP to {phone}: {e}")
+        return False
+
 def send_otp(phone: str, otp: str) -> bool:
     today = now().date()
 
@@ -68,9 +95,11 @@ def send_otp(phone: str, otp: str) -> bool:
         success = send_otp_sms_via_Twillio(phone, otp)
     elif sms_service == 'sns':
         success = send_otp_sms_via_AWS_SNS(phone, otp)
+    elif sms_service == 'fast2sms':
+        success = send_otp_sms_via_fast2sms(phone, otp)
     else:
         print(f"Unsupported SMS service: {sms_service}")
-        success = send_otp_sms_via_AWS_SNS(phone, otp)
+        success = send_otp_sms_via_fast2sms(phone, otp)
 
     # Update count if sent successfully
     if success:
