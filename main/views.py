@@ -629,4 +629,24 @@ class EtihadOffer3(View):
     def get(self, request):
         return render(request,'etihadOffer3.html')
 
+class Dailyobjects(View):
+    def get(self, request):
+        return render(request,'dailyobjects.html')
+
+class CodeDailyobjects(View):
+    def get(self, request):
+        DailyobjectsBrand = Brand.objects.get(name="Dailyobjects")
+        DailyobjectsBrand.count += 1
+        DailyobjectsBrand.save()
+
+        brand = BrandCode.objects.get(brandname="Dailyobjects")
+        codes = brand.codes
+        code = codes[0]
+        del codes[0]
+        
+        BrandCode.objects.filter(brandname="Dailyobjects").delete()
+        brandcode = BrandCode(brandname="Dailyobjects", codes=codes)
+        brandcode.save() 
+
+        return render(request,'codedailyobjects.html', {'code': code})
 

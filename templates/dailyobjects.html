@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}StudentPeeps >> DailyObjects{% endblock %}
+
+{% block linkshead %}
+<meta name="description"
+    content="🎓 Flat 15% Student Discount on DailyObjects with StudentPeeps. Get exclusive student coupons for laptop sleeves, phone cases, and more. Verified student-only savings!">
+
+<link rel="stylesheet" href="{% static 'css/getcode.css' %}">
+
+<style>
+    .prdouctimg {
+background: radial-gradient(circle, #f3f0ea 40%, #dcd6cd 100%);
+
+
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="prdouctimg">
+    <img class="final" src="{% static 'img/Tiles_inner/dailyobjectInnerTile.jpg' %}" alt="">
+</div>
+
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img class="final" src="{% static 'img/Logos/dailyobjectsLogo.png' %}" alt="">
+        </div>
+
+        <div class="content">
+            <h1>🎓 Flat 15% Student Discount</h1>
+            <p><a href="https://www.dailyobjects.com/?utm_source=do_studentpeeps&utm_medium=collaboration&utm_campaign=studentpeeps" target="_blank">at DailyObjects</a></p>
+        </div>
+
+        <div class="button d-grid gap-2 col-6 mx-auto">
+            <a class="btn btn-primary" href="/student-discount-dailyobjects">Get Code</a>
+        </div>
+
+        <hr>
+
+        <div class="contenttext">
+            <h4>✨ About this Student Offer</h4>
+            <p>
+                • Get 15% off on laptop sleeves, phone cases, desk organizers, and more at DailyObjects. <br>
+                • Use your unique student code at checkout to unlock the discount. <br>
+                • Valid for up to two uses per student. <br>
+                • A reliable companion for study sessions, commutes, or keeping things organized in style.
+            </p>
+        </div>
+
+        <hr>
+
+        <div class="contenttext">
+            <h4>📝 Terms & Conditions</h4>
+            <p>
+                • Available to students (13+) enrolled in accredited institutions in India (school, college, or
+                university). <br>
+                • Discount valid on purchases made through DailyObjects’ official website via StudentPeeps. <br>
+                • Each student code can be used twice only. <br>
+                • Cannot be combined with other ongoing offers or coupon codes. <br>
+                • Proof of student status required for verification. <br>
+                • Offer and terms subject to change at DailyObjects’ discretion.
+            </p>
+        </div>
+    </div>
+</center>
+
+{% endblock %}
