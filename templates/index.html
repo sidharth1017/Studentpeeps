@@ -643,7 +643,7 @@ Deals & Offers{% endblock %} {% block linkshead %}
   <!-- logo slider start -->
   <div class="swiper mySwiper">
     <div class="swiper-wrapper">
-          <div class="swiper-slide">
+      <div class="swiper-slide">
         <img class="lenovo-logo" src="{% static 'img/Logos/lenovoLogo.png' %}" alt="" />
       </div>
       <div class="swiper-slide">
@@ -726,38 +726,43 @@ Deals & Offers{% endblock %} {% block linkshead %}
 
     <div class="feature-cards exclusive tiles-cards">
       <!-- Exlusive card desktop -->
-      <a href="/lenovo-flat-5000-off/">
+      <a href="/dailyobjects/">
         <div class="tiles-card tiles-card-lg">
           <div class="tiles-card-img tiles-card-img-lg">
+            <picture>
+              <source media="(min-width:1200px)" srcset="https://images.dailyobjects.com/marche/assets/images/other-2/Pivot-carousal-banner-desktop.jpg" />
+              <source media="(min-width:480px)" srcset="https://images.dailyobjects.com/marche/assets/images/other-2/Pivot-carousal-banner-desktop.jpg" />
+              <img src="https://images.dailyobjects.com/marche/assets/images/other-2/Pivot-carousal-banner-desktop.jpg" alt="" />
+            </picture>
+            <div class="tiles-card-company-img tiles-card-company-img-lg">
+              <img src="{% static 'img/Logos/dailyobjectsLogo.png' %}" alt="" />
+            </div>
+          </div>
+          <div class="tiles-card-content tiles-card-content-lg">
+            <h3 class="tiles-card-heading">Flat 15% Student Discount</h3>
+            <p class="tiles-card-paragraph">
+              Smart accessories that keep up with your student life
+            </p>
+          </div>
+        </div>
+      </a>
+
+      <a href="/lenovo-flat-5000-off/">
+        <div class="tiles-card tiles-card">
+          <div class="tiles-card-img tiles-card-img">
             <picture>
               <source media="(min-width:1200px)" srcset="{% static 'img/Tiles_inner/lenovoOffer1Inner.png' %}" />
               <source media="(min-width:480px)" srcset="{% static 'img/Tiles_inner/lenovoOffer1Inner.png' %}" />
               <img src="{% static 'img/Tiles_inner/lenovoOffer1Inner.png' %}" alt="" />
             </picture>
-            <div class="tiles-card-company-img tiles-card-company-img-lg">
+            <div class="tiles-card-company-img tiles-card-company-img">
               <img src="{% static 'img/Logos/lenovoLogo.png' %}" alt="" />
             </div>
           </div>
-          <div class="tiles-card-content tiles-card-content-lg">
+          <div class="tiles-card-content tiles-card-content">
             <h3 class="tiles-card-heading">Flat ₹5000 student Off</h3>
             <p class="tiles-card-paragraph">
               High-performance laptops for gaming, design & work
-            </p>
-          </div>
-        </div>
-      </a>
-      <a href="/lenovo-flat-2000-off/">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'images/lenovoOffer2OuterTile.jpg' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/lenovoLogo.png' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">Flat ₹2000 student Off</h3>
-            <p class="tiles-card-paragraph">
-              Affordable, powerful laptops for everyday use
             </p>
           </div>
         </div>
@@ -797,7 +802,7 @@ Deals & Offers{% endblock %} {% block linkshead %}
         </div>
       </a>
 
-      <a href="https://cutt.ly/spbewakoof">
+      <a href="/bewakoof">
         <div class="tiles-card">
           <div class="tiles-card-img">
             <img src="{% static 'img/Tiles_outer/bewakoof_outer.webp' %}" alt="" />
@@ -813,7 +818,7 @@ Deals & Offers{% endblock %} {% block linkshead %}
           </div>
         </div>
       </a>
-  
+
 
       <!-- Exlusive card desktop end -->
 
