@@ -195,7 +195,7 @@ body {
     left: initial;
     bottom: 0;
     transform: translate(0, 0);
-    min-height: 300px;
+    height: 300px;
   }
 
   .popup-cont .right-cont {
