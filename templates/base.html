@@ -882,7 +882,7 @@
             <div class="account-btns">
                 {% if user.is_authenticated %}
                 <span class="user-name">
-                    <a href="/account/myaccount"><i class="uil uil-user-circle nav-item"></i><span>
+                    <a href="/account/v2/myaccount"><i class="uil uil-user-circle nav-item"></i><span>
                             {{user.first_name}}</span></a>
                 </span>
                 <span class="logout log-btn">
@@ -897,7 +897,7 @@
                             <span>{{user.first_name}}</span>
                         </div>
                         <div class="account-list">
-                            <a href="/account/myaccount">
+                            <a href="/account/v2/myaccount">
                                 <i class="far fa-user-circle"></i><span>My account</span>
                             </a>
                         </div>
@@ -1216,18 +1216,20 @@
     </div>
     <!-- Navbar End -->
 
-    {% if messages %}
+    <!-- {% if messages %}
     {% for message in messages %}
-    {% if message.tags == 'info' %}
     <div class="container mt-2">
-        <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show text-center" role="alert">
             <strong>{{ message }}</strong>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
-    {% endif %}
     {% endfor %}
-    {% endif %}
+    {% endif %} -->
+
+
+
+
 
     {% block body %} {% endblock %}
 

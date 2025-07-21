@@ -21,8 +21,6 @@ class Register(View):
             signup.save()
             request.session['email'] = Email
             request.session['password'] = Password
-            print(Password)
-            print(type(Password))
             return redirect('/account/yourdetail/') 
         else:
             if Registers.objects.filter(username=Email).exists() or User.objects.filter(username=Email).exists():

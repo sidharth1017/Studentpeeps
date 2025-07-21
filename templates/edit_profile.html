@@ -29,6 +29,7 @@
         transform: translateY(-0.15em);
         color: white;
     }
+
     .no-edit {
         background-color: #e9ecef;
         pointer-events: none;
@@ -48,25 +49,69 @@
                 {% csrf_token %}
                 <div class="row align-items-center mt-4">
                     <div class="col">
-                        <label id="label1" class="input">Name</label>
-                        <input type="text" name="fname" class="form-control" value="{{ profile.user.first_name }}">
+                        <label id="label1" class="input">First name</label>
+                        <input type="text" name="fname" class="form-control" value="{{ profile.firstname }}">
+                    </div>
+                </div>
+                <div class="row align-items-center mt-4">
+                    <div class="col">
+                        <label id="label1" class="input">Last name</label>
+                        <input type="text" name="lname" class="form-control" value="{{ profile.lastname }}">
                     </div>
                 </div>
 
+                {% if profile.phone %}
                 <div class="row align-items-center mt-4">
                     <div class="col">
                         <label id="label1" class="input">Phone No</label>
                         <input type="text" name="phone" class="form-control no-edit" value="{{ profile.phone }}">
                     </div>
                 </div>
-
+                {% else %}
                 <div class="row align-items-center mt-4">
                     <div class="col">
-                        <label id="label1" for="exampleInputEmail1" class="form-label">Email address</label>
+                        <label id="label1" class="input">Phone No</label>
+                        <input type="text" name="phone" class="form-control" value="">
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if profile.user.email %}
+                <div class="row align-items-center mt-4">
+                    <div class="col">
+                        <label id="label1" for="exampleInputEmail1" class="form-label">Personal Email address</label>
                         <input type="email" name="email" class="form-control no-edit" id="exampleInputEmail1" readonly
                             value="{{ profile.user.email }}">
                     </div>
                 </div>
+                {% else %}
+                <div class="row align-items-center mt-4">
+                    <div class="col">
+                        <label id="label1" class="input">Personal Email address</label>
+                        <input type="email" name="email" class="form-control" value="">
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if profile.institution_email %}
+                <div class="row align-items-center mt-4">
+                    <div class="col">
+                        <label id="label1" for="exampleInputEmail1" class="form-label">Institution Email address</label>
+                        <input type="email" name="email" class="form-control no-edit" id="exampleInputEmail1" readonly
+                            value="{{ profile.institution_email }}">
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if profile.institution %}
+                <div class="row align-items-center mt-4">
+                    <div class="col">
+                        <label id="label1" for="exampleInputEmail1" class="form-label">Institution Name</label>
+                        <input type="email" name="email" class="form-control no-edit" id="exampleInputEmail1" readonly
+                            value="{{ profile.institution }}">
+                    </div>
+                </div>
+                {% endif %}
 
                 <div class="row mt-4 mx-1">
                     <input type="submit" class="btn btn-primary mb-5" value="Update">

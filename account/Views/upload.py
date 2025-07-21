@@ -7,10 +7,6 @@ from django.views.generic.base import View
 from django.contrib import messages
 from account.Views import login
 from ..models import *
-from decouple import config
-import razorpay
-
-razorpay_client = razorpay.Client(auth=(config("RAZORPAY_KEY_ID"), config("RAZORPAY_KEY_SECRET")))
 
 class UploadClass(View):
     def get(self, request):

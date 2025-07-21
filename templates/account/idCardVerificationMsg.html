@@ -6,6 +6,9 @@
 
 {% block linkshead %}
 <style>
+    .messageBody {
+        height: 70vh;
+    }
 
     .btn-primary {
         font-family: 'Quicksand', sans-serif;
@@ -48,7 +51,7 @@
         #buttons {
             display: flex;
             flex-direction: column;
-        }   
+        }
     }
 
     #notreceive {
@@ -82,6 +85,7 @@
         background-color: #b36ef8;
         border: 1px solid #9245df;
     }
+
     body {
         background-image: url("/static/images/illustrator_signup.webp");
         background-repeat: no-repeat;
@@ -89,52 +93,43 @@
 
     @media (max-width:786px) {
         body {
-            background-image: url(""); 
+            background-image: url("");
         }
     }
+
+    .spinner-border.text-purple {
+        color: #9245df;
+    }
+</style>
+
 </style>
 {% endblock %}
 
 {% block body %}
-<div style="position: relative; overflow: hidden auto;">
+<div class="messageBody" style="position: relative; overflow: hidden auto;">
     <div
         style="position: relative; width: 100%; max-width: 520px; min-width: 320px; margin: 10px auto; padding: 2em 2em 1em; text-align: center; background-color: rgb(255, 255, 255);">
         <img style="width: 70%;" src="\static\images\emaillog.png" alt="">
-        
-        <h2>Check your college email</h2> 
-        <p style="color: rgb(60, 61, 61); margin-top: 0.5em;"><span>To confirm your student status, hit the activation link we just sent you on this email <strong>{% for message in msg %}{{message}}{% endfor %}
-        </strong>
-        </p>
-        
-        <div style="margin-top: 1.5em;">
-            <div style="margin-top: -8px;">
-                <div style="text-align: left;">
-                    <div id="datashow"
-                        style="border-radius: 5px; background: rgb(239, 244, 244); padding: 0px; margin-top: 0.5em; transition: max-height 0.15s ease-out 0s;display: none;">
-                        <div style="font-size: 14px; margin-left: 10px;">
-                            <p style="margin-bottom: 0.5em;">If you don't see an email from us within a few minutes,
-                                follow these steps:</p>
-                            <ul style="padding-left: 1em; margin-bottom: 0px;">
-                                <li>Check your college/university email not your personal email. </li>
-                                <li>Make sure you've entered the correct college email. 
-                                    Check your spam</li>  
-                                <li>In case of any further help, mail us at <a href="mailto: hi@studentpeeps.club"> hi@studentpeeps.club</a></li>                           
-                            </ul>
-                        </div>
-                    </div>
-                </div> 
-            </div>
 
+        <h2>Please wait for a while </h2>
+        <p style="color: rgb(60, 61, 61); margin-top: 0.5em;">we are verifying your student identity in about 30 seconds.</p>
+
+        <div style="margin-top: 1.5em;">
             <div style="margin-top: 1.5em;">
                 <div style="margin-top: 0.5em;">
-                    <div id="buttons" class="row justify-content-start mt-4">
-                        <div class="button col">
-                            <a href="/account/v2/institution"><button id="re-enter" class="btn btn-primary mt-2 another">Re-enter college email</button></a>
-                        </div>
-                        <div class="button col">
-                            <a href="/account/v2/upload-college-id"><button id="use-id" class="btn btn-primary mt-2 another">Use ID Card Method</button></a>
-                        </div>
+                    {% if msg %}
+                    <div style="margin-top: 1rem; color: red; font-weight: 600;">
+                        {{ msg }}
                     </div>
+                    {% else %}
+                    <div class="spinner-border text-purple" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    {% endif %}
+
+                    <form id="autoSubmitForm" method="post" action="">
+                        {% csrf_token %}
+                    </form>
                 </div>
             </div>
         </div>
@@ -154,6 +149,14 @@
             dataShow.style.display = "none";
         }
     }
+    let hasSubmitted = false;
+
+    setTimeout(() => {
+        if (!hasSubmitted) {
+            hasSubmitted = true;
+            document.getElementById("autoSubmitForm").submit();
+        }
+    }, 5000);
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
