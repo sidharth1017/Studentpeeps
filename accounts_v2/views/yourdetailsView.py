@@ -6,43 +6,26 @@ from django.contrib.auth.hashers import make_password
 from ..models import Register
 from ..communication import send_welcome_email
 from django.template.loader import render_to_string
+from datetime import datetime
 
 class YourdetailsView(View):
     def get(self, request):
         return render(request, 'account/name_gender.html')
 
     def post(self, request):
-        name = request.POST['name']
-        email = request.session.get('email')
-        phone = request.session.get('phone')
-        password = request.session.get('password')
-
-        # Create or update the Django User
-        user, created = User.objects.get_or_create(email=email)
-        user.username = email
-        user.email = email
-        user.first_name = name
-        user.password = make_password(password)  # Update password every time
-        user.save()
-
-        # Create or update the Register model
-        register, _ = Register.objects.get_or_create(
-            user=user,
-            defaults={'phone': phone, 'is_verified': True}
-        )
-        register.phone = phone
-        register.is_verified = True
-        register.save()
-
-        # Login the user
-        user.backend = 'django.contrib.auth.backends.ModelBackend'
-        login(request, user)
+        FirstName = request.POST['fname']
+        LastName = request.POST['lname'] 
+        Gender = request.POST['Gender']
+        dob_str = request.POST.get('dob')
 
         try:
-            message = render_to_string('emailers/signup_email_body.html', {'fname': name})
-            send_welcome_email(subject=f"Welcome to the club {name}", email=email, message=message)
-        except Exception as e:
-            print(f"Email sending failed: {e}")
+            dob = datetime.strptime(dob_str, "%Y-%m-%d").date()
+        except ValueError:
+            dob = None
 
-        request.session['user_id'] = register.id
-        return redirect('/')
+        request.session['fname'] = FirstName
+        request.session['lname'] = LastName
+        request.session['gender'] = Gender
+        request.session['birthday'] = dob.isoformat() if dob else None
+        
+        return redirect('/account/v2/institution')

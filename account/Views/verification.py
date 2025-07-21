@@ -15,6 +15,7 @@ class VerificationView(View):
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
         user.is_active = True
+        
         if UnVerified.objects.filter(username=user.username).exists():
             profile = UnVerified.objects.get(username=user.username)
             register = Registers(username=profile.username, password=profile.password, email=profile.email, firstname=profile.firstname, lastname=profile.lastname, gender=profile.gender, institution=profile.institution, institution_email=profile.institution_email, graduation_year=profile.graduation_year)

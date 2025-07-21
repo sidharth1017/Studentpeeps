@@ -1,9 +1,9 @@
 # admin.py
 from django.contrib import admin
-from .models import Register
+from .models import Register, UnVerified
 
 class RegisterAdmin(admin.ModelAdmin):
-    list_display = ('user_email', 'phone', 'user_name', 'created_at')
+    list_display = ('user_name', 'user_email', 'phone', 'created_at')
     readonly_fields = ('created_at',)
 
     def user_email(self, obj):
@@ -12,6 +12,8 @@ class RegisterAdmin(admin.ModelAdmin):
 
     def user_name(self, obj):
         return obj.user.first_name
-    user_name.short_description = 'Name'
+    user_name.short_description = 'First Name'
 
 admin.site.register(Register, RegisterAdmin)
+
+admin.site.register(UnVerified)

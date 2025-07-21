@@ -7,6 +7,7 @@
 {% block linkshead %}
 <style>
 
+
     .btn-primary {
         font-family: 'Quicksand', sans-serif;
         font-weight: bold;
@@ -96,15 +97,14 @@
 {% endblock %}
 
 {% block body %}
-<div style="position: relative; overflow: hidden auto;">
+<div style="position: relative; overflow: hidden auto; background-color: #F6F5F6;">
     <div
-        style="position: relative; width: 100%; max-width: 520px; min-width: 320px; margin: 10px auto; padding: 2em 2em 1em; text-align: center; background-color: rgb(255, 255, 255);">
-        <img style="width: 70%;" src="\static\images\emaillog.png" alt="">
+        style="position: relative; width: 100%; max-width: 520px; min-width: 320px; margin: 10px auto; padding: 2em 2em 1em; text-align: center;">
+        <img style="width: 70%;" src="https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/logos/tickanimation.gif" alt="">
         
-        <h2>Check your college email</h2> 
-        <p style="color: rgb(60, 61, 61); margin-top: 0.5em;"><span>To confirm your student status, hit the activation link we just sent you on this email <strong>{% for message in msg %}{{message}}{% endfor %}
-        </strong>
-        </p>
+        <h2>Welcome to Studentpeeps</h2> 
+        <p style="color: rgb(60, 61, 61); margin-top: 0.5em;">Your Student ID is verified.</p>
+        <p style="color: rgb(60, 61, 61); margin-top: 0.5em;">Thanks for signup!</p>
         
         <div style="margin-top: 1.5em;">
             <div style="margin-top: -8px;">
@@ -129,10 +129,7 @@
                 <div style="margin-top: 0.5em;">
                     <div id="buttons" class="row justify-content-start mt-4">
                         <div class="button col">
-                            <a href="/account/v2/institution"><button id="re-enter" class="btn btn-primary mt-2 another">Re-enter college email</button></a>
-                        </div>
-                        <div class="button col">
-                            <a href="/account/v2/upload-college-id"><button id="use-id" class="btn btn-primary mt-2 another">Use ID Card Method</button></a>
+                            <a href="/all"><button id="re-enter" class="btn btn-primary mt-2 another">Explore Student Discounts</button></a>
                         </div>
                     </div>
                 </div>

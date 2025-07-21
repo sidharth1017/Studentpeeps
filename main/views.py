@@ -55,7 +55,7 @@ class GoogleVerifyMessage(View):
         for unverifiedUser in unverifiedUsers:
             if unverifiedUser.email == Email or unverifiedUser.institution_email == Email:
                 message = render_to_string('mail_body_unverified.html', {'fname': unverifiedUser.firstname, 'lname': unverifiedUser.lastname, 'activate_url': unverifiedUser.verification_url})
-                send_email(subject="Sign up karke verify na karna, is not funny!", email=unverifiedUser.institution_email, message=message)  
+                send_email(subject="Sign up karke verify na karna, is not funny!", email=[unverifiedUser.institution_email], message=message)  
                 messages = "We've sent you mail on your university email verify yourself!"              
                 return render(request,'googleverifymessage.html',{'messages' : messages})
 
@@ -161,11 +161,11 @@ class SubscribeView(View):
     def post(self, request):
         email = request.POST.get('subscribe_email')
         if Subscribe.objects.filter(email=email).exists():
-            messages.info(request, "Thanks for subscribing to the Studentpeeps' community! We'll be sure to send you exclusive offers and deals straight to your inbox😊")
+            messages.success(request, "Thanks for subscribing to the Studentpeeps' community! We'll be sure to send you exclusive offers and deals straight to your inbox😊")
         else:
             subscribe = Subscribe(email=email)
             subscribe.save()
-            messages.info(request, "Thanks for subscribing to the Studentpeeps' community! We'll be sure to send you exclusive offers and deals straight to your inbox😊")
+            messages.success(request, "Thanks for subscribing to the Studentpeeps' community! We'll be sure to send you exclusive offers and deals straight to your inbox😊")
             try:
                 message = render_to_string('mail_body_subscribe.html')
                 send_subscribe_email(subject="your community access😎", email=email, message=message)
@@ -649,4 +649,8 @@ class CodeDailyobjects(View):
         brandcode.save() 
 
         return render(request,'codedailyobjects.html', {'code': code})
+
+class IdVerificationMessage(View):
+    def get(self, request):        
+        return render(request,'account/idCardVerification.html')
 

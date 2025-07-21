@@ -2,6 +2,14 @@
 Studentpeeps{% endblock %} {% block linkshead %}
 <link rel="stylesheet" href="{% static 'css/ourstory.css' %}" />
 {% endblock %} {% block body %}
+
+<style>
+  .team-members {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+}
+</style>
 <header class="section header">
   <div class="menu">
     <ul>
@@ -22,45 +30,21 @@ Studentpeeps{% endblock %} {% block linkshead %}
     </h1>
     <button>Let's Explore</button>
   </div>
-  <svg
-    viewBox="0 0 500 150"
-    preserveAspectRatio="none"
-    style="height: 150px; width: 100%; bottom: -235px"
-  >
-    <path
-      d="M0.00,92.27 C216.83,192.92 304.30,8.39 500.00,109.03 L500.00,0.00 L0.00,0.00 Z"
-      style="stroke: none; fill: #a479ff"
-    ></path>
+  <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 150px; width: 100%; bottom: -235px">
+    <path d="M0.00,92.27 C216.83,192.92 304.30,8.39 500.00,109.03 L500.00,0.00 L0.00,0.00 Z"
+      style="stroke: none; fill: #a479ff"></path>
   </svg>
-  <svg
-    viewBox="0 0 500 150"
-    preserveAspectRatio="none"
-    style="height: 150px; width: 100%; bottom: -185px"
-  >
-    <path
-      d="M0.00,92.27 C216.83,192.92 304.30,8.39 500.00,109.03 L500.00,0.00 L0.00,0.00 Z"
-      style="stroke: none; fill: #8051e4"
-    ></path>
+  <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 150px; width: 100%; bottom: -185px">
+    <path d="M0.00,92.27 C216.83,192.92 304.30,8.39 500.00,109.03 L500.00,0.00 L0.00,0.00 Z"
+      style="stroke: none; fill: #8051e4"></path>
   </svg>
-  <svg
-    viewBox="0 0 500 150"
-    preserveAspectRatio="none"
-    style="height: 150px; width: 100%; bottom: -135px"
-  >
-    <path
-      d="M0.00,92.27 C216.83,192.92 304.30,8.39 500.00,109.03 L500.00,0.00 L0.00,0.00 Z"
-      style="stroke: none; fill: #6f48c4"
-    ></path>
+  <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 150px; width: 100%; bottom: -135px">
+    <path d="M0.00,92.27 C216.83,192.92 304.30,8.39 500.00,109.03 L500.00,0.00 L0.00,0.00 Z"
+      style="stroke: none; fill: #6f48c4"></path>
   </svg>
-  <svg
-    viewBox="0 0 500 150"
-    preserveAspectRatio="none"
-    style="height: 150px; width: 100%; bottom: -85px"
-  >
-    <path
-      d="M0.00,92.27 C216.83,192.92 304.30,8.39 500.00,109.03 L500.00,0.00 L0.00,0.00 Z"
-      style="stroke: none; fill: #4a3082"
-    ></path>
+  <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 150px; width: 100%; bottom: -85px">
+    <path d="M0.00,92.27 C216.83,192.92 304.30,8.39 500.00,109.03 L500.00,0.00 L0.00,0.00 Z"
+      style="stroke: none; fill: #4a3082"></path>
   </svg>
 </header>
 <section class="team">
@@ -68,10 +52,8 @@ Studentpeeps{% endblock %} {% block linkshead %}
     <h1 class="heading">
       Meet the <span class="highlight">Studentpeeps</span> team
     </h1>
-    <span class="sub-heading"
-      >The people backstage, who stay up late, survive on coffee, hustling to
-      build something great!</span
-    >
+    <span class="sub-heading">The people backstage, who stay up late, survive on coffee, hustling to
+      build something great!</span>
     <div class="team-members">
       <div class="team-member">
         <div class="profile-image">
@@ -82,18 +64,27 @@ Studentpeeps{% endblock %} {% block linkshead %}
         <span class="name"> Ayush Mittal </span>
         <span class="designation">Co-founder</span>
         <div class="social-icons">
-          <a href="https://www.linkedin.com/in/ayushmittal22/" target="_blank"
-            ><i class="fa fa-linkedin-square"></i
-          ></a>
-          <a href="https://twitter.com/ayushmiittal" target="_blank"
-            ><i class="fa fa-twitter"></i
-          ></a>
-          <a href="https://www.instagram.com/ayush.mittal22" target="_blank"
-            ><i class="fa fa-instagram"></i
-          ></a>
+          <a href="https://www.linkedin.com/in/ayushmittal22/" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+          <a href="https://twitter.com/ayushmiittal" target="_blank"><i class="fa fa-twitter"></i></a>
+          <a href="https://www.instagram.com/ayush.mittal22" target="_blank"><i class="fa fa-instagram"></i></a>
         </div>
       </div>
       <div class="team-member">
+        <div class="profile-image">
+          <video class="sidharth-video" loop="true" autoplay="autoplay" muted>
+            <source src="/static/images/sidharth.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <span class="name"> Sidharth Verma </span>
+        <span class="designation">Co-founder</span>
+        <div class="social-icons">
+          <a href="https://www.linkedin.com/in/sidharth-verma-3830801b2/" target="_blank"><i
+              class="fa fa-linkedin-square"></i></a>
+          <a href="https://twitter.com/Sidharthv6367" target="_blank"><i class="fa fa-twitter"></i></a>
+          <a href="https://www.instagram.com/__sidharth.v/" target="_blank"><i class="fa fa-instagram"></i></a>
+        </div>
+      </div>
+      <!-- <div class="team-member">
         <div class="profile-image">
           <video class="syed-video" loop="true" autoplay="autoplay" muted>
             <source src="/static/images/chirag.mp4" type="video/mp4" />
@@ -114,7 +105,7 @@ Studentpeeps{% endblock %} {% block linkshead %}
             ><i class="fa fa-instagram"></i
           ></a>
         </div>
-      </div>
+      </div> -->
       <!-- <div class="team-member">
         <div class="profile-image">
           <video class="tushar-video" loop="true" autoplay="autoplay" muted>
@@ -133,28 +124,6 @@ Studentpeeps{% endblock %} {% block linkshead %}
           <a href="" target="_blank"><i class="fa fa-instagram"></i></a>
         </div>
       </div> -->
-      <div class="team-member">
-        <div class="profile-image">
-          <video class="sidharth-video" loop="true" autoplay="autoplay" muted>
-            <source src="/static/images/sidharth.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <span class="name"> Sidharth Verma </span>
-        <span class="designation">Tech Lead </span>
-        <div class="social-icons">
-          <a
-            href="https://www.linkedin.com/in/sidharth-verma-3830801b2/"
-            target="_blank"
-            ><i class="fa fa-linkedin-square"></i
-          ></a>
-          <a href="https://twitter.com/Sidharthv6367" target="_blank"
-            ><i class="fa fa-twitter"></i
-          ></a>
-          <a href="https://www.instagram.com/__sidharth.v/" target="_blank"
-            ><i class="fa fa-instagram"></i
-          ></a>
-        </div>
-      </div>
       <!-- <div class="team-member">
         <div class="profile-image">
           <video class="syed-video" loop="true" autoplay="autoplay" muted>
@@ -205,17 +174,14 @@ Studentpeeps{% endblock %} {% block linkshead %}
 <section class="values">
   <div class="cont">
     <h1 class="heading">
-      Crazy culture we follow.<br /><span class="highlight"
-        >Some cool rituals we swear by</span
-      >
+      Crazy culture we follow.<br /><span class="highlight">Some cool rituals we swear by</span>
     </h1>
     <div class="values-wrapper">
       <div class="value">
         <div class="icon">💯</div>
         <div class="content">
           <h1 class="title">Execution 100%</h1>
-          <span class="description"
-            >Action over words. Execution over planning.
+          <span class="description">Action over words. Execution over planning.
           </span>
         </div>
       </div>
@@ -223,8 +189,7 @@ Studentpeeps{% endblock %} {% block linkshead %}
         <div class="icon">🤔</div>
         <div class="content">
           <h1 class="title">Learn everyday</h1>
-          <span class="description"
-            >There should not be a day where we don't learn anything new.
+          <span class="description">There should not be a day where we don't learn anything new.
           </span>
         </div>
       </div>
@@ -232,8 +197,7 @@ Studentpeeps{% endblock %} {% block linkshead %}
         <div class="icon">💚</div>
         <div class="content">
           <h1 class="title">Passion</h1>
-          <span class="description"
-            >Passionate, driven and committed about what we build.
+          <span class="description">Passionate, driven and committed about what we build.
           </span>
         </div>
       </div>
@@ -241,10 +205,8 @@ Studentpeeps{% endblock %} {% block linkshead %}
         <div class="icon">🔥</div>
         <div class="content">
           <h1 class="title">Obsession</h1>
-          <span class="description"
-            >Dedicated to making students’ experience and lives better. We
-            simply love what we do.</span
-          >
+          <span class="description">Dedicated to making students’ experience and lives better. We
+            simply love what we do.</span>
         </div>
       </div>
     </div>
@@ -253,8 +215,7 @@ Studentpeeps{% endblock %} {% block linkshead %}
 <section class="timeline">
   <div class="cont">
     <h1 class="heading">Our Story?</h1>
-    <span class="sub-heading"
-      >Raise the curtain. It all started back when…
+    <span class="sub-heading">Raise the curtain. It all started back when…
     </span>
     <div class="timeline-cont">
       <div class="line2"></div>

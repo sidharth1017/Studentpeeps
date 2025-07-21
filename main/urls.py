@@ -36,6 +36,9 @@ urlpatterns = [
     path('fashion/', views.Fashion.as_view(), name="Fashion"),
     path('exclusive/', views.Exclusive.as_view(), name="Exclusive"),
     path('nonexclusive/', views.NonExclusive.as_view(), name="NonExclusive"),
+    path('id-verification-message/',
+         views.IdVerificationMessage.as_view(), name="IdVerificationMessage"),
+    
 
     path('indigo/', views.Indigo.as_view(), name='Indigo'),
     path('microsoft/', views.Microsoft.as_view(), name='Microsoft'),
