@@ -161,16 +161,23 @@
             <div class="col">
               <label>what are your pronouns ?</label> <br>
               <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="Gender" id="btnradio1" autocomplete="off" value="He/His"
-                  checked>
-                <label class="btn btn-outline-dark" for="btnradio1">He/His</label>
+                {% with gender=values.Gender|default:'' %}
+                  <input type="radio" class="btn-check" name="Gender" id="btnradio1" autocomplete="off" value="He/His" 
+                    {% ifequal gender "He/His" %}checked{% endifequal %}>
+                  <label class="btn btn-outline-dark" for="btnradio1">He/His</label>
 
-                <input type="radio" class="btn-check" name="Gender" id="btnradio2" autocomplete="off" value="She/Her">
-                <label class="btn btn-outline-dark" for="btnradio2">She/Her</label>
+                  <input type="radio" class="btn-check" name="Gender" id="btnradio2" autocomplete="off" value="She/Her"
+                    {% ifequal gender "She/Her" %}checked{% endifequal %}>
+                  <label class="btn btn-outline-dark" for="btnradio2">She/Her</label>
 
-                <input type="radio" class="btn-check" name="Gender" id="btnradio3" autocomplete="off" value="They/Them">
-                <label class="btn btn-outline-dark" for="btnradio3">They/Them</label>
+                  <input type="radio" class="btn-check" name="Gender" id="btnradio3" autocomplete="off" value="They/Them"
+                    {% ifequal gender "They/Them" %}checked{% endifequal %}>
+                  <label class="btn btn-outline-dark" for="btnradio3">They/Them</label>
+                {% endwith %}
+
+
               </div>
+
             </div>
           </div>
 

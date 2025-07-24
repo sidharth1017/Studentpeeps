@@ -3,39 +3,30 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 # Create your models here.
-# class Register(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     phone = models.CharField(max_length=15, unique=True)
-#     gender = models.CharField(max_length=100)
-#     is_verified = models.BooleanField(default=False)
-#     created_at = models.DateTimeField(default=timezone.now)
-
-#     def __str__(self):
-#         return self.user.email    
-
-#     class Meta:
-#         verbose_name_plural = "Register"   
-
 class AbandonedSignup(models.Model):
-    email = models.CharField(max_length=1000)
-    password = models.CharField(max_length=100, default="")
+    identifier = models.CharField(max_length=1000, default="", null=True, blank=True)
+    firstname = models.CharField(max_length=100, default="", null=True, blank=True)
+    lastname = models.CharField(max_length=100, default="", null=True, blank=True)
+    gender = models.CharField(max_length=100, default="", null=True, blank=True)
+    birthday = models.DateField(null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.email
+        return self.identifier    
 
-    def signup(self):
-        self.save()
+    class Meta:
+        verbose_name_plural = "Abandoned Signups"     
 
 class Register(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=15, default="", null=True, blank=True)
-    firstname = models.CharField(max_length=100, default="")
-    lastname = models.CharField(max_length=100, default="")
-    gender = models.CharField(max_length=100, default="")
+    firstname = models.CharField(max_length=100, default="", blank=True)
+    lastname = models.CharField(max_length=100, default="", blank=True)
+    gender = models.CharField(max_length=100, default="", blank=True)
     birthday = models.DateField(null=True, blank=True)
-    institution = models.CharField(max_length=200, default="")
-    institution_email = models.CharField(max_length=200, default="")
-    graduation_year = models.CharField(max_length=100, default="")
+    institution = models.CharField(max_length=200, default="", blank=True)
+    institution_email = models.CharField(max_length=200, default="", blank=True)
+    graduation_year = models.CharField(max_length=100, default="", blank=True)
     collegeId = models.ImageField(upload_to='collegeidcards/', null=True, blank=True)
     is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now)
