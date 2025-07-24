@@ -3,14 +3,25 @@ from django.views.generic.base import View
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.hashers import make_password
-from ..models import Register
+from ..models import Register, AbandonedSignup
 from ..communication import send_welcome_email
 from django.template.loader import render_to_string
 from datetime import datetime
 
 class YourdetailsView(View):
     def get(self, request):
-        return render(request, 'account/name_gender.html')
+        identifier = request.session.get('phone') or request.session.get('email')
+        values = {}
+        if AbandonedSignup.objects.filter(identifier=identifier).exists():
+            abandonedSignupDetails = AbandonedSignup.objects.filter(identifier=identifier).first()
+            values = {
+                'FirstName': abandonedSignupDetails.firstname,
+                'LastName': abandonedSignupDetails.lastname,
+                'DateOfBirth': abandonedSignupDetails.birthday.strftime('%Y-%m-%d') if abandonedSignupDetails.birthday else '',
+                'Gender': abandonedSignupDetails.gender
+            }
+
+        return render(request, 'account/name_gender.html', {'values': values})
 
     def post(self, request):
         FirstName = request.POST['fname']
@@ -22,6 +33,12 @@ class YourdetailsView(View):
             dob = datetime.strptime(dob_str, "%Y-%m-%d").date()
         except ValueError:
             dob = None
+        
+        identifier = request.session.get('phone') or request.session.get('email')
+        if AbandonedSignup.objects.filter(identifier=identifier).exists():
+            AbandonedSignup.objects.filter(identifier=identifier).delete()
+            abandonedSignup = AbandonedSignup(identifier=identifier, firstname=FirstName, lastname=LastName, gender=Gender, birthday=dob)
+            abandonedSignup.save()
 
         request.session['fname'] = FirstName
         request.session['lname'] = LastName

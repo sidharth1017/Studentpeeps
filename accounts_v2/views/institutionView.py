@@ -13,7 +13,7 @@ from account.utils import token_generator
 from account.tasks import send_email
 from validate_email import validate_email
 from account.models import College
-from ..models import Register, UnVerified
+from ..models import Register, UnVerified, AbandonedSignup
 
 
 class InstitutionView(View):
@@ -92,6 +92,9 @@ class InstitutionView(View):
                            'uidb64': uidb64, 'token': token_generator.make_token(user), 'new' : 'exist'})
             activate_url = 'https://' + domain + link
 
+            identifier = request.session.get('phone') or request.session.get('email')
+            if AbandonedSignup.objects.filter(identifier=identifier).exists():
+                AbandonedSignup.objects.filter(identifier=identifier).delete()
 
             if UnVerified.objects.filter(institution_email=collegeEmail).exists():
                 UnVerified.objects.filter(institution_email=collegeEmail).delete()

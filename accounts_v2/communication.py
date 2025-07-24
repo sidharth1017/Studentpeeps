@@ -79,7 +79,7 @@ def send_otp(request, phone: str, otp: str) -> Tuple[bool, bool]:
 
     otp_log, created = OTPSendLog.objects.get_or_create(phone=phone, date=today)
 
-    if otp_log.count >= 2:
+    if otp_log.count >= 5:
         messages.error(request, f"Rate limit exceeded for {phone}")
         print(f"Rate limit exceeded for {phone}")
         return False, True
