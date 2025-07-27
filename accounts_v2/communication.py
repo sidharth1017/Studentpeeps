@@ -31,9 +31,9 @@ def send_otp_sms_via_AWS_SNS(phone: str, otp: str) -> bool:
     try:
         client = boto3.client(
             'sns',
-            aws_access_key_id=settings.AWS_ACCESS_KEY_ID_EMAIL,
-            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY_EMAIL,
-            region_name=settings.AWS_REGION_EMAIL
+            aws_access_key_id=settings.AWS_ACCESS_KEY_ID_EMAIL_EMAIL,
+            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY_EMAIL_EMAIL,
+            region_name=settings.AWS_REGION_EMAIL_EMAIL
         )
         
         message = f"Your Studentpeeps verification code is {otp}"
@@ -120,6 +120,20 @@ def send_otp_email(email, otp, message):
 
 
 def send_welcome_email(subject, email, message):
+    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL))
+    msg = EmailMessage(
+                subject,
+                message,
+                from_email,
+                [email],
+            )
+    msg.content_subtype = "html"  # Main content is now text/html
+    msg.send(fail_silently=False)
+    return True
+
+
+def send_welcome_email(subject, email, message):
+    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL))
     from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL))
     msg = EmailMessage(
                 subject,
