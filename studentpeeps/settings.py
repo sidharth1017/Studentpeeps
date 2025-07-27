@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['studentpeeps.club', '139.59.79.183', 'www.studentpeeps.club', 'localhost', '127.0.0.1', '*']
 
@@ -227,8 +227,8 @@ AWS_SECRET_ACCESS_KEY_EMAIL=config('AWS_SECRET_KEY')
 AWS_REGION_EMAIL=config('AWS_REGION')
 
 # Digital Ocean Space Cred
-AWS_ACCESS_KEY_ID = 'DO801AGF7H7FU6R2DQMX'
-AWS_SECRET_ACCESS_KEY = 'lYPaitRHv7IsJJJb8N2TSnbn26vijMBju5TRJrcws8U'
+AWS_ACCESS_KEY_ID = config('DO_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('DO_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = 'vc-thumbnails'
 AWS_S3_ENDPOINT_URL = 'https://blr1.digitaloceanspaces.com'
 
