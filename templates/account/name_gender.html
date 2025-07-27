@@ -3,8 +3,12 @@
 {% block title %}StudentPeeps | Your Details{% endblock %}
 
 {% block linkshead %}
+<<<<<<< Updated upstream
 <meta name="description"
   content="Enter your details on Studentpeeps to make an account on Studentpeeps. Get student discounts when you shop.">
+=======
+<meta name="description"content="Enter your details on Studentpeeps to make an account on Studentpeeps. Get student discounts when you shop.">
+>>>>>>> Stashed changes
 
 <link rel="stylesheet" href={%static 'css/signup2.css' %}>
 
@@ -40,6 +44,7 @@
     line-height: 30px;
   }
 
+<<<<<<< Updated upstream
   @media(max-width:320px) {
     label.btn.btn-outline-dark {
       padding-right: 0.9em;
@@ -47,12 +52,21 @@
     }
   }
 
+=======
+  @media(max-width:320px){
+    label.btn.btn-outline-dark {
+    padding-right: 0.9em;
+    padding-left: 0.9em;
+  }
+  }
+>>>>>>> Stashed changes
   /* @media(max-width:375px){
     label.btn.btn-outline-dark {
     padding-right: 0.9em;
     padding-left: 0.9em;
   }
   } */
+<<<<<<< Updated upstream
   @media(min-width:330px) and (max-width:360px) {
     label.btn.btn-outline-dark {
       padding-right: 1.3em;
@@ -74,6 +88,28 @@
     }
   }
 
+=======
+  @media(min-width:330px) and (max-width:360px){
+    label.btn.btn-outline-dark {
+    padding-right: 1.3em;
+    padding-left: 1.3em;
+  }
+  }
+  @media(min-width:370px) and (max-width:390px){
+    label.btn.btn-outline-dark {
+    padding-right: 1.4em;
+    padding-left: 1.4em;
+  }
+  }
+  
+  @media(min-width:380px) and (max-width:420px){
+    label.btn.btn-outline-dark {
+    padding-right: 1.9em;
+    padding-left: 1.9em;
+  }
+  }
+  
+>>>>>>> Stashed changes
   .btn-primary {
     font-family: 'Quicksand', sans-serif;
     font-weight: bold;
@@ -93,12 +129,15 @@
     transform: translateY(-0.15em);
     color: white;
   }
+<<<<<<< Updated upstream
 
   section {
+=======
+  section{
+>>>>>>> Stashed changes
     margin-top: 30px;
   }
-
-  .fix {
+  .fix{
     position: relative;
     width: 100%;
     max-width: 440px;
@@ -107,7 +146,10 @@
     margin: 0px auto;
     padding: 2em 2em 1em;
   }
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
   body {
     background-image: url("/static/images/illustrator_signup.webp");
     background-repeat: no-repeat;
@@ -161,6 +203,7 @@
             <div class="col">
               <label>what are your pronouns ?</label> <br>
               <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+<<<<<<< Updated upstream
                 {% with gender=values.Gender|default:'' %}
                   <input type="radio" class="btn-check" name="Gender" id="btnradio1" autocomplete="off" value="He/His" 
                     {% ifequal gender "He/His" %}checked{% endifequal %}>
@@ -178,17 +221,57 @@
 
               </div>
 
+=======
+                <input type="radio" class="btn-check" name="Gender" id="btnradio1" autocomplete="off" value="He/His"
+                  checked>
+                <label class="btn btn-outline-dark" for="btnradio1">He/His</label>
+
+                <input type="radio" class="btn-check" name="Gender" id="btnradio2" autocomplete="off" value="She/Her">
+                <label class="btn btn-outline-dark" for="btnradio2">She/Her</label>
+
+                <input type="radio" class="btn-check" name="Gender" id="btnradio3" autocomplete="off" value="They/Them">
+                <label class="btn btn-outline-dark" for="btnradio3">They/Them</label>
+              </div>
+>>>>>>> Stashed changes
             </div>
           </div>
 
           <div class="row align-items-center mt-4">
             <div class="col">
+<<<<<<< Updated upstream
               <label for="dob">Date of Birth</label>
               <input type="date" id="dob" name="dob" class="form-control input-sm" value="{{values.DateOfBirth}}"
                 min="1900-01-01" max="2025-12-31" required />
             </div>
           </div>
 
+=======
+              <label>Date of birth</label>
+              <div class="input-group">
+                <input type="text" value="{{values.Date}}" class="form-control
+                    input-sm" name="date" placeholder="Date" required />
+                <span class="input-group-btn" style="width:0px;"></span>
+                <select class="custom-select form-control
+            input-sm" id="inputGroupSelect03" value="{{values.Month}}" name="month" aria-label="Example select with button addon">
+                  <option>January</option>
+                  <option>Febuary</option>
+                  <option>March</option>
+                  <option>April</option>
+                  <option>May</option>
+                  <option>June</option>
+                  <option>July</option>
+                  <option>August</option>
+                  <option>September</option>
+                  <option>October</option>
+                  <option>November</option>
+                  <option>December</option>
+                </select>
+                <span class="input-group-btn" style="width:0px;"></span>
+                <input type="text" class="form-control input-sm" placeholder="Year" name="year" value="{{values.Year}}" required/>
+              </div>
+            </div>
+          </div>
+>>>>>>> Stashed changes
           <button class="btn btn-primary mt-4">Continue</button>
       </div>
     </div>

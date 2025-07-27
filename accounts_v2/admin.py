@@ -1,6 +1,10 @@
 # admin.py
 from django.contrib import admin
+<<<<<<< Updated upstream
 from .models import Register, UnVerified, AbandonedSignup
+=======
+from .models import Register, UnVerified
+>>>>>>> Stashed changes
 
 class RegisterAdmin(admin.ModelAdmin):
     list_display = ('user_name', 'user_email', 'phone', 'created_at')
@@ -17,4 +21,7 @@ class RegisterAdmin(admin.ModelAdmin):
 admin.site.register(Register, RegisterAdmin)
 
 admin.site.register(UnVerified)
+<<<<<<< Updated upstream
 admin.site.register(AbandonedSignup)
+=======
+>>>>>>> Stashed changes

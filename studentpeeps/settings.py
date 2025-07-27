@@ -227,8 +227,13 @@ AWS_SECRET_ACCESS_KEY_EMAIL=config('AWS_SECRET_KEY')
 AWS_REGION_EMAIL=config('AWS_REGION')
 
 # Digital Ocean Space Cred
+<<<<<<< Updated upstream
 AWS_ACCESS_KEY_ID = config('DO_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config('DO_ACCESS_KEY')
+=======
+AWS_ACCESS_KEY_ID = 'DO801AGF7H7FU6R2DQMX'
+AWS_SECRET_ACCESS_KEY = 'lYPaitRHv7IsJJJb8N2TSnbn26vijMBju5TRJrcws8U'
+>>>>>>> Stashed changes
 AWS_STORAGE_BUCKET_NAME = 'vc-thumbnails'
 AWS_S3_ENDPOINT_URL = 'https://blr1.digitaloceanspaces.com'
 

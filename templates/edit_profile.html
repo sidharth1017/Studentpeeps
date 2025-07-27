@@ -56,7 +56,11 @@
                 <div class="row align-items-center mt-4">
                     <div class="col">
                         <label id="label1" class="input">Last name</label>
+<<<<<<< Updated upstream
                         <input type="text" name="lname" class="form-control" value="{{ profile.lastname }}">
+=======
+                        <input type="text" name="fname" class="form-control" value="{{ profile.lastname }}">
+>>>>>>> Stashed changes
                     </div>
                 </div>
 
@@ -68,6 +72,7 @@
                     </div>
                 </div>
                 {% else %}
+<<<<<<< Updated upstream
                 <div class="row align-items-center mt-4">
                     <div class="col">
                         <label id="label1" class="input">Phone No</label>
@@ -79,9 +84,37 @@
                 {% if profile.user.email %}
                 <div class="row align-items-center mt-4">
                     <div class="col">
+=======
+                <div class="row align-items-center mt-4">
+                    <div class="col">
+                        <label id="label1" class="input">Phone No</label>
+                        <input type="text" name="phone" class="form-control" value="">
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="row align-items-center mt-4">
+                    <div class="col">
+>>>>>>> Stashed changes
                         <label id="label1" for="exampleInputEmail1" class="form-label">Personal Email address</label>
                         <input type="email" name="email" class="form-control no-edit" id="exampleInputEmail1" readonly
-                            value="{{ profile.user.email }}">
+                            value="{{ profile.user }}">
+                    </div>
+                </div>
+
+                <div class="row align-items-center mt-4">
+                    <div class="col">
+                        <label id="label1" for="exampleInputEmail1" class="form-label">Institution Email address</label>
+                        <input type="email" name="email" class="form-control no-edit" id="exampleInputEmail1" readonly
+                            value="{{ profile.institution_email }}">
+                    </div>
+                </div>
+
+                <div class="row align-items-center mt-4">
+                    <div class="col">
+                        <label id="label1" for="exampleInputEmail1" class="form-label">Institution Name</label>
+                        <input type="email" name="email" class="form-control no-edit" id="exampleInputEmail1" readonly
+                            value="{{ profile.institution }}">
                     </div>
                 </div>
                 {% else %}

@@ -3,7 +3,10 @@ from django_email_verification import urls as email_urls
 from django.contrib.auth import views as auth_views
 from . import views
 from .views import identifyView, sendOtpView, securityView, passwordView, yourdetailsView, phoneNoView, resendOtpView, googleAuthView, institutionView, verificationView, collegeView, idUploadView, idCardVerificationMessageView
+<<<<<<< Updated upstream
 from account.Views import uploademail, myaccount
+=======
+>>>>>>> Stashed changes
 urlpatterns = [
     path('identify', identifyView.IdentifyView.as_view(), name='Identify'),
     path('verify', sendOtpView.SendOtpView.as_view(), name='Verify OTP'),
@@ -16,7 +19,10 @@ urlpatterns = [
     path('resend', resendOtpView.ResendOtpView.as_view(), name='resend_otp'),
     path('activate/<uidb64>/<token>/<new>', verificationView.VerificationView.as_view(), name="activate"),
     path('student-verification-status', idCardVerificationMessageView.IdCardVerificationMessageView.as_view(), name="Verificationmsg"),
+<<<<<<< Updated upstream
     path('verify-id-upload-user', uploademail.UploadEmail.as_view(), name="Secret Page"),
     path('myaccount/', myaccount.myaccount, name="myaccount"),    
 
+=======
+>>>>>>> Stashed changes
 ] 
