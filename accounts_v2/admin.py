@@ -1,6 +1,6 @@
 # admin.py
 from django.contrib import admin
-from .models import Register
+from .models import Register, UnVerified
 
 class RegisterAdmin(admin.ModelAdmin):
     list_display = ('user_name', 'user_email', 'phone', 'created_at')
@@ -15,3 +15,5 @@ class RegisterAdmin(admin.ModelAdmin):
     user_name.short_description = 'First Name'
 
 admin.site.register(Register, RegisterAdmin)
+
+admin.site.register(UnVerified)

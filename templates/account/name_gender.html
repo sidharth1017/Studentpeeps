@@ -3,9 +3,10 @@
 {% block title %}StudentPeeps | Your Details{% endblock %}
 
 {% block linkshead %}
-<meta name="description"content="Sign up on Studentpeeps to get student discounts when you shop. Enter your email and password to make an account on Studentpeeps.">
-<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
-<link rel="stylesheet" href="{% static 'css/google.css' %}">
+<meta name="description"content="Enter your details on Studentpeeps to make an account on Studentpeeps. Get student discounts when you shop.">
+
+<link rel="stylesheet" href={%static 'css/signup2.css' %}>
+
 <style>
   input.form-control,
   select#inputGroupSelect03 {
@@ -31,6 +32,45 @@
     font-size: 15px;
   }
 
+  label.btn.btn-outline-dark {
+    padding-right: 2.1em;
+    padding-left: 2.1em;
+    height: 46px;
+    line-height: 30px;
+  }
+
+  @media(max-width:320px){
+    label.btn.btn-outline-dark {
+    padding-right: 0.9em;
+    padding-left: 0.9em;
+  }
+  }
+  /* @media(max-width:375px){
+    label.btn.btn-outline-dark {
+    padding-right: 0.9em;
+    padding-left: 0.9em;
+  }
+  } */
+  @media(min-width:330px) and (max-width:360px){
+    label.btn.btn-outline-dark {
+    padding-right: 1.3em;
+    padding-left: 1.3em;
+  }
+  }
+  @media(min-width:370px) and (max-width:390px){
+    label.btn.btn-outline-dark {
+    padding-right: 1.4em;
+    padding-left: 1.4em;
+  }
+  }
+  
+  @media(min-width:380px) and (max-width:420px){
+    label.btn.btn-outline-dark {
+    padding-right: 1.9em;
+    padding-left: 1.9em;
+  }
+  }
+  
   .btn-primary {
     font-family: 'Quicksand', sans-serif;
     font-weight: bold;
@@ -50,9 +90,8 @@
     transform: translateY(-0.15em);
     color: white;
   }
-
-  section {
-    margin-top: 50px;
+  section{
+    margin-top: 30px;
   }
   .fix{
     position: relative;
@@ -63,22 +102,6 @@
     margin: 0px auto;
     padding: 2em 2em 1em;
   }
-
-  .sign {
-    text-align: center;
-    margin-top: 2em;
-    width: 100%;
-    cursor: default;
-  }
-
-  .sign a {
-    background: none;
-    font-size: 1em;
-    font-family: Gibson, Helvetica, Arial, "Sans Serif";
-    text-decoration: underline;
-    color: #4A3082;
-  }
-
   body {
     background-image: url("/static/images/illustrator_signup.webp");
     background-repeat: no-repeat;
@@ -112,16 +135,71 @@
         </div>
         <form method="Post">
           {% csrf_token %}
+          <div class="row align-items-center">
+
+          </div>
           <div class="row align-items-center mt-4">
             <div class="col">
-              <label class="input">Name</label>
-              <input type="text" value="{{values.name}}" name="name" class="form-control" required>
+              <label class="input">Firstname</label>
+              <input type="text" value="{{values.FirstName}}" name="fname" class="form-control" required>
             </div>
           </div>
-          <button class="btn btn-primary mt-4">Create account</button>
+          <div class="row align-items-center mt-4">
+            <div class="col">
+              <label>Lastname</label>
+              <input type="text" name="lname" value="{{values.LastName}}" class="form-control" required>
+            </div>
           </div>
+
+          <div class="row align-items-center mt-4">
+            <div class="col">
+              <label>what are your pronouns ?</label> <br>
+              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="Gender" id="btnradio1" autocomplete="off" value="He/His"
+                  checked>
+                <label class="btn btn-outline-dark" for="btnradio1">He/His</label>
+
+                <input type="radio" class="btn-check" name="Gender" id="btnradio2" autocomplete="off" value="She/Her">
+                <label class="btn btn-outline-dark" for="btnradio2">She/Her</label>
+
+                <input type="radio" class="btn-check" name="Gender" id="btnradio3" autocomplete="off" value="They/Them">
+                <label class="btn btn-outline-dark" for="btnradio3">They/Them</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="row align-items-center mt-4">
+            <div class="col">
+              <label>Date of birth</label>
+              <div class="input-group">
+                <input type="text" value="{{values.Date}}" class="form-control
+                    input-sm" name="date" placeholder="Date" required />
+                <span class="input-group-btn" style="width:0px;"></span>
+                <select class="custom-select form-control
+            input-sm" id="inputGroupSelect03" value="{{values.Month}}" name="month" aria-label="Example select with button addon">
+                  <option>January</option>
+                  <option>Febuary</option>
+                  <option>March</option>
+                  <option>April</option>
+                  <option>May</option>
+                  <option>June</option>
+                  <option>July</option>
+                  <option>August</option>
+                  <option>September</option>
+                  <option>October</option>
+                  <option>November</option>
+                  <option>December</option>
+                </select>
+                <span class="input-group-btn" style="width:0px;"></span>
+                <input type="text" class="form-control input-sm" placeholder="Year" name="year" value="{{values.Year}}" required/>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary mt-4">Continue</button>
       </div>
     </div>
+  </div>
+  </div>
   </div>
   </form>
 </section>

@@ -49,8 +49,14 @@
                 {% csrf_token %}
                 <div class="row align-items-center mt-4">
                     <div class="col">
-                        <label id="label1" class="input">Name</label>
-                        <input type="text" name="fname" class="form-control" value="{{ profile.user.first_name }}">
+                        <label id="label1" class="input">First name</label>
+                        <input type="text" name="fname" class="form-control" value="{{ profile.firstname }}">
+                    </div>
+                </div>
+                <div class="row align-items-center mt-4">
+                    <div class="col">
+                        <label id="label1" class="input">Last name</label>
+                        <input type="text" name="fname" class="form-control" value="{{ profile.lastname }}">
                     </div>
                 </div>
 
@@ -61,12 +67,36 @@
                         <input type="text" name="phone" class="form-control no-edit" value="{{ profile.phone }}">
                     </div>
                 </div>
+                {% else %}
+                <div class="row align-items-center mt-4">
+                    <div class="col">
+                        <label id="label1" class="input">Phone No</label>
+                        <input type="text" name="phone" class="form-control" value="">
+                    </div>
+                </div>
+                {% endif %}
 
                 <div class="row align-items-center mt-4">
                     <div class="col">
-                        <label id="label1" for="exampleInputEmail1" class="form-label">Email address</label>
+                        <label id="label1" for="exampleInputEmail1" class="form-label">Personal Email address</label>
                         <input type="email" name="email" class="form-control no-edit" id="exampleInputEmail1" readonly
-                            value="{{ profile.user.email }}">
+                            value="{{ profile.user }}">
+                    </div>
+                </div>
+
+                <div class="row align-items-center mt-4">
+                    <div class="col">
+                        <label id="label1" for="exampleInputEmail1" class="form-label">Institution Email address</label>
+                        <input type="email" name="email" class="form-control no-edit" id="exampleInputEmail1" readonly
+                            value="{{ profile.institution_email }}">
+                    </div>
+                </div>
+
+                <div class="row align-items-center mt-4">
+                    <div class="col">
+                        <label id="label1" for="exampleInputEmail1" class="form-label">Institution Name</label>
+                        <input type="email" name="email" class="form-control no-edit" id="exampleInputEmail1" readonly
+                            value="{{ profile.institution }}">
                     </div>
                 </div>
 

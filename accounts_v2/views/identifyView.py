@@ -7,7 +7,7 @@ import re
 
 from django.http import JsonResponse
 import re
-from ..models import Register, Register
+from ..models import Register
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import login
@@ -22,7 +22,6 @@ class IdentifyView(View):
 
     def post(self, request):
         identifier = request.POST.get('identifier')
-        password = request.POST.get('password')
 
         if re.match(r'^\d{10}$', identifier): # Phone number Identifier
             request.session['phone'] = identifier
