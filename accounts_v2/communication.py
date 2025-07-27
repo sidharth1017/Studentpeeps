@@ -31,9 +31,9 @@ def send_otp_sms_via_AWS_SNS(phone: str, otp: str) -> bool:
     try:
         client = boto3.client(
             'sns',
-            aws_access_key_id=settings.AWS_ACCESS_KEY_ID_EMAIL_EMAIL,
-            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY_EMAIL_EMAIL,
-            region_name=settings.AWS_REGION_EMAIL_EMAIL
+            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+            region_name=settings.AWS_REGION
         )
         
         message = f"Your Studentpeeps verification code is {otp}"
@@ -105,36 +105,9 @@ def send_otp(request, phone: str, otp: str) -> Tuple[bool, bool]:
 
     return success
 
-def send_otp_email(email, otp, message):
-    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL)) # Need to ask ayush about sender name
-    subject = f"{otp} is your Studentpeeps passcode."
-    msg = EmailMessage(
-                subject,
-                message,
-                from_email,
-                [email],
-            )
-    msg.content_subtype = "html"  # Main content is now text/html
-    msg.send(fail_silently=False)
-    return True
-
 
 def send_welcome_email(subject, email, message):
-    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL))
-    msg = EmailMessage(
-                subject,
-                message,
-                from_email,
-                [email],
-            )
-    msg.content_subtype = "html"  # Main content is now text/html
-    msg.send(fail_silently=False)
-    return True
-
-
-def send_welcome_email(subject, email, message):
-    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL))
-    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL))
+    from_email = formataddr(('Ayush from Studentpeeps', settings.DEFAULT_FROM_EMAIL))
     msg = EmailMessage(
                 subject,
                 message,
