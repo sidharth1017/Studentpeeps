@@ -56,7 +56,7 @@
                 <div class="row align-items-center mt-4">
                     <div class="col">
                         <label id="label1" class="input">Last name</label>
-                        <input type="text" name="fname" class="form-control" value="{{ profile.lastname }}">
+                        <input type="text" name="lname" class="form-control" value="{{ profile.lastname }}">
                     </div>
                 </div>
 
@@ -76,35 +76,12 @@
                 </div>
                 {% endif %}
 
+                {% if profile.user.email %}
                 <div class="row align-items-center mt-4">
                     <div class="col">
                         <label id="label1" for="exampleInputEmail1" class="form-label">Personal Email address</label>
                         <input type="email" name="email" class="form-control no-edit" id="exampleInputEmail1" readonly
-                            value="{{ profile.user }}">
-                    </div>
-                </div>
-
-                <div class="row align-items-center mt-4">
-                    <div class="col">
-                        <label id="label1" for="exampleInputEmail1" class="form-label">Institution Email address</label>
-                        <input type="email" name="email" class="form-control no-edit" id="exampleInputEmail1" readonly
-                            value="{{ profile.institution_email }}">
-                    </div>
-                </div>
-
-                <div class="row align-items-center mt-4">
-                    <div class="col">
-                        <label id="label1" for="exampleInputEmail1" class="form-label">Institution Name</label>
-                        <input type="email" name="email" class="form-control no-edit" id="exampleInputEmail1" readonly
-                            value="{{ profile.institution }}">
-                    </div>
-                </div>
-
-                <div class="row align-items-center mt-4">
-                    <div class="col">
-                        <label id="label1" for="exampleInputEmail1" class="form-label">Institution Name</label>
-                        <input type="email" name="email" class="form-control no-edit" id="exampleInputEmail1" readonly
-                            value="{{ profile.institution }}">
+                            value="{{ profile.user.email }}">
                     </div>
                 </div>
                 {% else %}

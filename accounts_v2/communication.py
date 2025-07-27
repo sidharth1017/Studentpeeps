@@ -1,4 +1,3 @@
-# communication.py
 from django.conf import settings
 from twilio.rest import Client
 import boto3
@@ -107,121 +106,8 @@ def send_otp(request, phone: str, otp: str) -> Tuple[bool, bool]:
     return success, False
 
 def send_otp_email(email, otp, message):
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
     from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL))
     subject = f"{otp} is your Studentpeeps passcode."
-=======
-    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL)) # Need to ask ayush about sender name
-    subject = f"{otp} is your Studentpeeps passcode."
-=======
-    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL)) # Need to ask ayush about sender name
-    subject = f"{otp} is your Studentpeeps passcode."
-    msg = EmailMessage(
-                subject,
-                message,
-                from_email,
-                [email],
-            )
-    msg.content_subtype = "html"  # Main content is now text/html
-    msg.send(fail_silently=False)
-    return True
-
-def send_otp_email(email, otp, message):
-    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL)) # Need to ask ayush about sender name
-    subject = f"{otp} is your Studentpeeps passcode."
-    msg = EmailMessage(
-                subject,
-                message,
-                from_email,
-                [email],
-            )
-    msg.content_subtype = "html"  # Main content is now text/html
-    msg.send(fail_silently=False)
-    return True
-
-def send_otp_email(email, otp, message):
-    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL)) # Need to ask ayush about sender name
-    subject = f"{otp} is your Studentpeeps passcode."
-    msg = EmailMessage(
-                subject,
-                message,
-                from_email,
-                [email],
-            )
-    msg.content_subtype = "html"  # Main content is now text/html
-    msg.send(fail_silently=False)
-    return True
-
-def send_otp_email(email, otp, message):
-    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL)) # Need to ask ayush about sender name
-    subject = f"{otp} is your Studentpeeps passcode."
-    msg = EmailMessage(
-                subject,
-                message,
-                from_email,
-                [email],
-            )
-    msg.content_subtype = "html"  # Main content is now text/html
-    msg.send(fail_silently=False)
-    return True
-
-def send_otp_email(email, otp, message):
-    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL)) # Need to ask ayush about sender name
-    subject = f"{otp} is your Studentpeeps passcode."
-    msg = EmailMessage(
-                subject,
-                message,
-                from_email,
-                [email],
-            )
-    msg.content_subtype = "html"  # Main content is now text/html
-    msg.send(fail_silently=False)
-    return True
-
-def send_otp_email(email, otp, message):
-    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL)) # Need to ask ayush about sender name
-    subject = f"{otp} is your Studentpeeps passcode."
-    msg = EmailMessage(
-                subject,
-                message,
-                from_email,
-                [email],
-            )
-    msg.content_subtype = "html"  # Main content is now text/html
-    msg.send(fail_silently=False)
-    return True
-
-def send_otp_email(email, otp, message):
-    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL)) # Need to ask ayush about sender name
-    subject = f"{otp} is your Studentpeeps passcode."
-    msg = EmailMessage(
-                subject,
-                message,
-                from_email,
-                [email],
-            )
-    msg.content_subtype = "html"  # Main content is now text/html
-    msg.send(fail_silently=False)
-    return True
-
-
-def send_welcome_email(subject, email, message):
-    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL))
-    msg = EmailMessage(
-                subject,
-                message,
-                from_email,
-                [email],
-            )
-    msg.content_subtype = "html"  # Main content is now text/html
-    msg.send(fail_silently=False)
-    return True
-
-
-def send_welcome_email(subject, email, message):
-    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL))
->>>>>>> Stashed changes
     msg = EmailMessage(
                 subject,
                 message,
@@ -244,4 +130,3 @@ def send_welcome_email(subject, email, message):
     msg.content_subtype = "html"
     msg.send(fail_silently=False)
     return None
-
