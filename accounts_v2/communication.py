@@ -103,10 +103,10 @@ def send_otp(request, phone: str, otp: str) -> Tuple[bool, bool]:
             otp_log.count += 1
             otp_log.save()
 
-    return success, False
+    return success
 
 def send_otp_email(email, otp, message):
-    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL))
+    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL)) # Need to ask ayush about sender name
     subject = f"{otp} is your Studentpeeps passcode."
     msg = EmailMessage(
                 subject,
@@ -114,7 +114,20 @@ def send_otp_email(email, otp, message):
                 from_email,
                 [email],
             )
-    msg.content_subtype = "html"
+    msg.content_subtype = "html"  # Main content is now text/html
+    msg.send(fail_silently=False)
+    return True
+
+
+def send_welcome_email(subject, email, message):
+    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL))
+    msg = EmailMessage(
+                subject,
+                message,
+                from_email,
+                [email],
+            )
+    msg.content_subtype = "html"  # Main content is now text/html
     msg.send(fail_silently=False)
     return True
 
