@@ -10,6 +10,7 @@ from ..models import *
 from accounts_v2.communication import send_welcome_email
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth import login
+from account.tasks import send_email
 
 
 class VerificationView(View):
@@ -35,6 +36,12 @@ class VerificationView(View):
                 emailDomain = profile.institution_email.split("@")[1]
                 college = College(name=profile.institution, emails=[emailDomain])
                 college.save()
+                try:                                   
+                    send_email(subject="New Institution Added🎀",
+                            email=["sidharthv605@gmail.com", "mittalayush740@gmail.com"], message=f"Name: {collegeName} \nEmail: {collegeEmail}")
+                except Exception as e:
+                    print(f"Email sending failed: {e}")
+        
 
             emailname = profile.firstname
 
