@@ -69,7 +69,7 @@ class IdCardVerificationMessageView(View):
             is_college_id = any(keyword in extracted_text for keyword in college_keywords)
             if not is_college_id:
                 send_email(subject="Verify user with college id",
-                    email=["sidharthv605@gmail.com", "mittalayush740@gmail.com"], message=f"Name: {firstname} <br> Email: {email} <br> Phone: {phone} <br>Id Card: {url}")
+                    email=["sidharthv605@gmail.com", "mittalayush740@gmail.com"], message=f"Name: {firstname} <br> Email: {email} <br> Phone: {phone} <br>Id Card: {url.split('?')[0]}")
                 return render(request, 'account/idCardVerificationMsgFail.html', {
                     'msg': "This does not appear to be a valid college/university ID card. Please upload your official student ID. Also if you think this id is valid our team will review and update your account status in 48 hours"
                 })
@@ -95,7 +95,7 @@ class IdCardVerificationMessageView(View):
                 return redirect('/id-verification-message/')
             else:
                 send_email(subject="Verify user with college id",
-                    email=["sidharthv605@gmail.com", "mittalayush740@gmail.com"], message=f"Name: {firstname} <br> Email: {email} <br> Phone: {phone} <br>Id Card: {url}")
+                    email=["sidharthv605@gmail.com", "mittalayush740@gmail.com"], message=f"Name: {firstname} <br> Email: {email} <br> Phone: {phone} <br>Id Card: {url.split('?')[0]}")
                 return render(request, 'account/idCardVerificationMsgFail.html', {
                     'msg': "We could not verify your student identity. We have recived your college id, our team is reviewing it will verify within 48 hours."
                 })

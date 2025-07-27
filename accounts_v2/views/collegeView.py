@@ -72,8 +72,6 @@ class CollegeView(View):
             send_email(subject="Verify your Studentpeeps account",
                              email=[collegeEmail], message=message)
                              
-            send_email(subject="New Institution Added🎀",
-                    email=["sidharthv605@gmail.com", "mittalayush740@gmail.com"], message=f"Name: {collegeName} \nEmail: {collegeEmail}")
         except Exception as e:
             print(f"Email sending failed: {e}")
         
