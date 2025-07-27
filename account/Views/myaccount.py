@@ -10,17 +10,7 @@ def myaccount(request):
         return redirect('login')
 
     profile = request.user
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    users = Register.objects.get(Q(phone=profile.username) | Q(user__email=profile.email))
-=======
-    users = Register.objects.get(Q(user__email=profile.email) | Q(institution_email=profile.email))
-
->>>>>>> Stashed changes
-=======
-    users = Register.objects.get(Q(user__email=profile.email) | Q(institution_email=profile.email))
-
->>>>>>> Stashed changes
+    userProfile = Register.objects.get(user__email=profile.email)
 
     if request.method == "POST":
         first_name = request.POST.get('fname')

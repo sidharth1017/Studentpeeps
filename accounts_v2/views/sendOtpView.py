@@ -33,81 +33,14 @@ class SendOtpView(View):
         if not request.session.get('studentpeepsV2'):
             otp = str(random.randint(100000, 999999))
             hashed_otp = make_password(otp)
-            request.session['studentpeepsV2'] = hashed_otp    
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+            request.session['studentpeepsV2'] = hashed_otp      
+            if not send_otp(phone, otp):
+                messages.error(request, "Failed to send OTP. Please try again.")
+                return redirect('/account/v2/identify')  
+        masked_phone = phone[:2] + 'X' * 6 + phone[-2:]
 
-            if phone:
-                success, error_handled = send_otp(request, phone, otp)
-                if not success:
-                    if not error_handled:
-                        messages.error(request, "Failed to send OTP. Please try again.")
-                    return redirect('/account/v2/identify')
-            if email:
-                try:
-                    message = render_to_string(
-                        'emailers/otp_email_body.html', {'otp': otp})
-                    if not send_otp_email(email, otp, message):
-                        messages.error(request, "Failed to send OTP. Please try again.")
-                        return redirect('/account/v2/identify')
-                except Exception as e:
-                    messages.error(request, "Something went wrong. Please try again.")
-                    return redirect('/account/v2/identify')
-=======
-            print(otp, "otp")  
 
-        if phone:
-            masked_details = phone[:2] + 'X' * 6 + phone[-2:]
-            # if not send_otp(phone, otp):
-            #     messages.error(request, "Failed to send OTP. Please try again.")
-            #     return redirect('/account/v2/identify')  
-        if email:
-            name_part, domain = email.split('@')
-            if len(name_part) <= 4:
-                masked_details = name_part[0] + 'x' * (len(name_part) - 2) + name_part[-1] + '@' + domain
-            else:
-                masked_details = name_part[:2] + 'x' * (len(name_part) - 4) + name_part[-2:] + '@' + domain   
-            try:
-                # message = render_to_string(
-                #     'emailers/otp_email_body.html', {'otp': otp})
-                # if not send_otp_email(email, otp, message):
-                #     messages.error(request, "Failed to send OTP. Please try again. sdhakjhkj")
-                #     return redirect('/account/v2/identify')
-                print("teststt")
-            except Exception as e:
-                print(e, "teststt")
-                messages.error(request, "Something went wrong. Please try again.")
-                return redirect('/account/v2/identify')
->>>>>>> Stashed changes
-
-=======
-            print(otp, "otp")  
-
-        if phone:
-            masked_details = phone[:2] + 'X' * 6 + phone[-2:]
-            # if not send_otp(phone, otp):
-            #     messages.error(request, "Failed to send OTP. Please try again.")
-            #     return redirect('/account/v2/identify')  
-        if email:
-            name_part, domain = email.split('@')
-            if len(name_part) <= 4:
-                masked_details = name_part[0] + 'x' * (len(name_part) - 2) + name_part[-1] + '@' + domain
-            else:
-                masked_details = name_part[:2] + 'x' * (len(name_part) - 4) + name_part[-2:] + '@' + domain   
-            try:
-                # message = render_to_string(
-                #     'emailers/otp_email_body.html', {'otp': otp})
-                # if not send_otp_email(email, otp, message):
-                #     messages.error(request, "Failed to send OTP. Please try again. sdhakjhkj")
-                #     return redirect('/account/v2/identify')
-                print("teststt")
-            except Exception as e:
-                print(e, "teststt")
-                messages.error(request, "Something went wrong. Please try again.")
-                return redirect('/account/v2/identify')
-
->>>>>>> Stashed changes
-        return render(request, 'account/sendOtp.html', {'phone': masked_details})
+        return render(request, 'account/sendOtp.html', {'phone': masked_phone})
 
     def post(self, request):
         input_otp = request.POST['otp']
@@ -118,38 +51,12 @@ class SendOtpView(View):
             email = request.session.get('email')
 
             try:
-                if phone:
-                    register = Register.objects.get(phone=phone)
-                    user = register.user
-                    user.backend = 'django.contrib.auth.backends.ModelBackend'
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                    if not register.is_verified:
-                        messages.error(request, "Your account is inactive. Please contact support.")
-                        return HttpResponseRedirect('/')
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-                    login(request, user)
-                    return redirect('/')
+                register = Register.objects.get(phone=phone)
+                user = register.user
+                user.backend = 'django.contrib.auth.backends.ModelBackend'
 
-                elif email:
-                    register = Register.objects.get(Q(user__username=email) | Q(institution_email=email))
-                    user = register.user
-                    user.backend = 'django.contrib.auth.backends.ModelBackend'
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                    if not register.is_verified:
-                        messages.error(request, "Your account is inactive. Please contact support.")
-                        return HttpResponseRedirect('/')
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-                    login(request, user)
-                    return redirect('/')
-
+                login(request, user)
+                return redirect('/')
             except Register.DoesNotExist:
                 users = User.objects.filter(Q(username=email) | Q(email=email)).distinct()
                 if users.exists():

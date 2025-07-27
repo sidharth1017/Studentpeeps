@@ -7,15 +7,7 @@ import re
 
 from django.http import JsonResponse
 import re
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-from ..models import AbandonedSignup, Register
-=======
-from ..models import Register
->>>>>>> Stashed changes
-=======
-from ..models import Register
->>>>>>> Stashed changes
+from ..models import Register, Register
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import login
@@ -30,15 +22,7 @@ class IdentifyView(View):
 
     def post(self, request):
         identifier = request.POST.get('identifier')
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        if not AbandonedSignup.objects.filter(identifier=identifier).exists() and not Register.objects.filter(Q(user__username=identifier) | Q(institution_email=identifier) | Q(phone=identifier)):
-            abandonedSignup = AbandonedSignup(identifier=identifier)
-            abandonedSignup.save()
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+        password = request.POST.get('password')
 
         if re.match(r'^\d{10}$', identifier): # Phone number Identifier
             request.session['phone'] = identifier

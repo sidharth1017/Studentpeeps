@@ -6,29 +6,14 @@ from . import views
 from .Views import login, logout, register, signup, upload, myaccount, yourdetail, uploademail, verification, send, sendmailtounverifieds, college
 
 urlpatterns = [
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    path('logout/', logout.Logout.as_view(), name='logout'),
-
-    # path('register/', RedirectView.as_view(url='/account/v2/identify', permanent=False)),
-    # path('signup/', RedirectView.as_view(url='/account/v2/identify', permanent=False)),
-    # path('login/', RedirectView.as_view(url='/account/v2/identify', permanent=False)),
+    path('register/', RedirectView.as_view(url='/account/v2/identify', permanent=False)),
+    path('signup/', RedirectView.as_view(url='/account/v2/identify', permanent=False)),
+    path('login/', RedirectView.as_view(url='/account/v2/identify', permanent=False)),
     # path('register/', register.Register.as_view(), name='register'),
     # path('yourdetail/', yourdetail.YourDetail.as_view(), name='yourdetail'),
     # path('signup/', signup.SignUp.as_view(), name='signup'),
     # path('upload/', upload.UploadClass.as_view(), name='upload'),
     # path('login/', login.Login.as_view(), name='login'),
-=======
-=======
->>>>>>> Stashed changes
-    # path('register/', RedirectView.as_view(url='/account/v2/identify', permanent=False)),
-    # path('signup/', RedirectView.as_view(url='/account/v2/identify', permanent=False)),
-    # path('login/', RedirectView.as_view(url='/account/v2/identify', permanent=False)),
-    path('register/', register.Register.as_view(), name='register'),
-    path('yourdetail/', yourdetail.YourDetail.as_view(), name='yourdetail'),
-    path('signup/', signup.SignUp.as_view(), name='signup'),
-    path('upload/', upload.UploadClass.as_view(), name='upload'),
-    path('login/', login.Login.as_view(), name='login'),
     path('logout/', logout.Logout.as_view(), name='logout'),
 >>>>>>> Stashed changes
     # path('email/', include(email_urls)),

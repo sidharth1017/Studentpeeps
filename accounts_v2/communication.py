@@ -127,10 +127,22 @@ def send_otp_email(email, otp, message):
     msg.send(fail_silently=False)
     return True
 
+def send_otp_email(email, otp, message):
+    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL)) # Need to ask ayush about sender name
+    subject = f"{otp} is your Studentpeeps passcode."
+    msg = EmailMessage(
+                subject,
+                message,
+                from_email,
+                [email],
+            )
+    msg.content_subtype = "html"  # Main content is now text/html
+    msg.send(fail_silently=False)
+    return True
+
 
 def send_welcome_email(subject, email, message):
-    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL))
->>>>>>> Stashed changes
+    from_email = formataddr(('Ayush from Studentpeeps', settings.DEFAULT_FROM_EMAIL))
     msg = EmailMessage(
                 subject,
                 message,
