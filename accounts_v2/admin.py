@@ -1,7 +1,11 @@
 # admin.py
 from django.contrib import admin
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 from .models import Register, UnVerified, AbandonedSignup
+=======
+from .models import Register, UnVerified
+>>>>>>> Stashed changes
 =======
 from .models import Register, UnVerified
 >>>>>>> Stashed changes
@@ -22,6 +26,9 @@ admin.site.register(Register, RegisterAdmin)
 
 admin.site.register(UnVerified)
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 admin.site.register(AbandonedSignup)
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes

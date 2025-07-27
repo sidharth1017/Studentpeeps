@@ -7,6 +7,7 @@ from .Views import login, logout, register, signup, upload, myaccount, yourdetai
 
 urlpatterns = [
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     path('logout/', logout.Logout.as_view(), name='logout'),
 
     # path('register/', RedirectView.as_view(url='/account/v2/identify', permanent=False)),
@@ -18,6 +19,8 @@ urlpatterns = [
     # path('upload/', upload.UploadClass.as_view(), name='upload'),
     # path('login/', login.Login.as_view(), name='login'),
 =======
+=======
+>>>>>>> Stashed changes
     # path('register/', RedirectView.as_view(url='/account/v2/identify', permanent=False)),
     # path('signup/', RedirectView.as_view(url='/account/v2/identify', permanent=False)),
     # path('login/', RedirectView.as_view(url='/account/v2/identify', permanent=False)),

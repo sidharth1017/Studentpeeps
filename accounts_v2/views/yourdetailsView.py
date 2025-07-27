@@ -8,7 +8,10 @@ from ..communication import send_welcome_email
 from django.template.loader import render_to_string
 from datetime import datetime
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 
 # class YourdetailsView(View):
 #     def get(self, request):
@@ -49,6 +52,9 @@ from datetime import datetime
 
 #         request.session['user_id'] = register.id
 #         return redirect('/')
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 class YourdetailsView(View):
@@ -70,6 +76,7 @@ class YourdetailsView(View):
         FirstName = request.POST['fname']
         LastName = request.POST['lname'] 
         Gender = request.POST['Gender']
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         dob_str = request.POST.get('dob')
 
@@ -95,6 +102,18 @@ class YourdetailsView(View):
             dob = None
 >>>>>>> Stashed changes
 
+=======
+        Date = request.POST['date']
+        Month = request.POST['month']
+        Year = request.POST['year']
+
+        try:
+            dob_str = f"{Date} {Month} {Year}"
+            dob = datetime.strptime(dob_str, "%d %B %Y").date()
+        except ValueError:
+            dob = None
+
+>>>>>>> Stashed changes
         request.session['fname'] = FirstName
         request.session['lname'] = LastName
         request.session['gender'] = Gender

@@ -4,7 +4,10 @@ from django.contrib.auth import views as auth_views
 from . import views
 from .views import identifyView, sendOtpView, securityView, passwordView, yourdetailsView, phoneNoView, resendOtpView, googleAuthView, institutionView, verificationView, collegeView, idUploadView, idCardVerificationMessageView
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 from account.Views import uploademail, myaccount
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 urlpatterns = [
@@ -20,9 +23,12 @@ urlpatterns = [
     path('activate/<uidb64>/<token>/<new>', verificationView.VerificationView.as_view(), name="activate"),
     path('student-verification-status', idCardVerificationMessageView.IdCardVerificationMessageView.as_view(), name="Verificationmsg"),
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     path('verify-id-upload-user', uploademail.UploadEmail.as_view(), name="Secret Page"),
     path('myaccount/', myaccount.myaccount, name="myaccount"),    
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 ] 

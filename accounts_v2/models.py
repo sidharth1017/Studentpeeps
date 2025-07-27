@@ -4,6 +4,7 @@ from django.utils import timezone
 
 # Create your models here.
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 class AbandonedSignup(models.Model):
     identifier = models.CharField(max_length=1000, default="", null=True, blank=True)
     firstname = models.CharField(max_length=100, default="", null=True, blank=True)
@@ -18,6 +19,8 @@ class AbandonedSignup(models.Model):
     class Meta:
         verbose_name_plural = "Abandoned Signups"     
 =======
+=======
+>>>>>>> Stashed changes
 # class Register(models.Model):
 #     user = models.OneToOneField(User, on_delete=models.CASCADE)
 #     phone = models.CharField(max_length=15, unique=True)
@@ -30,11 +33,15 @@ class AbandonedSignup(models.Model):
 
 #     class Meta:
 #         verbose_name_plural = "Register"   
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 class Register(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=15, default="", null=True, blank=True)
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
     firstname = models.CharField(max_length=100, default="", blank=True)
     lastname = models.CharField(max_length=100, default="", blank=True)
@@ -44,6 +51,8 @@ class Register(models.Model):
     institution_email = models.CharField(max_length=200, default="", blank=True)
     graduation_year = models.CharField(max_length=100, default="", blank=True)
 =======
+=======
+>>>>>>> Stashed changes
     firstname = models.CharField(max_length=100, default="")
     lastname = models.CharField(max_length=100, default="")
     gender = models.CharField(max_length=100, default="")
@@ -51,6 +60,9 @@ class Register(models.Model):
     institution = models.CharField(max_length=200, default="")
     institution_email = models.CharField(max_length=200, default="")
     graduation_year = models.CharField(max_length=100, default="")
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     collegeId = models.ImageField(upload_to='collegeidcards/', null=True, blank=True)
     is_verified = models.BooleanField(default=False)
