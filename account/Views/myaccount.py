@@ -10,7 +10,17 @@ def myaccount(request):
         return redirect('login')
 
     profile = request.user
-    users = Register.objects.get(Q(phone=profile.username) | Q(user__email=profile.email))
+    try:
+        users = Register.objects.get(Q(phone=profile.username) | Q(user__email=profile.email))
+    except Register.DoesNotExist:
+        baseUser = User.objects.get(username=profile.username)
+        register = Register.objects.create(
+            user=baseUser,
+            firstname=baseUser.first_name,
+            lastname=baseUser.last_name,
+            is_verified=True
+        )
+        users = register
 
     if request.method == "POST":
         first_name = request.POST.get('fname')

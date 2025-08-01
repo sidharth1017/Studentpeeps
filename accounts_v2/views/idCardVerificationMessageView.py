@@ -68,9 +68,10 @@ class IdCardVerificationMessageView(View):
                 user = User.objects.get(Q(email=email) | Q(username=phone))
                 user.is_active = True
                 user.save()
-                register = Register(user=unVerifiedRegister.user, phone=unVerifiedRegister.phone, firstname=unVerifiedRegister.firstname, lastname=unVerifiedRegister.lastname, gender=unVerifiedRegister.gender, birthday=unVerifiedRegister.birthday, collegeId=unVerifiedRegister.collegeIdProof)
+                register = Register(user=unVerifiedRegister.user, phone=unVerifiedRegister.phone, firstname=unVerifiedRegister.firstname, lastname=unVerifiedRegister.lastname, gender=unVerifiedRegister.gender, birthday=unVerifiedRegister.birthday, collegeId=unVerifiedRegister.collegeId)
                 register.is_verified = True
                 register.save()
+                unVerifiedRegister.delete()
 
                 user.backend = 'django.contrib.auth.backends.ModelBackend'
                 login(request, user)

@@ -18,5 +18,9 @@ class RegisterAdmin(admin.ModelAdmin):
 admin.site.register(Register, RegisterAdmin)
 
 admin.site.register(UnVerified)
-admin.site.register(UnVerifiedIdUpload)
 admin.site.register(AbandonedSignup)
+
+@admin.register(UnVerifiedIdUpload)
+class UnVerifiedIdUploadAdmin(admin.ModelAdmin):
+    list_display = ('user', 'firstname')
+

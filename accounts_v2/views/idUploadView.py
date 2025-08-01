@@ -51,7 +51,10 @@ class IdUploadView(View):
             UnVerified.objects.filter(phone=phone).delete() 
         elif UnVerifiedIdUpload.objects.filter(user=user).exists():
             UnVerifiedIdUpload.objects.filter(user=user).delete()
-        
+
+        identifier = phone or email
+        if AbandonedSignup.objects.filter(identifier=identifier).exists():
+            AbandonedSignup.objects.filter(identifier=identifier).delete()        
 
         unVerifiedRegister = UnVerifiedIdUpload(user=user, phone=phone, firstname=firstname, lastname=lastname, gender=gender, birthday=birthday, collegeId=collegeIdProof)
         unVerifiedRegister.save()
