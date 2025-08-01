@@ -4,7 +4,7 @@
 {% block content %}
 
 <p>Enter Email for Verification</p>
-<form method="POST" action="/account/636756-secret-upload-email-page">
+<form method="POST" action="/account/v2/verify-id-upload-user">
     {% csrf_token %}
     <label for="exampleInputEmail1" class="form-label">Email:</label>
     <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
