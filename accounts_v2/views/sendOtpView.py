@@ -89,8 +89,7 @@ class SendOtpView(View):
                 if users.exists():
                     user = users.first()
                     if not user.is_active:
-                        messages.error(request, "Your account is inactive. Please contact support.")
-                        return HttpResponseRedirect('/')
+                        return redirect('/account/v2/your-details')
                     user.backend = 'django.contrib.auth.backends.ModelBackend'
                     login(request, user)
                     return redirect(next_url)
