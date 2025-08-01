@@ -3,16 +3,14 @@
 {% block title %}StudentPeeps | Verify Id card Users{% endblock %}
 {% block content %}
 
-{% if messages %}
-{% for message in messages %}
-<div class="alert alert-{{ message.tags }}" style="margin-top: 20px;">
+{% if message %}
+<div class="alert alert-info" style="margin: 20px 0px; background-color: #264B5D; padding: 10px 20px; color: white;">
     {{ message }}
 </div>
-{% endfor %}
 {% endif %}
 
 
-<p>Enter Email for Verification</p>
+<p style="margin-top: 40px;">Enter Email for Verification</p>
 <form method="POST" action="/account/v2/verify-id-upload-user">
     {% csrf_token %}
     <label for="exampleInputEmail1" class="form-label">Email:</label>
