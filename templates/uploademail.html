@@ -3,13 +3,23 @@
 {% block title %}StudentPeeps | Bulk Uploads Offers{% endblock %}
 {% block content %}
 
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}" style="margin-top: 20px;">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
+
 <p>Enter Email for Verification</p>
 <form method="POST" action="/account/v2/verify-id-upload-user">
     {% csrf_token %}
     <label for="exampleInputEmail1" class="form-label">Email:</label>
     <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
         placeholder="Email">
-    <button type="submit" class="button" style="padding: 10px 20px; width: 150px; margin-left: 50px;">Verify User</button>
+    <button type="submit" class="button" style="padding: 10px 20px; width: 150px; margin-left: 50px;">Verify
+        User</button>
 </form>
 </div>
 
