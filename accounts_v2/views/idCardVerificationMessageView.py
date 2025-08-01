@@ -2,7 +2,7 @@ from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.models import User
-from ..models import Register
+from ..models import Register, UnVerifiedIdUpload
 from PIL import Image
 import pytesseract
 from rapidfuzz import fuzz
@@ -16,17 +16,6 @@ from django.template.loader import render_to_string
 
 class IdCardVerificationMessageView(View):
     def get(self, request):
-        # email = request.session.get('email')
-        # phone = request.session.get('phone')
-        # try:
-        #     register = Register.objects.get(Q(user__username=email) | Q(user__email=email) | Q(phone=phone))
-        #     if register.is_verified:
-        #         msg = "You're already verified!"
-        #     else:
-        #         msg = "Your ID has been received. Please wait while we verify."
-        # except Register.DoesNotExist:
-        #     msg = "No registration found."
-
         return render(request, 'account/idCardVerificationMsg.html')
 
     def post(self, request):        
@@ -37,8 +26,8 @@ class IdCardVerificationMessageView(View):
         full_name = f"{firstname} {lastname}".lower().strip()
 
         try:
-            register = Register.objects.get(Q(user__username=email) | Q(user__email=email) | Q(phone=phone))
-            url = register.collegeId.url
+            unVerifiedRegister = UnVerifiedIdUpload.objects.get(Q(user__username=email) | Q(user__email=email) | Q(phone=phone))
+            url = unVerifiedRegister.collegeId.url
             response = requests.get(url)
 
             if response.status_code != 200:
@@ -79,6 +68,7 @@ class IdCardVerificationMessageView(View):
                 user = User.objects.get(Q(email=email) | Q(username=phone))
                 user.is_active = True
                 user.save()
+                register = Register(user=unVerifiedRegister.user, phone=unVerifiedRegister.phone, firstname=unVerifiedRegister.firstname, lastname=unVerifiedRegister.lastname, gender=unVerifiedRegister.gender, birthday=unVerifiedRegister.birthday, collegeId=unVerifiedRegister.collegeIdProof)
                 register.is_verified = True
                 register.save()
 

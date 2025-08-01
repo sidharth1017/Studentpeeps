@@ -49,8 +49,11 @@ class IdUploadView(View):
             UnVerified.objects.filter(email=email).delete()
         elif UnVerified.objects.filter(phone=phone).exists():            
             UnVerified.objects.filter(phone=phone).delete() 
+        elif UnVerifiedIdUpload.objects.filter(user=user).exists():
+            UnVerifiedIdUpload.objects.filter(user=user).delete()
         
-        register = Register(user=user, phone=phone, firstname=firstname, lastname=lastname, gender=gender, birthday=birthday, collegeId=collegeIdProof)
-        register.save()
+
+        unVerifiedRegister = UnVerifiedIdUpload(user=user, phone=phone, firstname=firstname, lastname=lastname, gender=gender, birthday=birthday, collegeId=collegeIdProof)
+        unVerifiedRegister.save()
         
         return redirect('/account/v2/student-verification-status')

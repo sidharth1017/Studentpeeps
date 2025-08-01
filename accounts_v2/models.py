@@ -58,3 +58,20 @@ class UnVerified(models.Model):
 
     class Meta:
         verbose_name_plural = "Unverified Users"      
+
+class UnVerifiedIdUpload(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    email = models.CharField(max_length=1000, default="", null=True, blank=True)
+    phone = models.CharField(max_length=15, default="", null=True, blank=True)
+    firstname = models.CharField(max_length=100)
+    lastname = models.CharField(max_length=100)
+    gender = models.CharField(max_length=100)
+    birthday = models.DateField(null=True, blank=True)
+    collegeId = models.ImageField(upload_to='collegeidcards/', null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+        return self.firstname
+
+    class Meta:
+        verbose_name_plural = "Unverified Id Upload Users"      
