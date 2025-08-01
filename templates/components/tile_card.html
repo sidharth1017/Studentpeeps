@@ -1,0 +1,23 @@
+<a href="/offer/{{ offer.brand.slug }}/{{ offer.custom_id }}/">
+    <div class="tiles-card {% if forloop.counter0|divisibleby:6 %}tiles-card-lg{% endif %}">
+        <div class="tiles-card-img {% if forloop.counter0|divisibleby:6 %}tiles-card-img-lg{% endif %}">
+            <picture>
+                <img src="{{ offer.thumbnail_image.url }}" alt="{{ offer.title }}" />
+            </picture>
+            <div class="brand {% if forloop.counter0|divisibleby:6 %}brand-lg{% endif %}">
+                <div
+                    class="tiles-card-company-img {% if forloop.counter0|divisibleby:6 %}tiles-card-company-img-lg{% endif %}">
+                    <img src="{{ offer.brand.logo.url }}" alt="{{ offer.brand.name }}" />
+                </div>
+                <div
+                    class="tiles-card-brand-name {% if forloop.counter0|divisibleby:6 %}tiles-card-brand-name-lg{% endif %}">
+                    <p>{{ offer.brand.name }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="tiles-card-content {% if forloop.counter0|divisibleby:6 %}tiles-card-content-lg{% endif %}">
+            <h3 class="tiles-card-heading">{{ offer.title }}</h3>
+            <p class="tiles-card-paragraph">{{ offer.subtitle }}</p>
+        </div>
+    </div>
+</a>

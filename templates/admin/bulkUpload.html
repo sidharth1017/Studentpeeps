@@ -1,0 +1,54 @@
+{% extends 'admin/base_site.html' %}
+{% load static %}
+{% block title %}StudentPeeps | Bulk Uploads Offers{% endblock %}
+{% block content %}
+<h2>Bulk Brands Upload via CSV</h2>
+<form method="post" enctype="multipart/form-data"
+    style="display: flex; justify-content: space-between; align-items: center;">
+    {% csrf_token %}
+    <div>
+        <input type="hidden" name="upload_type" value="brand">
+        <label>Choose CSV file:</label>
+        <input type="file" name="csv_file" accept=".csv" required>
+    </div>
+
+    <button type="submit" class="button" style="padding: 10px 20px; width: 150px;">Upload Brands</button>
+</form>
+
+<br>
+<br>
+<hr>
+<br>
+<br>
+
+<h2>Bulk Offers Upload via CSV</h2>
+<form method="post" enctype="multipart/form-data"
+    style="display: flex; justify-content: space-between; align-items: center;">
+    {% csrf_token %}
+    <div>
+        <input type="hidden" name="upload_type" value="offer">
+        <label>Choose CSV file:</label>
+        <input type="file" name="csv_file" accept=".csv" required>
+    </div>
+    <button type="submit" class="button" style="padding: 10px 20px; width: 150px;">Upload Offers</button>
+</form>
+
+<br>
+<br>
+<hr>
+<br>
+<br>
+
+<h2>Bulk Offer SEO Upload via CSV</h2>
+<form method="post" enctype="multipart/form-data"
+    style="display: flex; justify-content: space-between; align-items: center;">
+    {% csrf_token %}
+    <div>
+        <input type="hidden" name="upload_type" value="seo">
+        <label>Choose CSV file:</label>
+        <input type="file" name="csv_file" accept=".csv" required>
+    </div>
+    <button type="submit" class="button" style="padding: 10px 20px; width: 150px;">Upload SEO</button>
+</form>
+
+{% endblock %}

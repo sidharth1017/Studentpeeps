@@ -61,6 +61,7 @@ class SendOtpView(View):
         if stored_hashed_otp and check_password(input_otp, stored_hashed_otp):
             phone = request.session.get('phone')
             email = request.session.get('email')
+            next_url = request.session.pop('next_url', '/')
 
             try:
                 if phone:
@@ -71,7 +72,7 @@ class SendOtpView(View):
                         messages.error(request, "Your account is inactive. Please contact support.")
                         return HttpResponseRedirect('/')
                     login(request, user)
-                    return redirect('/')
+                    return redirect(next_url)
 
                 elif email:
                     register = Register.objects.get(Q(user__username=email) | Q(institution_email=email))
@@ -81,7 +82,7 @@ class SendOtpView(View):
                         messages.error(request, "Your account is inactive. Please contact support.")
                         return HttpResponseRedirect('/')
                     login(request, user)
-                    return redirect('/')
+                    return redirect(next_url)
 
             except Register.DoesNotExist:
                 users = User.objects.filter(Q(username=email) | Q(email=email)).distinct()
@@ -92,7 +93,7 @@ class SendOtpView(View):
                         return HttpResponseRedirect('/')
                     user.backend = 'django.contrib.auth.backends.ModelBackend'
                     login(request, user)
-                    return redirect('/')
+                    return redirect(next_url)
                 else:
                     return redirect('/account/v2/your-details')
         else:

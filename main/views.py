@@ -14,14 +14,27 @@ from account.tasks import send_email
 from brands.models import BrandCode, BrandSearch
 import json
 from django.contrib.auth.models import User
+from brands_v2.models import Offer
+import random
 
 # Create your views here.
 @method_decorator(csrf_exempt, name="dispatch")
 class Home(View):
     def get(self, request):
-        brandsearch = BrandSearch.objects.all()
-        return render(request,'index.html', {'brandsearch': brandsearch})
-    
+        recommended_offer_ids = ['SPXUD100', 'etihad10', 'dosdp01', 'ID4', 'ID5']
+        recommended_offers = Offer.objects.filter(custom_id__in=recommended_offer_ids)
+        offers_dict = {offer.custom_id: offer for offer in recommended_offers}
+        ordered_recommended = [offers_dict[oid] for oid in recommended_offer_ids if oid in offers_dict]
+
+        all_offers = list(Offer.objects.all())
+        featured_offers = random.sample(all_offers, min(15, len(all_offers)))
+
+        print(featured_offers, "featured_offersfeatured_offers")
+        return render(request, 'index.html', {
+            'recommended_offers': ordered_recommended,
+            'featured_offers': featured_offers
+        })
+
     def post(self, request):
         body = json.loads(request.body)
         if body.get("free"):
@@ -74,15 +87,6 @@ class UnSubscribe(View):
     def get(self, request):
         return render(request,'unsubscribe.html')
 
-
-class Exclusive(View):
-    def get(self, request):
-        return render(request,'exclusive.html')
-
-class NonExclusive(View):
-    def get(self, request):
-        return render(request,'nonexclusive.html')
-
 class ContactUs(View):
     def get(self, request):
         messages = None
@@ -108,46 +112,6 @@ class ContactUs(View):
 class Community(View):
     def get(self, request):
         return render(request,'community.html')
-
-class All(View):
-    def get(self, request):
-        return render(request,'all.html')
-
-class Tech(View):
-    def get(self, request):
-        return render(request,'tech.html')
-
-# class Entertainment(View):
-#     def get(self, request):
-#         return render(request,'entertainment.html')
-
-class FoodsAndDrinks(View):
-    def get(self, request):
-        return render(request,'foodsanddrinks.html')
-
-class Travel(View):
-    def get(self, request):
-        return render(request,'travel.html')
-
-class HealthAndBeauty(View):
-    def get(self, request):
-        return render(request,'healthandbeauty.html')
-
-class Edtech(View):
-    def get(self, request):
-        return render(request,'edtech.html')
-
-class BooksAndStationary(View):
-    def get(self, request):
-        return render(request,'booksandstationary.html')
-
-class HomeAndUtilities(View):
-    def get(self, request):
-        return render(request,'homeandutilities.html')
-
-class Fashion(View):
-    def get(self, request):
-        return render(request,'fashion.html')
 
 class FAQ(View):
     def get(self, request):
@@ -243,414 +207,71 @@ class Tools(View):
         messages = "Thanks for filling this form."
         return render(request,'resource.html',{'message' : messages})
 
-class Indigo(View):
-    def get(self, request):
-        return render(request,'indigo.html')
-
-class Microsoft(View):
-    def get(self, request):
-        return render(request,'microsoft.html')
-        
-class Spotify(View):
-    def get(self, request):
-        return render(request,'spotify.html')
-
-class Notion(View):
-    def get(self, request):
-        return render(request,'notion.html')
-
-class Github(View):
-    def get(self, request):
-        return render(request,'github.html')
-        
-class Samsung(View):
-    def get(self, request):
-        return render(request,'samsung.html')
-
-class Adobe(View):
-    def get(self, request):
-        return render(request,'adobe.html')
-
-class Apple(View):
-    def get(self, request):
-        return render(request,'apple.html')
-        
-class AppleMusic(View):
-    def get(self, request):
-        return render(request,'applemusic.html')
-
-class Wix(View):
-    def get(self, request):
-        return render(request,'wix.html')
-class OnePlus(View):
-    def get(self, request):
-        return render(request,'oneplus.html')
-class YTPremium(View):
-    def get(self, request):
-        return render(request,'ytpremium.html')
-class AmazonPrime(View):
-    def get(self, request):
-        return render(request,'amazonprime.html')
-class GoFirst(View):
-    def get(self, request):
-        return render(request,'gofirst.html')
-class SpiceJet(View):
-    def get(self, request):
-        return render(request,'spicejet.html')
-class EaseMyTrip(View):
-    def get(self, request):
-        return render(request,'easemytrip.html')
-class Vistara(View):
-    def get(self, request):
-        return render(request,'vistara.html')
-class Lufthansa(View):
-    def get(self, request):
-        return render(request,'lufthansa.html')
-
-
-
-class WTF(View):
-    def get(self, request):
-        return render(request,'wtf.html')
-
-class CodeWTF(View):
-    def get(self, request):
-        return render(request,'codeWtf.html')
-        
-
-class Avni(View):
-    def get(self, request):
-        return render(request,'avni.html')
-
-class CodeAvni(View):
-    def get(self, request):
-        avniBrand = Brand.objects.get(name="Avni")
-        avniBrand.count += 1
-        avniBrand.save()
-        return render(request,'codeAvni.html')
-        
-
-class Peesafe(View):
-    def get(self, request):
-        return render(request,'PEESAFE.html')    
-
-class CodePeesafe(View):
-    def get(self, request):
-        peesafeBrand = Brand.objects.get(name="Peesafe")
-        peesafeBrand.count += 1
-        peesafeBrand.save()
-        return render(request,'codePEESAFE.html')
-        
-
-class Naagin(View):
-    def get(self, request):
-        return render(request,'Naagin.html')
-
-class CodeNaagin(View):
-    def get(self, request):
-        naaginBrand = Brand.objects.get(name="Naagin")
-        naaginBrand.count += 1
-        naaginBrand.save()
-        return render(request,'codeNaagin.html')
-        
-
-class TBH(View):
-    def get(self, request):
-        return render(request,'TBH.html')
-
-class CodeTBH(View):
-    def get(self, request):
-        TBHBrand = Brand.objects.get(name="ToBeHonestFoods")
-        TBHBrand.count += 1
-        TBHBrand.save()
-        return render(request,'codeTBH.html')
-
-
-class PropShop(View):
-    def get(self, request):
-        return render(request,'propshop.html')
-
-class CodePropShop(View):
-    def get(self, request):
-        propShopBrand = Brand.objects.get(name="PropShop24")
-        propShopBrand.count += 1
-        propShopBrand.save()
-        return render(request,'codePropshop.html')
-
-class Bitclass(View):
-    def get(self, request):
-        return render(request,'bitclass.html')
-
-class CodeBitclass(View):
-    def get(self, request):
-        bitClassBrand = Brand.objects.get(name="BitClass")
-        bitClassBrand.count += 1
-        bitClassBrand.save()
-        return render(request,'codebitclass.html')
-
-class SattViko(View):
-    def get(self, request):
-        return render(request,'sattviko.html')
-
-class CodeSattViko(View):
-    def get(self, request):
-        sattVikoBrand = Brand.objects.get(name="SattViko")
-        sattVikoBrand.count += 1
-        sattVikoBrand.save()
-        return render(request,'codesattviko.html')
-
-
-class Rapido(View):
-    def get(self, request):
-        return render(request,'rapido.html')
-
-class CodeRapido(View):
-    def get(self, request):
-        rapidoBrand = Brand.objects.get(name="Rapido")
-        rapidoBrand.count += 1
-        rapidoBrand.save()
-        return render(request,'coderapido.html')
-        
-
-class TWC(View):
-    def get(self, request):
-        return render(request,'TWC.html')
-
-class CodeTWC(View):
-    def get(self, request):
-        TWCBrand = Brand.objects.get(name="TheWomensCompany")
-        TWCBrand.count += 1
-        TWCBrand.save()
-        return render(request,'codeTWC.html')
-
-
-class Ptal(View):
-    def get(self, request):
-        return render(request,'ptal.html')
-
-class CodePtal(View):
-    def get(self, request):
-        ptalBrand = Brand.objects.get(name="PTAL")
-        ptalBrand.count += 1
-        ptalBrand.save()
-        return render(request,'codeptal.html')
-        
-
-class Bookchor(View):
-    def get(self, request):
-        return render(request,'bookchor.html')
-
-class CodeBookchor(View):
-    def get(self, request):
-        bookchorBrand = Brand.objects.get(name="BookChor")
-        bookchorBrand.count += 1
-        bookchorBrand.save()
-
-        brand = BrandCode.objects.get(brandname="Bookchor")
-        codes = brand.codes
-        code = codes[0]
-        del codes[0]
-        
-        BrandCode.objects.filter(brandname="Bookchor").delete()
-        brandcode = BrandCode(brandname="Bookchor", codes=codes)
-        brandcode.save() 
-
-        return render(request,'codebookchor.html', {'code': code})
-
-
-class Bewakoof(View):
-    def get(self, request):
-        return render(request,'bewakoof.html')
-
-class CodeBewakoof(View):
-    def get(self, request):
-        bewakoofBrand = Brand.objects.get(name="Bewakoof")
-        bewakoofBrand.count += 1
-        bewakoofBrand.save()
-        return render(request,'codebewakoof.html')
-            
-
-class Inchpaper(View):
-    def get(self, request):
-        return render(request,'inchpaper.html')
-
-class CodeInchpaper(View):
-    def get(self, request):
-        inchpaperBrand = Brand.objects.get(name="Inchpaper")
-        inchpaperBrand.count += 1
-        inchpaperBrand.save()
-        return render(request,'codeinchpaper.html')
-        
-
-class Udemy(View):
-    def get(self, request):
-        return render(request,'udemy.html')
-
-class CodeUdemy(View):
-    def get(self, request):
-        udemyBrand = Brand.objects.get(name="Udemy")
-        udemyBrand.count += 1
-        udemyBrand.save()
-
-        brand = BrandCode.objects.get(brandname="Udemy")
-        codes = brand.codes
-        code = codes[0]
-        del codes[0]
-        
-        BrandCode.objects.filter(brandname="Udemy").delete()
-        brandcode = BrandCode(brandname="Udemy", codes=codes)
-        brandcode.save() 
-
-        return render(request,'codeudemy.html', {'code': code})
-
-
-class RageCoffee(View):
-    def get(self, request):
-        return render(request,'ragecoffee.html')
-
-class CodeRageCoffee(View):
-    def get(self, request):
-        RagecoffeeBrand = Brand.objects.get(name="Ragecoffee")
-        RagecoffeeBrand.count += 1
-        RagecoffeeBrand.save()
-        return render(request,'coderagecoffee.html')
-
-
-class Myntra(View):
-    def get(self, request):
-        return render(request,'myntra.html')
-
-class CodeMyntra(View):
-    def get(self, request):
-        MyntraBrand = Brand.objects.get(name="Myntra")
-        MyntraBrand.count += 1
-        MyntraBrand.save()
-
-        brand = BrandCode.objects.get(brandname="Myntra")
-        codes = brand.codes
-        code = codes[0]
-        del codes[0]
-        
-        BrandCode.objects.filter(brandname="Myntra").delete()
-        brandcode = BrandCode(brandname="Myntra", codes=codes)
-        brandcode.save()  
-        return render(request,'codemyntra.html', {'code': code})
-         
-
-class Beardo(View):
-    def get(self, request):
-        return render(request,'beardo.html')
-
-class CodeBeardo(View):
-    def get(self, request):
-        BeardoBrand = Brand.objects.get(name="Beardo")
-        BeardoBrand.count += 1
-        BeardoBrand.save()
-
-        brand100 = BrandCode.objects.get(brandname="Beardo 100")
-        codes100 = brand100.codes
-        code100 = codes100[0]
-        del codes100[0]
-        
-        BrandCode.objects.filter(brandname="Beardo 100").delete()
-        brandcode100 = BrandCode(brandname="Beardo 100", codes=codes100)
-        brandcode100.save()  
-
-        brand500 = BrandCode.objects.get(brandname="Beardo 500")
-        codes500 = brand500.codes
-        code500 = codes500[0]
-        del codes500[0]
-        
-        BrandCode.objects.filter(brandname="Beardo 500").delete()
-        brandcode500 = BrandCode(brandname="Beardo 500", codes=codes500)
-        brandcode500.save()  
-
-        return render(request,'codebeardo.html', {'code100': code100, 'code500': code500})
-        
-
-class Nestaway(View):
-    def get(self, request):
-        return render(request,'nestaway.html')
-            
-        
-class PharmEasy(View):
-    def get(self, request):
-        return render(request,'pharmeasy.html')
-
-
-class CodePharmEasy(View):
-    def get(self, request):
-        PharmEasyBrand = Brand.objects.get(name="Pharmeasy")
-        PharmEasyBrand.count += 1
-        PharmEasyBrand.save()
-        return render(request,'codepharmeasy.html')
-
-
-# def paymentuser(request):
-#     for user in User.objects.all():
-#         payment = Payment(user=user, payment_status=1, amount=0.0)
-#         payment.save()
-#     return HttpResponse("Done")
-
-class LenovoOffer1(View):
-    def get(self, request):
-        return render(request,'lenovoOffer1.html')
-
-
-class CodeLenovoOffer1(View):
-    def get(self, request):
-        LenovoOffer1Brand = Brand.objects.get(name="LenovoOffer1")
-        LenovoOffer1Brand.count += 1
-        LenovoOffer1Brand.save()
-        return render(request,'codeLenovoOffer1.html')
-
-class LenovoOffer2(View):
-    def get(self, request):
-        return render(request,'lenovoOffer2.html')
-
-
-class CodeLenovoOffer2(View):
-    def get(self, request):
-        LenovoOffer1Brand = Brand.objects.get(name="LenovoOffer2")
-        LenovoOffer1Brand.count += 1
-        LenovoOffer1Brand.save()
-        return render(request,'codeLenovoOffer2.html')
-    
-
-class EtihadOffer1(View):
-    def get(self, request):
-        return render(request,'etihadOffer1.html')
-
-class EtihadOffer2(View):
-    def get(self, request):
-        return render(request,'etihadOffer2.html')
-
-class EtihadOffer3(View):
-    def get(self, request):
-        return render(request,'etihadOffer3.html')
-
-class Dailyobjects(View):
-    def get(self, request):
-        return render(request,'dailyobjects.html')
-
-class CodeDailyobjects(View):
-    def get(self, request):
-        DailyobjectsBrand = Brand.objects.get(name="Dailyobjects")
-        DailyobjectsBrand.count += 1
-        DailyobjectsBrand.save()
-
-        brand = BrandCode.objects.get(brandname="Dailyobjects")
-        codes = brand.codes
-        code = codes[0]
-        del codes[0]
-        
-        BrandCode.objects.filter(brandname="Dailyobjects").delete()
-        brandcode = BrandCode(brandname="Dailyobjects", codes=codes)
-        brandcode.save() 
-
-        return render(request,'codedailyobjects.html', {'code': code})
-
 class IdVerificationMessage(View):
     def get(self, request):        
         return render(request,'account/idCardVerification.html')
+
+
+# Categories for Offers
+
+class All(View):
+    def get(self, request):
+        offers = Offer.objects.all().order_by('-sorting')
+        return render(request, 'category/all.html', {'offers': offers})
+
+class Tech(View):
+    def get(self, request):
+        offers = Offer.objects.filter(category="tech").order_by('-sorting')
+        return render(request,'category/tech.html', {'offers': offers})
+
+class Edtech(View):
+    def get(self, request):
+        offers = Offer.objects.filter(category="education").order_by('-sorting')
+        return render(request,'category/edtech.html', {'offers': offers})
+
+class Fashion(View):
+    def get(self, request):
+        offers = Offer.objects.filter(category="fashion").order_by('-sorting')
+        return render(request,'category/fashion.html', {'offers': offers})
+
+class Travel(View):
+    def get(self, request):
+        offers = Offer.objects.filter(category="travel").order_by('-sorting')
+        return render(request,'category/travel.html', {'offers': offers})
+
+class FoodsAndDrinks(View):
+    def get(self, request):
+        offers = Offer.objects.filter(category="food_drink").order_by('-sorting')
+        return render(request,'category/foodsanddrinks.html', {'offers': offers})
+
+class HealthAndBeauty(View):
+    def get(self, request):
+        offers = Offer.objects.filter(category="health_beauty").order_by('-sorting')
+        return render(request,'category/healthandbeauty.html', {'offers': offers})
+
+class BooksAndStationary(View):
+    def get(self, request):
+        offers = Offer.objects.filter(category="books_stationary").order_by('-sorting')
+        return render(request,'category/booksandstationary.html', {'offers': offers})
+
+class HomeAndUtilities(View):
+    def get(self, request):
+        offers = Offer.objects.filter(category="home_utilities").order_by('-sorting')
+        return render(request,'category/homeandutilities.html', {'offers': offers})
+
+# class Entertainment(View):
+#     def get(self, request):
+#         offers = Offer.objects.filter(category="entertainment").order_by('-sorting')
+#         return render(request,'category/entertainment.html', {'offers': offers})
+
+class Exclusive(View):
+    def get(self, request):
+        offers = Offer.objects.filter(isExclusive=True).order_by('-sorting')
+        return render(request,'category/exclusive.html', {'offers': offers})
+
+class NonExclusive(View):
+    def get(self, request):
+        offers = Offer.objects.filter(isExclusive=False).order_by('-sorting')
+        return render(request,'category/nonexclusive.html', {'offers': offers})
+
 
