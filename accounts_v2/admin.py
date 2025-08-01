@@ -1,6 +1,6 @@
 # admin.py
 from django.contrib import admin
-from .models import Register, UnVerified, AbandonedSignup
+from .models import Register, UnVerified, AbandonedSignup, UnVerifiedIdUpload
 
 class RegisterAdmin(admin.ModelAdmin):
     list_display = ('user_name', 'user_email', 'phone', 'created_at', 'is_verified')
@@ -19,3 +19,8 @@ admin.site.register(Register, RegisterAdmin)
 
 admin.site.register(UnVerified)
 admin.site.register(AbandonedSignup)
+
+@admin.register(UnVerifiedIdUpload)
+class UnVerifiedIdUploadAdmin(admin.ModelAdmin):
+    list_display = ('user', 'firstname')
+
