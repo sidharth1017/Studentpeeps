@@ -3,13 +3,6 @@
 {% block title %}StudentPeeps | Verify Id card Users{% endblock %}
 {% block content %}
 
-{% if message %}
-<div class="alert alert-info" style="margin: 20px 0px; background-color: #264B5D; padding: 10px 20px; color: white;">
-    {{ message }}
-</div>
-{% endif %}
-
-
 <p style="margin-top: 40px;">Enter Email for Verification</p>
 <form method="POST" action="/account/v2/verify-id-upload-user">
     {% csrf_token %}
@@ -19,6 +12,35 @@
     <button type="submit" class="button" style="padding: 10px 20px; width: 150px; margin-left: 50px;">Verify
         User</button>
 </form>
-</div>
+
+<br>
+<br>
+<br>
+<hr>
+
+<p style="margin-top: 40px;">Enter Email for Rejection Email</p>
+<form method="POST" action="/account/v2/reject-id-upload-user">
+    {% csrf_token %}
+    <label for="exampleInputEmail1" class="form-label">Email:</label>
+    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+        placeholder="Email">
+    <button type="submit" class="button" style="padding: 10px 20px; width: 150px; margin-left: 50px;">Reject
+        User</button>
+</form>
+
+<br>
+<br>
+<br>
+<hr>
+
+<p style="margin-top: 40px;">Enter Phone for Verification sms</p>
+<form method="POST" action="/account/v2/verify-id-upload-user-phone">
+    {% csrf_token %}
+    <label for="exampleInputEmail1" class="form-label">Phone:</label>
+    <input type="text" name="phone" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+        placeholder="Phone">
+    <button type="submit" class="button" style="padding: 10px 20px; width: 150px; margin-left: 50px;">Verify
+        User</button>
+</form>
 
 {% endblock %}

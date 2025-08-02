@@ -16,7 +16,8 @@ urlpatterns = [
     path('resend', resendOtpView.ResendOtpView.as_view(), name='resend_otp'),
     path('activate/<uidb64>/<token>/<new>', verificationView.VerificationView.as_view(), name="activate"),
     path('student-verification-status', idCardVerificationMessageView.IdCardVerificationMessageView.as_view(), name="Verificationmsg"),
-    path('verify-id-upload-user', uploademail.UploadEmail.as_view(), name="Secret Page"),
-    path('myaccount/', myaccount.myaccount, name="myaccount"),    
-
-] 
+    path('myaccount/', myaccount.myaccount, name="myaccount"),
+    path('verify-id-upload-user', uploademail.VerifyUploadEmailUsers.as_view(), name="verify_id_upload_user"),
+    path('reject-id-upload-user', uploademail.RejectUploadEmailUser.as_view(), name="reject_id_upload_user"),
+    path('verify-id-upload-user-phone', uploademail.VerifyUploadPhoneUsers.as_view(), name="verify_id_upload_user_phone"),
+]

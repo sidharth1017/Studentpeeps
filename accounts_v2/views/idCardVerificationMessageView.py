@@ -26,7 +26,11 @@ class IdCardVerificationMessageView(View):
         full_name = f"{firstname} {lastname}".lower().strip()
 
         try:
-            unVerifiedRegister = UnVerifiedIdUpload.objects.get(Q(user__username=email) | Q(user__email=email) | Q(phone=phone))
+            filters = Q(user__username=email) | Q(user__email=email)
+            if phone:
+                filters |= Q(phone=phone)
+            unVerifiedRegister = UnVerifiedIdUpload.objects.get(filters)
+            print(f"Unverified Register: {unVerifiedRegister}")
             url = unVerifiedRegister.collegeId.url
             response = requests.get(url)
 
@@ -77,7 +81,7 @@ class IdCardVerificationMessageView(View):
                 login(request, user)
 
                 try:
-                    message = render_to_string('emailers/signup_email_body.html', {'fname': emailname})
+                    message = render_to_string('emailers/signup_email_body.html', {'fname': firstname})
                     send_welcome_email(subject=f"Welcome to Studentpeeps!", email=profile.email, message=message)
                 except Exception as e:
                     print(f"Email sending failed: {e}")

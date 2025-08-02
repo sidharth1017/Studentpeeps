@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Welcome to Studentpeeps!</title>
+    <title>Your student identification is rejected.</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
@@ -95,17 +95,34 @@
                 src="https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/logos/sp_logo_full.png" alt="">
         </div>
         <div class="container-v2">
-            <div class="title">Hello {{fname}},</div>
-            <div class="subtitle">Welcome to Studentpeeps – we’re so excited to have you with us!<br><br>
-                Studentpeeps started as a passion project during the COVID lockdown when Sidharth and I were still in college. Since then, thanks to the support of students like you, we’ve grown into a 100K+ strong student community across India.<br><br> We’ve partnered with brands students love – including Lenovo, Adobe, DailyObjects, Udemy, Myntra, and many more – to bring you exclusive discounts and offers designed to help you save money while you shop, learn, or treat yourself.<br> <br>
-                We’re constantly working to bring the best brands to the platform and expand our collection of deals that truly add value to your student life.<br><br> We’d love for you to explore the website, use the deals, and start saving every time you make a purchase! <br><br>
-                If you ever have a question, suggestion, or just want to say hi, feel free to reach out to us anytime via email <a href="mailto:hi@studentpeeps.club">hi@studentpeeps.club</a> or connect with us on <a href="https://www.linkedin.com/in/ayushmittal22">LinkedIn.</a>
-            </div><br><br> 
-            <center><a href="https://studentpeeps.club/"><button class="btn btn-primary" style="margin-top: 5px; width: 90%; color: white; font-family: 'Quicksand', sans-serif; font-weight: bold; height: 40px; line-height: 2.5rem; padding: 0 3rem; border: 0; border-radius: 0.5rem; 
-                                                                                background-image: linear-gradient(131deg, #57408a, #433375, #452c79, #301e55);
-                                                                                background-size: 300% 100%;">Explore Studentpeeps</button></a></center>
+            <div class="title">Dear {{fname}},</div>
+            <div class="subtitle">Thank you for signing up for <strong>Studentpeeps!</strong><br><br>
+                We tried verifying your student ID, but unfortunately, we couldn’t confirm your eligibility. This could
+                be due to one of the following reasons:<br></div>
+            <div style="margin-left: 30px;">
+                <p>1. <strong>Invalid or unclear ID card – </strong>The image uploaded is either blurry, cropped, or not a valid student ID.</p>
+                <p>2. <strong>Expired ID card – </strong>The ID card has passed its validity (e.g., valid only till 2022).</p>
+                <p>3. <strong>Incomplete details – </strong>The ID card is missing key information such as:</p>
+                <div>
+                    <ul>
+                        <li>Your full name</li>
+                        <li>Institution name</li>
+                        <li>Batch start and end year</li>
+                    </ul>
+                </div>
+                <p>4. <strong>Name mismatch – </strong>The name on your ID card does not match the name you used to register on Studentpeeps.</p>
+            </div>
+            <div class="subtitle">
+                We’d love for you to reapply by uploading a valid student ID. If you believe this was a mistake, simply reply to this email, and our team will assist you. <br><br>
+                Thank you for helping us keep Studentpeeps exclusive for verified students!
+            </div>
 
-            <p style="margin-top: 35px">Best,<br />Ayush & Sidharth<br>Co-founders, Studentpeeps</p>
+            <!-- <center><a href="https://studentpeeps.club/"><button class="btn btn-primary" style="margin-top: 5px; width: 90%; color: white; font-family: 'Quicksand', sans-serif; font-weight: bold; height: 40px; line-height: 2.5rem; padding: 0 3rem; border: 0; border-radius: 0.5rem; 
+                                                                                background-image: linear-gradient(131deg, #57408a, #433375, #452c79, #301e55);
+                                                                                background-size: 300% 100%;">Explore
+                        Studentpeeps</button></a></center> -->
+
+            <p style="margin-top: 35px">Best,<br /><strong>Student Verification Team</strong><br>Studentpeeps</p>
         </div>
         <div class="footer">
             For help with your <strong>StudentPeeps</strong> iD, please contact
