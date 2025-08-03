@@ -36,7 +36,7 @@ class Brand(models.Model):
         verbose_name_plural = "Brands Onboard"
 
 class Offer(models.Model):
-    brand = models.OneToOneField('Brand', on_delete=models.CASCADE)
+    brand = models.ForeignKey('Brand', on_delete=models.CASCADE, related_name='offers')
     custom_id = models.CharField(max_length=50, unique=True, default=uuid.uuid4)
     title = models.CharField(max_length=255)
     subtitle = models.CharField(max_length=255, blank=True, default="")
