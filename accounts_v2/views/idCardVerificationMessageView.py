@@ -30,44 +30,10 @@ class IdCardVerificationMessageView(View):
             if phone:
                 filters |= Q(phone=phone)
             unVerifiedRegister = UnVerifiedIdUpload.objects.get(filters)
-            print(f"Unverified Register: {unVerifiedRegister}")
-            url = unVerifiedRegister.collegeId.url
-            response = requests.get(url)
 
-            if response.status_code != 200:
-                return render(request, 'account/idCardVerificationMsgFail.html', {
-                    'msg': "Failed to fetch ID file from server."
-                })
+            match_score = verify_id_card_algorithm
+            print(f"Match score: {match_score}")
 
-            content_type = response.headers.get('Content-Type', '')
-            extracted_text = ""
-            if 'pdf' in content_type:
-                pdf_bytes = BytesIO(response.content)
-                doc = fitz.open(stream=pdf_bytes, filetype="pdf")
-
-                for page in doc:
-                    text = page.get_text().strip()
-                    if text:
-                        extracted_text += text.lower()
-                    else:
-                        pix = page.get_pixmap()
-                        img = Image.open(BytesIO(pix.tobytes("png")))
-                        extracted_text += pytesseract.image_to_string(img).lower()
-                doc.close()
-            else:
-                image = Image.open(BytesIO(response.content))
-                extracted_text = pytesseract.image_to_string(image).lower().strip()
-
-            college_keywords = ['college', 'university', 'student id', 'roll no', 'institute', 'enrollment', 'admission', 'faculty']
-            is_college_id = any(keyword in extracted_text for keyword in college_keywords)
-            if not is_college_id:
-                send_email(subject="Verify user with college id",
-                    email=["sidharthv605@gmail.com", "mittalayush740@gmail.com"], message=f"Name: {firstname} <br> Email: {email} <br> Phone: {phone} <br>Id Card: {url.split('?')[0]}")
-                return render(request, 'account/idCardVerificationMsgFail.html', {
-                    'msg': "This does not appear to be a valid college/university ID card. Please upload your official student ID. Also if you think this id is valid our team will review and update your account status in 48 hours"
-                })
-
-            match_score = fuzz.partial_ratio(full_name, extracted_text)
             if match_score >= 70:
                 user = User.objects.get(Q(email=email) | Q(username=phone))
                 user.is_active = True
@@ -81,7 +47,7 @@ class IdCardVerificationMessageView(View):
                 login(request, user)
 
                 try:
-                    message = render_to_string('emailers/signup_email_body.html', {'fname': firstname})
+                    message = render_to_string('emailers/signup_email_body.html', {'fname': register.firstname})
                     send_welcome_email(subject=f"Welcome to Studentpeeps!", email=profile.email, message=message)
                 except Exception as e:
                     print(f"Email sending failed: {e}")
@@ -99,3 +65,43 @@ class IdCardVerificationMessageView(View):
             return render(request, 'account/idCardVerificationMsgFail.html', {
                 'msg': "No registration found."
             })
+
+
+    def verify_id_card_algorithm(idCardUrl):
+        response = requests.get(idCardUrl)
+
+        if response.status_code != 200:
+            return render(request, 'account/idCardVerificationMsgFail.html', {
+                'msg': "Failed to fetch ID file from server."
+            })
+
+        content_type = response.headers.get('Content-Type', '')
+        extracted_text = ""
+        if 'pdf' in content_type:
+            pdf_bytes = BytesIO(response.content)
+            doc = fitz.open(stream=pdf_bytes, filetype="pdf")
+
+            for page in doc:
+                text = page.get_text().strip()
+                if text:
+                    extracted_text += text.lower()
+                else:
+                    pix = page.get_pixmap()
+                    img = Image.open(BytesIO(pix.tobytes("png")))
+                    extracted_text += pytesseract.image_to_string(img).lower()
+            doc.close()
+        else:
+            image = Image.open(BytesIO(response.content))
+            extracted_text = pytesseract.image_to_string(image).lower().strip()
+
+        college_keywords = ['college', 'university', 'student id', 'roll no', 'institute', 'enrollment', 'admission', 'faculty']
+        is_college_id = any(keyword in extracted_text for keyword in college_keywords)
+        if not is_college_id:
+            send_email(subject="Verify user with college id",
+                email=["sidharthv605@gmail.com", "mittalayush740@gmail.com"], message=f"Name: {firstname} <br> Email: {email} <br> Phone: {phone} <br>Id Card: {url.split('?')[0]}")
+            return render(request, 'account/idCardVerificationMsgFail.html', {
+                'msg': "This does not appear to be a valid college/university ID card. Please upload your official student ID. Also if you think this id is valid our team will review and update your account status in 48 hours"
+            })
+
+        match_score = fuzz.partial_ratio(full_name, extracted_text)
+        return match_score
