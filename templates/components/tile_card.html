@@ -1,21 +1,76 @@
+<style>
+    .tiles-card-brand-name {
+        width: 100% !important;
+        position: relative;
+        bottom: -60px;
+        color: black;
+        justify-content: center;
+        display: flex;
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+
+    .tiles-card-brand-name-lg {
+        width: 100px !important;
+        bottom: -130px;
+        position: absolute;
+        font-weight: bold;
+        text-transform: capitalize;
+        justify-content: center;
+    }
+
+    .brand {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .brand-lg {
+        display: flex;
+        justify-content: flex-start;
+        padding-left: 9%;
+    }
+
+    @media only screen and (max-width: 1199px) {
+
+        .brand-lg {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-left: 0px;
+        }
+
+        .tiles-card-brand-name-lg {
+            width: auto;
+            bottom: -55px;
+            color: black;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+    }
+</style>
+
 <a href="/offer/{{ offer.brand.slug }}/{{ offer.custom_id }}/">
-    <div class="tiles-card {% if forloop.counter0|divisibleby:6 %}tiles-card-lg{% endif %}">
-        <div class="tiles-card-img {% if forloop.counter0|divisibleby:6 %}tiles-card-img-lg{% endif %}">
+    <div class="tiles-card {% if is_large %}tiles-card-lg{% endif %}">
+        <div class="tiles-card-img {% if is_large %}tiles-card-img-lg{% endif %}">
             <picture>
                 <img src="{{ offer.thumbnail_image.url }}" alt="{{ offer.title }}" />
             </picture>
-            <div class="brand {% if forloop.counter0|divisibleby:6 %}brand-lg{% endif %}">
-                <div
-                    class="tiles-card-company-img {% if forloop.counter0|divisibleby:6 %}tiles-card-company-img-lg{% endif %}">
+            <div class="brand {% if is_large %}brand-lg{% endif %}">
+                <div class="tiles-card-company-img {% if is_large %}tiles-card-company-img-lg{% endif %}">
                     <img src="{{ offer.brand.logo.url }}" alt="{{ offer.brand.name }}" />
                 </div>
-                <div
-                    class="tiles-card-brand-name {% if forloop.counter0|divisibleby:6 %}tiles-card-brand-name-lg{% endif %}">
+                <div class="tiles-card-brand-name {% if is_large %}tiles-card-brand-name-lg{% endif %}">
                     <p>{{ offer.brand.name }}</p>
                 </div>
             </div>
         </div>
-        <div class="tiles-card-content {% if forloop.counter0|divisibleby:6 %}tiles-card-content-lg{% endif %}">
+        <div class="tiles-card-content {% if is_large %}tiles-card-content-lg{% endif %}">
             <h3 class="tiles-card-heading">{{ offer.title }}</h3>
             <p class="tiles-card-paragraph">{{ offer.subtitle }}</p>
         </div>

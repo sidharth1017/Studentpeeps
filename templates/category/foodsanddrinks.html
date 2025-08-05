@@ -189,11 +189,10 @@
         <h1 class="tiles-heading" style="margin:25px 0 70px 0; font-size: 38px; text-align: center;">Food and Drinks
         </h1>
         <div class="tiles-cards">
-            {% for offer in offers %}
-            {% include 'components/tile_card.html' %}
+            {% for offer_data in offers %}
+            {% include 'components/tile_card.html' with offer=offer_data.offer is_large=offer_data.is_large %}
             {% endfor %}
         </div>
-    </div>
 </section>
 
 {% endblock %}
