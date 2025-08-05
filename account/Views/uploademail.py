@@ -64,9 +64,15 @@ class RejectUploadEmailUser(View):
         try:
             register = Register.objects.get(Q(user__username=email) | Q(institution_email=email))
             user = register.user
-            user.backend = 'django.contrib.auth.backends.ModelBackend'      
+            user.backend = 'django.contrib.auth.backends.ModelBackend'     
+            messages.append("User is rejected!") 
         except Register.DoesNotExist:
-            messages.append("User not found!")
+            try:
+                register = UnVerifiedIdUpload.objects.get(Q(user__username=email) | Q(email=email))
+                messages.append("User is rejected!")             
+            except UnVerifiedIdUpload.DoesNotExist:
+                messages.append("User not found!")
+                return render(request, 'uploademail.html', {'messages': messages})
             return render(request, 'uploademail.html', {'messages': messages})
 
         RejectedUser = RejectedUsers(user=register.user, phone=register.phone, firstname=register.firstname, lastname=register.lastname, gender=register.gender, birthday=register.birthday, collegeId=register.collegeId)
@@ -78,7 +84,7 @@ class RejectUploadEmailUser(View):
         message = render_to_string('emailers/user_rejection_email_body.html', {'fname': register.firstname})
         send_welcome_email(subject=f"Your student identification has been rejected", email=email, message=message)
 
-        messages.append("User is rejected!")
+        messages.append("Email sent to user about rejection and user is now inactive.")
         return render(request, 'uploademail.html', {'messages': messages})
 
 class VerifyUploadPhoneUsers(View):
