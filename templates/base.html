@@ -629,233 +629,25 @@
                 <div class="brand-list">
                     <span class="brand-list-heading">Recommended for you</span>
                     <div class="brand-names">
-                        <a href="/lenovo-flat-5000-off/">
+                        {% for offer in search_offers %}
+                        <a href="/offer/{{ offer.brand.slug }}/{{ offer.custom_id }}/">
                             <li>
-                                <div class="brand-img"><img class="udemy-img" src="/static/img/Logos/lenovoLogo.png">
+                                <div class="brand-img">
+                                    <img src="{{ offer.brand.logo.url }}" alt="{{ offer.brand.name }}">
                                 </div>
-                                <div class="brand-text"><span class="brand-name">Lenovo</span><span
-                                        class="discount-info">Flat ₹5000 student Off</span></div>
-                            </li>
-                        </a>
-                        <a href="/lenovo-flat-2000-off/">
-                            <li>
-                                <div class="brand-img"><img class="rapido-img" src="/static/img/Logos/lenovoLogo.png">
+                                <div class="brand-text">
+                                    <span class="brand-name">{{ offer.brand.name }}</span>
+                                    <span class="discount-info">{{ offer.title }}</span>
                                 </div>
-                                <div class="brand-text"><span class="brand-name">Lenovo</span><span
-                                        class="discount-info">Flat ₹2000 student Off</span></div>
                             </li>
                         </a>
-                        <a href="/udemy">
-                            <li>
-                                <div class="brand-img"><img class="udemy-img" src="/static/img/Logos/udemy_logo.webp">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">Udemy</span><span
-                                        class="discount-info">Rs100 Gift Card</span></div>
-                            </li>
-                        </a>
-                        <a href="/rapido">
-                            <li>
-                                <div class="brand-img"><img class="rapido-img" src="/static/images/rapido_logo.png">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">Rapido</span><span
-                                        class="discount-info">50%
-                                        Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a href="/avni-by-giva">
-                            <li>
-                                <div class="brand-img"><img class="avni-img" src="/static/images/avnilogo.png"></div>
-                                <div class="brand-text"><span class="brand-name">Avni</span><span
-                                        class="discount-info">15%
-                                        Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a href="/pee-safe">
-                            <li>
-                                <div class="brand-img"><img class="peesafe-img" src="/static/images/peesafe.jpg"></div>
-                                <div class="brand-text"><span class="brand-name">Pee Safe</span><span
-                                        class="discount-info">15%
-                                        Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a href="/bookchor">
-                            <li>
-                                <div class="brand-img"><img class="bookchor-img" src="/static/images/bookchor_logo.png">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">Bookchor</span><span
-                                        class="discount-info">10%
-                                        Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a href="/bitclass">
-                            <li>
-                                <div class="brand-img"><img class="bitclass-img" src="/static/images/bitclass_logo.jpg">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">BitClass</span><span
-                                        class="discount-info">50%
-                                        Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a href="/bewakoof">
-                            <li>
-                                <div class="brand-img"><img class="bewakoof-img" src="/static/images/bewakoof_logo.png">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">Bewakoof</span><span
-                                        class="discount-info">15%
-                                        Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a class="extra-brand" href="/indigo">
-                            <li>
-                                <div class="brand-img"><img class="indigo-img" src="/static/images/indigo_logo.jpg">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">Indigo</span><span
-                                        class="discount-info">10% Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a class="extra-brand" href="/microsoft">
-                            <li>
-                                <div class="brand-img"><img class="microsoft-img"
-                                        src="/static/images/Microsoft_logo.svg">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">Microsoft</span><span
-                                        class="discount-info">50% Discount on Microsoft Office 365</span></div>
-                            </li>
-                        </a>
-                        <a class="extra-brand" href="/spotify">
-                            <li>
-                                <div class="brand-img"><img class="spotify-img" src="/static/images/spotify_logo.png">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">Spotify</span><span
-                                        class="discount-info">50%
-                                        Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a class="extra-brand" href="/notion">
-                            <li>
-                                <div class="brand-img"><img class="notion-img" src="/static/images/notion_logo.png">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">Notion</span><span
-                                        class="discount-info">50%
-                                        Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a class="extra-brand" href="/github">
-                            <li>
-                                <div class="brand-img"><img class="github-img" src="/static/images/github_logo.png">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">GitHub</span><span
-                                        class="discount-info">Student Developer Pack</span></div>
-                            </li>
-                        </a>
-                        <a class="extra-brand" href="/samsung">
-                            <li>
-                                <div class="brand-img"><img class="samsung-img" src="/static/images/samsung_logo.png">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">Samsung</span><span
-                                        class="discount-info">30%
-                                        Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a class="extra-brand" href="/adobe">
-                            <li>
-                                <div class="brand-img"><img class="adobe-img" src="/static/images/adobe_logo.jpg">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">Adobe</span><span
-                                        class="discount-info">70%
-                                        Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a class="extra-brand" href="/apple">
-                            <li>
-                                <div class="brand-img"><img class="apple-img" src="/static/images/apple_logo.png">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">Apple</span><span
-                                        class="discount-info">10%
-                                        Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a class="extra-brand" href="/applemusic">
-                            <li>
-                                <div class="brand-img"><img class="applemusic-img"
-                                        src="/static/images/applemusic_logo.png">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">Apple Music</span><span
-                                        class="discount-info">10% Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a class="extra-brand" href="/whole-truth-food">
-                            <li>
-                                <div class="brand-img"><img class="wtf-img" src="/static/images/wtf.jpg">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">Whole Truth Food</span><span
-                                        class="discount-info">25% Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a class="extra-brand" href="/the-womans-company">
-                            <li>
-                                <div class="brand-img"><img class="twc-img" src="/static/images/TWC_logo.png">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">The Women's Company</span><span
-                                        class="discount-info">25% Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a class="extra-brand" href="/inchpaper">
-                            <li>
-                                <div class="brand-img"><img class="inchpaper-img"
-                                        src="/static/images/inchpaper_logo.png">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">Inch Paper</span><span
-                                        class="discount-info">15% Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a class="extra-brand" href="/ptal">
-                            <li>
-                                <div class="brand-img"><img class="ptal-img" src="/static/images/ptal_logo.jpg">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">PTal</span><span
-                                        class="discount-info">10%
-                                        Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a class="extra-brand" href="/naagin">
-                            <li>
-                                <div class="brand-img"><img class="naagin-img" src="/static/images/naagin.png">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">Naagin</span><span
-                                        class="discount-info">15%
-                                        Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a class="extra-brand" href="/to-be-honest">
-                            <li>
-                                <div class="brand-img"><img class="tbh-img" src="/static/images/tbh.png">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">To Be Honest</span><span
-                                        class="discount-info">15% Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a href="/sattviko">
-                            <li>
-                                <div class="brand-img"><img class="satviko-img" src="/static/images/sattviko_logo.png">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">Sattviko</span><span
-                                        class="discount-info">15%
-                                        Student Discount</span></div>
-                            </li>
-                        </a>
-                        <a class="extra-brand" href="/propshop">
-                            <li>
-                                <div class="brand-img"><img class="propshop-img" src="/static/images/prop.png">
-                                </div>
-                                <div class="brand-text"><span class="brand-name">PropShop</span><span
-                                        class="discount-info">10%
-                                        Student Discount</span></div>
-                            </li>
-                        </a>
+                        {% empty %}
+                        <p>No recommended offers available.</p>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
+        </div>
         </div>
         <div class="menu-overlay">
         </div>
@@ -920,38 +712,37 @@
         <div class="lower-nav">
             <div class="category-list">
                 <ul>
-                    <li class="all-category"><a href="{% url 'All' %}">All</a></li>
-                    <li id="edtech-category"><a href="{% url 'Edtech' %}">Education</a></li>
-                    <li class="tech-category"><a href="{% url 'Tech' %}">Tech</a></li>
-                    <li class="fashion-category"><a href="{% url 'Fashion' %}">Fashion</a></li>
-                    <li class="travel-category"><a href="{% url 'Travel' %}">Travel</a></li>
-                    <li class="extra-category1 food-category" style="flex:0 0 132px; padding-right: 0;"><a
-                            href="{% url 'FoodsAndDrinks' %}">Food &
-                            Drinks</a></li>
-                    <li class="extra-category2 health-category"><a href="{% url 'HealthAndBeauty' %}">Health &
-                            Beauty</a></li>
-                    <li class="extra-category2 books-category" style="flex: 0 0 165px; padding-right: 0;"><a
-                            href="{% url 'BooksAndStationary' %}">Books &
-                            Stationary</a></li>
-                    <li class="extra-category2 home-category" style="flex:0 0 130px; padding-right: 0;"><a
-                            href="{% url 'HomeAndUtilities' %}">Home & Utilities</a>
+                    <li class="all-category {% if request.path == '/category/all/' %}active-category{% endif %}">
+                        <a href="/category/all">All</a>
                     </li>
-                    <li style="flex: 0 0 83px;" class="dropdown-cont">
+
+                    {% for category in categories|slice:":6" %}
+                    {% url 'CategoryPage' category.category_id as category_url %}
+                    <li
+                        class="{{ category.category_id }}-category {% if request.path == category_url %}active-category{% endif %}">
+                        <a href="{{ category_url }}">{{ category.name }}</a>
+                    </li>
+                    {% endfor %}
+
+                    {% if categories|length > 6 %}
+                    <li class="dropdown-cont" style="flex: 0 0 83px;">
                         <a href="#">
                             <span>More</span> <i class="fa fa-angle-down"></i>
                         </a>
                         <ul>
-                            <li id="food-category-drop" class="extra-dropdown"><a
-                                    href="{% url 'FoodsAndDrinks' %}">Foods & Drinks</a></li>
+                            {% for category in categories|slice:"6:" %}
+                            {% url 'CategoryPage' category.category_id as category_url %}
+                            <li
+                                id="{{ category.category_id }}-category-drop {% if request.path == category_url %}active-category{% endif %}">
+                                <a href="{{ category_url }}">{{ category.name }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
                     </li>
-                    <li id="health-category-drop"><a href="{% url 'HealthAndBeauty' %}">Health & Beauty</a></li>
-                    <li id="books-category-drop"><a href="{% url 'BooksAndStationary' %}">Books & Stationary</a>
-                    </li>
-                    <li id="home-category-drop"><a href="{% url 'HomeAndUtilities' %}">Home & Utilities</a></li>
-                </ul>
-                </li>
+                    {% endif %}
                 </ul>
             </div>
+
             <div class="search-bar">
                 <div class="search">
                     <div class="input">
@@ -972,245 +763,24 @@
         <div class="brand-list">
             <span class="brand-list-heading">Recommended for you</span>
             <div class="brand-names">
-                <a href="/dailyobjects/">
+                {% for offer in search_offers %}
+                <a href="/offer/{{ offer.brand.slug }}/{{ offer.custom_id }}/">
                     <li>
-                        <div class="brand-img"><img class="udemy-img" src="/static/img/Logos/dailyobjectsLogo.png">
+                        <div class="brand-img">
+                            <img src="{{ offer.brand.logo.url }}" alt="{{ offer.brand.name }}">
                         </div>
-                        <div class="brand-text"><span class="brand-name">Dailyobjects</span><span class="discount-info">Flat 15% Student Discount</span></div>
-                    </li>
-                </a>
-                <a href="/etihad-10-percent-off/">
-                    <li>
-                        <div class="brand-img"><img class="udemy-img" src="/static/img/Logos/etihad_logo.png">
+                        <div class="brand-text">
+                            <span class="brand-name">{{ offer.brand.name }}</span>
+                            <span class="discount-info">{{ offer.title }}</span>
                         </div>
-                        <div class="brand-text"><span class="brand-name">Etihad</span><span class="discount-info">10%
-                                Student Discount on Economy Class</span></div>
                     </li>
                 </a>
-                <a href="/lenovo-flat-5000-off/">
-                    <li>
-                        <div class="brand-img"><img class="udemy-img" src="/static/img/Logos/lenovoLogo.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Lenovo</span><span class="discount-info">Flat
-                                ₹5000 student Off</span></div>
-                    </li>
-                </a>
-                <a href="/lenovo-flat-2000-off/">
-                    <li>
-                        <div class="brand-img"><img class="rapido-img" src="/static/img/Logos/lenovoLogo.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Lenovo</span><span class="discount-info">Flat
-                                ₹2000 student Off</span></div>
-                    </li>
-                </a>
-                <a href="/udemy">
-                    <li>
-                        <div class="brand-img"><img class="udemy-img" src="/static/img/Logos/udemy_logo.webp">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Udemy</span><span class="discount-info">Rs100
-                                Gift Card</span></div>
-                    </li>
-                </a>
-                <a href="/rapido">
-                    <li>
-                        <div class="brand-img"><img class="rapido-img" src="/static/images/rapido_logo.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Rapido</span><span class="discount-info">50%
-                                Student Discount</span></div>
-                    </li>
-                </a>
-                <a href="/avni-by-giva">
-                    <li>
-                        <div class="brand-img"><img class="avni-img" src="/static/images/avnilogo.png"></div>
-                        <div class="brand-text"><span class="brand-name">Avni</span><span class="discount-info">15%
-                                Student Discount</span></div>
-                    </li>
-                </a>
-                <a href="/pee-safe">
-                    <li>
-                        <div class="brand-img"><img class="peesafe-img" src="/static/images/peesafe.jpg"></div>
-                        <div class="brand-text"><span class="brand-name">Pee Safe</span><span class="discount-info">15%
-                                Student Discount</span></div>
-                    </li>
-                </a>
-                <a href="/bookchor">
-                    <li>
-                        <div class="brand-img"><img class="bookchor-img" src="/static/images/bookchor_logo.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Bookchor</span><span class="discount-info">10%
-                                Student Discount</span></div>
-                    </li>
-                </a>
-                <a href="/bitclass">
-                    <li>
-                        <div class="brand-img"><img class="bitclass-img" src="/static/images/bitclass_logo.jpg">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">BitClass</span><span class="discount-info">50%
-                                Student Discount</span></div>
-                    </li>
-                </a>
-                <a href="/bewakoof">
-                    <li>
-                        <div class="brand-img"><img class="bewakoof-img" src="/static/images/bewakoof_logo.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Bewakoof</span><span class="discount-info">15%
-                                Student Discount</span></div>
-                    </li>
-                </a>
-                <a class="extra-brand" href="/indigo">
-                    <li>
-                        <div class="brand-img"><img class="indigo-img" src="/static/images/indigo_logo.jpg">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Indigo</span><span class="discount-info">6%
-                                Student Discount</span></div>
-                    </li>
-                </a>
-                <a class="extra-brand" href="/microsoft">
-                    <li>
-                        <div class="brand-img"><img class="microsoft-img" src="/static/images/Microsoft_logo.svg">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Microsoft</span><span
-                                class="discount-info">Free Microsoft Office 365</span></div>
-                    </li>
-                </a>
-                <a class="extra-brand" href="/spotify">
-                    <li>
-                        <div class="brand-img"><img class="spotify-img" src="/static/images/spotify_logo.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Spotify</span><span class="discount-info">50%
-                                Student Discount</span></div>
-                    </li>
-                </a>
-                <a class="extra-brand" href="/notion">
-                    <li>
-                        <div class="brand-img"><img class="notion-img" src="/static/images/notion_logo.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Notion</span><span class="discount-info">50%
-                                Student Discount</span></div>
-                    </li>
-                </a>
-                <a class="extra-brand" href="/github">
-                    <li>
-                        <div class="brand-img"><img class="github-img" src="/static/images/github_logo.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">GitHub</span><span
-                                class="discount-info">Student Developer Pack</span></div>
-                    </li>
-                </a>
-                <a class="extra-brand" href="/samsung">
-                    <li>
-                        <div class="brand-img"><img class="samsung-img" src="/static/images/samsung_logo.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Samsung</span><span class="discount-info">30%
-                                Student Discount</span></div>
-                    </li>
-                </a>
-                <a class="extra-brand" href="/adobe">
-                    <li>
-                        <div class="brand-img"><img class="adobe-img" src="/static/images/adobe_logo.jpg">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Adobe</span><span class="discount-info">65%
-                                Student Discount</span></div>
-                    </li>
-                </a>
-                <a class="extra-brand" href="/apple">
-                    <li>
-                        <div class="brand-img"><img class="apple-img" src="/static/images/apple_logo.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Apple</span><span class="discount-info">10%
-                                Student Discount</span></div>
-                    </li>
-                </a>
-                <a class="extra-brand" href="/applemusic">
-                    <li>
-                        <div class="brand-img"><img class="applemusic-img" src="/static/images/applemusic_logo.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Apple Music</span><span
-                                class="discount-info">10% Student Discount</span></div>
-                    </li>
-                </a>
-                <a class="extra-brand" href="/whole-truth-food">
-                    <li>
-                        <div class="brand-img"><img class="wtf-img" src="/static/images/wtf.jpg">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Whole Truth Food</span><span
-                                class="discount-info">25% Student Discount</span></div>
-                    </li>
-                </a>
-                <a class="extra-brand" href="/the-womans-company">
-                    <li>
-                        <div class="brand-img"><img class="twc-img" src="/static/images/TWC_logo.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">The Women's Company</span><span
-                                class="discount-info">25% Student Discount</span></div>
-                    </li>
-                </a>
-                <a class="extra-brand" href="/inchpaper">
-                    <li>
-                        <div class="brand-img"><img class="inchpaper-img" src="/static/images/inchpaper_logo.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Inch Paper</span><span
-                                class="discount-info">15% Student Discount</span></div>
-                    </li>
-                </a>
-                <a class="extra-brand" href="/ptal">
-                    <li>
-                        <div class="brand-img"><img class="ptal-img" src="/static/images/ptal_logo.jpg">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">PTal</span><span class="discount-info">10%
-                                Student Discount</span></div>
-                    </li>
-                </a>
-                <a class="extra-brand" href="/naagin">
-                    <li>
-                        <div class="brand-img"><img class="naagin-img" src="/static/images/naagin.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Naagin</span><span class="discount-info">15%
-                                Student Discount</span></div>
-                    </li>
-                </a>
-                <a class="extra-brand" href="/to-be-honest">
-                    <li>
-                        <div class="brand-img"><img class="tbh-img" src="/static/images/tbh.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">To Be Honest</span><span
-                                class="discount-info">15% Student Discount</span></div>
-                    </li>
-                </a>
-                <a href="/sattviko">
-                    <li>
-                        <div class="brand-img"><img class="satviko-img" src="/static/images/sattviko_logo.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Sattviko</span><span class="discount-info">15%
-                                Student Discount</span></div>
-                    </li>
-                </a>
-                <a class="extra-brand" href="/propshop">
-                    <li>
-                        <div class="brand-img"><img class="propshop-img" src="/static/images/prop.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">PropShop</span><span class="discount-info">10%
-                                Student Discount</span></div>
-                    </li>
-                </a>
-                <a class="extra-brand" href="/free-two-night-stay-with-etihad">
-                    <li>
-                        <div class="brand-img"><img class="propshop-img" src="/static/img/Logos/etihad_logo.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Etihad</span><span
-                                class="discount-info">Complimentary 2-Night Abu Dhabi Stay for Students</span></div>
-                    </li>
-                </a>
-                <a class="extra-brand" href="/etihad-5-percent-off">
-                    <li>
-                        <div class="brand-img"><img class="propshop-img" src="/static/img/Logos/etihad_logo.png">
-                        </div>
-                        <div class="brand-text"><span class="brand-name">Etihad</span><span class="discount-info">5%
-                                Discount on Business Class</span></div>
-                    </li>
-                </a>
+                {% empty %}
+                <p>No recommended offers available.</p>
+                {% endfor %}
             </div>
         </div>
+    </div>
     </div>
     <div class="overlay">
     </div>

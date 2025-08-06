@@ -619,7 +619,7 @@ Deals & Offers{% endblock %} {% block linkshead %}
       </span>
       <div class="home-btns">
         {% if request.user.is_authenticated %}
-        <a href="{% url 'Exclusive' %}" class="community-link">
+        <a href="/category/exclusive" class="community-link">
           Check Best Offer<br />
         </a>
         {% else %}
@@ -627,7 +627,7 @@ Deals & Offers{% endblock %} {% block linkshead %}
           Login/Signup<br />
         </a>
         {% endif %}
-        <a href="{% url 'All' %}" class="scroll-down">
+        <a href="/category/all" class="scroll-down">
           Show me all offers&nbsp; &nbsp;<i style="font-size: 24px" class="fa fa-long-arrow-alt-right"></i>
         </a>
       </div>
@@ -708,261 +708,20 @@ Deals & Offers{% endblock %} {% block linkshead %}
 <!-- Home Page End -->
 
 <!-- Card Slider -->
-<input type="checkbox" id="switch" onchange="toggleCards()" />
 <section class="section-feature">
   <div class="feature-container">
     <div class="feature-heading">
       <h1 class="feature-sub-heading-primary">Recommended For You</h1>
     </div>
-    <!-- <div class="feature-btns">
-      <label for="switch" class="toggle-label">
-        <div class="toggle"></div>
-        <div class="names">
-          <p class="exclusive-btn"><i class="fa fa-bolt"></i> Exclusive</p>
-          <p class="non-exclusive-btn">Non-exclusive</p>
-        </div>
-      </label>
-    </div> -->
-
     <div class="feature-cards exclusive tiles-cards">
-      <!-- Exlusive card desktop -->
-      <a href="/dailyobjects/">
-        <div class="tiles-card tiles-card-lg">
-          <div class="tiles-card-img tiles-card-img-lg">
-            <picture>
-              <source media="(min-width:1200px)" srcset="https://images.dailyobjects.com/marche/assets/images/other-2/Pivot-carousal-banner-desktop.jpg" />
-              <source media="(min-width:480px)" srcset="https://images.dailyobjects.com/marche/assets/images/other-2/Pivot-carousal-banner-desktop.jpg" />
-              <img src="https://images.dailyobjects.com/marche/assets/images/other-2/Pivot-carousal-banner-desktop.jpg" alt="" />
-            </picture>
-            <div class="tiles-card-company-img tiles-card-company-img-lg">
-              <img src="{% static 'img/Logos/dailyobjectsLogo.png' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content tiles-card-content-lg">
-            <h3 class="tiles-card-heading">Flat 15% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Smart accessories that keep up with your student life
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="/lenovo-flat-5000-off/">
-        <div class="tiles-card tiles-card">
-          <div class="tiles-card-img tiles-card-img">
-            <picture>
-              <source media="(min-width:1200px)" srcset="{% static 'img/Tiles_inner/lenovoOffer1Inner.png' %}" />
-              <source media="(min-width:480px)" srcset="{% static 'img/Tiles_inner/lenovoOffer1Inner.png' %}" />
-              <img src="{% static 'img/Tiles_inner/lenovoOffer1Inner.png' %}" alt="" />
-            </picture>
-            <div class="tiles-card-company-img tiles-card-company-img">
-              <img src="{% static 'img/Logos/lenovoLogo.png' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content tiles-card-content">
-            <h3 class="tiles-card-heading">Flat ₹5000 Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              High-performance laptops for gaming, design & work
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="/udemy/">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'images/udemy_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'images/udemy_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">Rs.100 Gift Card</h3>
-            <p class="tiles-card-paragraph">
-              Online courses for professional skills.
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="/myntra/">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_inner/myntra_main_banner.png' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/EORS_16_Logo.jpg' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">10% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Order chic products from selective brands at super low prices
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="/bewakoof">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/bewakoof_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/Bewakoof_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">Flat 15% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Bewakoof - Clothing, Beauty, Accessories, & more
-            </p>
-          </div>
-        </div>
-      </a>
-
-
-      <!-- Exlusive card desktop end -->
-
-      <!-- Exlusive card mobile start -->
-
-      <!-- <a class="mobile-view" href="https://cutt.ly/spbewakoof">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/bewakoof_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/Bewakoof_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">Flat 15% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Bewakoof - Clothing, Beauty, Accessories, & more
-            </p>
-          </div>
-        </div>
-      </a>
-      <a class="mobile-view" href="https://cutt.ly/spbookchor">
-        <div class="tiles-card">
-          <div class="expire">
-            <img src="{% static 'images/clock.svg' %}" class="expire-img" alt="" />
-            <p id="expire-time-bookchor" class="expire-p"></p>
-          </div>
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/Bookchor_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/bookchor_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">Rs.100 Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Buy used books at super low prices
-            </p>
-          </div>
-        </div>
-      </a> -->
-
-    </div>
-    <!-- Exlusive card mobile end -->
-
-
-    <!-- Non  Exlusive card desktop end -->
-    <div class="feature-cards non-exclusive">
-
-      <a href="https://cutt.ly/spprime">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/amazonprime_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/amazonprime_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">Upto 50% Cashback</h3>
-            <p class="tiles-card-paragraph">
-              Enjoy free fast delivery, exclusive series, ad-free podcasts, etc.
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="https://cutt.ly/spspotify">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/spotify_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/spotify_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">50% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              listen to millions of songs and podcasts
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="/indigo">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_inner/indigo_inner.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/indigo_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">10% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Travel via the domestic flight network of IndiGo
-            </p>
-          </div>
-        </div>
-      </a>
-      <!-- Non  Exlusive card desktop end -->
-
-      <!-- Non  Exlusive card mobile start -->
-      <a class="mobile-view" href="/ytpremium">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/youtube_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/youtube_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">40% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Watch Your favorite content ad-free and in the background
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a class="mobile-view" href="/microsoft">
-        <div class="tiles-card tiles-card-lg">
-          <div class="tiles-card-img tiles-card-img-lg">
-            <img src="{% static 'img/Tiles_inner/microsoft_inner.webp' %}" alt="" />
-            <div class="tiles-card-company-img tiles-card-company-img-lg">
-              <img src="{% static 'img/Logos/Microsoft_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content tiles-card-content-lg">
-            <h3 class="tiles-card-heading">Free Microsoft Office 365</h3>
-            <p class="tiles-card-paragraph">
-              Learn a suite of skills from Office 365 Education
-            </p>
-          </div>
-        </div>
-      </a>
-      <!-- Non  Exlusive card mobile start -->
+      {% for offer_data in recommended_offers %}
+      {% include 'components/tile_card.html' with offer=offer_data.offer is_large=offer_data.is_large %}
+      {% endfor %}
     </div>
   </div>
-
-  <!-- <a class="view-all exclusive" href="exclusive/">
-    <button class="view-all-btn">
-      <span>All Exclusive offers</span>
-    </button>
-  </a> -->
+  <!-- Exlusive card mobile end -->
+  </div>
+  </div>
 </section>
 
 <!-- Card Slider end -->
@@ -996,103 +755,12 @@ Deals & Offers{% endblock %} {% block linkshead %}
   <div class="tiles-container">
     <h1 class="tiles-heading">Featured Student Discounts</h1>
     <div class="tiles-cards">
-      <a href="https://cutt.ly/sprapido">
-        <div class="tiles-card tiles-card-lg">
-          <div class="expire">
-            <img src="{% static 'images/clock.svg' %}" class="expire-img" alt="" />
-            <p id="expire-time-rapido" class="expire-p"></p>
-          </div>
-          <div class="tiles-card-img tiles-card-img-lg">
-            <picture>
-              <source media="(min-width:1200px)" srcset="{% static 'img/Tiles_inner/rapido_inner.webp' %}" />
-              <source media="(min-width:480px)" srcset="{% static 'img/Tiles_inner/rapido_inner.webp' %}" />
-              <img src="{% static 'images/rapido_inner.webp' %}" alt="" />
-            </picture>
-            <div class="tiles-card-company-img tiles-card-company-img-lg">
-              <img src="{% static 'img/Logos/rapido_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content tiles-card-content-lg">
-            <h3 class="tiles-card-heading">50% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Book Bike taxi hassle free-anytime
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="/nestaway">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/nestaway_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/nestaway_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">Rs.1000 Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Find student accommodation easily at affordable prices
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="https://cutt.ly/spspotify">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/spotify_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/spotify_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">50% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              listen to millions of songs and podcasts
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="/ytpremium">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/youtube_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/youtube_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">40% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Watch Your favorite content ad-free and in the background
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="/ragecoffee">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/ragecoffee_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/ragecoffee_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">15% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Savour plant based, flavored coffee to boost your energy
-            </p>
-          </div>
-        </div>
-      </a>
-
+      {% for offer in featured_offers %}
+      {% if forloop.counter == 2 %}
+      <!-- Testimonial after 5th offer -->
       <div class="testimonial">
         <div class="left-cont">
-          <img src="{% static 'images/testimonial-img.jpg' %}
-                    " alt="" />
+          <img src="{% static 'images/testimonial-img.jpg' %}" alt="" />
         </div>
         <div class="right-cont">
           <i class="fa fa-quote-left"></i>
@@ -1106,226 +774,18 @@ Deals & Offers{% endblock %} {% block linkshead %}
           <span class="name-desc"> Student at Christ University </span>
         </div>
       </div>
-
-      <a href="https://cutt.ly/spwix">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/wix_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/wix_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">Upto 50% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Curate beautiful portfolios and websites from 100s of templates
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="/indigo">
-        <div class="tiles-card tiles-card-lg">
-          <div class="tiles-card-img tiles-card-img-lg">
-            <img src="{% static 'img/Tiles_inner/indigo_inner.webp' %}" alt="" />
-            <div class="tiles-card-company-img tiles-card-company-img-lg">
-              <img src="{% static 'img/Logos/indigo_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content tiles-card-content-lg">
-            <h3 class="tiles-card-heading">10% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Travel via the domestic flight network of IndiGo
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="https://cutt.ly/spapplemusic">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/applemusic_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/applemusic_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">50% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Groove to a million songs, and curate your favorite playlists
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="https://cutt.ly/spapple">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/apple_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/apple_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">10% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Shop iPhone, iPad, Apple Watch, Mac, TV, accessories, etc.
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="https://cutt.ly/spsamsung">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/samsung_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/samsung_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">Upto 30% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Buy smartphones, tablets, monitors and wearables
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="https://cutt.ly/sppeesafe">
-        <div class="tiles-card tiles-card-lg">
-          <div class="expire">
-            <img src="{% static 'images/clock.svg' %}" class="expire-img" alt="" />
-            <p id="expire-time-peasafe" class="expire-p"></p>
-          </div>
-          <div class="tiles-card-img tiles-card-img-lg">
-            <img src="{% static 'img/Tiles_inner/peesafe_inner.webp' %}" alt="" />
-            <div class="tiles-card-company-img tiles-card-company-img-lg">
-              <img src="{% static 'img/Logos/peesafe_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content tiles-card-content-lg">
-            <h3 class="tiles-card-heading">15% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Pick natural products for personal hygiene
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="https://cutt.ly/spnotion">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/notion_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/notion_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">Free Notion Pro Plan</h3>
-            <p class="tiles-card-paragraph">
-              Organize your notes and personal tasks
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="https://cutt.ly/spadobe">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/adobe_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/adobe_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">65% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Creative tools for design, photo, video, and more
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="https://cutt.ly/spgithub">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/github_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/github_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">Free Student Developer Pack</h3>
-            <p class="tiles-card-paragraph">
-              Student's treasure of free trials, plans, and subscriptions.
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="/oneplus">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/oneplus_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/oneplus_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">Upto Rs 2000 Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Shop a selection of OnePlus smartphones and accessories
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="https://cutt.ly/spbookchor">
-        <div class="tiles-card">
-          <div class="expire">
-            <img src="{% static 'images/clock.svg' %}" class="expire-img" alt="" />
-            <p id="expire-time-bookchor" class="expire-p"></p>
-          </div>
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/Bookchor_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/bookchor_logo.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">Rs.100 Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Buy used books at super low prices
-            </p>
-          </div>
-        </div>
-      </a>
-
-      <a href="https://cutt.ly/spwholetruthfoods">
-        <div class="tiles-card">
-          <div class="tiles-card-img">
-            <img src="{% static 'img/Tiles_outer/twf_outer.webp' %}" alt="" />
-            <div class="tiles-card-company-img">
-              <img src="{% static 'img/Logos/wtf.webp' %}" alt="" />
-            </div>
-          </div>
-          <div class="tiles-card-content">
-            <h3 class="tiles-card-heading">25% Student Discount</h3>
-            <p class="tiles-card-paragraph">
-              Making food healthy and transparent
-            </p>
-          </div>
-        </div>
-      </a>
+      {% endif %}
+      {% include 'components/tile_card.html' with offer=offer.offer is_large=offer.is_large %}
+      {% endfor %}
     </div>
   </div>
-  <a class="view-all" href="all/">
+  <a class="view-all" href="/category/all/">
     <button class="view-all-btn">
       <span>View all offers</span>
     </button>
   </a>
 </section>
+
 
 <!-- Our Services Start-->
 <section class="section-tutorial">

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{seo.title}}{% endblock %}
+
+{% block linkshead %}
+<meta name="keywords" content={{seo.keywords}} />
+
+<meta name="description" content={{seo.description}}>
+
+<link rel="stylesheet" href="{% static 'css/aftercode.css' %}" />
+<script src="{% static 'js/aftercode.js' %}"></script>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="bg-banner" style="background: {{ offer.background_color }};"></div>
+
+<div class="prdouctimg">
+    <img class="final" src="{{ offer.thumbnail_image.url }}" alt="{{ offer.name }}">
+</div>
+
+<center>
+    <div class="complete">
+        <div class="brandlogo">
+            <img class="final" src="{{ brand.logo.url }}" alt="{{ offer.custom_id }}">
+        </div>
+
+        <div class="_all">
+            <div class="wrapper">
+                <div class="content">
+                    <h1>{{ offer.title }}</h1>
+                    <p><a href="{{ brand.website }}" target="_blank">at {{ brand.name }}</a></p>
+                </div>
+
+                <div class="copy">
+                    <p>Use your student code at checkout</p>
+                </div>
+
+                <div class="showcode" id="text" onclick="copyElementText(this.id)">
+                    {{code}}
+                    <div class="copy-btn">
+                        <i class="fa fa-copy" onclick="copy()"></i>
+                    </div>
+                </div>
+
+                <div class="button d-grid gap-2 col-6 mx-auto">
+                    <a href="{{ brand.website }}" target="_blank">
+                        <button class="btn btn-primary" type="button">
+                            Open Site & Use Code
+                        </button>
+                    </a>
+                </div>
+                <hr />
+            </div>
+
+            <div class="contenttext">
+                <p>
+                    {{ offer.about|safe }}
+                </p>
+            </div>
+
+            <hr>
+
+
+            {% if offer.redemption %}
+            <div class="contenttext">
+                <p>
+                    {{ offer.redemption|safe }}
+                </p>
+            </div>
+
+            <hr>
+            {% endif %}
+
+            <div class="contenttext">
+                <p>
+                    {{ offer.tnc|safe }}
+                </p>
+            </div>
+        </div>
+    </div>
+</center>
+
+{% endblock %}

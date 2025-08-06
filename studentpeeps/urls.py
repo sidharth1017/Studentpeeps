@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')),
     path('account/v2/', include('accounts_v2.urls')),
+     path('offer/', include('brands_v2.urls')),
     path('event/', views.Campus.as_view(), name="Event"),
     path("", include("main.urls")),
     path('social-auth/', include('social_django.urls', namespace='social')),
@@ -34,6 +35,7 @@ urlpatterns = [
     path('ads.txt/', views.Ads.as_view(), name="Ads"),
     path('.well-known/pki-validation/3E4612F07E9BF0ED441A9D77F76CCF06.txt/', views.ssl.as_view(), name="ssl"),
     path('loginnext/<str:nexturl>/', views.LoginNext.as_view(), name="LoginNext"),
+    path('summernote/', include('django_summernote.urls')),
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root' : settings.MEDIA_ROOT})
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -18,6 +18,7 @@ class IdentifyView(View):
         request.session.pop('studentpeepsV2', None)
         request.session.pop('email', None)
         request.session.pop('phone', None)
+        request.session['next_url'] = request.GET.get('next')
         return render(request, 'account/identify.html')
 
     def post(self, request):
@@ -26,13 +27,15 @@ class IdentifyView(View):
             abandonedSignup = AbandonedSignup(identifier=identifier)
             abandonedSignup.save()
 
+        next_param = request.GET.get('next') or request.session.get('next_url')
+
         if re.match(r'^\d{10}$', identifier): # Phone number Identifier
             request.session['phone'] = identifier
-            return redirect('/account/v2/verify')
+            return redirect(f'/account/v2/verify?next={next_param}' if next_param else '/account/v2/verify')
 
         elif re.match(r"[^@]+@[^@]+\.[^@]+", identifier): # Email Identifier
             request.session['email'] = identifier
-            return redirect('/account/v2/verify')
+            return redirect(f'/account/v2/verify?next={next_param}' if next_param else '/account/v2/verify')
 
         return JsonResponse({'next': None, 'message': 'Enter a valid email or phone number'})
 

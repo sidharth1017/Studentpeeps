@@ -16,7 +16,7 @@ class FoundationAdmin(admin.ModelAdmin):
     list_display = ('name','collegename','email', 'coursename')
 admin.site.register(Foundation, FoundationAdmin)
 admin.site.register(Resource)
-admin.site.register(Brand)
+# admin.site.register(Brand)
 admin.site.register(Subscribe)
 
 

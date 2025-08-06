@@ -652,9 +652,6 @@ a {
 }
 
 @media only screen and (max-width: 600px) {
-  .tiles-card-content {
-    padding-top: 40px;
-  }
 }
 
 .tiles-card-heading {
@@ -683,7 +680,7 @@ a {
   font-family: "SF Pro Display Regular";
   color: #333;
   text-align: center;
-  margin-top: 30px;
+  margin-top: -15px;
   margin-bottom: 0;
 }
 
