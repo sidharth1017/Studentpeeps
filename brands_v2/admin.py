@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Brand, Offer, OfferSEO, OfferCodeForUser, RedeemedCodes
+from .models import Brand, Offer, OfferSEO, OfferCodeForUser, RedeemedCodes, Category
 from .forms import OfferAdminForm, BrandAdminForm
 from django_summernote.admin import SummernoteModelAdmin
 
@@ -29,3 +29,10 @@ class RedeemedCodesAdmin(admin.ModelAdmin):
     list_display = ('offer_custom_id', 'created_at', 'updated_at')
     search_fields = ('offer_custom_id',)
     list_per_page = 50
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('category_id', 'name', 'title')
+    search_fields = ('name', 'meta_keywords')
+    list_per_page = 50
+

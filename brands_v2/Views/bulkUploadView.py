@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import View
-from ..models import Brand, Offer, OfferSEO, OfferCodeForUser
+from ..models import Brand, Offer, OfferSEO, OfferCodeForUser, Category
 
 class BulkUploadView(View):
     def dispatch(self, request, *args, **kwargs):
@@ -73,13 +73,22 @@ class BulkUploadView(View):
             except Brand.DoesNotExist:
                 continue
 
+            category_slug_or_name = row.get('category', '').strip()
+            category_instance = None
+            if category_slug_or_name:
+                try:
+                    category_instance = Category.objects.get(category_id=category_slug_or_name)
+                except Category.DoesNotExist:
+                    category_instance = Category.objects.get(category_id="uncategorized")
+                    continue
+
             offer, created = Offer.objects.update_or_create(
                 custom_id=row['custom_id'],
                 defaults={
                     'brand': brand,
                     'title': row['title'],
                     'subtitle': row.get('subtitle', ''),
-                    'category': row.get('category', ''),
+                    'category': category_instance,
                     'thumbnail_image': 'exclusive_thumbnails/' + row.get('thumbnail_image', ''),
                     'about': row.get('about', ''),
                     'tnc': row.get('tnc', ''),

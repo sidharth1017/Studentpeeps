@@ -40,11 +40,7 @@ class Offer(models.Model):
     custom_id = models.CharField(max_length=50, unique=True, default=uuid.uuid4)
     title = models.CharField(max_length=255)
     subtitle = models.CharField(max_length=255, blank=True, default="")
-    category = models.CharField(
-        max_length=30,
-        choices=OfferCategory.choices,
-        default=OfferCategory.UNCATEGORIZED
-    )
+    category = models.ForeignKey('Category', blank=True, related_name='offers', default=OfferCategory.UNCATEGORIZED, on_delete=models.SET_DEFAULT)
     thumbnail_image = models.ImageField(upload_to='exclusive_thumbnails/')
     additional_images = models.JSONField(blank=True, default=list)
     about = models.TextField()
@@ -92,3 +88,23 @@ class RedeemedCodes(models.Model):
         now = timezone.now().isoformat()
         self.redeemed_codes.append({code: now})
         self.save()
+
+class Category(models.Model):
+    category_id = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=255)
+    sorting = models.PositiveIntegerField(default=0)
+    title = models.CharField(max_length=255, blank=True)
+    meta_title = models.CharField(max_length=255, blank=True)
+    meta_description = models.TextField(blank=True)
+    meta_keywords = models.JSONField(blank=True, default=list)
+    og_image = models.ImageField(upload_to='category_og_images/', blank=True, default="")
+    isVisible = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+    
+    def get_absolute_url(self):
+        return reverse('CategoryPage', args=[self.category_id])
+
+    class Meta:
+        verbose_name_plural = "Categories"

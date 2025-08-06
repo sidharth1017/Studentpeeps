@@ -619,7 +619,7 @@ Deals & Offers{% endblock %} {% block linkshead %}
       </span>
       <div class="home-btns">
         {% if request.user.is_authenticated %}
-        <a href="{% url 'Exclusive' %}" class="community-link">
+        <a href="/category/exclusive" class="community-link">
           Check Best Offer<br />
         </a>
         {% else %}
@@ -627,7 +627,7 @@ Deals & Offers{% endblock %} {% block linkshead %}
           Login/Signup<br />
         </a>
         {% endif %}
-        <a href="{% url 'All' %}" class="scroll-down">
+        <a href="/category/all" class="scroll-down">
           Show me all offers&nbsp; &nbsp;<i style="font-size: 24px" class="fa fa-long-arrow-alt-right"></i>
         </a>
       </div>
@@ -714,8 +714,8 @@ Deals & Offers{% endblock %} {% block linkshead %}
       <h1 class="feature-sub-heading-primary">Recommended For You</h1>
     </div>
     <div class="feature-cards exclusive tiles-cards">
-      {% for offer in recommended_offers %}
-      {% include 'components/tile_card.html' %}
+      {% for offer_data in recommended_offers %}
+      {% include 'components/tile_card.html' with offer=offer_data.offer is_large=offer_data.is_large %}
       {% endfor %}
     </div>
   </div>
@@ -775,11 +775,11 @@ Deals & Offers{% endblock %} {% block linkshead %}
         </div>
       </div>
       {% endif %}
-      {% include 'components/tile_card.html' %}
+      {% include 'components/tile_card.html' with offer=offer.offer is_large=offer.is_large %}
       {% endfor %}
     </div>
   </div>
-  <a class="view-all" href="/all/">
+  <a class="view-all" href="/category/all/">
     <button class="view-all-btn">
       <span>View all offers</span>
     </button>

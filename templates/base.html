@@ -712,38 +712,37 @@
         <div class="lower-nav">
             <div class="category-list">
                 <ul>
-                    <li class="all-category"><a href="{% url 'All' %}">All</a></li>
-                    <li id="edtech-category"><a href="{% url 'Edtech' %}">Education</a></li>
-                    <li class="tech-category"><a href="{% url 'Tech' %}">Tech</a></li>
-                    <li class="fashion-category"><a href="{% url 'Fashion' %}">Fashion</a></li>
-                    <li class="travel-category"><a href="{% url 'Travel' %}">Travel</a></li>
-                    <li class="extra-category1 food-category" style="flex:0 0 132px; padding-right: 0;"><a
-                            href="{% url 'FoodsAndDrinks' %}">Food &
-                            Drinks</a></li>
-                    <li class="extra-category2 health-category"><a href="{% url 'HealthAndBeauty' %}">Health &
-                            Beauty</a></li>
-                    <li class="extra-category2 books-category" style="flex: 0 0 165px; padding-right: 0;"><a
-                            href="{% url 'BooksAndStationary' %}">Books &
-                            Stationary</a></li>
-                    <li class="extra-category2 home-category" style="flex:0 0 130px; padding-right: 0;"><a
-                            href="{% url 'HomeAndUtilities' %}">Home & Utilities</a>
+                    <li class="all-category {% if request.path == '/category/all/' %}active-category{% endif %}">
+                        <a href="/category/all">All</a>
                     </li>
-                    <li style="flex: 0 0 83px;" class="dropdown-cont">
+
+                    {% for category in categories|slice:":6" %}
+                    {% url 'CategoryPage' category.category_id as category_url %}
+                    <li
+                        class="{{ category.category_id }}-category {% if request.path == category_url %}active-category{% endif %}">
+                        <a href="{{ category_url }}">{{ category.name }}</a>
+                    </li>
+                    {% endfor %}
+
+                    {% if categories|length > 6 %}
+                    <li class="dropdown-cont" style="flex: 0 0 83px;">
                         <a href="#">
                             <span>More</span> <i class="fa fa-angle-down"></i>
                         </a>
                         <ul>
-                            <li id="food-category-drop" class="extra-dropdown"><a
-                                    href="{% url 'FoodsAndDrinks' %}">Foods & Drinks</a></li>
+                            {% for category in categories|slice:"6:" %}
+                            {% url 'CategoryPage' category.category_id as category_url %}
+                            <li
+                                id="{{ category.category_id }}-category-drop {% if request.path == category_url %}active-category{% endif %}">
+                                <a href="{{ category_url }}">{{ category.name }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
                     </li>
-                    <li id="health-category-drop"><a href="{% url 'HealthAndBeauty' %}">Health & Beauty</a></li>
-                    <li id="books-category-drop"><a href="{% url 'BooksAndStationary' %}">Books & Stationary</a>
-                    </li>
-                    <li id="home-category-drop"><a href="{% url 'HomeAndUtilities' %}">Home & Utilities</a></li>
-                </ul>
-                </li>
+                    {% endif %}
                 </ul>
             </div>
+
             <div class="search-bar">
                 <div class="search">
                     <div class="input">

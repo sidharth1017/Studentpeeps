@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.views.generic.base import View
 from django.contrib import messages
 from .models import Contact, RequestBrand, Foundation, Resource, Brand, Subscribe
@@ -14,25 +14,42 @@ from account.tasks import send_email
 from brands.models import BrandCode, BrandSearch
 import json
 from django.contrib.auth.models import User
-from brands_v2.models import Offer
+from brands_v2.models import Offer, Category
 import random
 
 # Create your views here.
 @method_decorator(csrf_exempt, name="dispatch")
 class Home(View):
     def get(self, request):
-        recommended_offer_ids = ['SPXUD100', 'etihad10', 'dosdp01', 'ID4', 'ID5']
+        recommended_offer_ids = ['spxdailyobjects15', 'spxnilkamal5', 'spxblissclub10', 'spxbb6', 'spxwtf25']
         recommended_offers = Offer.objects.filter(custom_id__in=recommended_offer_ids)
         offers_dict = {offer.custom_id: offer for offer in recommended_offers}
         ordered_recommended = [offers_dict[oid] for oid in recommended_offer_ids if oid in offers_dict]
 
-        all_offers = list(Offer.objects.all())
-        featured_offers = random.sample(all_offers, min(15, len(all_offers)))
+        recommended_with_flags = []
+        for idx, offer in enumerate(ordered_recommended):
+            block_pos = idx % 10
+            is_large = block_pos == 0 or block_pos == 6
+            recommended_with_flags.append({
+                'offer': offer,
+                'is_large': is_large
+            })
 
-        print(featured_offers, "featured_offersfeatured_offers")
+        all_offers = list(Offer.objects.all())
+        featured_sample = random.sample(all_offers, min(15, len(all_offers)))
+
+        featured_with_flags = []
+        for idx, offer in enumerate(featured_sample):
+            block_pos = idx % 10
+            is_large = block_pos == 0 or block_pos == 6
+            featured_with_flags.append({
+                'offer': offer,
+                'is_large': is_large
+            })
+
         return render(request, 'index.html', {
-            'recommended_offers': ordered_recommended,
-            'featured_offers': featured_offers
+            'recommended_offers': recommended_with_flags,
+            'featured_offers': featured_with_flags
         })
 
     def post(self, request):
@@ -213,50 +230,23 @@ class IdVerificationMessage(View):
 
 
 # Categories for Offers
+class CategoryPageView(View):
+    def get(self, request, category_id):
+        categoryTitle = ""
+        if category_id == "exclusive":
+            offers = Offer.objects.filter(isExclusive=True).order_by('-sorting')
+            categoryTitle = "Exclusive Discounts"
+        elif category_id == "nonexclusive":
+            offers = Offer.objects.filter(isExclusive=False).order_by('-sorting')
+            categoryTitle = "Non-Exclusive Discounts"
+        elif category_id == "all":
+            offers = Offer.objects.filter().order_by('-sorting')
+            categoryTitle = "All Discounts"
+        else:
+            offers = Offer.objects.filter(category__category_id=category_id).order_by('-sorting')
+            category = get_object_or_404(Category, category_id=category_id)
+            categoryTitle = category.title
 
-class All(View):
-    def get(self, request):
-        offers = Offer.objects.all().order_by('-sorting')
-        offers_with_flags = []
-
-        for idx, offer in enumerate(offers):
-            block_pos = idx % 10 
-            is_large = block_pos == 0 or block_pos == 6
-            offers_with_flags.append({
-                'offer': offer,
-                'is_large': is_large
-            })
-        context = {
-            'offers': offers_with_flags,
-            'heading': 'All Discounts',
-            'pattern_img': 'images/pattern1.png'
-        }
-
-        return render(request, 'components/category_page.html', context)
-
-class Tech(View):
-    def get(self, request):
-        offers = Offer.objects.filter(category="tech").order_by('-sorting')
-        offers_with_flags = []
-
-        for idx, offer in enumerate(offers):
-            block_pos = idx % 10 
-            is_large = block_pos == 0 or block_pos == 6
-            offers_with_flags.append({
-                'offer': offer,
-                'is_large': is_large
-            })
-        context = {
-            'offers': offers_with_flags,
-            'heading': 'Tech Discounts',
-            'pattern_img': 'images/pattern2.png'
-        }
-
-        return render(request, 'components/category_page.html', context)
-
-class Edtech(View):
-    def get(self, request):
-        offers = Offer.objects.filter(category="education").order_by('-sorting')
 
         offers_with_flags = []
 
@@ -269,180 +259,9 @@ class Edtech(View):
             })
         context = {
             'offers': offers_with_flags,
-            'heading': 'Education Discounts',
-            'pattern_img': 'images/pattern3.png'
-        }
-
-        return render(request, 'components/category_page.html', context)
-
-class Fashion(View):
-    def get(self, request):
-        offers = Offer.objects.filter(category="fashion").order_by('-sorting')
-
-        offers_with_flags = []
-
-        for idx, offer in enumerate(offers):
-            block_pos = idx % 10 
-            is_large = block_pos == 0 or block_pos == 6
-            offers_with_flags.append({
-                'offer': offer,
-                'is_large': is_large
-            })
-        context = {
-            'offers': offers_with_flags,
-            'heading': 'Fashion Discounts',
-            'pattern_img': 'images/pattern4.png'
-        }
-
-        return render(request, 'components/category_page.html', context)
-
-class Travel(View):
-    def get(self, request):
-        offers = Offer.objects.filter(category="travel").order_by('-sorting')
-
-        offers_with_flags = []
-
-        for idx, offer in enumerate(offers):
-            block_pos = idx % 10 
-            is_large = block_pos == 0 or block_pos == 6
-            offers_with_flags.append({
-                'offer': offer,
-                'is_large': is_large
-            })
-        context = {
-            'offers': offers_with_flags,
-            'heading': 'Travel Discounts',
-            'pattern_img': 'images/pattern5.png'
-        }
-
-        return render(request, 'components/category_page.html', context)
-
-class FoodsAndDrinks(View):
-    def get(self, request):
-        offers = Offer.objects.filter(category="food_drink").order_by('-sorting')
-
-        offers_with_flags = []
-
-        for idx, offer in enumerate(offers):
-            block_pos = idx % 10 
-            is_large = block_pos == 0 or block_pos == 6
-            offers_with_flags.append({
-                'offer': offer,
-                'is_large': is_large
-            })
-        context = {
-            'offers': offers_with_flags,
-            'heading': 'Food and Drinks Discounts',
-            'pattern_img': 'images/pattern6.png'
-        }
-
-        return render(request, 'components/category_page.html', context)
-
-class HealthAndBeauty(View):
-    def get(self, request):
-        offers = Offer.objects.filter(category="health_beauty").order_by('-sorting')
-
-        offers_with_flags = []
-
-        for idx, offer in enumerate(offers):
-            block_pos = idx % 10 
-            is_large = block_pos == 0 or block_pos == 6
-            offers_with_flags.append({
-                'offer': offer,
-                'is_large': is_large
-            })
-        context = {
-            'offers': offers_with_flags,
-            'heading': 'Health & Beauty Discounts',
-            'pattern_img': 'images/pattern7.png'
-        }
-
-        return render(request, 'components/category_page.html', context)
-
-class BooksAndStationary(View):
-    def get(self, request):
-        offers = Offer.objects.filter(category="books_stationary").order_by('-sorting')
-        offers_with_flags = []
-
-        for idx, offer in enumerate(offers):
-            block_pos = idx % 10 
-            is_large = block_pos == 0 or block_pos == 6
-            offers_with_flags.append({
-                'offer': offer,
-                'is_large': is_large
-            })
-        context = {
-            'offers': offers_with_flags,
-            'heading': 'Books and Stationary Discounts',
-            'pattern_img': 'images/pattern8.png'
-        }
-
-        return render(request, 'components/category_page.html', context)
-
-class HomeAndUtilities(View):
-    def get(self, request):
-        offers = Offer.objects.filter(category="home_utilities").order_by('-sorting')
-        offers_with_flags = []
-
-        for idx, offer in enumerate(offers):
-            block_pos = idx % 10 
-            is_large = block_pos == 0 or block_pos == 6
-            offers_with_flags.append({
-                'offer': offer,
-                'is_large': is_large
-            })
-        context = {
-            'offers': offers_with_flags,
-            'heading': 'Home & Utilities Discounts',
+            'heading': categoryTitle,
             'pattern_img': 'images/pattern9.png'
         }
-
-        return render(request, 'components/category_page.html', context)
-
-# class Entertainment(View):
-#     def get(self, request):
-#         offers = Offer.objects.filter(category="entertainment").order_by('-sorting')
-#         return render(request,'category/entertainment.html', {'offers': offers})
-
-class Exclusive(View):
-    def get(self, request):
-        offers = Offer.objects.filter(isExclusive=True).order_by('-sorting')
-        offers_with_flags = []
-
-        for idx, offer in enumerate(offers):
-            block_pos = idx % 10 
-            is_large = block_pos == 0 or block_pos == 6
-            offers_with_flags.append({
-                'offer': offer,
-                'is_large': is_large
-            })
-        context = {
-            'offers': offers_with_flags,
-            'heading': 'Exclusive Discounts',
-            'pattern_img': 'images/pattern1.png'
-        }
-
-        return render(request, 'components/category_page.html', context)
-
-class NonExclusive(View):
-    def get(self, request):
-        offers = Offer.objects.filter(isExclusive=False).order_by('-sorting')
-        offers_with_flags = []
-
-        for idx, offer in enumerate(offers):
-            block_pos = idx % 10 
-            is_large = block_pos == 0 or block_pos == 6
-            offers_with_flags.append({
-                'offer': offer,
-                'is_large': is_large
-            })
-
-        context = {
-            'offers': offers_with_flags,
-            'heading': 'Non-Exclusive Discounts',
-            'pattern_img': 'images/pattern2.png'
-        }
-
-        return render(request, 'components/category_page.html', context)
+        return render(request, 'pages/category_page.html', context)
 
 
