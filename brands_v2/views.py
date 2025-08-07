@@ -20,10 +20,12 @@ class OfferPageView(View):
                 'description': "Get FREE Student Discounts on your favorite brands like Bewakoof, Rapido Bike Taxi & Bitclass. Student discount for samsung, Oneplus student discount, Apple Student Discount.",
             }
 
+        print(offers.offer_link if offers.isRedirectLogin and offers.offer_link else None, "asdgjhdgf")
         context = {
             'brand': brand,
             'offer': offers,
             'seo': seo_obj,
+            'redirect_offer_link': offers.offer_link if offers.isRedirectLogin and offers.offer_link else None
         }
         return render(request, 'offer/offer_page.html', context)
 
@@ -64,7 +66,6 @@ class GetCodeView(View):
             'offer': offers,
             'seo': seo_obj,
             'code': code,
-            'redirect_offer_link': offers.offer_link if offers.isRedirectLogin and offers.offer_link else None
         }
 
         return render(request, 'offer/get_code_page.html', context)
