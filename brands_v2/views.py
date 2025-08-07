@@ -25,7 +25,7 @@ class OfferPageView(View):
             'brand': brand,
             'offer': offers,
             'seo': seo_obj,
-            'redirect_offer_link': offers.offer_link if offers.isRedirectLogin and offers.offer_link else None
+            'redirect_offer_link': offers.offer_link if request.user.is_authenticated and offers.isRedirectLogin and offers.offer_link else None
         }
         return render(request, 'offer/offer_page.html', context)
 
