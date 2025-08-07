@@ -15,6 +15,13 @@
 
 {% block body %}
 
+{% if redirect_offer_link %}
+<script>
+    window.open("{{ redirect_offer_link }}", "_blank", "noopener,noreferrer");
+</script>
+
+{% endif %}
+
 <div class="bg-banner" style="background: {{ offer.background_color }};"></div>
 
 <div class="prdouctimg">

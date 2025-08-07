@@ -52,6 +52,7 @@ class Offer(models.Model):
     isStaticCode = models.BooleanField(default=True)
     isExclusive = models.BooleanField(default=True)
     isLoginRequired = models.BooleanField(default=False)
+    isRedirectLogin = models.BooleanField(default=False)
     sorting = models.PositiveIntegerField(default=0)
 
 

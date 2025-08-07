@@ -64,6 +64,7 @@ class GetCodeView(View):
             'offer': offers,
             'seo': seo_obj,
             'code': code,
+            'redirect_offer_link': offers.offer_link if offers.isRedirectLogin and offers.offer_link else None
         }
 
         return render(request, 'offer/get_code_page.html', context)
