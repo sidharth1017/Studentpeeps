@@ -76,10 +76,10 @@
                 e.preventDefault();
 
                 {% if redirect_offer_link %}
-                window.open("{{ redirect_offer_link }}", "_blank");
+                window.open("{% url 'get_code' brand.slug offer.custom_id %}", "_blank");
                 {% endif %}
 
-                window.location.href = "{% url 'get_code' brand.slug offer.custom_id %}";
+                window.location.href = "{{ redirect_offer_link }}";
             });
         }
     });
