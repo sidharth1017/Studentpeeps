@@ -77,9 +77,11 @@
 
                 {% if redirect_offer_link %}
                 window.open("{% url 'get_code' brand.slug offer.custom_id %}", "_blank");
+                window.location.href = "{{ redirect_offer_link }}";
+                {% else %}
+                window.location.href = "{% url 'get_code' brand.slug offer.custom_id %}";
                 {% endif %}
 
-                window.location.href = "{{ redirect_offer_link }}";
             });
         }
     });
