@@ -22,7 +22,7 @@ admin.site.register(AbandonedSignup)
 
 @admin.register(UnVerifiedIdUpload)
 class UnVerifiedIdUploadAdmin(admin.ModelAdmin):
-    list_display = ('user', 'firstname')
+    list_display = ('user', 'firstname', 'created_at')
 
 @admin.register(RejectedUsers)
 class RejectedUsersAdmin(admin.ModelAdmin):
