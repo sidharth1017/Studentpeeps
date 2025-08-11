@@ -17,7 +17,7 @@ class YourdetailAdmin(admin.ModelAdmin):
     list_display = ('firstname','lastname', 'gender')
 admin.site.register(Yourdetail, YourdetailAdmin)
 class CollegeAdmin(admin.ModelAdmin):
-    list_display = ('name','emails')
+    list_display = ('name','emails', 'created_at')
 admin.site.register(College, CollegeAdmin)
 
 class PaymentAdmin(admin.ModelAdmin):
