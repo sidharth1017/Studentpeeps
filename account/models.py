@@ -89,6 +89,8 @@ class Yourdetail(models.Model):
 class College(models.Model):
     name = models.CharField(max_length=500)
     emails = models.JSONField()
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return self.name

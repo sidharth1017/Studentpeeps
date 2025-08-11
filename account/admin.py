@@ -4,7 +4,7 @@ from account.models import College
 from .models import *
 # Register your models here.
 class CollegeAdmin(admin.ModelAdmin):
-    list_display = ('name','emails')
+    list_display = ('name','emails', 'created_at')
 admin.site.register(College, CollegeAdmin)
 
 # class RegisterAdmin(admin.ModelAdmin):

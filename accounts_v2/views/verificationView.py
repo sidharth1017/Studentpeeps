@@ -38,10 +38,9 @@ class VerificationView(View):
                 college.save()
                 try:                                   
                     send_email(subject="New Institution Added🎀",
-                            email=["sidharthv605@gmail.com", "mittalayush740@gmail.com"], message=f"Name: {collegeName} \nEmail: {collegeEmail}")
+                            email=["sidharthv605@gmail.com", "mittalayush740@gmail.com"], message=f"Name: {profile.institution} \nEmail: {profile.institution_email}")
                 except Exception as e:
                     print(f"Email sending failed: {e}")
-        
 
             emailname = profile.firstname
 
