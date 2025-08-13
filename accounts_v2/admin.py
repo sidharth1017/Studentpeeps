@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models import Register, UnVerified, AbandonedSignup, UnVerifiedIdUpload, RejectedUsers
 
 class RegisterAdmin(admin.ModelAdmin):
-    list_display = ('user_name', 'user_email', 'phone', 'created_at', 'is_verified')
+    list_display = ('user_name', 'user_email', 'phone', 'collegeId', 'created_at', 'is_verified')
     readonly_fields = ('created_at',)
     list_filter = ('is_verified',)  # <-- Add this line for filtering by is_verified
 
