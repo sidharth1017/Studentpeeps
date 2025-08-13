@@ -3,9 +3,10 @@ from django.contrib import admin
 from .models import Register, UnVerified, AbandonedSignup, UnVerifiedIdUpload, RejectedUsers
 
 class RegisterAdmin(admin.ModelAdmin):
-    list_display = ('user_name', 'user_email', 'phone', 'collegeId', 'created_at', 'is_verified')
+    list_display = ('user_name', 'user_email', 'phone', 'institution_email', 'created_at', 'is_verified')
     readonly_fields = ('created_at',)
     list_filter = ('is_verified',)  # <-- Add this line for filtering by is_verified
+    search_fields = ('user__first_name', 'user__email', 'phone', 'firstname')
 
     def user_email(self, obj):
         return obj.user.email
@@ -22,7 +23,8 @@ admin.site.register(AbandonedSignup)
 
 @admin.register(UnVerifiedIdUpload)
 class UnVerifiedIdUploadAdmin(admin.ModelAdmin):
-    list_display = ('user', 'firstname', 'created_at')
+    list_display = ('user', 'firstname', 'lastname', 'collegeId', 'created_at')
+    search_fields = ('user__first_name', 'user__email', 'phone', 'firstname')
 
 @admin.register(RejectedUsers)
 class RejectedUsersAdmin(admin.ModelAdmin):
