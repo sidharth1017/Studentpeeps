@@ -61,7 +61,7 @@ class SendOtpView(View):
         if stored_hashed_otp and check_password(input_otp, stored_hashed_otp):
             phone = request.session.get('phone')
             email = request.session.get('email')
-            next_url = request.session.pop('next_url', '/')
+            next_url = request.session.pop('next_url', None) or '/'
 
             try:
                 if phone:
