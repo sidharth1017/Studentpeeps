@@ -4,32 +4,51 @@
 <html lang="en">
 
 <head>
-    <!-- Meta Tags -->
+    <!-- Default Meta Tags -->
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
     <meta name="author" content="Ayush Kumar Mittal | Sidharth Verma" />
     <meta name="publisher" content="StudentPeeps" />
     <meta name="copyright" content="StudentPeeps" />
-    <meta name="robots" content="INDEX,FOLLOW" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <!-- Default Meta Tags End -->
+
+    <!-- Dynamic Meta Tags  -->
+    {% block metatags %}
+    <meta name="description"
+        content="Get FREE Student Discounts on your favorite brands like Bewakoof, Rapido Bike Taxi & Bitclass. Student discount for samsung, Oneplus student discount, Apple Student Discount." />
+    <meta name="keywords"
+        content="Student Discounts, Student Deals, Bewakoof, Rapido, Bitclass, Samsung, Oneplus, Apple" />
+    {% endblock %}
+    <!-- Dynamic Meta Tags End -->
+
+    <!-- Dynamic Meta Tags -->
+    {% block ogmetatags %}
+    <meta property="og:title" content="Student Peeps: Free Student Discounts | Student Deals & Offers">
+    <meta property="og:description"
+        content="Get FREE Student Discounts on your favorite brands like Bewakoof, Rapido Bike Taxi & Bitclass. Student discount for samsung, Oneplus student discount, Apple Student Discount.">
+    <meta property="og:image" content="{% block og_image %} {% endblock %}">
+    <meta property="og:url" content="https://studentpeeps.club/">
+    <link rel="canonical" href="https://studentpeeps.club/">
+    {% endblock %}
+    <meta property="og:type" content="website">
+    <!-- Dynamic Meta Tags End -->
+
+    <!-- Title tag -->
+    <title>{% block title %}Student Peeps: Free Student Discounts | Student Deals & Offers {% endblock %}</title>
+    <!-- Title tag End -->
+
+    <!-- Favicon logo -->
+    <link rel="icon" href="{% static 'images/logo_sp.png' %}" type="image/x-icon" />
+    <!-- Favicon logo End -->
+
+
+
+
+
     <!-- Admitad Meta Tag -->
     <meta name="verify-admitad" content="2f25458370" />
-
-    {% block metadesc %} {% endblock %}
-    {% block metakeywords %} {% endblock %}
-
-    <meta name="audience" content="Everyone" />
-    <!-- meta tag for not zooming in Mobiles -->
-    <meta name="viewport" content="width=device-width, user-scalable=no" />
-    <!-- Meta Tags End -->
-
-    <!-- Faviconlogo -->
-    <link rel="shortcut icon" href="\static\images\logo_sp.png" type="image/x-icon" />
-    <!-- Faviconlogo End -->
-
-    <!-- Title Tag -->
-    <title>{% block title %} {% endblock %}</title>
-    <!-- Title Tag End -->
 
     <!-- FontAwesome -->
     <script src="https://kit.fontawesome.com/5762f5d7a2.js" crossorigin="anonymous"></script>
