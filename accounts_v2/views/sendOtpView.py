@@ -36,18 +36,20 @@ class SendOtpView(View):
             request.session['studentpeepsV2'] = hashed_otp    
 
             if phone:
-                success, error_handled = send_otp(request, phone, otp)
-                if not success:
-                    if not error_handled:
-                        messages.error(request, "Failed to send OTP. Please try again.")
-                    return redirect('/account/v2/identify')
+                print(otp, "asdfhkj")
+                # success, error_handled = send_otp(request, phone, otp)
+                # if not success:
+                #     if not error_handled:
+                #         messages.error(request, "Failed to send OTP. Please try again.")
+                #     return redirect('/account/v2/identify')
             if email:
                 try:
-                    message = render_to_string(
-                        'emailers/otp_email_body.html', {'otp': otp})
-                    if not send_otp_email(email, otp, message):
-                        messages.error(request, "Failed to send OTP. Please try again.")
-                        return redirect('/account/v2/identify')
+                    print(otp, "asdfhkj")
+                    # message = render_to_string(
+                    #     'emailers/otp_email_body.html', {'otp': otp})
+                    # if not send_otp_email(email, otp, message):
+                    #     messages.error(request, "Failed to send OTP. Please try again.")
+                    #     return redirect('/account/v2/identify')
                 except Exception as e:
                     messages.error(request, "Something went wrong. Please try again.")
                     return redirect('/account/v2/identify')

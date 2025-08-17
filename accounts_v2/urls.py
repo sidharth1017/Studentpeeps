@@ -20,4 +20,5 @@ urlpatterns = [
     path('verify-id-upload-user', uploademail.VerifyUploadEmailUsers.as_view(), name="verify_id_upload_user"),
     path('reject-id-upload-user', uploademail.RejectUploadEmailUser.as_view(), name="reject_id_upload_user"),
     path('verify-id-upload-user-phone', uploademail.VerifyUploadPhoneUsers.as_view(), name="verify_id_upload_user_phone"),
+    path('reject-id-upload-user-phone', uploademail.RejectUploadPhoneUsers.as_view(), name="reject_id_upload_user_phone"),
 ]

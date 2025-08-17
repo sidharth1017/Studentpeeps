@@ -43,4 +43,19 @@
         User</button>
 </form>
 
+<br>
+<br>
+<br>
+<hr>
+
+<p style="margin-top: 40px;">Enter Phone for Rejection sms</p>
+<form method="POST" action="/account/v2/reject-id-upload-user-phone">
+    {% csrf_token %}
+    <label for="exampleInputEmail1" class="form-label">Phone:</label>
+    <input type="text" name="phone" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+        placeholder="Phone">
+    <button type="submit" class="button" style="padding: 10px 20px; width: 150px; margin-left: 50px;">Reject
+        User</button>
+</form>
+
 {% endblock %}
