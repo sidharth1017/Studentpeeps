@@ -260,7 +260,8 @@ class CategoryPageView(View):
         context = {
             'offers': offers_with_flags,
             'heading': categoryTitle,
-            'pattern_img': 'images/pattern9.png'
+            'pattern_img': 'images/pattern9.png',
+            'category': category
         }
         return render(request, 'pages/category_page.html', context)
 

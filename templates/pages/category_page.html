@@ -1,10 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Student Peeps: Free Student Discounts | Student Deals & Offers{% endblock %}
+{% block metatags %}
+<meta name="description"
+  content="Get FREE Student Discounts on your favorite brands like Bewakoof, Rapido Bike Taxi & Bitclass. Student discount for samsung, Oneplus student discount, Apple Student Discount." />
+<meta name="keywords"
+  content="studentpeeps, student peeps, student offers, student coupon code, discount codes, college id, student discount ,student discounts ,student deals, apple student discount, Student discounts for Samsung, oneplus student discount, student discount india, asus student discount, bewakoof coupon code, github student developer pack " />
+{% endblock %}
+
+{% block ogmetatags %}
+<meta property="og:title" content="">
+<meta property="og:description"
+  content="Get FREE Student Discounts on your favorite brands like Bewakoof, Rapido Bike Taxi & Bitclass. Student discount for samsung, Oneplus student discount, Apple Student Discount.">
+<meta property="og:image" content="....">
+<meta property="og:url" content="https://studentpeeps.club/">
+<link rel="canonical" href="https://studentpeeps.club/">
+{% endblock %}
+
+{% block title %}{{category.title}}{% endblock %}
 
 {% block linkshead %}
-
 <style>
     /* the newest one */
     /* for larger screen */
@@ -196,9 +211,9 @@
 
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
 <link rel="stylesheet" href="{% static 'css/index2.css' %}" />
+{% endblock %} 
 
-{% endblock %} {% block body %}
-
+{% block body %}
 <section class="section-tiles">
     <div class="tiles-container">
         <img class="illustration" src="{% static pattern_img %}" alt="" />
@@ -211,8 +226,9 @@
     </div>
 </section>
 
-{% endblock %} {% block linksbody %}
+{% endblock %} 
 
+{% block linksbody %}
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script src="{% static 'js/expire2.js' %}"></script>
 
@@ -238,5 +254,4 @@
 
 <script type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/animateCSS/1.2.2/jquery.animatecss.min.js"></script>
-
 {% endblock %}
