@@ -132,3 +132,23 @@ def send_welcome_email(subject, email, message):
     msg.send(fail_silently=False)
     return None
 
+def send_sms_via_fast2sms(phone: str, name: str, messageId: int) -> bool:
+    try:
+        url = "https://www.fast2sms.com/dev/bulkV2"
+        payload = {
+            'authorization': settings.FAST2SMS_ACCESS_KEY_ID,
+            'sender_id': 'SDNT',
+            'message': messageId,
+            'variables_values': f"{name}",
+            'route': 'dlt',
+            'numbers': phone,
+        }
+        headers = {
+            'cache-control': 'no-cache'
+        }
+        response = requests.get(url, params=payload, headers=headers)
+        return response.status_code == 200 and "true" in response.text.lower()
+    except Exception as e:
+        print(f"Error sending SMS to {phone}: {e}")
+        return False
+

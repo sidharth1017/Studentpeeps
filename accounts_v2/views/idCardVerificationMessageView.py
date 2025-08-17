@@ -11,7 +11,7 @@ from io import BytesIO
 from django.db.models import Q  
 import fitz 
 from account.tasks import send_email
-from accounts_v2.communication import send_welcome_email
+from accounts_v2.communication import send_welcome_email, send_sms_via_fast2sms
 from django.template.loader import render_to_string
 import cv2
 import numpy as np
@@ -62,12 +62,17 @@ class IdCardVerificationMessageView(View):
                         send_welcome_email(subject=f"Welcome to Studentpeeps!", email=register.user.email, message=message)
                     except Exception as e:
                         print(f"Email sending failed: {e}")
-                    
+                elif (register.phone):
+                    try:
+                        send_sms_via_fast2sms(phone=register.phone, name=register.firstname, messageId=194947)
+                    except Exception as e:
+                        print(f"SMS sending failed: {e}")
+
                 request.session['user_id'] = register.id
                 return redirect('/id-verification-message/')
             else:
                 send_email(subject="Verify user with college id",
-                    email=["sidharthv605@gmail.com", "mittalayush740@gmail.com"], message=f"Name: {firstname} <br> Email: {email} <br> Phone: {phone} <br>Id Card: {unVerifiedRegister.collegeId.url.split('?')[0]} <br> Status: {status_msg}")
+                    email=["sidharthv605@gmail.com", "mittalayush740@gmail.com"], message=f"Name: {firstname} <br> Email: {email} <br> Phone: {phone} <br> Status: {status_msg} <br> Id Card: {unVerifiedRegister.collegeId.url.split('?')[0]}")
                 return render(request, 'account/idCardVerificationMsgFail.html', {
                     'msg': "We could not verify your student identity. We have recived your college id, our team is reviewing it will verify within 48 hours."
                 })
