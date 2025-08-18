@@ -11,7 +11,11 @@ def myaccount(request):
 
     profile = request.user
     try:
-        users = Register.objects.get(Q(phone=profile.username) | Q(user__email=profile.email))
+        filters = Q(user__email=profile.email)
+        if len(profile.username) == 10:
+            filters = Q(phone=profile.username)
+
+        users = Register.objects.get(filters)
     except Register.DoesNotExist:
         baseUser = User.objects.get(username=profile.username)
         register = Register.objects.create(

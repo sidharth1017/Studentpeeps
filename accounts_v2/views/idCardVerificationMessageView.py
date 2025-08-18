@@ -15,6 +15,8 @@ from accounts_v2.communication import send_welcome_email, send_sms_via_fast2sms
 from django.template.loader import render_to_string
 import cv2
 import numpy as np
+from pytesseract import Output
+
 
 class IdCardVerificationMessageView(View):
     def get(self, request):
@@ -83,15 +85,72 @@ class IdCardVerificationMessageView(View):
             })
 
     def verify_id_card_algorithm(self, idCardUrl, firstname, email, phone, full_name):
-        response = requests.get(idCardUrl)
+        response = requests.get(idCardUrl, stream=True).content
+        print(f"Response status code: {response}")
         if response.status_code != 200:
             print("Failed to download ID card file.")
             return None
 
         content_type = response.headers.get('Content-Type', '')
         extracted_text = ""
-        custom_config = r'--oem 3 --psm 6 -c tessedit_char_whitelist=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .'
+        custom_config = r'--oem 3 --psm 6'
 
+        # --- Orientation correction ---
+        def correct_orientation(cv_img):
+            try:
+                osd = pytesseract.image_to_osd(cv_img, output_type=Output.DICT)
+                rotate = osd.get("rotate", 0)
+                if rotate != 0:
+                    print(f"Detected rotation: {rotate}° → rotating image...")
+                    if rotate == 90:
+                        cv_img = cv2.rotate(cv_img, cv2.ROTATE_90_CLOCKWISE)
+                    elif rotate == 180:
+                        cv_img = cv2.rotate(cv_img, cv2.ROTATE_180)
+                    elif rotate == 270:
+                        cv_img = cv2.rotate(cv_img, cv2.ROTATE_90_COUNTERCLOCKWISE)
+                else:
+                    print("No rotation required.")
+            except Exception as e:
+                print(f"⚠ Orientation detection failed, skipping... {e}")
+            return cv_img
+
+        # --- Detect & crop ID card region ---
+        def detect_id_card_region(cv_img):
+            gray = cv2.cvtColor(cv_img, cv2.COLOR_BGR2GRAY)
+            blur = cv2.GaussianBlur(gray, (5, 5), 0)
+            edges = cv2.Canny(blur, 50, 200)
+
+            contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            contours = sorted(contours, key=cv2.contourArea, reverse=True)
+
+            for cnt in contours:
+                approx = cv2.approxPolyDP(cnt, 0.02 * cv2.arcLength(cnt, True), True)
+                if len(approx) == 4:  # rectangular
+                    x, y, w, h = cv2.boundingRect(approx)
+                    if w > 200 and h > 100:  # ignore small shapes
+                        print("ID card region detected & cropped.")
+                        return cv_img[y:y+h, x:x+w]
+
+            print("No specific ID card region found → using whole image.")
+            return cv_img
+
+        # --- OCR pipeline ---
+        def extract_text(cv_img):
+            cv_img = correct_orientation(cv_img)
+            cv_img = detect_id_card_region(cv_img)
+
+            gray = cv2.cvtColor(cv_img, cv2.COLOR_BGR2GRAY)
+            gray = cv2.medianBlur(gray, 3)
+            gray = cv2.adaptiveThreshold(
+                gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                cv2.THRESH_BINARY, 31, 2
+            )
+            kernel = np.ones((1, 1), np.uint8)
+            gray = cv2.morphologyEx(gray, cv2.MORPH_OPEN, kernel)
+
+            return pytesseract.image_to_string(gray, config=custom_config).lower().strip()
+
+        # --- Handle PDF / Image ---
         if 'pdf' in content_type:
             pdf_bytes = BytesIO(response.content)
             doc = fitz.open(stream=pdf_bytes, filetype="pdf")
@@ -100,23 +159,21 @@ class IdCardVerificationMessageView(View):
                 pix = page.get_pixmap(dpi=300)
                 img = Image.open(BytesIO(pix.tobytes("png")))
                 cv_image = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
-                gray = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
-                gray = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
-                ocr_text = pytesseract.image_to_string(gray, config=custom_config).lower().strip()
-                extracted_text += " " + ocr_text
+                extracted_text += " " + extract_text(cv_image)
 
             doc.close()
         else:
             image = Image.open(BytesIO(response.content))
             cv_image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
-            gray = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
-            gray = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
-            extracted_text = pytesseract.image_to_string(gray, config=custom_config).lower().strip()
+            extracted_text = extract_text(cv_image)
 
+        print(f"Extracted Text: {extracted_text}")
+
+        # --- College keywords detection ---
         college_keywords = [
             'college', 'university', 'student id', 'roll no', 'institute',
             'enrollment', 'admission', 'faculty', 'academic', 'department',
-            'course', 'semester', 'batch', 'year'
+            'course', 'semester', 'batch', 'year', 'ai', 'ml', 'engg', 'technology', 'engineering'
         ]
 
         ocr_tokens = [word for word in extracted_text.split() if len(word) >= 5]
@@ -131,11 +188,12 @@ class IdCardVerificationMessageView(View):
                 break
 
         # --- Name Matching ---
-        name_parts = full_name.split()
+        name_parts = full_name.lower().split()
         ocr_tokens = [word for word in extracted_text.split() if len(word) > 3]
 
         match_count = 0
         for name in name_parts:
+            print(f"Checking name part: {name}")
             found_match = False
             for token in ocr_tokens:
                 score = fuzz.partial_ratio(name, token)
@@ -147,11 +205,11 @@ class IdCardVerificationMessageView(View):
                 print(f"No good match found for '{name}'")
 
         # --- Final Decision ---
-        if match_count >= len(name_parts) - 1 and is_college_id:
+        if match_count == len(name_parts) and is_college_id:
             msg = "✅ Verification Passed: ID card is valid and name matches."
             print(msg)
             return {"score": 100, "message": msg}
-        elif is_college_id:
+        elif match_count >= len(name_parts) - 1 and is_college_id:
             msg = "⚠ Manual Review Required: Name mismatch, but ID card seems valid."
             print(msg)
             return {"score": 60, "message": msg}
