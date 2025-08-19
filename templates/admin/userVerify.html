@@ -6,11 +6,23 @@
 <p style="margin-top: 40px;">Enter Email for Verification</p>
 <form method="POST" action="/account/v2/verify-id-upload-user">
     {% csrf_token %}
-    <label for="exampleInputEmail1" class="form-label">Email:</label>
-    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-        placeholder="Email">
-    <button type="submit" class="button" style="padding: 10px 20px; width: 150px; margin-left: 50px;">Verify
-        User</button>
+    <div>
+        <div>
+            <label for="provider">Select Email Provider:</label>
+            <select name="provider" id="provider">
+                <option value="zepto" selected>Zepto Mail</option>
+                <option value="zoho">Zoho Mail</option>
+            </select>
+        </div>
+        <div style="margin-top: 30px;">
+            <label for="exampleInputEmail1" class="form-label">Email:</label>
+            <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="Email">
+            <button type="submit" class="button" style="padding: 10px 20px; width: 150px; margin-left: 50px;">Verify
+                User</button>
+
+        </div>
+    </div>
 </form>
 
 <br>
@@ -21,11 +33,22 @@
 <p style="margin-top: 40px;">Enter Email for Rejection Email</p>
 <form method="POST" action="/account/v2/reject-id-upload-user">
     {% csrf_token %}
-    <label for="exampleInputEmail1" class="form-label">Email:</label>
-    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-        placeholder="Email">
-    <button type="submit" class="button" style="padding: 10px 20px; width: 150px; margin-left: 50px;">Reject
-        User</button>
+    <div>
+        <div>
+            <label for="provider">Select Email Provider:</label>
+            <select name="provider" id="provider">
+                <option value="zepto" selected>Zepto Mail</option>
+                <option value="zoho">Zoho Mail</option>
+            </select>
+        </div>
+        <div style="margin-top: 30px;">
+            <label for="exampleInputEmail1" class="form-label">Email:</label>
+            <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="Email">
+            <button type="submit" class="button" style="padding: 10px 20px; width: 150px; margin-left: 50px;">Reject
+                User</button>
+        </div>
+    </div>
 </form>
 
 <br>

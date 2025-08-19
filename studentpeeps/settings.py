@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['studentpeeps.club', '139.59.79.183', 'www.studentpeeps.club', 'localhost', '127.0.0.1', '*']
 
@@ -243,3 +243,14 @@ AWS_LOCATION = 'studentpeeps'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/{AWS_LOCATION}/"
+
+
+# ZeptoMail (secondary SMTP)
+ZEPTO_SMTP = {
+    "HOST": config("ZEPTO_SMTP_HOST"),
+    "PORT": 587,
+    "USER": config("ZEPTO_EMAIL_USERNAME"),
+    "PASSWORD": config("ZEPTO_EMAIL_PASSWORD"),
+    "USE_TLS": True,
+    "USE_SSL": False,
+}
