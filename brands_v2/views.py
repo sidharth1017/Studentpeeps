@@ -14,11 +14,16 @@ class OfferPageView(View):
         brand = get_object_or_404(Brand, slug=brand_slug)
         offers = get_object_or_404(Offer, brand=brand, custom_id=offer_custom_id)
         seo_obj = OfferSEO.objects.filter(offer=offers).first()
-        if not seo_obj:
-            seo_obj = {
-                'title': "Student Peeps: Free Student Discounts | Student Deals & Offers",
-                'description': "Get FREE Student Discounts on your favorite brands like Bewakoof, Rapido Bike Taxi & Bitclass. Student discount for samsung, Oneplus student discount, Apple Student Discount.",
-            }
+        if seo_obj:
+            seo = seo_obj
+        else:
+            seo = SimpleNamespace()
+            seo.title = "Student Peeps: Free Student Discounts | Student Deals & Offers"
+            seo.description = "Get FREE Student Discounts on your favorite brands like Bewakoof, Rapido Bike Taxi & Bitclass. Student discount for Samsung, Oneplus student discount, Apple Student Discount."
+            seo.keywords = "student discounts, brand offers, exclusive student deals"
+
+        seo.og_url = request.build_absolute_uri()
+        seo.canonical_url = request.build_absolute_uri(request.path)
 
         if offers.isLoginRequired:
             redirect_link = offers.offer_link if request.user.is_authenticated and offers.isRedirectLogin and offers.offer_link else None
@@ -43,11 +48,16 @@ class GetCodeView(View):
             return redirect(f'/account/v2/identify?next={request.path}')
 
         seo_obj = OfferSEO.objects.filter(offer=offers).first()
-        if not seo_obj:
-            seo_obj = {
-                'title': "Student Peeps: Free Student Discounts | Student Deals & Offers",
-                'description': "Get FREE Student Discounts on your favorite brands like Bewakoof, Rapido Bike Taxi & Bitclass. Student discount for samsung, Oneplus student discount, Apple Student Discount.",
-            }
+        if seo_obj:
+            seo = seo_obj
+        else:
+            seo = SimpleNamespace()
+            seo.title = "Student Peeps: Free Student Discounts | Student Deals & Offers"
+            seo.description = "Get FREE Student Discounts on your favorite brands like Bewakoof, Rapido Bike Taxi & Bitclass. Student discount for Samsung, Oneplus student discount, Apple Student Discount."
+            seo.keywords = "student discounts, brand offers, exclusive student deals"
+
+        seo.og_url = request.build_absolute_uri()
+        seo.canonical_url = request.build_absolute_uri(request.path)
 
         if offers.isStaticCode:
             code = offers.codes[0] if offers.codes else "OFFER NOT AVAILABLE"
