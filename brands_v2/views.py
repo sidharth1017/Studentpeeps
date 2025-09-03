@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import View
-from .models import Brand, Offer, OfferSEO, OfferCodeForUser, RedeemedCodes
+from .models import Brand, Offer, OfferSEO, OfferCodeForUser, RedeemedCodes, OfferDailyAnalytics
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 import csv
@@ -51,6 +51,20 @@ class GetCodeView(View):
 
         if offers.isStaticCode:
             code = offers.codes[0] if offers.codes else "OFFER NOT AVAILABLE"
+
+            today = timezone.now().date()
+            daily_stats, created = OfferDailyAnalytics.objects.get_or_create(date=today)
+
+            offers_data = daily_stats.offers_data
+            offer_id = str(offers.custom_id)
+
+            if offer_id in offers_data:
+                offers_data[offer_id] += 1
+            else:
+                offers_data[offer_id] = 1
+
+            daily_stats.offers_data = offers_data
+            daily_stats.save()
         else:
             if offers.codes:
                 code = offers.codes.pop(0)

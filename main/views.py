@@ -119,7 +119,7 @@ class ContactUs(View):
 
         try:
             subject = f"Somebody Contacted Us"
-            send_contact_mail(subject, name, email, message, ["ayush@studentpeeps.club"])
+            send_contact_mail(subject, name, email, message, ["hi@studentpeeps.club"])
         except Exception as e:
             print(f"Email sending failed: {e}")
 

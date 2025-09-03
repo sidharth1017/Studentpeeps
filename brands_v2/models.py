@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 import uuid
 from django.utils.text import slugify
 from django import forms
+from django.utils import timezone
+from django.utils.html import format_html
+import json
 
 class OfferCategory(models.TextChoices):
     EDUCATION = 'education', 'Education'
@@ -109,3 +112,13 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = "Categories"
+
+class OfferDailyAnalytics(models.Model):
+    date = models.DateField(default=timezone.now, unique=True)
+    offers_data = models.JSONField(default=dict)
+
+    def __str__(self):
+        return f"{self.date} - {len(self.offers_data)} offers"
+
+    class Meta:
+        verbose_name_plural = "Offers Analytics"

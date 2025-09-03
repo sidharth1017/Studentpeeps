@@ -8,6 +8,7 @@ from django.utils.http import urlsafe_base64_decode
 from ..models import *
 from ..tasks import send_welcome_email
 from django.http import HttpResponseRedirect, JsonResponse
+from accounts_v2.communication import send_email_from_zeptomail
 
 
 class VerificationView(View):
@@ -37,11 +38,11 @@ class VerificationView(View):
                 auth.login(request, user)
                 message = render_to_string(
                     'mail_body2.html', {'fname': emailname})
-                send_welcome_email(subject="Welcome to the club + your 🔑", email=pemail, message=message)
+                send_email_from_zeptomail(subject="Welcome to the club + your 🔑", email=pemail, message=message)
                 return HttpResponseRedirect("https://studentpeeps.club/?utm_source=verification&utm_medium=email&utm_campaign=signuprate&utm_term=registers")
             else:
                 message = render_to_string(
                 'mail_body2.html', {'fname': emailname})
-                send_welcome_email(subject="Welcome to the club + your 🔑", email=pemail, message=message)
+                send_email_from_zeptomail(subject="Welcome to the club + your 🔑", email=pemail, message=message)
                 return HttpResponseRedirect("https://studentpeeps.club/google-verified/?utm_source=google+verification&utm_medium=verification+email&utm_campaign=googlesignups&utm_id=googleuser&utm_term=registers")
                 

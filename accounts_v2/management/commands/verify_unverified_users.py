@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 
 from accounts_v2.models import Register, UnVerifiedIdUpload
 from accounts_v2.views import idCardVerificationMessageView
-from accounts_v2.communication import send_welcome_email, send_sms_via_fast2sms
+from accounts_v2.communication import send_welcome_email, send_sms_via_fast2sms, send_email_from_zeptomail
 
 import os
 from datetime import datetime
@@ -92,7 +92,7 @@ class Command(BaseCommand):
                                     'emailers/signup_email_body.html',
                                     {'fname': register.firstname}
                                 )
-                                send_welcome_email(
+                                send_email_from_zeptomail(
                                     subject="Welcome to Studentpeeps!",
                                     email=user.email,
                                     message=message
