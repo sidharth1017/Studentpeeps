@@ -4,7 +4,7 @@ from twilio.rest import Client
 import boto3
 from botocore.exceptions import BotoCoreError, ClientError
 from django.conf import settings
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, get_connection
 from utilities.models import Communication, OTPSendLog
 from django.utils.timezone import now
 from django.db import transaction
@@ -152,3 +152,26 @@ def send_sms_via_fast2sms(phone: str, name: str, messageId: int) -> bool:
         print(f"Error sending SMS to {phone}: {e}")
         return False
 
+
+def send_email_from_zeptomail(subject, email, message):
+    from_email = formataddr(('Studentpeeps', settings.DEFAULT_FROM_EMAIL))
+
+    zepto_connection = get_connection(
+        host=settings.ZEPTO_SMTP["HOST"],
+        port=settings.ZEPTO_SMTP["PORT"],
+        username=settings.ZEPTO_SMTP["USER"],
+        password=settings.ZEPTO_SMTP["PASSWORD"],
+        use_tls=settings.ZEPTO_SMTP["USE_TLS"],
+        use_ssl=settings.ZEPTO_SMTP["USE_SSL"],
+    )
+
+    msg = EmailMessage(
+        subject,
+        message,
+        from_email,
+        [email],
+        connection=zepto_connection,
+    )
+    msg.content_subtype = "html"
+    msg.send(fail_silently=False)
+    return None

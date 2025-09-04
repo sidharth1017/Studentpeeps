@@ -7,7 +7,7 @@ from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from account.models import College
 from ..models import *
-from accounts_v2.communication import send_welcome_email
+from accounts_v2.communication import send_welcome_email, send_email_from_zeptomail
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth import login
 from account.tasks import send_email
@@ -50,7 +50,7 @@ class VerificationView(View):
 
             try:
                 message = render_to_string('emailers/signup_email_body.html', {'fname': emailname})
-                send_welcome_email(subject=f"Welcome to Studentpeeps!", email=profile.institution_email, message=message)
+                send_email_from_zeptomail(subject=f"Welcome to Studentpeeps!", email=profile.institution_email, message=message)
             except Exception as e:
                 print(f"Email sending failed: {e}")
 

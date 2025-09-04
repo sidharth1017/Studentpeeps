@@ -1,7 +1,9 @@
 from django.contrib import admin
-from .models import Brand, Offer, OfferSEO, OfferCodeForUser, RedeemedCodes, Category
+from .models import Brand, Offer, OfferSEO, OfferCodeForUser, RedeemedCodes, Category, OfferDailyAnalytics
 from .forms import OfferAdminForm, BrandAdminForm
 from django_summernote.admin import SummernoteModelAdmin
+from django.utils.html import format_html
+import json
 
 @admin.register(Brand)
 class BrandAdmin(SummernoteModelAdmin):
@@ -36,3 +38,30 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('name', 'meta_keywords')
     list_per_page = 50
 
+@admin.register(OfferDailyAnalytics)
+class OfferDailyAnalyticsAdmin(admin.ModelAdmin):
+    readonly_fields = ("formatted_offers_html",)
+
+    def offers_count(self, obj):
+        return len(obj.offers_data)
+    offers_count.short_description = "Total Offers"
+
+    def formatted_offers_html(self, obj):
+        if not obj.offers_data:
+            return "-"
+        
+        rows = "".join(
+            [f"<tr><td>{k}</td><td>{v}</td></tr>" for k, v in obj.offers_data.items()]
+        )
+        table = f"""
+        <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse;">
+            <tr style="background:#000000; font-weight:bold;">
+                <th style="width: 250px;">Offer</th>
+                <th style="width: 30px;">Count</th>
+            </tr>
+            {rows}
+        </table>
+        """
+        return format_html(table)
+
+    formatted_offers_html.short_description = "Offers Data dashboard"

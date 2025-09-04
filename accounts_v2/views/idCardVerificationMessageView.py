@@ -11,7 +11,7 @@ from io import BytesIO
 from django.db.models import Q  
 import fitz 
 from account.tasks import send_email
-from accounts_v2.communication import send_welcome_email, send_sms_via_fast2sms
+from accounts_v2.communication import send_welcome_email, send_sms_via_fast2sms, send_email_from_zeptomail
 from django.template.loader import render_to_string
 import cv2
 import numpy as np
@@ -59,7 +59,7 @@ class IdCardVerificationMessageView(View):
                 if (email):
                     try:
                         message = render_to_string('emailers/signup_email_body.html', {'fname': register.firstname})
-                        send_welcome_email(subject=f"Welcome to Studentpeeps!", email=register.user.email, message=message)
+                        send_email_from_zeptomail(subject=f"Welcome to Studentpeeps!", email=register.user.email, message=message)
                     except Exception as e:
                         print(f"Email sending failed: {e}")
                 elif (register.phone):

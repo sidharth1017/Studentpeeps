@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.views.generic.base import View
 from ..tasks import send_email
-from accounts_v2.communication import send_welcome_email, send_sms_via_fast2sms
+from accounts_v2.communication import send_welcome_email, send_sms_via_fast2sms, send_email_from_zeptomail
 from accounts_v2.models import Register, RejectedUsers, UnVerifiedIdUpload
 from django.db.models import Q
 from django.http import HttpResponseForbidden
@@ -20,6 +20,7 @@ class VerifyUploadEmailUsers(View):
     def post(self, request):
         messages = [] 
         email = request.POST['email']
+        provider = request.POST.get('provider', 'zepto')
 
         try:
             register = Register.objects.get(Q(user__username=email) | Q(institution_email=email))
@@ -29,14 +30,10 @@ class VerifyUploadEmailUsers(View):
             if not register.is_verified:
                 register.is_verified = True
                 register.save()
-                messages = ["User is now verified"]
+                messages.append("User is now verified")
             elif not user.is_active:
                 user.is_active = True
                 user.save()
-            mail_body = render_to_string('emailers/signup_email_body.html', {'fname': register.firstname})
-            send_welcome_email(subject=f"Welcome to Studentpeeps!", email=email, message=mail_body)
-
-            messages.append("Welcome mail sent to their email.")
         except Register.DoesNotExist:
             try:
                 unverified_user = UnVerifiedIdUpload.objects.get(Q(user__username=email) | Q(email=email))
@@ -47,13 +44,28 @@ class VerifyUploadEmailUsers(View):
                 user.is_active = True
                 user.save()
                 unverified_user.delete()
-                mail_body = render_to_string('emailers/signup_email_body.html', {'fname': unverified_user.firstname})
-                send_welcome_email(subject=f"Welcome to Studentpeeps!", email=email, message=mail_body)
 
-                messages.append("Welcome mail sent to their email.")
+                messages.append("User is now verified")
             except UnVerifiedIdUpload.DoesNotExist:
                 messages.append("User not found!")
                 return render(request, 'admin/userVerify.html', {'messages': messages})
+
+
+        # Send Email Logic
+        mail_body = render_to_string('emailers/signup_email_body.html', {'fname': register.firstname})
+        mail_subject = "Welcome to Studentpeeps!"
+        if provider == "zoho":
+            try:
+                send_email.delay(subject=mail_subject, email=email, message=mail_body)
+                messages.append("Welcome mail sent to their email.")
+            except Exception as e:
+                messages.append(f"Error sending email via Zoho: {e}")
+        else:
+            try:
+                send_email_from_zeptomail(subject=mail_subject, email=email, message=mail_body)
+                messages.append("Welcome mail sent to their email.")
+            except Exception as e:
+                messages.append(f"Error sending email via Zoho: {e}")
 
         return render(request, 'admin/userVerify.html', {'messages': messages})
 
@@ -61,6 +73,7 @@ class RejectUploadEmailUser(View):
     def post(self, request):
         messages = [] 
         email = request.POST['email']
+        provider = request.POST.get('provider', 'zepto')
         register = None
         user = None
 
@@ -93,10 +106,22 @@ class RejectUploadEmailUser(View):
         user.save()
         register.delete()
 
-        message = render_to_string('emailers/user_rejection_email_body.html', {'fname': register.firstname})
-        send_welcome_email(subject="Action Needed: Reapply for Studentpeeps Verification", email=email, message=message)
+        # Send Email Logic
+        mail_body = render_to_string('emailers/user_rejection_email_body.html', {'fname': register.firstname})
+        mail_subject = "Action Needed: Reapply for Studentpeeps Verification"
+        if provider == "zoho":
+            try:
+                send_email.delay(subject=mail_subject, email=email, message=mail_body)
+                messages.append("Email sent to user about rejection.")
+            except Exception as e:
+                messages.append(f"Error sending email via Zoho: {e}")
+        else:
+            try:
+                send_email_from_zeptomail(subject=mail_subject, email=email, message=mail_body)
+                messages.append("Email sent to user about rejection.")
+            except Exception as e:
+                messages.append(f"Error sending email via Zoho: {e}")
 
-        messages.append("Email sent to user about rejection and user is now inactive.")
         return render(request, 'admin/userVerify.html', {'messages': messages})
 
 
