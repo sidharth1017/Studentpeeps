@@ -40,8 +40,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(OfferDailyAnalytics)
 class OfferDailyAnalyticsAdmin(admin.ModelAdmin):
-    list_display = ("date", "offers_count", "formatted_offers_html")
-    readonly_fields = ("formatted_offers_html",)  # 👈 show in detail page too
+    readonly_fields = ("formatted_offers_html",)
 
     def offers_count(self, obj):
         return len(obj.offers_data)
