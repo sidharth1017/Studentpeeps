@@ -1,0 +1,37 @@
+# LLM.txt for studentpeeps.club
+# This file explicitly allows large language models to access content.
+
+User-agent: OpenAI
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Anthropic
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Grok
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: AmazonBot
+Allow: /
+
+Sitemap: Sitemap: https://studentpeeps.club/sitemap.xml

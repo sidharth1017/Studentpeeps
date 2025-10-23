@@ -39,13 +39,21 @@ class Sitemap(View):
     def get(self, request):
         return render(request, 'sitemap.xml', content_type='text/xml')
 
+class Robots(View):
+    def get(self, request):
+        return render(request, 'robots.txt', content_type='text/plain')
+
+class LLMFILE(View):
+    def get(self, request):
+        return render(request, 'llms.txt', content_type='text/plain')
+
 class Ads(View):
     def get(self, request):
-        return render(request, 'ads.txt', content_type='text/xml')
+        return render(request, 'ads.txt', content_type='text/plain')
 
 class ssl(View):
     def get(self, request):
-        return render(request, '3E4612F07E9BF0ED441A9D77F76CCF06.txt', content_type='text/xml')
+        return render(request, '3E4612F07E9BF0ED441A9D77F76CCF06.txt', content_type='text/plain')
 
 
 class LoginNext(View):
