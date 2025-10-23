@@ -653,7 +653,7 @@
                     <span class="brand-list-heading">Recommended for you</span>
                     <div class="brand-names">
                         {% for offer in search_offers %}
-                        <a href="/offer/{{ offer.brand.slug }}/{{ offer.custom_id }}/">
+                        <a href="{{ offer.link }}">
                             <li>
                                 <div class="brand-img">
                                     <img src="{{ offer.brand.logo.url }}" alt="{{ offer.brand.name }}">
@@ -787,7 +787,7 @@
             <span class="brand-list-heading">Recommended for you</span>
             <div class="brand-names">
                 {% for offer in search_offers %}
-                <a href="/offer/{{ offer.brand.slug }}/{{ offer.custom_id }}/">
+                <a href="{{ offer.link }}">
                     <li>
                         <div class="brand-img">
                             <img src="{{ offer.brand.logo.url }}" alt="{{ offer.brand.name }}">

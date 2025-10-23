@@ -97,3 +97,24 @@ class GetCodeView(View):
         }
 
         return render(request, 'offer/get_code_page.html', context)
+
+
+class BrandPageView(View):
+    def get(self, request, brand_slug):
+        brand = get_object_or_404(Brand, slug=brand_slug)
+
+        offers = brand.offers.all().order_by('sorting', '-id')
+        seo_obj = OfferSEO.objects.filter(offer__brand=brand).first()
+        if not seo_obj:
+            seo_obj = {
+                'title': f"{brand.name} Student Discounts | StudentPeeps",
+                'description': f"Get the latest student discounts and offers from {brand.name}. Save big on your favorite products and services.",
+            }
+
+        context = {
+            'brand': brand,
+            'offers': offers,
+            'seo': seo_obj,
+        }
+
+        return render(request, "pages/brand_page.html", context)

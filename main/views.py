@@ -16,20 +16,33 @@ import json
 from django.contrib.auth.models import User
 from brands_v2.models import Offer, Category
 import random
+from django.db.models import Count
+
 
 # Create your views here.
 @method_decorator(csrf_exempt, name="dispatch")
 class Home(View):
     def get(self, request):
-        recommended_offer_ids = ['spxdailyobjects15', 'spxnilkamal5', 'spxblissclub10', 'spxbb6', 'spxwtf25']
+        recommended_offer_ids = ['spxdailyobjects15', 'spxdell7percent','spxnilkamal5', 'spxblissclub10', 'spxbb6', 'spxwtf25']
         recommended_offers = Offer.objects.filter(custom_id__in=recommended_offer_ids)
         offers_dict = {offer.custom_id: offer for offer in recommended_offers}
         ordered_recommended = [offers_dict[oid] for oid in recommended_offer_ids if oid in offers_dict]
+
+        brand_offer_counts = (
+            Offer.objects.values('brand')
+            .annotate(total=Count('id'))
+        )
+        brand_offer_map = {item['brand']: item['total'] for item in brand_offer_counts}
 
         recommended_with_flags = []
         for idx, offer in enumerate(ordered_recommended):
             block_pos = idx % 10
             is_large = block_pos == 0 or block_pos == 6
+            if brand_offer_map.get(offer.brand.id, 0) > 1:
+                link = f"/brand/{offer.brand.slug}/"
+            else:
+                link = f"/offer/{offer.brand.slug}/{offer.custom_id}/"
+            offer.link = link
             recommended_with_flags.append({
                 'offer': offer,
                 'is_large': is_large
@@ -42,6 +55,11 @@ class Home(View):
         for idx, offer in enumerate(featured_sample):
             block_pos = idx % 10
             is_large = block_pos == 0 or block_pos == 6
+            if brand_offer_map.get(offer.brand.id, 0) > 1:
+                link = f"/brand/{offer.brand.slug}/"
+            else:
+                link = f"/offer/{offer.brand.slug}/{offer.custom_id}/"
+            offer.link = link
             featured_with_flags.append({
                 'offer': offer,
                 'is_large': is_large
@@ -256,20 +274,32 @@ class CategoryPageView(View):
 
         else:
             offers = Offer.objects.filter(category__category_id=category_id).order_by('-sorting')
-            category = get_object_or_404(Category, category_id=category_id)                                     
+            category = get_object_or_404(Category, category_id=category_id)
 
         # Add URLs (works for all because category is always a model object now)
         category.og_url = request.build_absolute_uri()
         category.canonical_url = request.build_absolute_uri(request.path)
 
+        brand_offer_counts = (
+            Offer.objects.values('brand')
+            .annotate(total=Count('id'))
+        )
+        brand_offer_map = {item['brand']: item['total'] for item in brand_offer_counts}
         # Add offer flags
         offers_with_flags = []
         for idx, offer in enumerate(offers):
             block_pos = idx % 10
             is_large = block_pos == 0 or block_pos == 6
+
+            if brand_offer_map.get(offer.brand.id, 0) > 1:
+                link = f"/brand/{offer.brand.slug}/"
+            else:
+                link = f"/offer/{offer.brand.slug}/{offer.custom_id}/"
+            offer.link = link
             offers_with_flags.append({
                 'offer': offer,
-                'is_large': is_large
+                'is_large': is_large,
+
             })
 
         context = {

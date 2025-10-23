@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 from django.views.generic.base import RedirectView
+from brands_v2.views import BrandPageView
 
 admin.site.site_header = "Login to Student Peeps"
 admin.site.site_title = "Dashboard"
@@ -28,6 +29,8 @@ urlpatterns = [
     path('community/', views.Community.as_view(), name="Community"),
     path('id-verification-message/',
          views.IdVerificationMessage.as_view(), name="IdVerificationMessage"),
+
+    path('brand/<slug:brand_slug>/', BrandPageView.as_view(), name='brand_page'),
 
 
     # Redirects for old URLs to new ones
