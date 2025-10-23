@@ -1,10 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Student Peeps: Free Student Discounts | Student Deals & Offers{% endblock %}
+{% block metatags %}
+<meta name="description"
+  content="{{category.meta_description}}" />
+<meta name="keywords"
+  content="{{category.meta_keywords}}" />
+{% endblock %}
+
+{% block ogmetatags %}
+<meta property="og:title" content="{{category.meta_title}}">
+<meta property="og:description"
+  content="{{category.meta_description}}">
+<meta property="og:image" content="{{category.og_image}}">
+<meta property="og:url" content="{{ category.og_url }}">
+<link rel="canonical" href="{{ category.canonical_url }}">
+{% endblock %}
+
+{% block title %}{{category.title}}{% endblock %}
 
 {% block linkshead %}
-
 <style>
     /* the newest one */
     /* for larger screen */
@@ -196,9 +211,9 @@
 
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
 <link rel="stylesheet" href="{% static 'css/index2.css' %}" />
+{% endblock %} 
 
-{% endblock %} {% block body %}
-
+{% block body %}
 <section class="section-tiles">
     <div class="tiles-container">
         <img class="illustration" src="{% static pattern_img %}" alt="" />
@@ -211,8 +226,9 @@
     </div>
 </section>
 
-{% endblock %} {% block linksbody %}
+{% endblock %} 
 
+{% block linksbody %}
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script src="{% static 'js/expire2.js' %}"></script>
 
@@ -238,5 +254,4 @@
 
 <script type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/animateCSS/1.2.2/jquery.animatecss.min.js"></script>
-
 {% endblock %}

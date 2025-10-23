@@ -253,28 +253,42 @@ class CategoryPageView(View):
         categoryTitle = ""
         if category_id == "exclusive":
             offers = Offer.objects.filter(isExclusive=True).order_by('-sorting')
-            categoryTitle = "Exclusive Discounts"
+            category = Category(title="Exclusive Discounts", category_id="exclusive")
+            category.meta_title = "Exclusive Discounts for Students - Studentpeeps"
+            category.meta_description = "Find exclusive discounts for students on various brands and services."
+            category.meta_keywords = "exclusive discounts, student discounts, brand offers"
+
         elif category_id == "nonexclusive":
             offers = Offer.objects.filter(isExclusive=False).order_by('-sorting')
-            categoryTitle = "Non-Exclusive Discounts"
+            category = Category(title="Non-Exclusive Discounts", category_id="nonexclusive")
+            category.meta_title = "Non-Exclusive Discounts for Students - Studentpeeps"
+            category.meta_description = "Discover non-exclusive discounts for students on various brands and services."
+            category.meta_keywords = "non-exclusive discounts, student discounts, brand offers"
+
         elif category_id == "all":
-            offers = Offer.objects.filter().order_by('-sorting')
-            categoryTitle = "All Discounts"
+            offers = Offer.objects.all().order_by('-sorting')
+            category = Category(title="All Discounts", category_id="all")
+            category.meta_title = "All Discounts for Students - Studentpeeps"
+            category.meta_description = "Explore all available discounts for students on various brands and services."
+            category.meta_keywords = "all discounts, student discounts, brand offers"
+
         else:
             offers = Offer.objects.filter(category__category_id=category_id).order_by('-sorting')
             category = get_object_or_404(Category, category_id=category_id)
-            categoryTitle = category.title
 
+        # Add URLs (works for all because category is always a model object now)
+        category.og_url = request.build_absolute_uri()
+        category.canonical_url = request.build_absolute_uri(request.path)
 
         brand_offer_counts = (
             Offer.objects.values('brand')
             .annotate(total=Count('id'))
         )
         brand_offer_map = {item['brand']: item['total'] for item in brand_offer_counts}
+        # Add offer flags
         offers_with_flags = []
-
         for idx, offer in enumerate(offers):
-            block_pos = idx % 10 
+            block_pos = idx % 10
             is_large = block_pos == 0 or block_pos == 6
 
             if brand_offer_map.get(offer.brand.id, 0) > 1:
@@ -287,10 +301,12 @@ class CategoryPageView(View):
                 'is_large': is_large,
 
             })
+
         context = {
             'offers': offers_with_flags,
-            'heading': categoryTitle,
-            'pattern_img': 'images/pattern9.png'
+            'heading': category.title,
+            'pattern_img': 'images/pattern9.png',
+            'category': category,
         }
         return render(request, 'pages/category_page.html', context)
 
