@@ -1,31 +1,8 @@
-@font-face {
-  font-family: "SF Pro Display Regular";
-  font-style: normal;
-  font-weight: normal;
-  src: local("SF Pro Display Regular"),
-    url("{% static 'fonts/SFPRODISPLAYREGULAR.woff' %}") format("woff");
-}
-
-@font-face {
-  font-family: "SF Pro Display Medium";
-  font-style: normal;
-  font-weight: normal;
-  src: local("SF Pro Display Medium"),
-    url("{% static 'fonts/SFPRODISPLAYMEDIUM.woff' %}") format("woff");
-}
-
-@font-face {
-  font-family: "SF Pro Display Bold";
-  font-style: normal;
-  font-weight: normal;
-  src: local("SF Pro Display Bold"),
-    url("{% static 'fonts/SFPRODISPLAYMEDIUM.woff' %}") format("woff");
-}
+/* Legacy fonts removed. Now using common.css */
 
 * {
   margin: 0;
   padding: 0;
-  font-family: "SF Pro Display Regular";
 }
 
 body {
@@ -89,9 +66,11 @@ nav .lower-nav {
   .menu .menu-icon {
     display: block;
   }
+
   .menu ul li.desktop-list {
     display: none;
   }
+
   header .heading {
     margin-top: 20px !important;
   }
@@ -141,7 +120,6 @@ header .heading {
   margin-right: auto;
   color: #fff;
   font-weight: 600;
-  font-family: "SF Pro Display Bold";
   letter-spacing: 4px;
   text-align: center;
   animation: slideUp 1.3s forwards ease-in-out;
@@ -190,7 +168,6 @@ header button {
 header .heading span {
   font-size: 4rem;
   font-weight: 600;
-  font-family: "SF Pro Display Bold";
   letter-spacing: 4px;
   color: #fdc500;
 }
@@ -210,6 +187,7 @@ header .heading span {
   .cont {
     padding: 0 20px !important;
   }
+
   header .heading {
     font-size: 40px;
     line-height: 58px;
@@ -217,6 +195,7 @@ header .heading span {
     margin-right: 0;
     max-width: 100%;
   }
+
   header button {
     width: 233px;
     height: 60px;
@@ -230,6 +209,7 @@ header .heading span {
     line-height: 60px;
     letter-spacing: 1.4px !important;
   }
+
   header .heading span {
     letter-spacing: 1.4px !important;
   }
@@ -286,15 +266,19 @@ header .heading span {
 .team-member .profile-image video {
   width: 100%;
 }
+
 .team-member .profile-image video.ayush-video {
   transform: translateY(-10px);
 }
+
 .team-member .profile-image video.tushar-video {
   transform: translateY(40px);
 }
+
 .team-member .profile-image video.sidharth-video {
   transform: translateY(-10px);
 }
+
 .team-member .profile-image video.syed-video {
   transform: translateY(20px);
 }
@@ -346,14 +330,12 @@ header .heading span {
 }
 
 .team-member .social-icons i.fa-instagram:hover {
-  background: -webkit-linear-gradient(
-    45deg,
-    #f09433 0%,
-    #e6683c 25%,
-    #dc2743 50%,
-    #cc2366 75%,
-    #bc1888 100%
-  );
+  background: -webkit-linear-gradient(45deg,
+      #f09433 0%,
+      #e6683c 25%,
+      #dc2743 50%,
+      #cc2366 75%,
+      #bc1888 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -476,7 +458,6 @@ header .heading span {
 .value .content .title {
   font-size: 34px;
   font-weight: 600;
-  font-family: "SF Pro Display Bold";
   color: #273745;
   letter-spacing: 1.2px;
 }

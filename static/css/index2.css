@@ -1,35 +1,3 @@
-/* Tiles */
-
-@font-face {
-  font-family: "SF Pro Display Regular";
-  font-style: normal;
-  font-weight: normal;
-  src: local("SF Pro Display Regular"),
-    url("{% static 'fonts/SFPRODISPLAYREGULAR.woff' %}") format("woff");
-}
-
-@font-face {
-  font-family: "SF Pro Display Medium";
-  font-style: normal;
-  font-weight: normal;
-  src: local("SF Pro Display Medium"),
-    url("{% static 'fonts/SFPRODISPLAYMEDIUM.woff' %}") format("woff");
-}
-
-@font-face {
-  font-family: "SF Pro Display Bold";
-  font-style: normal;
-  font-weight: normal;
-  src: local("SF Pro Display Bold"),
-    url("{% static 'fonts/SFPRODISPLAYMEDIUM.woff' %}") format("woff");
-}
-
-@font-face {
-  font-family: "San Francisco";
-  font-weight: 400;
-  src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
-}
-
 :root {
   --no-of-logos: 17;
   --width-of-logo: 180px;
@@ -67,7 +35,6 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-family: "SF Pro Display Regular";
   line-height: normal;
 }
 
@@ -253,7 +220,6 @@ body {
 
 .socials .social-cont .left-cont .social-heading {
   font-size: 80px;
-  font-family: "SF Pro Display Bold";
   font-weight: 600;
   line-height: 95px;
   letter-spacing: 1.5px;
@@ -265,7 +231,6 @@ body {
 .socials .social-cont .social-subheading {
   font-size: 20px;
   align-content: center;
-  font-family: "SF Pro Display Medium";
   font-weight: 500;
   letter-spacing: 1.3px;
   padding: 23px 0;
@@ -453,7 +418,6 @@ a {
 .tiles-heading {
   display: block;
   font-size: 24px;
-  font-family: "SF Pro Display Medium";
   color: black;
   letter-spacing: 1.5px;
   margin: 0;
@@ -509,7 +473,6 @@ a {
   justify-content: center;
   outline: none;
   border: none;
-  font-family: "SF Pro Display Medium";
   letter-spacing: 1px;
   transition: all 0.3s ease-in-out;
 }
@@ -658,7 +621,6 @@ a {
   font-size: 21px;
   color: #4a3082;
   text-align: center;
-  font-family: "SF Pro Display Medium";
   margin: 20px 0;
   margin-bottom: 30px;
   letter-spacing: 1px;
@@ -677,7 +639,6 @@ a {
   font-size: 16px;
   line-height: 1.4;
   letter-spacing: 0.5px;
-  font-family: "SF Pro Display Regular";
   color: #333;
   text-align: center;
   margin-top: -15px;
@@ -689,7 +650,6 @@ a {
 .feature-sub-heading-primary {
   display: inline-block;
   font-size: 24px;
-  font-family: "SF Pro Display Medium";
   color: #000000;
   letter-spacing: 1.5px;
   margin: 0;
@@ -721,7 +681,6 @@ a {
   text-decoration: none;
   color: #bb91e4;
   font-size: 16px;
-  font-family: "SF Pro Display Regular";
 }
 
 @media only screen and (max-width: 600px) {
@@ -840,7 +799,6 @@ a {
   justify-content: center;
   outline: none;
   border: none;
-  font-family: "SF Pro Display Medium";
   letter-spacing: 1px;
   transition: all 0.3s ease-in-out;
   box-shadow: 0px 0px 19px -10px rgba(0, 0, 0, 0.75);
@@ -1005,7 +963,6 @@ a {
   font-size: 21px;
   color: #bb91e4;
   text-align: center;
-  font-family: "SF Pro Display Medium";
   margin: 30px 0;
   margin-bottom: 45px;
 }
@@ -1021,7 +978,6 @@ a {
   grid-column: 1 / -1;
   font-size: 16px;
   line-height: 1.4;
-  font-family: "SF Pro Display Regular";
   color: #333;
   text-align: center;
   margin-top: 30px;
@@ -1176,7 +1132,6 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-family: "SF Pro Display Bold";
   overflow: hidden;
   margin: 0 0 50px 0;
 }
@@ -1518,7 +1473,6 @@ a {
   height: fit-content;
   display: flex;
   margin: 50px 0;
-  font-family: "SF Pro Display Regular";
 }
 
 .testimonial .left-cont {
@@ -1697,7 +1651,6 @@ a {
   font-size: 38px;
   color: #fff;
   text-align: left;
-  font-family: "SF Pro Display Medium";
   font-weight: 600;
 }
 
@@ -1723,7 +1676,6 @@ a {
   align-items: center;
   gap: 10px;
   font-size: 20px;
-  font-family: "SF Pro Display Medium";
   font-weight: 600;
   margin-bottom: 1rem;
   color: #fff;
@@ -1792,7 +1744,6 @@ a {
   text-align: left;
   width: 80%;
   color: #fff;
-  font-family: "SF Pro Display Regular";
   line-height: 1.4;
   letter-spacing: 0.8px;
 }

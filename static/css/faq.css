@@ -1050,8 +1050,6 @@ svg {
 body {
 	font-size: 1em;
 	font-size: var(--text-base-size, 1em);
-	font-family: 'Open Sans', sans-serif;
-	font-family: var(--font-primary, sans-serif);
 	color: hsl(240, 4%, 20%);
 	color: var(--color-contrast-high, #313135)
 }
@@ -3373,7 +3371,6 @@ u,
 }
 
 :root {
-	--font-primary: sans-serif;
 	--text-base-size: 1em;
 	--text-scale-ratio: 1.2;
 	--text-xs: calc(1em/var(--text-scale-ratio)/var(--text-scale-ratio));
@@ -3529,7 +3526,6 @@ mark {
 	--cd-color-4-h: 0;
 	--cd-color-4-s: 0%;
 	--cd-color-4-l: 100%;
-	--font-primary: 'Open Sans', sans-serif
 }
 
 .cd-faq {

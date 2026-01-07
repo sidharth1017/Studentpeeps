@@ -8,16 +8,7 @@
 <style>
     /* the newest one */
     /* for larger screen */
-    @font-face {
-        font-family: SF-Pro;
-        src: url("{% static 'fonts/SF-Pro.dmg' %}");
-    }
 
-    @font-face {
-        font-family: "San Francisco";
-        font-weight: 400;
-        src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
-    }
 
     .all-category {
         position: relative;
@@ -25,7 +16,6 @@
 
     .all-category a {
         color: #542fa5 !important;
-        font-family: "SF Pro Display Bold" !important;
         font-weight: 600 !important;
         letter-spacing: 1.05px;
     }
@@ -183,7 +173,6 @@
         color: #fff;
         margin: 0;
         padding: 0;
-        font-family: "Montserrat", sans-serif;
         font-weight: bold;
     }
 </style>
@@ -205,7 +194,7 @@
         <h1 class="tiles-heading" style="margin:25px 0 70px 0; font-size: 38px; text-align: center;">{{ heading }}</h1>
         <div class="tiles-cards">
             {% for offer_data in offers %}
-            {% include 'components/tile_card.html' with offer=offer_data.offer is_large=offer_data.is_large %}
+            {% include 'components/tile_card.html' with offer=offer_data.offer %}
             {% endfor %}
         </div>
     </div>

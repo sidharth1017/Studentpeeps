@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.meta_title|default:page.title }}{% endblock %}
+
+{% block meta %}
+<meta name="description" content="{{ page.meta_description }}">
+<link rel="canonical" href="{{ page.canonical_url }}">
+<meta property="og:title" content="{{ page.title }}">
+<meta property="og:url" content="{{ page.og_url }}">
+{% endblock %}
+
+{% block body %}
+<section class="min-h-screen w-full text-gray-300">
+  <div class="max-w-4xl mx-auto px-4 py-16">
+
+    <h1 class="text-center text-3xl md:text-4xl font-semibold text-black tracking-wide">
+      {{ page.title }}
+    </h1>
+
+    {% if page.updated_at %}
+      <p class="text-center text-gray-400 mt-2 text-sm">
+        Updated on {{ page.updated_at|date:"jS F, Y" }}
+      </p>
+    {% endif %}
+
+    <div class="mt-10 leading-relaxed text-[15px] md:text-base space-y-6 prose prose-invert prose-headings:text-white prose-p:text-gray-300 prose-strong:text-white prose-li:marker:text-gray-400">
+        {{ page.content|safe }}
+    </div>
+
+  </div>
+</section>
+{% endblock %}

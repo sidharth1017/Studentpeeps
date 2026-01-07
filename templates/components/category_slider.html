@@ -1,0 +1,36 @@
+<style>
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+</style>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    <h2 class="text-[24px] font-bold text-black pb-2">
+        {{ category_section.title }}
+    </h2>
+    <div class="flex gap-6 overflow-x-auto pb-2 justify-around items-center no-scrollbar">
+
+        {% for slider in category_section.slider %}
+        <div class="flex-shrink-0 text-center cursor-pointer w-[150px]">
+
+            <div
+                class="w-[150px] h-[150px] rounded-full bg-[#f2f2f2] mx-auto mb-3 flex items-center justify-center overflow-hidden relative">
+                <img src="{{ slider.image_url }}" alt="{{ slider.category_name }}"
+                    class="w-full h-full object-contain" />
+            </div>
+
+            <span class="text-sm font-semibold text-[#333] leading-tight block px-1">
+                {{ slider.category_name }}
+            </span>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>

@@ -6,32 +6,6 @@ body {
   position: relative;
 }
 
-@font-face {
-  font-family: 'SF Pro Display Regular';
-  font-style: normal;
-  font-weight: normal;
-  src: local('SF Pro Display Regular'), url("{% static 'fonts/SFPRODISPLAYREGULAR.woff' %}") format('woff');
-}
-
-@font-face {
-  font-family: 'SF Pro Display Medium';
-  font-style: normal;
-  font-weight: normal;
-  src: local('SF Pro Display Medium'), url("{% static 'fonts/SFPRODISPLAYMEDIUM.woff' %}") format('woff');
-}
-
-@font-face {
-  font-family: 'SF Pro Display Bold';
-  font-style: normal;
-  font-weight: normal;
-  src: local('SF Pro Display Bold'), url("{% static 'fonts/SFPRODISPLAYMEDIUM.woff' %}") format('woff');
-}
-
-* {
-  font-family: 'SF Pro Display Regular';
-}
-
-
 body::before {
   content: "";
   position: absolute;
@@ -93,7 +67,6 @@ body.active::before {
 
 .content h1 {
   font-size: 36px;
-  font-family: 'SF Pro Display Bold';
   font-weight: 600;
 }
 
@@ -129,7 +102,6 @@ body.active::before {
   font-size: 20px;
   letter-spacing: 1px;
   font-weight: bold;
-  font-family: 'SF Pro Display Bold';
   color: #1e1e1e;
 }
 

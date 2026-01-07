@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.views.generic.base import View
 from django.contrib import messages
-from .models import Contact, RequestBrand, Foundation, Resource, Brand, Subscribe
+from .models import Contact, RequestBrand, Foundation, Resource, Brand, Subscribe, Homepage, PolicyPage
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from account.tasks import send_brand_mail, send_course_mail, send_subscribe_email, send_contact_mail
@@ -21,64 +21,167 @@ from django.db.models import Count
 
 # Create your views here.
 @method_decorator(csrf_exempt, name="dispatch")
+# class Home(View):
+#     def get(self, request):
+#         recommended_offer_ids = ['spxdailyobjects15', 'spxdell7percent','spxnilkamal5', 'spxblissclub10', 'spxbb6', 'spxwtf25']
+#         recommended_offers = Offer.objects.filter(custom_id__in=recommended_offer_ids)
+#         offers_dict = {offer.custom_id: offer for offer in recommended_offers}
+#         ordered_recommended = [offers_dict[oid] for oid in recommended_offer_ids if oid in offers_dict]
+
+#         brand_offer_counts = (
+#             Offer.objects.values('brand')
+#             .annotate(total=Count('id'))
+#         )
+#         brand_offer_map = {item['brand']: item['total'] for item in brand_offer_counts}
+
+#         recommended_with_flags = []
+#         for idx, offer in enumerate(ordered_recommended):
+#             block_pos = idx % 10
+#             is_large = block_pos == 0 or block_pos == 6
+#             if brand_offer_map.get(offer.brand.id, 0) > 1:
+#                 link = f"/brand/{offer.brand.slug}/"
+#             else:
+#                 link = f"/offer/{offer.brand.slug}/{offer.custom_id}/"
+#             offer.link = link
+#             recommended_with_flags.append({
+#                 'offer': offer,
+#                 'is_large': is_large
+#             })
+
+#         all_offers = list(Offer.objects.all())
+#         featured_sample = random.sample(all_offers, min(15, len(all_offers)))
+
+#         featured_with_flags = []
+#         for idx, offer in enumerate(featured_sample):
+#             block_pos = idx % 10
+#             is_large = block_pos == 0 or block_pos == 6
+#             if brand_offer_map.get(offer.brand.id, 0) > 1:
+#                 link = f"/brand/{offer.brand.slug}/"
+#             else:
+#                 link = f"/offer/{offer.brand.slug}/{offer.custom_id}/"
+#             offer.link = link
+#             featured_with_flags.append({
+#                 'offer': offer,
+#                 'is_large': is_large
+#             })
+
+
+        # carousel_images=[
+        #     "https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/carousel/3.jpg",
+        #     "https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/carousel/4.jpg",
+        #     "https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/carousel/5.jpg",
+        #     "https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/carousel/6.jpg",
+        #     "https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/carousel/7.jpg",
+        #     "https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/carousel/8.jpg",
+        #     "https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/carousel/9.jpg",
+        # ]
+
+#         return render(request, 'pages/home_page.html', {
+#             'recommended_offers': recommended_with_flags,
+#             'featured_offers': featured_with_flags,
+#             'carousel_images': carousel_images,
+#             'category_section': {
+#                 'title': 'Top Categories',
+#                 'slider': [
+#                     {
+#                         'image_url': "https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/v2/category/gifts_for_her.png",
+#                         'category_name': "Gifts for Her"
+#                     },
+#                     {
+#                         'image_url': "https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/v2/category/gifts_for_him.png",
+#                         'category_name': "Gifts for Him"
+#                     },
+#                     {
+#                         'image_url': "https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/v2/category/genz.png",
+#                         'category_name': "GenZ Cool"
+#                     },
+#                     {
+#                         'image_url': "https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/v2/category/weekend.png",
+#                         'category_name': "Foodies, Fun & Weekend Vibes"
+#                     },
+#                     {
+#                         'image_url': "https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/v2/category/travel.png",
+#                         'category_name': "Travel, Staycations & Big Moments"
+#                     },
+#                     {
+#                         'image_url': "https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/v2/category/luxe.png",
+#                         'category_name': "Premium & Luxe Gifting"
+#                     }
+#                 ]
+#             }
+#         })
+
+#     def post(self, request):
+#         body = json.loads(request.body)
+#         if body.get("free"):
+#             payment = Payment.objects.filter(user=request.user)[0]
+#             payment.payment_status = 1
+#             payment.amount = 0.0
+#             payment.save()
+#             messages.success(request, "You are now member of Studentpeeps!!")
+#         return JsonResponse({"message": "Done!"})
+
 class Home(View):
-    def get(self, request):
-        recommended_offer_ids = ['spxdailyobjects15', 'spxdell7percent','spxnilkamal5', 'spxblissclub10', 'spxbb6', 'spxwtf25']
-        recommended_offers = Offer.objects.filter(custom_id__in=recommended_offer_ids)
-        offers_dict = {offer.custom_id: offer for offer in recommended_offers}
-        ordered_recommended = [offers_dict[oid] for oid in recommended_offer_ids if oid in offers_dict]
+    def build_tile_slider(self, block):
+        data = block.data or {}
+
+        offer_ids = data.get("offer_ids", [])
+        title = data.get("title", "")
+        is_discount = data.get("is_discount", False)
+
+        offers = Offer.objects.filter(custom_id__in=offer_ids)
+        offers_map = {o.custom_id: o for o in offers}
+        ordered_offers = [offers_map[oid] for oid in offer_ids if oid in offers_map]
 
         brand_offer_counts = (
-            Offer.objects.values('brand')
-            .annotate(total=Count('id'))
+            Offer.objects.values("brand")
+            .annotate(total=Count("id"))
         )
-        brand_offer_map = {item['brand']: item['total'] for item in brand_offer_counts}
+        brand_offer_map = {i["brand"]: i["total"] for i in brand_offer_counts}
+        processed = []
 
-        recommended_with_flags = []
-        for idx, offer in enumerate(ordered_recommended):
-            block_pos = idx % 10
-            is_large = block_pos == 0 or block_pos == 6
+        for offer in ordered_offers:
             if brand_offer_map.get(offer.brand.id, 0) > 1:
                 link = f"/brand/{offer.brand.slug}/"
             else:
                 link = f"/offer/{offer.brand.slug}/{offer.custom_id}/"
+
             offer.link = link
-            recommended_with_flags.append({
-                'offer': offer,
-                'is_large': is_large
+
+            processed.append({
+                "offer": offer
             })
 
-        all_offers = list(Offer.objects.all())
-        featured_sample = random.sample(all_offers, min(15, len(all_offers)))
+        return {
+            "title": title,
+            "is_discount": is_discount,
+            "offers": processed
+        }
 
-        featured_with_flags = []
-        for idx, offer in enumerate(featured_sample):
-            block_pos = idx % 10
-            is_large = block_pos == 0 or block_pos == 6
-            if brand_offer_map.get(offer.brand.id, 0) > 1:
-                link = f"/brand/{offer.brand.slug}/"
+    def get(self, request):
+
+        homepage_blocks = Homepage.objects.filter(
+            status="active"
+        ).order_by("position")
+
+        layouts = []
+
+        for block in homepage_blocks:
+            if block.layout_type == "tile_slider":
+                content = self.build_tile_slider(block)
             else:
-                link = f"/offer/{offer.brand.slug}/{offer.custom_id}/"
-            offer.link = link
-            featured_with_flags.append({
-                'offer': offer,
-                'is_large': is_large
+                content = block.data
+
+            layouts.append({
+                "index": block.position,
+                "layoutType": block.layout_type,
+                "content": content,
+                "html": block.custom_html
             })
 
-        return render(request, 'index.html', {
-            'recommended_offers': recommended_with_flags,
-            'featured_offers': featured_with_flags
+        return render(request, "pages/home_page.html", {
+            "layouts": layouts
         })
-
-    def post(self, request):
-        body = json.loads(request.body)
-        if body.get("free"):
-            payment = Payment.objects.filter(user=request.user)[0]
-            payment.payment_status = 1
-            payment.amount = 0.0
-            payment.save()
-            messages.success(request, "You are now member of Studentpeeps!!")
-        return JsonResponse({"message": "Done!"})
         
 class OurStory(View):
     def get(self, request):
@@ -302,12 +405,29 @@ class CategoryPageView(View):
 
             })
 
+        carousel_images=[
+            "https://website-cdn.xoxoday.com/sales_order_invoice/Diwali%20Deals%201%20Mob.png",
+            "https://website-cdn.xoxoday.com/sales_order_invoice/Hotel%20Banner%202%20APP.png",
+            "https://website-cdn.xoxoday.com/sales_order_invoice/Diwali%20Deals%201%20Mob.png",
+            "https://website-cdn.xoxoday.com/sales_order_invoice/Hotel%20Banner%202%20APP.png"
+        ]
+
         context = {
             'offers': offers_with_flags,
             'heading': category.title,
             'pattern_img': 'images/pattern9.png',
             'category': category,
+            'carousel_images': carousel_images
         }
         return render(request, 'pages/category_page.html', context)
 
+class HelpCenterPageView(View):
+    def get(self, request, slug):
+        page = get_object_or_404(PolicyPage, slug=slug, status="active")
+        page.og_url = request.build_absolute_uri()
+        page.canonical_url = request.build_absolute_uri(request.path)
+        context = {
+            "page": page,
+        }
 
+        return render(request, "pages/help_center_page.html", context)

@@ -1,0 +1,44 @@
+{% extends 'base.html' %} {% load static %}
+{% block metatags %}
+<meta name="description"
+    content="Get FREE Student Discounts on your favorite brands like Bewakoof, Rapido Bike Taxi & Bitclass. Student discount for samsung, Oneplus student discount, Apple Student Discount." />
+<meta name="keywords"
+    content="studentpeeps, student peeps, student offers, student coupon code, discount codes, college id, student discount ,student discounts ,student deals, apple student discount, Student discounts for Samsung, oneplus student discount, student discount india, asus student discount, bewakoof coupon code, github student developer pack " />
+{% endblock %}
+
+{% block ogmetatags %}
+<meta property="og:title" content="Student Peeps: Free Student Discounts | Student Deals & Offers">
+<meta property="og:description"
+    content="Get FREE Student Discounts on your favorite brands like Bewakoof, Rapido Bike Taxi & Bitclass. Student discount for samsung, Oneplus student discount, Apple Student Discount.">
+<meta property="og:image"
+    content="https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/ogimages/ogImage.jpg">
+<meta property="og:url" content="https://studentpeeps.club/">
+<link rel="canonical" href="https://studentpeeps.club/">
+{% endblock %}
+
+{% block title %}Student Peeps: Free Student Discounts | Student Deals & Offers{% endblock %}
+
+{% block linkshead %}
+
+{% endblock %}
+
+{% block body %}
+
+{% for block in layouts %}
+
+{% if block.layoutType == "carousel" %}
+{% include "components/main_slider.html" with images=block.content.images %}
+{% elif block.layoutType == "category_carousel" %}
+{% include "components/category_slider.html" with category_section=block.content.slider %}
+{% elif block.layoutType == "custom_html" %}
+<div class="w-full">
+    {{ block.html|safe }}
+</div>
+{% elif block.layoutType == "tile_slider" %}
+    {% include "components/tile_slider.html" with content=block.content %}
+{% endif %}
+
+{% endfor %}
+
+
+{% endblock %}

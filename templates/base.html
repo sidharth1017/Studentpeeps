@@ -48,10 +48,7 @@
     <!-- Extra Links -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
-    <link href="https://fonts.googleapis.com/css?family=Anton|Cabin|Lato|Fjalla+One|Montserrat|Roboto&display=swap"
-        rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 
     {% block linkshead %} {% endblock %}
@@ -79,8 +76,6 @@
     <!-- External Tools Tags -->
     <!-- Admitad Meta Tag -->
     <meta name="verify-admitad" content="2f25458370" />
-    <!-- FontAwesome -->
-    <script src="https://kit.fontawesome.com/5762f5d7a2.js" crossorigin="anonymous"></script>
     <!-- Google Ads -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3076555873685321"
         crossorigin="anonymous"></script>
@@ -137,48 +132,14 @@
     <script src="https://www.googleoptimize.com/optimize.js?id=OPT-P5QV7J7"></script>
     <!-- Google optimise -->
     <!-- External Tools Tags End -->
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS End -->
 
     <style>
         * {
             margin: 0;
             padding: 0;
-        }
-
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
-        @font-face {
-            font-family: "San Francisco";
-            font-weight: 400;
-            src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
-        }
-
-        @font-face {
-            font-family: 'SF Pro Display Regular';
-            font-style: normal;
-            font-weight: normal;
-            src: local('SF Pro Display Regular'),
-            url("{% static 'fonts/SFPRODISPLAYREGULAR.woff' %}") format('woff');
-        }
-
-        @font-face {
-            font-family: 'SF Pro Display Medium';
-            font-style: normal;
-            font-weight: normal;
-            src: local('SF Pro Display Medium'),
-            url("{% static 'fonts/SFPRODISPLAYMEDIUM.woff' %}") format('woff');
-        }
-
-        @font-face {
-            font-family: 'SF Pro Display Bold';
-            font-style: normal;
-            font-weight: normal;
-            src: local('SF Pro Display Bold'),
-            url("{% static 'fonts/SFPRODISPLAYMEDIUM.woff' %}") format('woff');
-        }
-
-
-        nav .upper-nav {
-            font-family: 'SF Pro Display Regular';
         }
 
         .new_footer_area {
@@ -200,7 +161,6 @@
         }
 
         .btn-primary {
-            font-family: 'SF Pro Display Regular';
             height: 40px;
             line-height: 2.5rem;
             padding: 0 3rem;
@@ -267,21 +227,15 @@
             color: whitesmoke;
             display: flex;
             flex-direction: row;
-            font-family: 'SF Pro Display Regular';
         }
 
-        .footer_content p {
-            font-family: 'SF Pro Display Regular';
-        }
+        .footer_content p {}
 
-        .ft_p {
-            font-family: 'SF Pro Display Regular';
-        }
+        .ft_p {}
 
         .ul_style {
             list-style: none;
             padding: 0%;
-            font-family: 'SF Pro Display Regular';
         }
 
         a {
@@ -295,7 +249,6 @@
 
         .sub_p {
             max-width: 303px;
-            font-family: 'SF Pro Display Regular';
         }
 
         .abt_hlp {

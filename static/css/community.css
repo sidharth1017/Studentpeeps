@@ -1,37 +1,3 @@
-@font-face {
-    font-family: 'SF Pro Display Regular';
-    font-style: normal;
-    font-weight: normal;
-    src: local('SF Pro Display Regular'),
-    url("{% static 'fonts/SFPRODISPLAYREGULAR.woff' %}") format('woff');
-}
-
-@font-face {
-    font-family: 'SF Pro Display Medium';
-    font-style: normal;
-    font-weight: normal;
-    src: local('SF Pro Display Medium'),
-    url("{% static 'fonts/SFPRODISPLAYMEDIUM.woff' %}") format('woff');
-}
-
-@font-face {
-    font-family: 'SF Pro Display Bold';
-    font-style: normal;
-    font-weight: normal;
-    src: local('SF Pro Display Bold'),
-    url("{% static 'fonts/SFPRODISPLAYMEDIUM.woff' %}") format('woff');
-}
-
-
-* {
-    margin: 0;
-    padding: 0;
-    font-family: 'SF Pro Display Regular';
-}
-
-body {
-    overflow-x: hidden;
-}
 
 section, .section {
     min-height: 90vh;
@@ -78,7 +44,6 @@ header .cont .left-cont {
 
 header .cont .left-cont h1 {
     font-size: 54px;
-    font-family: 'SF Pro Display Bold';
     font-weight: 600;
     color: rgb(24, 24, 24);
     margin-bottom: 30px;
@@ -95,7 +60,6 @@ header .cont .left-cont span {
 
 header .cont .left-cont a {
     height: 2.5em;
-    font-family: 'SF Pro Display Bold';
     color: #fff;
     background-color: #4A3082;
     font-size: 20px;
@@ -245,7 +209,6 @@ header .cont .left-cont a:hover {
 }
 
 .statistics .cont .stats-cont .stat h1 {
-    font-family: 'SF Pro Display Bold';
     font-weight: 600;
     letter-spacing: 1.5px;
     margin-top: 15px;
@@ -434,7 +397,6 @@ header .cont .left-cont a:hover {
 .join-sp .cont .heading {
     font-size: 46px;
     line-height: 64px;
-    font-family: 'SF Pro Display Bold';
     font-weight: 600;
     color: rgb(37, 37, 37);
     margin: 40px 0 10px 0;

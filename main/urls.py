@@ -31,7 +31,7 @@ urlpatterns = [
          views.IdVerificationMessage.as_view(), name="IdVerificationMessage"),
 
     path('brand/<slug:brand_slug>/', BrandPageView.as_view(), name='brand_page'),
-
+    path('help-center/<slug:slug>/', views.HelpCenterPageView.as_view(), name='help_center_page'),
 
     # Redirects for old URLs to new ones
     path('all/', RedirectView.as_view(url='/category/all/', permanent=True)),

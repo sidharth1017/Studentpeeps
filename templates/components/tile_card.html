@@ -1,80 +1,42 @@
-<style>
-    .tiles-card-brand-name {
-        width: 100% !important;
-        position: relative;
-        bottom: -60px;
-        color: black;
-        justify-content: center;
-        display: flex;
-        text-transform: capitalize;
-        font-family: "SF Pro Display Medium";
-        font-size: 18px;
-    }
+<a href="{{ offer.link }}">
+  <div class="relative bg-white rounded-xl shadow-md overflow-hidden transition hover:shadow-xl h-[300px]">
 
-    .tiles-card-brand-name-lg {
-        width: 100px !important;
-        bottom: -130px;
-        position: absolute;
-        text-transform: capitalize;
-        justify-content: center;
-        font-family: "SF Pro Display Medium";
-        font-size: 18px;
-    }
+      <div class="relative w-full h-[200px]">
+          <img
+              src="{{ offer.thumbnail_image.url }}"
+              alt="{{ offer.title }}"
+              class="w-full h-full object-cover"
+          />
 
-    .brand {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+          <!-- Brand Area -->
+          <div class="flex items-center justify-center absolute left-1/2 -translate-x-1/2 bottom-[-60px]">
 
-    .brand-lg {
-        display: flex;
-        justify-content: flex-start;
-        padding-left: 9%;
-    }
+              <!-- Brand Logo -->
+              <div class="w-16 h-16 rounded-full bg-white shadow flex items-center justify-center overflow-hidden">
+                  <img
+                      src="{{ offer.brand.logo.url }}"
+                      alt="{{ offer.brand.name }}"
+                      class="w-full h-full object-contain"
+                  />
+              </div>
 
-    @media only screen and (max-width: 1199px) {
+              <!-- Brand Name -->
+              <div class="text-black font-semibold capitalize text-[18px] flex justify-center w-full relative bottom-[-60px]">
+                  <p>{{ offer.brand.name }}</p>
+              </div>
 
-        .brand-lg {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding-left: 0px;
-        }
+          </div>
+      </div>
 
-        .tiles-card-brand-name-lg {
-            width: auto;
-            bottom: -55px;
-            color: black;
-            font-weight: bold;
-            text-transform: uppercase;
-            text-align: center;
-            position: relative;
-            display: flex;
-            justify-content: center;
-        }
-    }
-</style>
+      <!-- Content -->
+      <div class="mt-24 p-4">
+          <h3 class="text-lg font-bold leading-tight">
+              {{ offer.title }}
+          </h3>
+          <p class="text-sm text-gray-600 mt-1">
+              {{ offer.subtitle }}
+          </p>
+      </div>
 
-<a href="{{offer.link}}">
-    <div class="tiles-card {% if is_large %}tiles-card-lg{% endif %}">
-        <div class="tiles-card-img {% if is_large %}tiles-card-img-lg{% endif %}">
-            <picture>
-                <img src="{{ offer.thumbnail_image.url }}" alt="{{ offer.title }}" />
-            </picture>
-            <div class="brand {% if is_large %}brand-lg{% endif %}">
-                <div class="tiles-card-company-img {% if is_large %}tiles-card-company-img-lg{% endif %}">
-                    <img src="{{ offer.brand.logo.url }}" alt="{{ offer.brand.name }}" />
-                </div>
-                <div class="tiles-card-brand-name {% if is_large %}tiles-card-brand-name-lg{% endif %}">
-                    <p>{{ offer.brand.name }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="tiles-card-content {% if is_large %}tiles-card-content-lg{% endif %}">
-            <h3 class="tiles-card-heading">{{ offer.title }}</h3>
-            <p class="tiles-card-paragraph">{{ offer.subtitle }}</p>
-        </div>
-    </div>
+  </div>
 </a>

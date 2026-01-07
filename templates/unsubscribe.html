@@ -6,10 +6,9 @@
 {% block linkshead %}
 <meta name="description"
     content="Sign up on Studentpeeps to get student discounts when you shop. Enter your email and password to make an account on Studentpeeps.">
-<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+<!-- Font import removed -->
 <link rel="stylesheet" href="{% static 'css/google.css' %}">
 <style>
-
     input.form-control {
         height: 46px;
         background: rgb(239, 244, 244);
@@ -21,12 +20,12 @@
 
     h2 {
         color: #272727;
-        font-family: Gibson SemiBold, Helvetica, Arial, Sans Serif;
+
         font-weight: bold;
     }
 
     p {
-        font-family: Gibson SemiBold, Helvetica, Arial, Sans Serif;
+
         font-size: 16px;
     }
 
@@ -37,7 +36,7 @@
     .col {
         padding-right: 0 !important;
     }
-    
+
     .row>* {
         padding-right: 0 !important;
     }
@@ -54,7 +53,6 @@
     }
 
     .btn-primary {
-        font-family: 'Quicksand', sans-serif;
         font-weight: bold;
         height: 40px;
         line-height: 2.5rem;
@@ -96,7 +94,6 @@
     .sign a {
         background: none;
         font-size: 1em;
-        font-family: Gibson, Helvetica, Arial, "Sans Serif";
         text-decoration: underline;
         color: #4A3082;
     }
@@ -154,18 +151,18 @@
                     <div class="row justify-content-start mt-4">
                         <div class="row align-items-center mt-4">
                             <div class="col">
-                              <label class="input" >Email Address</label>
-                              <input type="email" name="unsubscribe_email" class="form-control" required>
+                                <label class="input">Email Address</label>
+                                <input type="email" name="unsubscribe_email" class="form-control" required>
                             </div>
-                          </div>
-                        </div>
-                        <div class="col">
-                            <button class="btn btn-primary mt-4" type="submit">Yes, unsubscribe now</button>
                         </div>
                     </div>
-                </form>
+                    <div class="col">
+                        <button class="btn btn-primary mt-4" type="submit">Yes, unsubscribe now</button>
+                    </div>
             </div>
+            </form>
         </div>
+    </div>
     </div>
     </form>
 </section>

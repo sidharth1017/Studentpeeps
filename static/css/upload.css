@@ -6,7 +6,6 @@
 
 .uploadHeading{
     margin-top: 20px;
-    font-family: Arial, Helvetica, sans-serif;
     font-size: 24px;
     font-weight: bold;
     color: #272727;
@@ -37,7 +36,6 @@
 
 .uploadSubmit{
     position: relative;
-    font-family:Arial, Helvetica, sans-serif;
     display: block;
     width: 100%;
     border-radius: 5px;
@@ -57,7 +55,6 @@
 
 .anotherMethod{
     position: relative;
-    font-family:Arial, Helvetica, sans-serif;
     display: block;
     width: 100%;
     border-radius: 5px;
@@ -78,7 +75,6 @@
 .help{
     background: none;
     font-size: 0.8125em;
-    font-family: Gibson, Helvetica, Arial, "Sans Serif";
     text-decoration: underline;
     color: rgb(60, 61, 61);
 }
