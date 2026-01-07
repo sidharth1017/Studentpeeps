@@ -41,4 +41,4 @@ def myaccount(request):
         users.save()
         messages.success(request, "Profile updated successfully.")
 
-    return render(request, 'edit_profile.html', {'profile': users})
+    return render(request, 'account/edit_profile.html', {'profile': users})

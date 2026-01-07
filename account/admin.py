@@ -20,8 +20,3 @@ admin.site.register(College, CollegeAdmin)
 # class YourdetailAdmin(admin.ModelAdmin):
 #     list_display = ('firstname','lastname', 'gender')
 # admin.site.register(Yourdetail, YourdetailAdmin)
-# class PaymentAdmin(admin.ModelAdmin):
-#     list_display = ('user', 'payment_status')
-
-
-# admin.site.register(Payment, PaymentAdmin)

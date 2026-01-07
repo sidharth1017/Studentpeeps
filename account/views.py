@@ -7,11 +7,8 @@ import pandas as pd
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 import uuid 
-import razorpay
 from django.views.decorators.csrf import csrf_exempt
 from decouple import config
-
-razorpay_client = razorpay.Client(auth=(config("RAZORPAY_KEY_ID"), config("RAZORPAY_KEY_SECRET")))
 
 # Create your views here
 def Register(request):

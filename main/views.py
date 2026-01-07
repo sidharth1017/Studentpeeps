@@ -9,9 +9,8 @@ from account.tasks import send_brand_mail, send_course_mail, send_subscribe_emai
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from account.models import Payment, UnVerified
+from account.models import UnVerified
 from account.tasks import send_email
-from brands.models import BrandCode, BrandSearch
 import json
 from django.contrib.auth.models import User
 from brands_v2.models import Offer, Category
@@ -291,59 +290,6 @@ class UnSubscribeView(View):
 class Error_404_View(View):
     def get(self, request):
         return render(request, '404.html')
-
-class Favorite(View):
-    def get(self, request):
-        messages = None
-        return render(request,'request.html',{'message' : messages})
-
-    def post(self, request):
-        messages = None
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        brandname = request.POST.get('BrandName')
-        brandsite = request.POST.get('BrandSite')
-        want = request.POST.get('want')
-        requestbrand = RequestBrand(name=name, email=email, brandname=brandname, brandsite=brandsite, want=want)
-        requestbrand.save()
-        messages = "Thanks for coming this far. We'll let you know when we speak to them."
-        send_brand_mail.delay(subject="Somebody requested a brand!", name=name, email=email, brandname=brandname, brandsite=brandsite, want=want, emailList=["sidharthv1017@gmail.com","mittalayush740@gmail.com"])
-        return render(request,'request.html',{'message' : messages})
-
-class Course(View):
-    def get(self, request):
-        messages = None
-        return render(request,'foundation.html',{'message' : messages})
-
-    def post(self, request):
-        messages = None
-        name = request.POST.get('name')
-        collegename = request.POST.get('collegename')
-        email = request.POST.get('email')
-        linkedinurl = request.POST.get('likedin')
-        coursename = request.POST.get('coursename')
-        courselink = request.POST.get('courselink')
-        desc = request.POST.get('desc')
-        foundation = Foundation(name=name, collegename=collegename, email=email, linkedinurl=linkedinurl, coursename=coursename, courselink=courselink, desc=desc)
-        foundation.save()
-        messages = "Thanks for filling this form."
-        send_course_mail(subject="Somebody requested a course!", name=name, collegename=collegename, email=email, linkedinurl=linkedinurl, coursename=coursename, courselink=courselink, desc=desc, emailList=["sidharthv1017@gmail.com","mittalayush740@gmail.com"])
-        return render(request,'foundation.html',{'message' : messages})
-
-
-class Tools(View):
-    def get(self, request):
-        messages = None
-        return render(request,'resource.html',{'message' : messages})    
-
-    def post(self, request):
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-        college = request.POST.get('college')
-        resource = Resource(email=email, phone=phone, college=college)
-        resource.save()
-        messages = "Thanks for filling this form."
-        return render(request,'resource.html',{'message' : messages})
 
 class IdVerificationMessage(View):
     def get(self, request):        

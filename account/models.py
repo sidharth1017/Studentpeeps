@@ -94,25 +94,4 @@ class College(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class Payment(models.Model):
-    payment_status_choices = (
-        (1, "SUCCESS"),
-        (2, "FAILURE"),
-        (3, "PENDING"),
-    )
-    
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    payment_status = models.IntegerField(choices=payment_status_choices, default=3)
-    amount = models.FloatField()
-    datetime_of_payment = models.DateTimeField(default=timezone.now)
-
-    # Razorpay
-    razorpay_order_id = models.CharField(max_length=500, blank=True, null=True)
-    razorpay_payment_id = models.CharField(max_length=500, blank=True, null=True)
-    razorpay_signature = models.CharField(max_length=500, blank=True, null=True)
-
-    def __str__(self):
-        return f"{self.id}"
         

@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     'account',
     'accounts_v2',
     'main',
-    'brands',
     'brands_v2',
     'utilities',
     'django.contrib.admin',
@@ -86,19 +85,6 @@ WSGI_APPLICATION = 'studentpeeps.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'studentpeeps',
-#         'USER': 'postgres',
-#         'PASSWORD': 'admin_do',
-#         'HOST': 'postgres-1.cq8sus3k2r6c.us-east-1.rds.amazonaws.com',
-#         'PORT': '5432',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
