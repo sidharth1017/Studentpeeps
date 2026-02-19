@@ -652,18 +652,18 @@
             <div class="account-btns">
                 {% if user.is_authenticated %}
                 <span class="user-name">
-    <a href="/account/v2/myaccount">
-        {% if user.first_name %}
-            {{ user.first_name }}
-        {% else %}
-            <i class="uil uil-user-circle nav-item"></i>
-        {% endif %}
-    </a>
-</span>
+                    <a href="/account/v2/myaccount">
+                        {% if user.first_name %}
+                        {{ user.first_name }}
+                        {% else %}
+                        <i class="uil uil-user-circle nav-item"></i>
+                        {% endif %}
+                    </a>
+                </span>
 
                 <span class="logout log-btn">
                     <a href="/account/logout">
-                         <i class="fa fa-user-circle"></i>
+                        <i class="fa fa-user-circle"></i>
                         <span>Logout</span></a>
                 </span>
                 <div class="account-cont">
@@ -784,79 +784,113 @@
 
     {% block body %} {% endblock %}
 
-    <!-- new footer -->
-    <div class="footer">
-        <div class="container">
-            <div class="footer_content">
-                <div class="sub">
-                    <!-- <img class="footer_logo" src="static\images\sp_logo.png" alt="" /> -->
-                    <h3>About us</h3>
-                    <p class="sub_p">Studentpeeps is a platform where university student get exclusive student discounts
-                        when they shop.<br>
-                        We aim to change how student shop in India</p>
-                    <form action="/subscribe" method="POST">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <input style="height: 40px;" type="email" name="subscribe_email" class="form-control"
-                                    placeholder="Enter your email" required>
-                            </div>
-                            <div class="col-lg-4">
-                                <Button type="submit" class="btn btn-primary">Subscribe</Button>
-                            </div>
-                        </div>
-                    </form>
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+
+                <!-- LEFT: LOGO + CONTACT -->
+                <div class="space-y-6 lg:col-span-2">
+                    <!-- Logo -->
+                    <img src="https://studentpeeps.club/static/images/sp_logo.png" alt="Hubble Logo" class="w-25" />
+
+                    <!-- Contact -->
+                    <div>
+                        <h4 class="text-sm font-semibold text-gray-700 mb-3 uppercase">
+                            Contact Us
+                        </h4>
+
+                        <p class="flex items-start gap-3 text-sm text-gray-600 mb-2">
+                            <span>📧</span>
+                            <span>support@myhubble.money</span>
+                        </p>
+
+                        <p class="flex items-start gap-3 text-sm text-gray-600 leading-relaxed">
+                            <span>📍</span>
+                            <span>
+                                Urban Vault, #591, 15th main road, 22nd Cross Rd,<br />
+                                3rd Sector, HSR Layout, Bengaluru, Karnataka 560102
+                            </span>
+                        </p>
+                    </div>
                 </div>
 
-                <div class="abt_hlp">
-                    <span class="abt">
-                        <h3>Quick Links</h3>
-                        <ul class="ul_style">
-                            <li><a href="/ourstory">Our story</a></li>
-                            <li><a href="/account/v2/identify">Signup</a></li>
-                            <li><a href="/account/v2/identify">Login</a></li>
-                            <li><a href="/contactus">Contact</a></li>
-                            <!-- <li><a href="/course-application">Course Application</a></li> -->
-                        </ul>
-                    </span>
-                    <span class="hlp">
-                        <h3>Legal</h3>
-                        <ul class="ul_style">
-                            <li><a href="/privacypolicy">Privacy Policy</a></li>
-                            <li><a href="/faq">FAQs</a></li>
-                        </ul>
-                    </span>
+                <!-- POPULAR CATEGORIES -->
+                <div>
+                    <h4 class="text-sm font-semibold text-gray-700 mb-4 uppercase">
+                        Popular Categories
+                    </h4>
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li><a href="#" class="hover:text-black">Food</a></li>
+                        <li><a href="#" class="hover:text-black">Groceries</a></li>
+                        <li><a href="#" class="hover:text-black">Online shopping</a></li>
+                        <li><a href="#" class="hover:text-black">Electronics</a></li>
+                        <li><a href="#" class="hover:text-black">Fashion</a></li>
+                    </ul>
                 </div>
 
-                <div class="flws_con">
+                <!-- POPULAR GIFT CARDS -->
+                <div>
+                    <h4 class="text-sm font-semibold text-gray-700 mb-4 uppercase">
+                        Popular Gift Cards
+                    </h4>
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li><a href="#" class="hover:text-black">Amazon gift card at 2% off</a></li>
+                        <li><a href="#" class="hover:text-black">Flipkart gift card at 1% off</a></li>
+                        <li><a href="#" class="hover:text-black">Zomato gift card at 2% off</a></li>
+                        <li><a href="#" class="hover:text-black">Swiggy gift card at 3% off</a></li>
+                        <li><a href="#" class="hover:text-black">Myntra gift card at 2% off</a></li>
+                    </ul>
+                </div>
 
-                    <div class="con">
-                        <h3>Contact us</h3>
-                        <a href="mailto:hi@studentpeeps.club">Hi@studentpeeps.club</a>
+                <!-- QUICK LINKS + COMPANY -->
+                <div class="space-y-10">
+                    <!-- Quick Links -->
+                    <div>
+                        <h4 class="text-sm font-semibold text-gray-700 mb-4 uppercase">
+                            Quick Links
+                        </h4>
+                        <ul class="space-y-3 text-sm text-gray-600">
+                            <li><a href="#" class="hover:text-black">Privacy policy</a></li>
+                            <li><a href="#" class="hover:text-black">Terms & conditions</a></li>
+                            <li><a href="#" class="hover:text-black">Refund policies</a></li>
+                        </ul>
                     </div>
 
-                    <div class="flws">
-                        <h3>Follow us</h3>
-                        <span class="f_social_icon">
-                            <a href="https://www.instagram.com/studentpeeps/" class="fa fa-instagram"
-                                target="_blank"></a>
-                            <a href="https://www.facebook.com/studentpeeps/" class="fa fa-facebook" target="_blank"></a>
-                            <a href="https://www.twitter.com/studentpeeps/" class="fa fa-twitter" target="_blank"></a>
-                            <a href="https://www.linkedin.com/company/studentpeeps/" class="fa fa-linkedin"
-                                target="_blank"></a>
-                        </span>
+                    <!-- Company -->
+                    <div>
+                        <h4 class="text-sm font-semibold text-gray-700 mb-4 uppercase">
+                            Company
+                        </h4>
+                        <ul class="space-y-3 text-sm text-gray-600">
+                            <li><a href="#" class="hover:text-black">About</a></li>
+                            <li><a href="#" class="hover:text-black">Blog</a></li>
+                            <li><a href="#" class="hover:text-black">Careers</a></li>
+                            <li><a href="#" class="hover:text-black">FAQs</a></li>
+                        </ul>
                     </div>
-
                 </div>
             </div>
+
+            <!-- BOTTOM BAR -->
+            <div
+                class="mt-12 pt-6 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between gap-6">
+                <!-- Social Icons -->
+                <div class="flex items-center gap-4 text-gray-600">
+                    <a href="https://www.instagram.com/studentpeeps/" class="fa fa-instagram" target="_blank"></a>
+                    <a href="https://www.facebook.com/studentpeeps/" class="fa fa-facebook" target="_blank"></a>
+                    <a href="https://www.twitter.com/studentpeeps/" class="fa fa-twitter" target="_blank"></a>
+                    <a href="https://www.linkedin.com/company/studentpeeps/" class="fa fa-linkedin" target="_blank"></a>
+                </div>
+
+                <!-- Copyright -->
+                <p class="text-sm text-gray-500">
+                    © 2026 by Enigmee Ventures. All right reserved.
+                </p>
+            </div>
         </div>
-        <hr>
-        <div class="ft_p">
-            <p>Copyright © 2025 StudentPeeps | Enigmee Ventures. All right reserved. <br>
-                Made with ❤️ in India 🇮🇳 StudentPeeps</p>
-        </div>
-    </div>
-    <!-- new footer end -->
+    </footer>
+
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"

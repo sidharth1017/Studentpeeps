@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'main',
     'brands_v2',
     'utilities',
+    'giftcard',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -240,3 +241,11 @@ ZEPTO_SMTP = {
     "USE_TLS": True,
     "USE_SSL": False,
 }
+
+
+# Woohoo API Config
+WOOHOO_BASE_URL = "https://sandbox.woohoo.in"
+WOOHOO_CLIENT_ID = config("WOOHOO_CLIENT_ID")
+WOOHOO_CLIENT_SECRET = config("WOOHOO_CLIENT_SECRET")
+WOOHOO_USERNAME = config("WOOHOO_USERNAME")
+WOOHOO_PASSWORD = config("WOOHOO_PASSWORD") 

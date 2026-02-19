@@ -16,6 +16,7 @@ from django.contrib.auth.models import User
 from brands_v2.models import Offer, Category
 import random
 from django.db.models import Count
+from giftcard.models import ProviderProduct
 
 
 # Create your views here.
@@ -128,28 +129,59 @@ class Home(View):
         title = data.get("title", "")
         is_discount = data.get("is_discount", False)
 
-        offers = Offer.objects.filter(custom_id__in=offer_ids)
-        offers_map = {o.custom_id: o for o in offers}
-        ordered_offers = [offers_map[oid] for oid in offer_ids if oid in offers_map]
-
-        brand_offer_counts = (
-            Offer.objects.values("brand")
-            .annotate(total=Count("id"))
-        )
-        brand_offer_map = {i["brand"]: i["total"] for i in brand_offer_counts}
         processed = []
+        if is_discount:
+            offers = Offer.objects.filter(custom_id__in=offer_ids)
+            offers_map = {o.custom_id: o for o in offers}
+            ordered_offers = [
+                offers_map[oid] for oid in offer_ids if oid in offers_map
+            ]
 
-        for offer in ordered_offers:
-            if brand_offer_map.get(offer.brand.id, 0) > 1:
-                link = f"/brand/{offer.brand.slug}/"
-            else:
-                link = f"/offer/{offer.brand.slug}/{offer.custom_id}/"
+            brand_offer_counts = (
+                Offer.objects.values("brand")
+                .annotate(total=Count("id"))
+            )
+            brand_offer_map = {
+                i["brand"]: i["total"] for i in brand_offer_counts
+            }
 
-            offer.link = link
+            for offer in ordered_offers:
+                if brand_offer_map.get(offer.brand.id, 0) > 1:
+                    link = f"/brand/{offer.brand.slug}/"
+                else:
+                    link = f"/offer/{offer.brand.slug}/{offer.custom_id}/"
 
-            processed.append({
-                "offer": offer
-            })
+                processed.append({
+                    "link": link,
+                    "thumbnail": offer.thumbnail_image.url if offer.thumbnail_image else "",
+                    "title": offer.title,
+                    "brand": {
+                        "name": offer.brand.name
+                    }
+                })
+
+        # -----------------------------
+        # GIFTCARDS (ProviderProduct)
+        # -----------------------------
+        else:
+            giftcards = ProviderProduct.objects.filter(
+                sku__in=offer_ids,
+                in_stock=True
+            )
+            giftcard_map = {g.sku: g for g in giftcards}
+            ordered_giftcards = [
+                giftcard_map[sku] for sku in offer_ids if sku in giftcard_map
+            ]
+
+            for giftcard in ordered_giftcards:
+                processed.append({
+                    "link": f"/giftcard/{giftcard.sku}/",
+                    "thumbnail": giftcard.brand_logo or giftcard.base_image,
+                    "title": giftcard.name,
+                    "brand": {
+                        "name": giftcard.brand_name
+                    }
+                })
 
         return {
             "title": title,
@@ -377,3 +409,51 @@ class HelpCenterPageView(View):
         }
 
         return render(request, "pages/help_center_page.html", context)
+
+
+class GiftcardView(View):
+    def get(self, request):
+        context = {
+        "page_title": "Amazon Gift Card",
+        "amounts": [500, 1000, 2000, 5000],
+        "faqs": [
+            {
+                "question": "What is the validity of the Amazon shopping voucher?",
+                "answer": "The Amazon shopping voucher is valid for 1 year."
+            },
+            {
+                "question": "Can I use multiple offers?",
+                "answer": "Yes, you can combine offers."
+            }
+        ],
+        "similar_cards": [
+            {"name": "ZEPTO", "category": "E-commerce", "offer": "3% off", "color": "bg-purple-700", "initial": "Z"},
+            {"name": "Flipkart", "category": "E-commerce", "offer": "1.25% off", "color": "bg-blue-500", "initial": "F"},
+        ]
+    }
+
+        return render(request, "pages/giftcard.html", context)
+
+
+class CartView(View):
+    def get(self, request):
+        context = {
+        "page_title": "Amazon Gift Card",
+        "amounts": [500, 1000, 2000, 5000],
+        "faqs": [
+            {
+                "question": "What is the validity of the Amazon shopping voucher?",
+                "answer": "The Amazon shopping voucher is valid for 1 year."
+            },
+            {
+                "question": "Can I use multiple offers?",
+                "answer": "Yes, you can combine offers."
+            }
+        ],
+        "similar_cards": [
+            {"name": "ZEPTO", "category": "E-commerce", "offer": "3% off", "color": "bg-purple-700", "initial": "Z"},
+            {"name": "Flipkart", "category": "E-commerce", "offer": "1.25% off", "color": "bg-blue-500", "initial": "F"},
+        ]
+    }
+
+        return render(request, "pages/cart_page.html", context)

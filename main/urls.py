@@ -29,6 +29,11 @@ urlpatterns = [
 
     path('brand/<slug:brand_slug>/', BrandPageView.as_view(), name='brand_page'),
     path('help-center/<slug:slug>/', views.HelpCenterPageView.as_view(), name='help_center_page'),
+    
+    path('giftcard-page/',
+         views.GiftcardView.as_view(), name="GiftcardPage"),
+    path('cart/',
+         views.CartView.as_view(), name="CartPage"),
 
     # Redirects for old URLs to new ones
     path('all/', RedirectView.as_view(url='/category/all/', permanent=True)),
@@ -108,5 +113,6 @@ urlpatterns = [
     path('free-two-night-stay-with-etihad/', RedirectView.as_view(url='/offer/etihad/spxetihadcomp/', permanent=True)),
     path('dailyobjects/', RedirectView.as_view(url='/offer/dailyobjects/spxdailyobjects15/', permanent=True)),
     path('student-discount-dailyobjects/', RedirectView.as_view(url='/offer/dailyobjects/spxdailyobjects15/', permanent=True)),
+
 ]
 

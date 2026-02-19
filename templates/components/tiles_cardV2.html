@@ -14,7 +14,7 @@
 
     .product-image {
         width: 100%;
-        height: auto;
+        height: 130px;
         background: #ffffff;
         display: flex;
         align-items: center;
@@ -26,7 +26,9 @@
 
     .product-image img {
         border-radius: 4px;
-        object-fit: cover;
+        object-fit:fill;
+        height: fit-content;
+        padding: 1px;
     }
 
 
@@ -54,14 +56,16 @@
 <a href="{{ offer.link }}" class="giftcard">
     <div class="product-card">
         <div class="product-image">
-            <img src="{{ offer.thumbnail_image.url }}" alt="{{ offer.title }}" />
+            <img src="{{ offer.thumbnail }}" alt="{{ offer.title }}" />
         </div>
         <div class="p-2 pb-4">
             <div class="mb-3">
                 <span class="tag tag-recommended">Recommended</span>
                 <span class="tag tag-instant">Instant</span>
             </div>
-            <h3 class="font-semibold text-gray-900 text-sm pl-1">{{ offer.brand.name }}</h3>
+            <h3 class="font-semibold text-gray-900 text-sm pl-1 truncate">
+                {{ offer.brand.name|default:offer.title }}
+            </h3>
         </div>
     </div>
 </a>

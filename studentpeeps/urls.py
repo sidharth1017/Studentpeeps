@@ -26,6 +26,7 @@ urlpatterns = [
     path('account/', include('account.urls')),
     path('account/v2/', include('accounts_v2.urls')),
     path('offer/', include('brands_v2.urls')),
+    path('giftcard/', include('giftcard.urls')),
     path('event/', views.Campus.as_view(), name="Event"),
     path("", include("main.urls")),
     path('social-auth/', include('social_django.urls', namespace='social')),

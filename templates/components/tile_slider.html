@@ -25,14 +25,12 @@
 
     <!-- SLIDER -->
     <div id="offerSlider" class="flex gap-6 overflow-x-auto scroll-smooth py-6 no-scrollbar px-1">
-
-        {% for item in content.offers %}
-        {% with offer=item.offer %}
-        <div class="flex-none basis-1/5 min-w-[20%]">
-            {% include "components/tiles_cardV2.html" %}
-        </div>
-        {% endwith %}
+        {% for offer in content.offers %}
+            <div class="flex-none basis-1/5 min-w-[20%]">
+                {% include "components/tiles_cardV2.html" %}
+            </div>
         {% endfor %}
+
 
     </div>
 
