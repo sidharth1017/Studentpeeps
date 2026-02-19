@@ -20,7 +20,7 @@ urlpatterns = [
     path('google-verified/', views.GoogleVerification.as_view(), name="GoogleVerification"),
     path('contactus/', views.ContactUs.as_view(), name="ContactUs"),
     path('faq/', views.FAQ.as_view(), name="Faq"),
-    path('privacypolicy/', views.Privacy.as_view(), name="PrivacyPolicy"),
+#     path('privacypolicy/', views.Privacy.as_view(), name="PrivacyPolicy"),
     path('request-your-fav-brand/', views.Favorite.as_view(), name="Favroiute"),
     path('course-application/', views.Course.as_view(), name="Course"),
     path('resource/', views.Tools.as_view(), name="Resource"),
@@ -31,6 +31,10 @@ urlpatterns = [
          views.IdVerificationMessage.as_view(), name="IdVerificationMessage"),
 
     path('brand/<slug:brand_slug>/', BrandPageView.as_view(), name='brand_page'),
+    path('help-center/privacy-policy/', views.PrivacyPolicy.as_view(), name="PrivacyPolicy"),
+    path('help-center/refund-policy/', views.RefundPolicy.as_view(), name="RefundPolicy"),
+    path('help-center/terms-of-service/', views.TermsOfService.as_view(), name="TermsOfService"),
+
 
 
     # Redirects for old URLs to new ones

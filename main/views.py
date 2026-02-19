@@ -150,7 +150,7 @@ class Community(View):
 
 class FAQ(View):
     def get(self, request):
-        return render(request,'faq.html')
+        return render(request,'pp.html')
 
 class Privacy(View):
     def get(self, request):
@@ -311,3 +311,14 @@ class CategoryPageView(View):
         return render(request, 'pages/category_page.html', context)
 
 
+class PrivacyPolicy(View):
+    def get(self, request):
+        return render(request,'pp.html')
+
+class RefundPolicy(View):
+    def get(self, request):
+        return render(request,'rp.html')
+
+class TermsOfService(View):
+    def get(self, request):
+        return render(request,'ts.html')
