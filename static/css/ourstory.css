@@ -34,7 +34,7 @@ nav .lower-nav {
 
 .menu ul li a:hover {
   font-weight: 600;
-  color: #fdc500;
+  color: var(--primary);
 }
 
 .menu ul li a:hover::after {
@@ -42,7 +42,7 @@ nav .lower-nav {
   position: absolute;
   width: 10%;
   height: 2.5px;
-  background-color: #fdc500;
+  background-color: var(--primary);
   bottom: -7px;
   left: 50%;
   transform: translateX(-47%);
@@ -101,7 +101,7 @@ section,
 }
 
 header {
-  background-color: #4a3082;
+  background-color: var(--primary);
   position: relative;
   min-height: 65vh !important;
   margin-bottom: 280px;
@@ -141,7 +141,7 @@ header .sub-heading {
 }
 
 header button {
-  background: #fdc500;
+  background: var(--primary);
   border: none;
   width: 230px;
   border-radius: 20px;
@@ -169,7 +169,7 @@ header .heading span {
   font-size: 4rem;
   font-weight: 600;
   letter-spacing: 4px;
-  color: #fdc500;
+  color: var(--primary);
 }
 
 @media only screen and (max-width: 900px) {
@@ -572,7 +572,7 @@ header .heading span {
   width: 4px;
   top: -50px;
   bottom: -50px;
-  background-color: #4a3082;
+  background-color: var(--primary);
   display: none;
 }
 
@@ -584,7 +584,7 @@ header .heading span {
   height: 1rem;
   width: 1rem;
   border-radius: 50%;
-  background-color: #4a3082;
+  background-color: var(--primary);
   left: 50%;
   transform: translateX(-50%);
 }
@@ -616,7 +616,7 @@ header .heading span {
   height: 1rem;
   width: 1rem;
   border-radius: 50%;
-  background-color: #4a3082;
+  background-color: var(--primary);
   left: 50%;
   top: 20%;
   transform: translateX(-50%);

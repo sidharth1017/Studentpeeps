@@ -1,52 +1,247 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+
+/* 
+   STUDENTPEEPS DESIGN SYSTEM 
+   One central place for all styles.
+*/
 
 :root {
-    /* Font Variables */
-    --font-family-primary: 'Inter', sans-serif;
-    --font-family-secondary: 'Inter', sans-serif;
+    /* 
+       CORE COLORS 
+       Primary: #F5F6F7 (Background)
+       Main Font: #171717
+       Primary Accent: #0173E6
+       Secondary Accent: #EF4167
+    */
+    --background: #F5F6F7;
+    /* Light Mode Background */
+    --foreground: #171717;
+    /* Main Font */
 
-    /* Font Sizes */
-    --font-size-xs: 0.75rem;
+    --primary: #0173E6;
+    /* Primary Accent */
+    --primary-foreground: #FFFFFF;
+
+    --secondary: #EF4167;
+    /* Secondary Accent */
+    --secondary-foreground: #FFFFFF;
+
+    --muted: #E2E8F0;
+    --muted-foreground: #64748B;
+
+    --border: #D1D5DB;
+    --input: #F1F5F9;
+    --ring: var(--primary);
+
+    --radius: 0.5rem;
+    /* 8px - Industry Standard */
+
+    /* TYPOGRAPHY */
+    --font-primary: 'Plus Jakarta Sans', sans-serif;
+    --font-display: 'Playfair Display', serif;
+    --font-decorative: 'Satoshi', 'Plus Jakarta Sans', sans-serif;
+
+    /* FONT SIZES (Industry Standard Scale) */
+    --font-xs: 0.75rem;
     /* 12px */
-    --font-size-sm: 0.875rem;
+    --font-sm: 0.875rem;
     /* 14px */
-    --font-size-base: 1rem;
+    --font-base: 1rem;
     /* 16px */
-    --font-size-lg: 1.125rem;
+    --font-lg: 1.125rem;
     /* 18px */
-    --font-size-xl: 1.25rem;
+    --font-xl: 1.25rem;
     /* 20px */
-    --font-size-2xl: 1.5rem;
+    --font-2xl: 1.5rem;
     /* 24px */
-    --font-size-3xl: 1.875rem;
+    --font-3xl: 1.875rem;
     /* 30px */
-    --font-size-4xl: 2.25rem;
+    --font-4xl: 2.25rem;
     /* 36px */
-    --font-size-5xl: 3rem;
+    --font-5xl: 3rem;
     /* 48px */
 
-    /* Color Variables */
-    --primary-color: #4A3082;
-    --primary-color-hover: #542fa5;
-    --secondary-color: #542fa5;
-    /* Often used as hover state in current css */
-    --accent-color: #FDC500;
+    /* SPACING SYSTEM (Image 3 Guide) */
+    --space-2: 0.5rem;
+    /* 8px */
+    --space-3: 0.75rem;
+    /* 12px */
+    --space-4: 1rem;
+    /* 16px */
+    --space-6: 1.5rem;
+    /* 24px */
+    --space-12: 3rem;
+    /* 48px */
+    --space-16: 4rem;
+    /* 64px */
 
-    --text-color-main: #000000;
-    --text-color-light: #fff;
-    --text-color-muted: #666;
-    /* Approximation for lighter text */
+    /* LEGACY COMPATIBILITY - Keeping old vars mapped to new ones to prevent breaking other CSS */
+    --primary-color: var(--primary);
+    --secondary-color: var(--secondary);
+    --accent-color: var(--primary);
+    --font-family-primary: var(--font-primary);
+    --font-family-secondary: var(--font-primary);
+}
 
-    --bg-color-main: #fff;
-    --bg-color-secondary: #eef5f4;
-    --bg-color-footer: #31343c;
+/* BASE GLOBAL STYLES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
 }
 
 body {
-    font-family: var(--font-family-primary);
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-primary);
+    font-size: var(--font-base);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* Ensure all elements use the variable font family */
-* {
-    font-family: var(--font-family-primary);
+/* Headings use Display Font */
+h1,
+h2,
+h3,
+.heading-xl {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--foreground);
+    line-height: 1.2;
+    margin-bottom: var(--space-4);
+}
+
+h4,
+h5,
+h6,
+.heading-sm {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    color: var(--foreground);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+a:hover {
+    color: var(--primary);
+}
+
+/* BUTTONS REFACTOR */
+.btn-primary {
+    background: var(--primary) !important;
+    color: var(--primary-foreground) !important;
+    border: none !important;
+    border-radius: var(--radius) !important;
+    padding: 0.625rem 1.5rem !important;
+    font-weight: 600 !important;
+    font-family: var(--font-primary) !important;
+    transition: all 0.2s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+}
+
+.btn-primary:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(1, 115, 230, 0.25);
+}
+
+.btn-outline-primary {
+    background: transparent !important;
+    color: var(--primary) !important;
+    border: 1.5px solid var(--primary) !important;
+    border-radius: var(--radius) !important;
+    padding: 0.625rem 1.25rem !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary) !important;
+    color: var(--primary-foreground) !important;
+}
+
+/* FORM ELEMENTS */
+input,
+textarea {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.75rem 1rem;
+    font-family: var(--font-primary);
+    font-size: var(--font-base);
+    background-color: #FFFFFF;
+    transition: border-color 0.2s ease;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(1, 115, 230, 0.1);
+}
+
+/* CARDS */
+.card {
+    background-color: #FFFFFF;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: var(--space-6);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* UTILITIES */
+.text-primary {
+    color: var(--primary) !important;
+}
+
+.text-secondary {
+    color: var(--secondary) !important;
+}
+
+.bg-primary {
+    background-color: var(--primary) !important;
+    color: var(--primary-foreground) !important;
+}
+
+.bg-secondary {
+    background-color: var(--secondary) !important;
+    color: var(--secondary-foreground) !important;
+}
+
+/* SPACING HELPERS */
+.p-2 {
+    padding: var(--space-2);
+}
+
+.p-3 {
+    padding: var(--space-3);
+}
+
+.p-4 {
+    padding: var(--space-4);
+}
+
+.p-6 {
+    padding: var(--space-6);
+}
+
+.m-y-12 {
+    margin-top: var(--space-12);
+    margin-bottom: var(--space-12);
+}
+
+.m-y-16 {
+    margin-top: var(--space-16);
+    margin-bottom: var(--space-16);
 }

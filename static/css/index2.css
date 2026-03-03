@@ -461,7 +461,7 @@ a {
 }
 
 .section-tiles a.view-all button.view-all-btn {
-  background: #4a3082;
+  background: var(--primary);
   padding: 19px 16px;
   display: flex;
   border-radius: 5px;
@@ -587,7 +587,7 @@ a {
   left: 50%;
   transform: translate(-50%, 0%);
   border-radius: 5px;
-  border-bottom: 4px solid #4a308278;
+  border-bottom: 4px solid var(--primary)78;
   background-color: #fff;
   padding: 10px;
   z-index: 5;
@@ -619,7 +619,7 @@ a {
 
 .tiles-card-heading {
   font-size: 21px;
-  color: #4a3082;
+  color: var(--primary);
   text-align: center;
   margin: 20px 0;
   margin-bottom: 30px;
@@ -724,7 +724,7 @@ a {
 .toggle {
   position: absolute;
   width: 50%;
-  background: #4a3082;
+  background: var(--primary);
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
   transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -787,7 +787,7 @@ a {
 }
 
 .section-feature a.view-all button.view-all-btn {
-  background: #4a3082;
+  background: var(--primary);
   padding: 19px 16px;
   display: flex;
   border-radius: 5px;
@@ -1203,7 +1203,7 @@ a {
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  background-color: #4a3082;
+  background-color: var(--primary);
 }
 
 .section-header .home-content .left-cont .home-btns .community-link:hover {

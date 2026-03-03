@@ -72,7 +72,7 @@ body.active::before {
 
 .content p a {
   text-decoration: underline;
-  color: #542fa5;
+  color: var(--primary);
 }
 
 .complete {

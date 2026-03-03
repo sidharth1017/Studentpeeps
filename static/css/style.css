@@ -65,7 +65,7 @@ nav .menu-cont ul li {
 }
 
 nav .menu-cont ul li a:hover {
-  color: #542fa5;
+  color: var(--primary);
 }
 
 nav .menu-cont ul li a {
@@ -153,7 +153,7 @@ nav .upper-nav .menu-list ul li a {
 }
 
 nav .upper-nav .menu-list ul li a:hover {
-  color: #542fa5;
+  color: var(--primary);
   font-weight: 600;
 }
 
@@ -162,7 +162,7 @@ nav .upper-nav .menu-list ul li a:hover::after {
   position: absolute;
   width: 10%;
   height: 2.5px;
-  background-color: #542fa5;
+  background-color: var(--primary);
   bottom: -7px;
   left: 50%;
   transform: translateX(-50%);
@@ -176,7 +176,7 @@ nav .upper-nav .menu-list ul li a:hover::after {
 }
 
 nav .upper-nav .account-btns .login a:hover {
-  color: #542fa5;
+  color: var(--primary);
 }
 
 nav .upper-nav .account-btns span a {
@@ -323,7 +323,7 @@ nav .lower-nav ul li a {
   position: relative;
 }
 nav .lower-nav ul li a:hover {
-  color: #542fa5;
+  color: var(--primary);
   font-weight: 600;
 }
 
@@ -442,7 +442,7 @@ nav .upper-nav .search {
 }
 
 .brand-names a:hover {
-  color: #4a3082;
+  color: var(--primary);
   text-decoration: none;
 }
 
