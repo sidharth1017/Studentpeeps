@@ -1,4 +1,5 @@
 {% extends 'base.html' %} {% load static %}
+
 {% block metatags %}
 <meta name="description"
     content="Get FREE Student Discounts on your favorite brands like Bewakoof, Rapido Bike Taxi & Bitclass. Student discount for samsung, Oneplus student discount, Apple Student Discount." />
@@ -19,26 +20,424 @@
 {% block title %}Student Peeps: Free Student Discounts | Student Deals & Offers{% endblock %}
 
 {% block linkshead %}
+<style>
+    :root {
+        --background: #ffffff;
+        --foreground: #020817;
+        --muted: #f1f5f9;
+        --muted-foreground: #64748b;
+        --popover: #ffffff;
+        --popover-foreground: #020817;
+        --border: #e2e8f0;
+        --input: #e2e8f0;
+        --card: #ffffff;
+        --card-foreground: #020817;
+        --primary: #3b82f6;
+        --primary-foreground: #ffffff;
+        --secondary: #f1f5f9;
+        --secondary-foreground: #0f172a;
+        --accent: #f1f5f9;
+        --accent-foreground: #0f172a;
+        --destructive: #ff4444;
+        --destructive-foreground: #ffffff;
+        --ring: #94a3b8;
+        --radius: 0.5rem;
+    }
 
+    @keyframes marquee {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    .animate-marquee {
+        display: flex;
+        width: max-content;
+        animation: marquee 40s linear infinite;
+    }
+
+    .animate-marquee:hover {
+        animation-play-state: paused;
+    }
+
+    /* Fireworks Animations */
+    @keyframes fw-launch {
+        0% {
+            height: 0;
+            opacity: 0;
+            bottom: 0;
+        }
+
+        40% {
+            height: 120px;
+            opacity: 0.8;
+            bottom: 40%;
+        }
+
+        60% {
+            height: 0;
+            opacity: 0;
+            bottom: 80%;
+        }
+
+        100% {
+            height: 0;
+            opacity: 0;
+            bottom: 80%;
+        }
+    }
+
+    @keyframes fw-spark {
+        0% {
+            transform: translate(0, 0) scale(0);
+            opacity: 0;
+        }
+
+        10% {
+            transform: translate(0, 0) scale(1.4);
+            opacity: 1;
+        }
+
+        100% {
+            transform: translate(var(--dx), var(--dy)) scale(0);
+            opacity: 0;
+        }
+    }
+
+    .firework-container {
+        position: absolute;
+        bottom: 0;
+        left: var(--x);
+        width: 2px;
+        height: 120px;
+        background: linear-gradient(to top, transparent, var(--color));
+        opacity: 0;
+        animation: fw-launch 3.5s infinite var(--delay);
+    }
+
+    .spark {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: var(--color);
+        left: var(--x);
+        top: var(--y);
+        opacity: 0;
+        animation: fw-spark 2.5s infinite var(--delay);
+    }
+
+    /* Floating Joy Section Confetti */
+    @keyframes float-dot {
+
+        0%,
+        100% {
+            transform: translate(0, 0) scale(1);
+        }
+
+        50% {
+            transform: translate(4px, -8px) scale(1.3);
+        }
+    }
+
+    .confetti-dot {
+        position: absolute;
+        border-radius: 50%;
+        animation: float-dot 3s ease-in-out infinite;
+    }
+
+    .hero-gradient-text {
+        background: linear-gradient(to right, #f97316, #f43f5e, #8b5cf6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .category-card:hover .chevron-icon {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+    }
+
+    .chevron-icon {
+        transition: all 0.3s ease;
+        transform: translateY(-50%) translateX(-4px);
+        opacity: 0;
+    }
+</style>
 {% endblock %}
 
 {% block body %}
+<div class="min-h-screen bg-white">
+    <!-- FESTIVE HERO -->
+    <section class="relative overflow-hidden bg-white">
+        <div class="absolute inset-0 pointer-events-none overflow-hidden">
+            <!-- Simulated Fireworks -->
+            <div class="firework-container" style="--x: 12%; --color: #FF6B35; --delay: 0s;"></div>
+            <div class="firework-container" style="--x: 30%; --color: #7B2FF7; --delay: 1.8s;"></div>
+            <div class="firework-container" style="--x: 50%; --color: #00C2FF; --delay: 0.6s;"></div>
+            <div class="firework-container" style="--x: 70%; --color: #FF3366; --delay: 3.2s;"></div>
+            <div class="firework-container" style="--x: 88%; --color: #FFB800; --delay: 2.0s;"></div>
+        </div>
 
-{% for block in layouts %}
+        <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 sm:pt-28 lg:pt-36 pb-4">
+            <div class="text-center max-w-3xl mx-auto">
+                <div class="mb-8 flex justify-center">
+                    <span
+                        class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gray-100 text-sm font-medium text-gray-800">
+                        <i data-lucide="star" class="h-3 w-3 fill-amber-400 text-amber-400"></i>
+                        500+ Premium Brands
+                    </span>
+                </div>
 
-{% if block.layoutType == "carousel" %}
-{% include "components/main_slider.html" with images=block.content.images %}
-{% elif block.layoutType == "category_carousel" %}
-{% include "components/category_slider.html" with category_section=block.content.slider %}
-{% elif block.layoutType == "custom_html" %}
-<div class="w-full">
-    {{ block.html|safe }}
+                <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight mb-6 leading-[1.2] pb-1">
+                    <span class="block text-gray-900">Gifts to spark</span>
+                    <span class="block italic font-serif hero-gradient-text pb-2">joy.</span>
+                </h1>
+
+                <p class="text-base sm:text-lg text-gray-500 max-w-xl mx-auto mb-10 leading-relaxed">
+                    Discover gift cards from 500+ of the world's most loved brands. Instant delivery, no fees,
+                    guaranteed smiles.
+                </p>
+
+                <div class="flex flex-wrap items-center justify-center gap-3">
+                    <a href="/explore">
+                        <button
+                            class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-blue-600 hover:bg-blue-700 focus:shadow-outline focus:outline-none">
+                            Explore All Cards
+                            <i data-lucide="arrow-right" class="ml-2 h-4 w-4"></i>
+                        </button>
+                    </a>
+                    <a href="/explore?category=exclusive">
+                        <button
+                            class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-gray-800 transition duration-200 rounded border border-gray-300 hover:bg-gray-50 focus:shadow-outline focus:outline-none">
+                            <i data-lucide="gift" class="mr-2 h-4 w-4"></i>
+                            Popular Gifts
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Browse Brands/Categories -->
+        <div class="relative z-10 mt-8 sm:mt-12">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <p class="text-center text-[10px] font-semibold text-gray-400 mb-4 uppercase tracking-[0.2em]">
+                    Quick Browse
+                </p>
+                <div class="flex flex-wrap justify-center gap-2 max-w-5xl mx-auto pb-12">
+                    {% for cat in categories|slice:":12" %}
+                    <a href="/explore?category={{ cat.category_id }}">
+                        <button
+                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-gray-200 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                            <i data-lucide="{{ cat.lucide_icon }}" class="h-3.5 w-3.5 text-gray-500"></i>
+                            {{ cat.name }}
+                        </button>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BRAND MARQUEE -->
+    <section class="py-6 bg-white overflow-hidden border-y border-gray-100">
+        <div class="relative">
+            <div class="animate-marquee gap-6">
+                {% for brand in top_brands %}
+                <div class="flex-shrink-0 flex items-center gap-3 px-5 py-3 rounded-xl bg-gray-50 shadow-sm">
+                    <div class="w-8 h-8 rounded-md flex items-center justify-center overflow-hidden bg-white p-1">
+                        {% if brand.logo %}
+                        <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="w-full h-full object-contain">
+                        {% else %}
+                        <i data-lucide="gift" class="h-4 w-4 text-gray-400"></i>
+                        {% endif %}
+                    </div>
+                    <span class="text-sm font-semibold text-gray-800">{{ brand.name }}</span>
+                </div>
+                {% endfor %}
+                <!-- Duplicate for seamless loop -->
+                {% for brand in top_brands %}
+                <div class="flex-shrink-0 flex items-center gap-3 px-5 py-3 rounded-xl bg-gray-50 shadow-sm">
+                    <div class="w-8 h-8 rounded-md flex items-center justify-center overflow-hidden bg-white p-1">
+                        {% if brand.logo %}
+                        <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="w-full h-full object-contain">
+                        {% else %}
+                        <i data-lucide="gift" class="h-4 w-4 text-gray-400"></i>
+                        {% endif %}
+                    </div>
+                    <span class="text-sm font-semibold text-gray-800">{{ brand.name }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- BENEFITS SECTION -->
+    <section class="py-12 sm:py-16">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+                <div class="flex flex-col items-center text-center group">
+                    <div
+                        class="w-14 h-14 rounded-full bg-amber-50 flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+                        <i data-lucide="zap" class="h-6 w-6 text-amber-500"></i>
+                    </div>
+                    <h3 class="font-bold text-sm sm:text-base text-gray-900">Instant Delivery</h3>
+                    <p class="text-xs sm:text-sm text-gray-500 mt-1">Get codes in seconds</p>
+                </div>
+                <div class="flex flex-col items-center text-center group">
+                    <div
+                        class="w-14 h-14 rounded-full bg-emerald-50 flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+                        <i data-lucide="shield" class="h-6 w-6 text-emerald-500"></i>
+                    </div>
+                    <h3 class="font-bold text-sm sm:text-base text-gray-900">100% Secure</h3>
+                    <p class="text-xs sm:text-sm text-gray-500 mt-1">Safe & encrypted</p>
+                </div>
+                <div class="flex flex-col items-center text-center group">
+                    <div
+                        class="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+                        <i data-lucide="clock" class="h-6 w-6 text-blue-500"></i>
+                    </div>
+                    <h3 class="font-bold text-sm sm:text-base text-gray-900">No Expiry</h3>
+                    <p class="text-xs sm:text-sm text-gray-500 mt-1">Use anytime</p>
+                </div>
+                <div class="flex flex-col items-center text-center group">
+                    <div
+                        class="w-14 h-14 rounded-full bg-orange-50 flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+                        <i data-lucide="trending-up" class="h-6 w-6 text-orange-500"></i>
+                    </div>
+                    <h3 class="font-bold text-sm sm:text-base text-gray-900">Best Prices</h3>
+                    <p class="text-xs sm:text-sm text-gray-500 mt-1">Guaranteed value</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DYNAMIC BLOCKS (Trending Now, etc.) -->
+    <div class="dynamic-blocks-container">
+        {% for block in layouts %}
+        {% if block.layoutType == "carousel" %}
+        {% include "components/main_slider.html" with images=block.content.images %}
+        {% elif block.layoutType == "category_carousel" %}
+        {% include "components/category_slider.html" with category_section=block.content.slider %}
+        {% elif block.layoutType == "custom_html" %}
+        <div class="w-full">
+            {{ block.html|safe }}
+        </div>
+        {% elif block.layoutType == "tile_slider" %}
+        <!-- Special styling for specific sections from React home.tsx -->
+        <div class="py-10">
+            {% include "components/tile_slider.html" with content=block.content %}
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- SHOP BY CATEGORY -->
+    <section class="py-16 sm:py-24 bg-gray-50/50">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span
+                    class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-blue-50 text-xs font-semibold text-blue-600 mb-4">
+                    <i data-lucide="sparkles" class="h-3 w-3"></i>
+                    Browse by Category
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">Shop by Category</h2>
+                <p class="text-gray-500 max-w-lg mx-auto">Find the perfect gift card for every occasion and every person
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                {% for cat in categories %}
+                <a href="/explore?category={{ cat.category_id }}" class="group category-card">
+                    <div
+                        class="relative p-6 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+                            <i data-lucide="{{ cat.lucide_icon }}" class="h-6 w-6 text-gray-700"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-900">{{ cat.name }}</h3>
+                        <p class="text-xs text-gray-400 mt-1">Explore Deals</p>
+
+                        <div class="chevron-icon absolute top-1/2 right-6 -translate-y-1/2">
+                            <i data-lucide="chevron-right" class="h-5 w-5 text-gray-300"></i>
+                        </div>
+
+                        <!-- Mini Gradient Accent -->
+                        <div
+                            class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gray-100 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- JOY CTA -->
+    <section class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl">
+            <div class="relative rounded-3xl overflow-hidden bg-gray-900 py-16 sm:py-24 px-8 text-center shadow-2xl">
+                <!-- Confetti/Dots simulated -->
+                <div class="absolute inset-0 opacity-20 pointer-events-none">
+                    <div class="confetti-dot"
+                        style="left: 10%; top: 20%; width: 6px; height: 6px; background: #FF6B35;"></div>
+                    <div class="confetti-dot"
+                        style="left: 80%; top: 15%; width: 8px; height: 8px; background: #7B2FF7;"></div>
+                    <div class="confetti-dot"
+                        style="left: 25%; top: 75%; width: 5px; height: 5px; background: #00C2FF;"></div>
+                    <div class="confetti-dot"
+                        style="left: 70%; top: 80%; width: 7px; height: 7px; background: #FF3366;"></div>
+                </div>
+
+                <div class="relative z-10 max-w-2xl mx-auto">
+                    <div class="flex justify-center mb-8">
+                        <div
+                            class="w-20 h-20 rounded-full bg-gradient-to-br from-orange-400 via-pink-500 to-violet-500 flex items-center justify-center animate-bounce duration-3000">
+                            <i data-lucide="party-popper" class="h-10 w-10 text-white"></i>
+                        </div>
+                    </div>
+
+                    <h2 class="text-3xl sm:text-5xl font-extrabold text-white mb-6 leading-tight">
+                        Gifts full of <span class="italic font-serif text-pink-400">joy.</span>
+                    </h2>
+                    <p class="text-gray-400 text-lg mb-10 max-w-lg mx-auto">
+                        Browse our collection of 500+ premium gift cards and find the perfect surprise for anyone, any
+                        occasion.
+                    </p>
+
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a href="/explore">
+                            <button
+                                class="inline-flex items-center justify-center h-14 px-8 font-bold tracking-wide text-gray-900 transition duration-200 rounded-full shadow-lg bg-white hover:bg-gray-100">
+                                Browse Gift Cards
+                                <i data-lucide="arrow-right" class="ml-2 h-5 w-5"></i>
+                            </button>
+                        </a>
+                        <a href="/explore?category=exclusive">
+                            <button
+                                class="inline-flex items-center justify-center h-14 px-8 font-bold tracking-wide text-white transition duration-200 rounded-full border-2 border-white/20 hover:bg-white/5">
+                                <i data-lucide="gift" class="mr-2 h-5 w-5"></i>
+                                Gift Ideas
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
-{% elif block.layoutType == "tile_slider" %}
-    {% include "components/tile_slider.html" with content=block.content %}
-{% endif %}
-
-{% endfor %}
-
-
 {% endblock %}

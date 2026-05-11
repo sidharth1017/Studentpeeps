@@ -77,6 +77,7 @@ TEMPLATES = [
                 'django.template.context_processors.media',
                 'brands_v2.context_processors.search_offers',
                 'brands_v2.context_processors.categories',
+                'giftcard.context_processors.cart_count',
             ],
         },
     },
@@ -248,4 +249,18 @@ WOOHOO_BASE_URL = "https://sandbox.woohoo.in"
 WOOHOO_CLIENT_ID = config("WOOHOO_CLIENT_ID")
 WOOHOO_CLIENT_SECRET = config("WOOHOO_CLIENT_SECRET")
 WOOHOO_USERNAME = config("WOOHOO_USERNAME")
-WOOHOO_PASSWORD = config("WOOHOO_PASSWORD") 
+WOOHOO_PASSWORD = config("WOOHOO_PASSWORD")
+
+# Payment Gateway Config
+# Active gateway: one of the keys in giftcard/payments/registry.py
+# Switch between "razorpay" and "payu" here — no other change needed
+ACTIVE_PAYMENT_GATEWAY = "payu"
+
+# Razorpay (disabled but kept for easy switching)
+RAZORPAY_KEY_ID     = config("RAZORPAY_KEY_ID")
+RAZORPAY_KEY_SECRET = config("RAZORPAY_KEY_SECRET")
+
+# PayU India
+PAYU_MERCHANT_KEY  = config("PAYU_MERCHANT_KEY")
+PAYU_MERCHANT_SALT = config("PAYU_MERCHANT_SALT")
+PAYU_USE_TEST      = True   # Set False for production

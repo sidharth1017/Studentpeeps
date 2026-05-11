@@ -4,60 +4,60 @@
 <html lang="en">
 
 <head>
-    <!-- Default Meta Tags -->
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, user-scalable=no" />
-    <meta name="author" content="Ayush Kumar Mittal | Sidharth Verma" />
-    <meta name="publisher" content="StudentPeeps" />
-    <meta name="copyright" content="StudentPeeps" />
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta property="og:type" content="website">
-    <!-- Default Meta Tags End -->
+  <!-- Default Meta Tags -->
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, user-scalable=no" />
+  <meta name="author" content="Ayush Kumar Mittal | Sidharth Verma" />
+  <meta name="publisher" content="StudentPeeps" />
+  <meta name="copyright" content="StudentPeeps" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta property="og:type" content="website">
+  <!-- Default Meta Tags End -->
 
-    <!-- Dynamic Meta Tags  -->
-    {% block metatags %}
-    <meta name="description"
-        content="Get FREE Student Discounts on your favorite brands like Bewakoof, Rapido Bike Taxi & Bitclass. Student discount for samsung, Oneplus student discount, Apple Student Discount." />
-    <meta name="keywords"
-        content="Student Discounts, Student Deals, Bewakoof, Rapido, Bitclass, Samsung, Oneplus, Apple" />
-    {% endblock %}
-    <!-- Dynamic Meta Tags End -->
+  <!-- Dynamic Meta Tags  -->
+  {% block metatags %}
+  <meta name="description"
+    content="Get FREE Student Discounts on your favorite brands like Bewakoof, Rapido Bike Taxi & Bitclass. Student discount for samsung, Oneplus student discount, Apple Student Discount." />
+  <meta name="keywords"
+    content="Student Discounts, Student Deals, Bewakoof, Rapido, Bitclass, Samsung, Oneplus, Apple" />
+  {% endblock %}
+  <!-- Dynamic Meta Tags End -->
 
-    <!-- Dynamic OG Meta Tags -->
-    {% block ogmetatags %}
-    <meta property="og:title" content="Student Peeps: Free Student Discounts | Student Deals & Offers">
-    <meta property="og:description"
-        content="Get FREE Student Discounts on your favorite brands like Bewakoof, Rapido Bike Taxi & Bitclass. Student discount for samsung, Oneplus student discount, Apple Student Discount.">
-    <meta property="og:image"
-        content="https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/ogimages/ogImage.jpg">
-    <meta property="og:url" content="{{ request.build_absolute_uri }}">
-    <link rel="canonical" href="{{ request.build_absolute_uri }}">
-    {% endblock %}
-    <!-- Dynamic OG Meta Tags End -->
+  <!-- Dynamic OG Meta Tags -->
+  {% block ogmetatags %}
+  <meta property="og:title" content="Student Peeps: Free Student Discounts | Student Deals & Offers">
+  <meta property="og:description"
+    content="Get FREE Student Discounts on your favorite brands like Bewakoof, Rapido Bike Taxi & Bitclass. Student discount for samsung, Oneplus student discount, Apple Student Discount.">
+  <meta property="og:image"
+    content="https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/ogimages/ogImage.jpg">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+  {% endblock %}
+  <!-- Dynamic OG Meta Tags End -->
 
-    <!-- Title tag -->
-    <title>{% block title %}Student Peeps: Free Student Discounts | Student Deals & Offers {% endblock %}</title>
-    <!-- Title tag End -->
+  <!-- Title tag -->
+  <title>{% block title %}Student Peeps: Free Student Discounts | Student Deals & Offers {% endblock %}</title>
+  <!-- Title tag End -->
 
-    <!-- Favicon logo -->
-    <link rel="icon" href="https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/ogimages/favicon_sp.png"
-        type="image/x-icon" />
-    <!-- Favicon logo End -->
+  <!-- Favicon logo -->
+  <link rel="icon" href="https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/ogimages/favicon_sp.png"
+    type="image/x-icon" />
+  <!-- Favicon logo End -->
 
-    <!-- Extra Links -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css" />
+  <!-- Extra Links -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css" />
 
-    <link rel="stylesheet" href="{% static 'css/common.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 
-    {% block linkshead %} {% endblock %}
-    <!-- Extra Links End-->
+  {% block linkshead %} {% endblock %}
+  <!-- Extra Links End-->
 
-    <!-- Schema -->
-    <script type="application/ld+json">
+  <!-- Schema -->
+  <script type="application/ld+json">
         {
             "@context": "http://schema.org",
             "@type": "Organization",
@@ -72,276 +72,241 @@
             ]
         }
     </script>
-    <!-- Schema End -->
+  <!-- Schema End -->
 
 
-    <!-- External Tools Tags -->
-    <!-- Admitad Meta Tag -->
-    <meta name="verify-admitad" content="2f25458370" />
-    <!-- Google Ads -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3076555873685321"
-        crossorigin="anonymous"></script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BHZQN087SM"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
+  <!-- External Tools Tags -->
+  <!-- Admitad Meta Tag -->
+  <meta name="verify-admitad" content="2f25458370" />
+  <!-- Google Ads -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3076555873685321"
+    crossorigin="anonymous"></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BHZQN087SM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-        gtag('config', 'G-BHZQN087SM');
-    </script>
-    <!-- Global site tag (gtag.js) - Google Analytics End-->
-    <!-- Microsoft clarity -->
-    <script type="text/javascript">
-        (function (c, l, a, r, i, t, y) {
-            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
-            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
-            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-        })(window, document, "clarity", "script", "9wwvdrkk9g");
-    </script>
-    <!-- Microsoft clarity -->
-    <!-- Google Tag Manager -->
-    <script>(function (w, d, s, l, i) {
-            w[l] = w[l] || []; w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
-            }); var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-KBJVJMV');</script>
-    <!-- End Google Tag Manager -->
-    <!-- Mixpanel -->
-    <script type="text/javascript">
-        (function (f, b) {
-            if (!b.__SV) {
-                var e, g, i, h; window.mixpanel = b; b._i = []; b.init = function (e, f, c) {
-                    function g(a, d) { var b = d.split("."); 2 == b.length && (a = a[b[0]], d = b[1]); a[d] = function () { a.push([d].concat(Array.prototype.slice.call(arguments, 0))) } } var a = b; "undefined" !== typeof c ? a = b[c] = [] : c = "mixpanel"; a.people = a.people || []; a.toString = function (a) { var d = "mixpanel"; "mixpanel" !== c && (d += "." + c); a || (d += " (stub)"); return d }; a.people.toString = function () { return a.toString(1) + ".people (stub)" }; i = "disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" ");
-                    for (h = 0; h < i.length; h++)g(a, i[h]); var j = "set set_once union unset remove delete".split(" "); a.get_group = function () { function b(c) { d[c] = function () { call2_args = arguments; call2 = [c].concat(Array.prototype.slice.call(call2_args, 0)); a.push([e, call2]) } } for (var d = {}, e = ["get_group"].concat(Array.prototype.slice.call(arguments, 0)), c = 0; c < j.length; c++)b(j[c]); return d }; b._i.push([e, f, c])
-                }; b.__SV = 1.2; e = f.createElement("script"); e.type = "text/javascript"; e.async = !0; e.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ?
-                    MIXPANEL_CUSTOM_LIB_URL : "file:" === f.location.protocol && "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//) ? "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js" : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; g = f.getElementsByTagName("script")[0]; g.parentNode.insertBefore(e, g)
-            }
-        })(document, window.mixpanel || []);
-        // Enabling the debug mode flag is useful during implementation,
-        // but it's recommended you remove it for production
-        mixpanel.init('ae951e0474b40c3f8ec27f8cc4151f16', { debug: true });
-        mixpanel.track('Visitor', {
-            'source': "Pat's affiliate site",
-            'Opted out of email': true,
-        });
-    </script>
-    <!-- Mixpanel -->
-    <!-- Google optimise -->
-    <script src="https://www.googleoptimize.com/optimize.js?id=OPT-P5QV7J7"></script>
-    <!-- Google optimise -->
-    <!-- External Tools Tags End -->
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Tailwind CSS End -->
+    gtag('config', 'G-BHZQN087SM');
+  </script>
+  <!-- Global site tag (gtag.js) - Google Analytics End-->
+  <!-- Microsoft clarity -->
+  <script type="text/javascript">
+    (function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+      t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", "9wwvdrkk9g");
+  </script>
+  <!-- Microsoft clarity -->
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-KBJVJMV');</script>
+  <!-- End Google Tag Manager -->
+  <!-- Mixpanel -->
+  <script type="text/javascript">
+    (function (f, b) {
+      if (!b.__SV) {
+        var e, g, i, h; window.mixpanel = b; b._i = []; b.init = function (e, f, c) {
+          function g(a, d) { var b = d.split("."); 2 == b.length && (a = a[b[0]], d = b[1]); a[d] = function () { a.push([d].concat(Array.prototype.slice.call(arguments, 0))) } } var a = b; "undefined" !== typeof c ? a = b[c] = [] : c = "mixpanel"; a.people = a.people || []; a.toString = function (a) { var d = "mixpanel"; "mixpanel" !== c && (d += "." + c); a || (d += " (stub)"); return d }; a.people.toString = function () { return a.toString(1) + ".people (stub)" }; i = "disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" ");
+          for (h = 0; h < i.length; h++)g(a, i[h]); var j = "set set_once union unset remove delete".split(" "); a.get_group = function () { function b(c) { d[c] = function () { call2_args = arguments; call2 = [c].concat(Array.prototype.slice.call(call2_args, 0)); a.push([e, call2]) } } for (var d = {}, e = ["get_group"].concat(Array.prototype.slice.call(arguments, 0)), c = 0; c < j.length; c++)b(j[c]); return d }; b._i.push([e, f, c])
+        }; b.__SV = 1.2; e = f.createElement("script"); e.type = "text/javascript"; e.async = !0; e.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ?
+          MIXPANEL_CUSTOM_LIB_URL : "file:" === f.location.protocol && "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//) ? "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js" : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; g = f.getElementsByTagName("script")[0]; g.parentNode.insertBefore(e, g)
+      }
+    })(document, window.mixpanel || []);
+    // Enabling the debug mode flag is useful during implementation,
+    // but it's recommended you remove it for production
+    mixpanel.init('ae951e0474b40c3f8ec27f8cc4151f16', { debug: true });
+    mixpanel.track('Visitor', {
+      'source': "Pat's affiliate site",
+      'Opted out of email': true,
+    });
+  </script>
+  <!-- Mixpanel -->
+  <!-- Google optimise -->
+  <script src="https://www.googleoptimize.com/optimize.js?id=OPT-P5QV7J7"></script>
+  <!-- Google optimise -->
+  <!-- External Tools Tags End -->
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind CSS End -->
 
-    <style>
-        /* Modern Design System overrides and layout fixes */
-        .new_footer_area {
-            margin-top: 100px;
-            border-top: 1px solid var(--border);
-        }
-    </style>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Lucide Icons End -->
+
+  <style>
+    /* Modern Design System overrides and layout fixes */
+    .new_footer_area {
+      margin-top: 100px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
 
 </head>
 
 <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBJVJMV" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KBJVJMV" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
-    <!-- Navbar Start -->
-    <nav>
-        <!-- Menu in Mobile View -->
-        <div class="menu-cont">
-            <div class="blank-card">
-            </div>
-            <ul>
-                <li><a href="/">&nbsp;Home</a></li>
-                <li><a href="/ourstory/">&nbsp;Our story</a></li>
-                {% if user.is_authenticated %}
-                <li><a href="/account/logout">&nbsp;Logout</a></li>
-                {% else %}
-                <li><a class="menu-login" href="/account/v2/identify">&nbsp;Login/Sign up</a>
-                    {% endif %}
-            </ul>
-            <hr>
-            <div class="search-cont">
-                <div class="search-input">
-                    <input type="text" placeholder="Search" />
-                    <i class="fa fa-search"></i>
-                </div>
-                <div class="brand-list">
-                    <span class="brand-list-heading">Recommended for you</span>
-                    <div class="brand-names">
-                        {% for offer in search_offers %}
-                        <a href="{{ offer.link }}">
-                            <li>
-                                <div class="brand-img">
-                                    <img src="{{ offer.brand.logo.url }}" alt="{{ offer.brand.name }}">
-                                </div>
-                                <div class="brand-text">
-                                    <span class="brand-name">{{ offer.brand.name }}</span>
-                                    <span class="discount-info">{{ offer.title }}</span>
-                                </div>
-                            </li>
-                        </a>
-                        {% empty %}
-                        <p>No recommended offers available.</p>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
+  <!-- Navbar Start -->
+  <header class="sticky top-0 z-[999] w-full border-b bg-[var(--background)]/95 backdrop-blur-xl">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between gap-4">
+        <div class="flex items-center gap-8">
+          <a href="/" class="flex items-center gap-2">
+            <img src="{% static 'images/sp_logo.png' %}" alt="StudentPeeps" class="h-8 w-auto" />
+            <span class="text-lg font-bold tracking-tight hidden sm:inline">
+              <span class="text-[var(--primary)]">Student</span><span>Peeps</span>
+            </span>
+          </a>
+
+          <nav class="hidden md:flex items-center gap-1">
+            <a href="/">
+              <button
+                class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-[var(--muted)] hover:text-[var(--foreground)] h-9 px-3 {% if request.path == '/' %}bg-[var(--muted)] text-[var(--foreground)]{% endif %}">
+                Home
+              </button>
+            </a>
+            <a href="{% url 'giftcard:explore' %}">
+              <button
+                class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-[var(--muted)] hover:text-[var(--foreground)] h-9 px-3 {% if '/giftcard/explore' in request.path %}bg-[var(--muted)] text-[var(--foreground)]{% endif %}">
+                Explore
+              </button>
+            </a>
+          </nav>
         </div>
+
+        <div class="hidden md:flex items-center flex-1 max-w-md mx-4">
+          <form action="{% url 'giftcard:explore' %}" method="GET" class="w-full relative">
+            <div
+              class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-[var(--muted-foreground)]">
+              <i data-lucide="search" class="w-4 h-4"></i>
+            </div>
+            <input type="search" name="search" placeholder="Search gift cards..."
+              class="flex h-10 w-full rounded-md border border-[var(--muted)] bg-[var(--muted)]/50 pr-3 pl-10 py-2 text-sm placeholder:text-[var(--muted-foreground)] focus-visible:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
+          </form>
         </div>
-        <div class="menu-overlay">
-        </div>
-        <!-- Upper Nav -->
-        <div class="upper-nav">
-            <div class="menu-icon">
-                {% if user.is_authenticated %}
-                <i class="fa fa-bars"></i>
-                {% else %}
-                <i class="fa fa-bars notification"></i>
-                {% endif %}
-            </div>
-            <div class="sp-logo">
-                <a href="/">
-                    <img src="/static/images/sp_logo.png" alt="" />
-                </a>
-            </div>
-            <div class="menu-list">
-                <ul>
-                    <li><a href="/">&nbsp;Home</a></li>
-                    <li><a href="/ourstory/">&nbsp;Our story</a></li>
-                </ul>
-            </div>
-            <div class="account-btns">
-                {% if user.is_authenticated %}
-                <span class="user-name">
-                    <a href="/account/v2/myaccount">
-                        {% if user.first_name %}
-                        {{ user.first_name }}
-                        {% else %}
-                        <i class="uil uil-user-circle nav-item"></i>
-                        {% endif %}
-                    </a>
+
+        <div class="flex items-center gap-2">
+          <button
+            class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-[var(--muted)] hover:text-[var(--foreground)] h-10 w-10 md:hidden"
+            onclick="document.querySelector('.search-mobile-panel').classList.toggle('hidden');">
+            <i data-lucide="search" class=""></i>
+          </button>
+
+          <a href="/giftcard/cart/" class="relative group">
+            <button
+              class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-[var(--muted)] hover:text-[var(--foreground)] h-10 w-10 relative">
+              <i data-lucide="shopping-bag" class=""></i>
+              <span id="cartCountBadge"
+                class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[var(--primary)] text-[10px] font-bold text-white {% if not global_cart_count %}hidden{% endif %}">
+                {{ global_cart_count|default:"0" }}
+              </span>
+            </button>
+          </a>
+
+          {% if user.is_authenticated %}
+          <div class="relative group user-dropdown-container">
+            <a href="/account/v2/myaccount/" class="block">
+              <button
+                class="inline-flex items-center justify-center rounded-full text-sm font-medium transition-colors hover:bg-[var(--muted)] h-10 w-10 bg-[var(--muted)]">
+                <span
+                  class="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--primary)] text-white text-xs font-bold uppercase">
+                  {{ user.first_name|default:"U"|slice:":1" }}
                 </span>
-
-                <span class="logout log-btn">
-                    <a href="/account/logout">
-                        <i class="fa fa-user-circle"></i>
-                        <span>Logout</span></a>
-                </span>
-                <div class="account-cont">
-                    <i class="fa fa-user-circle"></i>
-                    <div class="account-dropdown">
-                        <div class="account-user-name">
-                            <span>{{user.first_name}}</span>
-                        </div>
-                        <div class="account-list">
-                            <a href="/account/v2/myaccount">
-                                <i class="fa fa-user-circle"></i><span>My account</span>
-                            </a>
-                        </div>
-                        <div class="account-list">
-                            <a href="/account/logout">
-                                <i class="fa fa-sign-out"></i><span>Logout</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                {% else %}
-                <span class="signup">
-                    <a class="btn btn-outline-primary" href="/account/v2/identify">Login/Sign Up</a>
-                </span>
-                {% endif %}
-                </ul>
+              </button>
+            </a>
+            <div
+              class="absolute right-0 top-full mt-2 w-48 rounded-md border bg-white p-1 shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+              <div class="px-2 py-1.5">
+                <p class="text-sm font-medium text-black">{{ user.first_name }} {{ user.last_name }}</p>
+                <p class="text-xs text-gray-500">{{ user.email }}</p>
+              </div>
+              <a href="/account/v2/myaccount/"
+                class="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-gray-100 text-black">
+                <i data-lucide="user" class="mr-2 h-4 w-4"></i>
+                My Account
+              </a>
+              <div class="h-px bg-gray-200 my-1"></div>
+              <a href="/account/logout"
+                class="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-gray-100 text-black">
+                <i data-lucide="log-out" class="mr-2"></i>
+                Sign out
+              </a>
             </div>
-        </div>
-        <!-- Lower Nav -->
-        <div class="lower-nav">
-            <div class="category-list">
-                <ul>
-                    <li class="all-category {% if request.path == '/category/all/' %}active-category{% endif %}">
-                        <a href="/category/all">All</a>
-                    </li>
+          </div>
+          {% else %}
+          <a href="/account/v2/identify">
+            <button
+              class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-[var(--primary)] text-white hover:bg-[var(--primary)]/90 h-10 px-4 py-2">
+              Sign In
+            </button>
+          </a>
+          {% endif %}
 
-                    {% for category in categories|slice:":6" %}
-                    {% url 'CategoryPage' category.category_id as category_url %}
-                    <li
-                        class="{{ category.category_id }}-category {% if request.path == category_url %}active-category{% endif %}">
-                        <a href="{{ category_url }}">{{ category.name }}</a>
-                    </li>
-                    {% endfor %}
+          <button
+            class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-[var(--muted)] hover:text-[var(--foreground)] h-10 w-10 md:hidden"
+            onclick="document.querySelector('.mobile-menu-panel').classList.toggle('hidden');">
+            <i data-lucide="menu" class=""></i>
+          </button>
+        </div>
+      </div>
 
-                    {% if categories|length > 6 %}
-                    <li class="dropdown-cont" style="flex: 0 0 83px;">
-                        <a href="#">
-                            <span>More</span> <i class="fa fa-angle-down"></i>
-                        </a>
-                        <ul>
-                            {% for category in categories|slice:"6:" %}
-                            {% url 'CategoryPage' category.category_id as category_url %}
-                            <li
-                                id="{{ category.category_id }}-category-drop {% if request.path == category_url %}active-category{% endif %}">
-                                <a href="{{ category_url }}">{{ category.name }}</a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
+      <div class="search-mobile-panel hidden border-t overflow-hidden md:hidden bg-white">
+        <form action="{% url 'giftcard:explore' %}" method="GET" class="py-3 px-4 flex gap-2 relative">
+          <div
+            class="absolute inset-y-0 left-4 flex items-center pl-3 pointer-events-none text-[var(--muted-foreground)]">
+            <i data-lucide="search" class="w-4 h-4 text-gray-400"></i>
+          </div>
+          <input type="search" name="search" placeholder="Search gift cards..."
+            class="flex h-10 w-full rounded-md border border-[var(--muted)] bg-white pr-3 pl-10 py-2 text-sm placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
+          <button type="button"
+            class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-[var(--muted)] h-10 w-10"
+            onclick="document.querySelector('.search-mobile-panel').classList.add('hidden');">
+            <i data-lucide="x" class=""></i>
+          </button>
+        </form>
+      </div>
 
-            <div class="search-bar">
-                <div class="search">
-                    <div class="input">
-                        <input type="text" placeholder="Search" id="search-input1">
-                    </div>
-                    <div class="icon">
-                        <i class="fa fa-search"></i>
-                    </div>
-                </div>
-            </div>
+      <div class="mobile-menu-panel hidden border-t overflow-hidden md:hidden">
+        <div class="py-3 px-4 space-y-1 bg-white">
+          <a href="/">
+            <button
+              class="inline-flex items-center justify-start rounded-md text-sm font-medium transition-colors hover:bg-[var(--muted)] text-black h-10 px-4 py-2 w-full">Home</button>
+          </a>
+          <a href="{% url 'giftcard:explore' %}">
+            <button
+              class="inline-flex items-center justify-start rounded-md text-sm font-medium transition-colors hover:bg-[var(--muted)] text-black h-10 px-4 py-2 w-full">Explore</button>
+          </a>
+          {% if user.is_authenticated %}
+          <a href="/account/v2/myaccount/">
+            <button
+              class="inline-flex items-center justify-start rounded-md text-sm font-medium transition-colors hover:bg-[var(--muted)] text-black h-10 px-4 py-2 w-full">My
+              Account</button>
+          </a>
+          <a href="/account/logout">
+            <button
+              class="inline-flex items-center justify-start rounded-md text-sm font-medium transition-colors hover:bg-[var(--muted)] text-red-500 h-10 px-4 py-2 w-full text-left">Sign
+              Out</button>
+          </a>
+          {% endif %}
         </div>
-    </nav>
-    <div id="desktop-search-cont" class="search-cont">
-        <div class="search-input">
-            <input type="text" placeholder="Search">
-            <i class="fa fa-times"></i>
-        </div>
-        <div class="brand-list">
-            <span class="brand-list-heading">Recommended for you</span>
-            <div class="brand-names">
-                {% for offer in search_offers %}
-                <a href="{{ offer.link }}">
-                    <li>
-                        <div class="brand-img">
-                            <img src="{{ offer.brand.logo.url }}" alt="{{ offer.brand.name }}">
-                        </div>
-                        <div class="brand-text">
-                            <span class="brand-name">{{ offer.brand.name }}</span>
-                            <span class="discount-info">{{ offer.title }}</span>
-                        </div>
-                    </li>
-                </a>
-                {% empty %}
-                <p>No recommended offers available.</p>
-                {% endfor %}
-            </div>
-        </div>
+      </div>
     </div>
-    </div>
-    <div class="overlay">
-    </div>
-    <!-- Navbar End -->
+  </header>
+  <!-- Navbar End -->
 
-    <!-- {% if messages %}
+  <!-- {% if messages %}
     {% for message in messages %}
     <div class="container mt-2">
         <div class="alert alert-{{ message.tags }} alert-dismissible fade show text-center" role="alert">
@@ -353,243 +318,104 @@
     {% endif %} -->
 
 
-    {% block body %} {% endblock %}
+  {% block body %} {% endblock %}
 
-    <!-- FOOTER -->
-    <footer class="bg-white border-t border-gray-200">
-        <div class="max-w-7xl mx-auto px-6 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+  <!-- FOOTER -->
+  <footer class="border-t bg-gray-50 mt-auto">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 py-12">
+        <div class="space-y-4 lg:col-span-2">
+          <a href="/" class="inline-flex items-center gap-2.5">
+            <img src="{% static 'images/sp_logo.png' %}" alt="StudentPeeps" class="h-9 w-auto" />
+            <span class="text-xl font-bold tracking-tight">
+              <span class="text-[var(--primary)]">Student</span>Peeps
+            </span>
+          </a>
 
-                <!-- LEFT: LOGO + CONTACT -->
-                <div class="space-y-6 lg:col-span-2">
-                    <!-- Logo -->
-                    <img src="https://studentpeeps.club/static/images/sp_logo.png" alt="Hubble Logo" class="w-25" />
+          <div>
+            <h4 class="font-semibold text-sm mb-2">About Us</h4>
+            <p class="text-sm text-gray-500 leading-relaxed max-w-sm">
+              StudentPeeps is a platform where university students get exclusive student discounts when they shop. We
+              aim to change how students shop in India.
+            </p>
+          </div>
 
-                    <!-- Contact -->
-                    <div>
-                        <h4 class="text-sm font-semibold text-gray-700 mb-3 uppercase">
-                            Contact Us
-                        </h4>
-
-                        <p class="flex items-start gap-3 text-sm text-gray-600 mb-2">
-                            <span>📧</span>
-                            <span>support@myhubble.money</span>
-                        </p>
-
-                        <p class="flex items-start gap-3 text-sm text-gray-600 leading-relaxed">
-                            <span>📍</span>
-                            <span>
-                                Urban Vault, #591, 15th main road, 22nd Cross Rd,<br />
-                                3rd Sector, HSR Layout, Bengaluru, Karnataka 560102
-                            </span>
-                        </p>
-                    </div>
-                </div>
-
-                <!-- POPULAR CATEGORIES -->
-                <div>
-                    <h4 class="text-sm font-semibold text-gray-700 mb-4 uppercase">
-                        Popular Categories
-                    </h4>
-                    <ul class="space-y-3 text-sm text-gray-600">
-                        <li><a href="#" class="hover:text-black">Food</a></li>
-                        <li><a href="#" class="hover:text-black">Groceries</a></li>
-                        <li><a href="#" class="hover:text-black">Online shopping</a></li>
-                        <li><a href="#" class="hover:text-black">Electronics</a></li>
-                        <li><a href="#" class="hover:text-black">Fashion</a></li>
-                    </ul>
-                </div>
-
-                <!-- POPULAR GIFT CARDS -->
-                <div>
-                    <h4 class="text-sm font-semibold text-gray-700 mb-4 uppercase">
-                        Popular Gift Cards
-                    </h4>
-                    <ul class="space-y-3 text-sm text-gray-600">
-                        <li><a href="#" class="hover:text-black">Amazon gift card at 2% off</a></li>
-                        <li><a href="#" class="hover:text-black">Flipkart gift card at 1% off</a></li>
-                        <li><a href="#" class="hover:text-black">Zomato gift card at 2% off</a></li>
-                        <li><a href="#" class="hover:text-black">Swiggy gift card at 3% off</a></li>
-                        <li><a href="#" class="hover:text-black">Myntra gift card at 2% off</a></li>
-                    </ul>
-                </div>
-
-                <!-- QUICK LINKS + COMPANY -->
-                <div class="space-y-10">
-                    <!-- Quick Links -->
-                    <div>
-                        <h4 class="text-sm font-semibold text-gray-700 mb-4 uppercase">
-                            Quick Links
-                        </h4>
-                        <ul class="space-y-3 text-sm text-gray-600">
-                            <li><a href="#" class="hover:text-black">Privacy policy</a></li>
-                            <li><a href="#" class="hover:text-black">Terms & conditions</a></li>
-                            <li><a href="#" class="hover:text-black">Refund policies</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- Company -->
-                    <div>
-                        <h4 class="text-sm font-semibold text-gray-700 mb-4 uppercase">
-                            Company
-                        </h4>
-                        <ul class="space-y-3 text-sm text-gray-600">
-                            <li><a href="#" class="hover:text-black">About</a></li>
-                            <li><a href="#" class="hover:text-black">Blog</a></li>
-                            <li><a href="#" class="hover:text-black">Careers</a></li>
-                            <li><a href="#" class="hover:text-black">FAQs</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- BOTTOM BAR -->
-            <div
-                class="mt-12 pt-6 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between gap-6">
-                <!-- Social Icons -->
-                <div class="flex items-center gap-4 text-gray-600">
-                    <a href="https://www.instagram.com/studentpeeps/" class="fa fa-instagram" target="_blank"></a>
-                    <a href="https://www.facebook.com/studentpeeps/" class="fa fa-facebook" target="_blank"></a>
-                    <a href="https://www.twitter.com/studentpeeps/" class="fa fa-twitter" target="_blank"></a>
-                    <a href="https://www.linkedin.com/company/studentpeeps/" class="fa fa-linkedin" target="_blank"></a>
-                </div>
-
-                <!-- Copyright -->
-                <p class="text-sm text-gray-500">
-                    © 2026 by Enigmee Ventures. All right reserved.
-                </p>
-            </div>
+          <a href="https://studentpeeps.club" target="_blank" rel="noopener noreferrer"
+            class="inline-flex items-center text-sm text-[var(--primary)] hover:underline">
+            Visit studentpeeps.club
+          </a>
         </div>
-    </footer>
+        <div>
+          <h4 class="font-semibold mb-4 text-sm tracking-wide uppercase text-gray-500">Shop</h4>
+          <ul class="space-y-2.5">
+            <li><a href="/explore" class="text-sm hover:text-[var(--primary)] transition-colors">All Gift Cards</a></li>
+            <li><a href="/explore?category=streaming"
+                class="text-sm hover:text-[var(--primary)] transition-colors">Streaming</a></li>
+            <li><a href="/explore?category=gaming"
+                class="text-sm hover:text-[var(--primary)] transition-colors">Gaming</a></li>
+            <li><a href="/explore?category=food" class="text-sm hover:text-[var(--primary)] transition-colors">Food &
+                Dining</a></li>
+            <li><a href="/explore?category=fashion"
+                class="text-sm hover:text-[var(--primary)] transition-colors">Fashion</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-sm tracking-wide uppercase text-gray-500">Categories</h4>
+          <ul class="space-y-2.5">
+            <li><a href="/explore?category=for-him" class="text-sm hover:text-[var(--primary)] transition-colors">For
+                Him</a></li>
+            <li><a href="/explore?category=for-her" class="text-sm hover:text-[var(--primary)] transition-colors">For
+                Her</a></li>
+            <li><a href="/explore?category=electronics"
+                class="text-sm hover:text-[var(--primary)] transition-colors">Electronics</a></li>
+            <li><a href="/explore?category=travel"
+                class="text-sm hover:text-[var(--primary)] transition-colors">Travel</a></li>
+            <li><a href="/explore?category=grocery"
+                class="text-sm hover:text-[var(--primary)] transition-colors">Grocery</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4 text-sm tracking-wide uppercase text-gray-500">Contact Us</h4>
+          <ul class="space-y-3">
+            <li>
+              <a href="mailto:hi@studentpeeps.club"
+                class="text-sm hover:text-[var(--primary)] transition-colors flex items-start gap-2">
+                <i data-lucide="mail" class="h-4 w-4 mt-0.5 flex-shrink-0 text-gray-500"></i>
+                hi@studentpeeps.club
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-200 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-xs text-gray-500">
+          &copy; {% now "Y" %} StudentPeeps. All rights reserved.
+        </p>
+        <div class="flex items-center gap-4">
+          <a href="https://studentpeeps.club" target="_blank" rel="noopener noreferrer"
+            class="text-xs text-gray-500 hover:text-[var(--primary)] transition-colors">
+            studentpeeps.club
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
-        integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
-        crossorigin="anonymous"></script>
-    <script>
-
-        let input = document.getElementById('search-input1');
-        let searchInput = document.querySelector('#desktop-search-cont .search-input input');
-        let searchCont = document.querySelector('#desktop-search-cont');
-        let overlay = document.querySelector('.overlay');
-        let searchBtns = document.querySelectorAll(".icon");
-        let closeBtn = document.querySelector("#desktop-search-cont .search-input i");
-        let searchBtnsArr = Array.from(searchBtns);
-        let dropdownCont = document.querySelector("nav .lower-nav ul .dropdown-cont");
-        let dropdown = document.querySelector("nav .lower-nav ul li ul");
-        let more = document.querySelector("nav .lower-nav ul li span");
-        let dropArrow = document.querySelector("nav .lower-nav ul li i");
-        let extraDrop = document.querySelector(".extra-dropdown");
-        let brandNames = document.querySelector("#desktop-search-cont .brand-names");
-        let menuBrandNames = document.querySelector(".menu-cont .search-cont .brand-names");
-        let brand = document.querySelectorAll(".brand-names a");
-        let brandArr = Array.from(brand);
-        let extraBrands = document.querySelectorAll(".search-cont .brand-list .extra-brand");
-        let extraBrandArr = Array.from(extraBrands);
-        let recommended = document.querySelectorAll(".search-cont .brand-list .brand-list-heading");
-        let recommendedArr = Array.from(recommended);
-        let menuIcon = document.querySelector("nav .upper-nav .menu-icon");
-        let menuIconInner = document.querySelector("nav .upper-nav .menu-icon i");
-        let menuCont = document.querySelector("nav .menu-cont");
-        let menuSearchInput = document.querySelector("nav .menu-cont .search-cont .search-input input");
-        let menuOverlay = document.querySelector("nav .menu-overlay");
-        let accountIcon = document.querySelector(".account-cont i");
-        let accountDropdown = document.querySelector(".account-cont .account-dropdown");
-        let accountUserName = document.querySelector(".account-cont .account-user-name");
-        let accountUserNameSpan = document.querySelector(".account-cont .account-user-name span");
-
-        if (accountIcon !== null && accountDropdown !== null) {
-            accountIcon.onclick = () => {
-                accountDropdown.classList.toggle("active");
-            }
-        };
-
-        [menuIcon, menuOverlay].forEach(element => {
-            element.onclick = () => {
-                document.body.classList.toggle("menu-active");
-                menuCont.classList.toggle("active");
-                if (menuIconInner.classList.contains("fa-bars")) {
-                    setTimeout(() => {
-                        menuIconInner.classList.remove("fa-bars");
-                        menuIconInner.classList.add("fa-times");
-                    }, 120);
-                }
-                else {
-                    menuIconInner.classList.remove("fa-times");
-                    menuIconInner.classList.add("fa-bars");
-                }
-                menuOverlay.classList.toggle("active");
-            };
-        });
-
-        ["input", "click"].forEach((event) => {
-            input.addEventListener(event, () => {
-                searchCont.classList.add('active');
-                overlay.classList.add('active');
-                searchInput.select();
-            });
-        });
-        searchBtnsArr.forEach(element => {
-            element.addEventListener("click", () => {
-                searchCont.classList.add('active');
-                overlay.classList.add('active');
-                searchInput.select();
-            });
-        });
-
-        [overlay, closeBtn].forEach(element => {
-            element.addEventListener("click", () => {
-                searchCont.classList.remove('active');
-                overlay.classList.remove('active');
-            });
-        });
-
-        [menuSearchInput, searchInput].forEach(element => {
-            element.addEventListener("keyup", (e) => {
-                let term = e.target.value.toLowerCase();
-                recommendedArr.forEach(element => {
-                    element.textContent = "Discounts";
-                });
-                brandNames.style.overflow = "hidden scroll";
-                menuBrandNames.style.overflow = "hidden scroll";
-                brandArr.forEach((list) => {
-                    listText = list.firstElementChild.lastElementChild.firstElementChild.textContent;
-                    if (listText.toLowerCase().indexOf(term) != -1) list.style.display = "flex";
-                    else list.style.display = "none";
-                });
-                if (term == "") {
-                    extraBrandArr.forEach(element => {
-                        element.style.display = "none";
-                        recommendedArr.forEach(element => {
-                            element.textContent = "Recommended for You";
-                        });
-                        brandNames.style.overflow = "hidden";
-                        menuBrandNames.style.overflow = "hidden scroll";
-                    })
-                }
-            });
-        });
-
-        [more, dropArrow].forEach(element => {
-            element.addEventListener("click", () => {
-                dropdown.classList.toggle("open");
-            });
-        });
-        document.onclick = function (e) {
-            if (e.target != more && e.target != dropArrow && e.target != extraDrop && e.target != dropdown) {
-                dropdown.classList.remove("open");
-            }
-            if (accountIcon !== null && accountDropdown !== null && accountUserName !== null && accountUserNameSpan !== null) {
-                if (e.target != accountIcon && e.target != accountDropdown && e.target != accountUserName && e.target != accountUserNameSpan) {
-                    accountDropdown.classList.remove("active");
-                }
-            }
-        }
-    </script>
-    {% block linksbody %} {% endblock %}
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+    integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+    crossorigin="anonymous"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    });
+  </script>
+  {% block linksbody %} {% endblock %}
 </body>
 
 </html>

@@ -1,6 +1,26 @@
 from django.contrib import admin
-from .models import Provider, ProviderCategory, CategoryMapping, ProviderAuthToken, ProviderApiLog, ProviderProduct, ProductOverride
+from .models import Provider, ProviderCategory, CategoryMapping, ProviderAuthToken, ProviderApiLog, ProviderProduct, ProductOverride, Cart, Order, PaymentTransaction
 # Register your models here.
+
+@admin.register(Cart)
+class CartAdmin(admin.ModelAdmin):
+    list_display = ('cart_id', 'user', 'session_key', 'is_active', 'created_at')
+    search_fields = ('cart_id', 'user__username', 'session_key')
+    list_filter = ('is_active', 'created_at')
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display  = ('reference_id', 'user', 'total_amount', 'status', 'payment_gateway', 'customer_email', 'created_at')
+    search_fields = ('reference_id', 'user__username', 'customer_email', 'gateway_order_id', 'gateway_payment_id', 'woohoo_order_id')
+    list_filter   = ('status', 'payment_gateway', 'created_at')
+    readonly_fields = ('items_snapshot', 'woohoo_response', 'gateway_order_id', 'gateway_payment_id', 'woohoo_order_id')
+
+@admin.register(PaymentTransaction)
+class PaymentTransactionAdmin(admin.ModelAdmin):
+    list_display  = ('order', 'gateway', 'gateway_order_id', 'gateway_payment_id', 'amount', 'status', 'created_at')
+    search_fields = ('order__reference_id', 'gateway_order_id', 'gateway_payment_id')
+    list_filter   = ('gateway', 'status', 'created_at')
+    readonly_fields = ('raw_response',)
 
 @admin.register(Provider)
 class ProviderAdmin(admin.ModelAdmin):

@@ -34,6 +34,13 @@ class WoohooTokenManager:
         access_token = token_data["token"]
         expires_at = timezone.now() + timedelta(days=14)
 
+        # 1. Delete old inactive token to prevent UNIQUE constraint failure (provider, is_active)
+        ProviderAuthToken.objects.filter(
+            provider=self.provider,
+            is_active=False
+        ).delete()
+        
+        # 2. Deactivate currently active token
         ProviderAuthToken.objects.filter(
             provider=self.provider,
             is_active=True

@@ -297,3 +297,146 @@ class ProductOverride(models.Model):
 
     def __str__(self):
         return f"Override for {self.product.sku}"
+
+
+import uuid
+from decimal import Decimal
+
+
+class Cart(models.Model):
+    """
+    Single cart per user or guest.
+    Products stored inside JSON.
+    """
+
+    cart_id = models.UUIDField(
+        default=uuid.uuid4,
+        unique=True,
+        editable=False
+    )
+
+    user = models.ForeignKey(
+        'auth.User',
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE
+    )
+
+    # Guest cart support
+    session_key = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True
+    )
+
+    items = models.JSONField(
+        default=list,
+        help_text="""
+        Example structure:
+        [
+            {
+                "sku": "EGVGBSHSS001",
+                "name": "Amazon Pay Gift Card",
+                "denomination": "500",
+                "quantity": 2,
+                "unit_price": "500",
+                "margin": "20",
+                "final_price": "520"
+            }
+        ]
+        """
+    )
+
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # ----------------------------------------
+    # Utility Methods
+    # ----------------------------------------
+
+    def total_amount(self):
+        total = Decimal("0")
+        for item in self.items:
+            total += Decimal(item["final_price"]) * item["quantity"]
+        return total
+
+    def __str__(self):
+        return f"Cart {self.cart_id}"
+
+
+class Order(models.Model):
+    """
+    Final order after checkout.
+    Lifecycle: PENDING → PAYMENT_INITIATED → PAYMENT_CONFIRMED → WOOHOO_PLACED → COMPLETED
+                                                               ↘ FAILED
+    """
+
+    STATUS_PENDING              = "PENDING"
+    STATUS_PAYMENT_INITIATED    = "PAYMENT_INITIATED"
+    STATUS_PAYMENT_CONFIRMED    = "PAYMENT_CONFIRMED"
+    STATUS_WOOHOO_PLACED        = "WOOHOO_PLACED"
+    STATUS_COMPLETED            = "COMPLETED"
+    STATUS_FAILED               = "FAILED"
+
+    STATUS_CHOICES = [
+        (STATUS_PENDING,           "Pending"),
+        (STATUS_PAYMENT_INITIATED, "Payment Initiated"),
+        (STATUS_PAYMENT_CONFIRMED, "Payment Confirmed"),
+        (STATUS_WOOHOO_PLACED,     "Woohoo Order Placed"),
+        (STATUS_COMPLETED,         "Completed"),
+        (STATUS_FAILED,            "Failed"),
+    ]
+
+    user = models.ForeignKey(
+        'auth.User',
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE
+    )
+    reference_id = models.CharField(max_length=100, unique=True)
+    total_amount = models.DecimalField(max_digits=12, decimal_places=2)
+    provider_id = models.CharField(max_length=50, default="woohoo")
+    items_snapshot = models.JSONField(default=list)
+    status = models.CharField(max_length=30, default=STATUS_PENDING, choices=STATUS_CHOICES)
+
+    # --- Customer info (captured at checkout) ---
+    customer_name  = models.CharField(max_length=255, blank=True)
+    customer_email = models.EmailField(blank=True)
+    customer_phone = models.CharField(max_length=20, blank=True)
+
+    # --- Payment Gateway ---
+    payment_gateway   = models.CharField(max_length=50, default="razorpay")
+    gateway_order_id  = models.CharField(max_length=100, blank=True, help_text="e.g. Razorpay order_id")
+    gateway_payment_id = models.CharField(max_length=100, blank=True, help_text="e.g. razorpay_payment_id after success")
+
+    # --- Woohoo ---
+    woohoo_order_id   = models.CharField(max_length=100, blank=True, help_text="Order ID returned by Woohoo API")
+    woohoo_response   = models.JSONField(null=True, blank=True, help_text="Full Woohoo API response")
+    is_vouchers_fetched = models.BooleanField(default=False, help_text="True if Activated Cards API has been successfully called")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Order {self.reference_id} [{self.status}]"
+
+
+class PaymentTransaction(models.Model):
+    """
+    Audit log for every payment gateway event.
+    One Order can have multiple transaction attempts.
+    """
+    order          = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="transactions")
+    gateway        = models.CharField(max_length=50)            # e.g. "razorpay"
+    gateway_order_id  = models.CharField(max_length=100, blank=True)
+    gateway_payment_id = models.CharField(max_length=100, blank=True)
+    amount         = models.DecimalField(max_digits=12, decimal_places=2)
+    currency       = models.CharField(max_length=10, default="INR")
+    status         = models.CharField(max_length=30, default="INITIATED")
+    raw_response   = models.JSONField(null=True, blank=True)
+    created_at     = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"PaymentTransaction [{self.gateway}] {self.gateway_payment_id or self.gateway_order_id}"

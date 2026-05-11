@@ -1,0 +1,75 @@
+{% load static %}
+<div class="group cursor-pointer" onclick="location.href='{{ offer.link }}'">
+    <div class="relative transition-all duration-500 group-hover:-translate-y-2 shadow-sm rounded-xl">
+        <div class="relative h-44 sm:h-52 rounded-xl overflow-hidden"
+            style="background: linear-gradient(145deg, {{ offer.background_color|default:'#111827' }} 0%, {{ offer.secondary_color|default:offer.background_color|default:'#374151' }} 60%, {{ offer.background_color|default:'#111827' }}ee 100%)">
+
+            <!-- Pattern Overlay -->
+            <div class="absolute inset-0 opacity-[0.07]"
+                style="background-image: radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px); background-size: 30px 30px, 25px 25px;">
+            </div>
+
+            <!-- Shine Effect -->
+            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                style="background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.15) 45%, rgba(255,255,255,0.05) 50%, transparent 55%);">
+            </div>
+
+            <!-- Icon/Logo Area -->
+            <div class="absolute top-3 left-3.5">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-md flex items-center justify-center backdrop-blur-sm transition-transform duration-500 group-hover:scale-110"
+                    style="background-color: rgba(255,255,255,0.18);">
+                    {% if offer.brand.logo %}
+                    <img src="{{ offer.brand.logo }}" alt="{{ offer.brand.name }}"
+                        class="h-5 w-5 sm:h-6 sm:w-6 object-contain filter brightness-0 invert"
+                        style="color: {{ offer.text_color|default:'#ffffff' }}; text-shadow: 0 1px 1px rgba(0,0,0,0.1);">
+                    {% else %}
+                    <i data-lucide="gift" class="h-5 w-5 sm:h-5.5 sm:w-5.5 text-white drop-shadow-sm"></i>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="absolute bottom-0 left-0 right-0 p-4 pt-12"
+                style="background: linear-gradient(to top, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.15) 60%, transparent 100%);">
+
+                <div class="flex items-end justify-between gap-3">
+                    <div class="flex-1 min-w-0">
+                        <p
+                            class="text-white text-base sm:text-lg font-bold tracking-tight drop-shadow-md leading-tight truncate">
+                            {{ offer.brand.name|default:offer.title }}
+                        </p>
+                        <p class="text-white/70 text-[11px] font-medium mt-0.5 drop-shadow-sm">
+                            Gift Card
+                        </p>
+                    </div>
+
+                    <div class="text-right flex-shrink-0">
+                        <div class="flex items-baseline gap-1.5">
+                            <span class="text-white/60 text-[11px] font-medium line-through drop-shadow-sm">
+                                ₹{{ offer.min_price|default:"500" }}
+                            </span>
+                            <span class="text-white text-base sm:text-lg font-bold drop-shadow-md">
+                                ₹{{ offer.final_price|default:offer.min_price|default:"450" }}
+                            </span>
+                        </div>
+                        <span class="text-[10px] font-semibold drop-shadow-sm text-emerald-400">
+                            {{ offer.margin|default:"10" }}% off
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Decorative Glow -->
+            <div class="absolute top-0 right-0 w-16 h-16 opacity-[0.04]"
+                style="background: conic-gradient(from 180deg at 100% 0%, white, transparent);">
+            </div>
+        </div>
+
+        <!-- Footer Description -->
+        <div class="mt-2.5 px-0.5">
+            <p class="text-xs text-muted-foreground line-clamp-1 leading-relaxed">
+                {{ offer.subtitle|default:"Special Student Discount Available" }}
+            </p>
+        </div>
+    </div>
+</div>

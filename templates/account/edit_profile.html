@@ -1,138 +1,488 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}StudentPeeps >> MyAccount{% endblock %}
+
+{% block title %}StudentPeeps | My Account{% endblock %}
 
 {% block linkshead %}
-<link rel="stylesheet" href="{% static 'css/edit_profile.css' %}">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <style>
-    .btn-primary {
+    :root {
+        --profile-sidebar-width: 280px;
+    }
+
+    .profile-container {
+        display: flex;
+        gap: 2rem;
+        min-height: calc(100vh - 200px);
+        margin-top: 2rem;
+        margin-bottom: 4rem;
+    }
+
+    /* Sidebar Styles */
+    .profile-sidebar {
+        width: var(--profile-sidebar-width);
+        flex-shrink: 0;
+        background: white;
+        border-radius: 1rem;
+        border: 1px solid var(--border);
+        padding: 1.5rem;
+        height: fit-content;
+        position: sticky;
+        top: 5rem;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    }
+
+    .user-profile-header {
+        text-align: center;
+        padding-bottom: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .user-avatar-large {
+        width: 80px;
+        height: 80px;
+        background: var(--primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
         font-weight: bold;
-        height: 40px;
-        line-height: 2.5rem;
-        padding: 0 3rem;
-        width: 100%;
-        border: 0;
+        margin: 0 auto 1rem;
+        box-shadow: 0 10px 15px -3px rgba(1, 115, 230, 0.3);
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .sidebar-nav-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
         border-radius: 0.5rem;
-        background-image: linear-gradient(131deg, #bb91e4, #a672da, #ab81d5, #9245df);
-        background-size: 300% 100%;
-        transition: all 0.3s ease-in-out;
+        color: var(--muted-foreground);
+        font-weight: 500;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        width: 100%;
+        text-align: left;
+    }
+
+    .sidebar-nav-item:hover {
+        background: var(--background);
+        color: var(--primary);
+    }
+
+    .sidebar-nav-item.active {
+        background: var(--primary);
         color: white;
     }
 
-    .btn-primary:hover {
-        box-shadow: 0 0.5em 0.5em -0.4em #a044fd;
-        background-size: 100% 100%;
-        transform: translateY(-0.15em);
-        color: white;
+    .sidebar-nav-item i {
+        width: 20px;
+        height: 20px;
     }
 
-    .no-edit {
-        background-color: #e9ecef;
-        pointer-events: none;
-        user-select: none;
+    /* Content Area Styles */
+    .profile-content {
+        flex: 1;
+        background: white;
+        border-radius: 1rem;
+        border: 1px solid var(--border);
+        padding: 2.5rem;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        color: var(--foreground);
+        border-left: 4px solid var(--primary);
+        padding-left: 1rem;
+    }
+
+    /* Forms */
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .form-group label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--muted-foreground);
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: 0.5rem;
+        background: var(--background);
+        transition: all 0.2s ease;
+    }
+
+    .form-group input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(1, 115, 230, 0.1);
+        outline: none;
+        background: white;
+    }
+
+    .form-group input.readonly {
+        background: #f1f5f9;
+        cursor: not-allowed;
+    }
+
+    /* Orders Table */
+    .orders-card {
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+        overflow: hidden;
+        margin-bottom: 1rem;
+        transition: all 0.2s ease;
+    }
+
+    .orders-card:hover {
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        transform: translateY(-2px);
+    }
+
+    .order-header {
+        background: var(--background);
+        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .order-body {
+        padding: 1.5rem;
+    }
+
+    .order-status {
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .status-completed {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .status-pending {
+        background: #fef9c3;
+        color: #854d0e;
+    }
+
+    .status-failed {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    /* FAQ Accordion */
+    .faq-item {
+        border-bottom: 1px solid var(--border);
+        padding: 1rem 0;
+    }
+
+    .faq-question {
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .faq-answer {
+        margin-top: 0.5rem;
+        color: var(--muted-foreground);
+        font-size: 0.95rem;
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .faq-item.active .faq-answer {
+        max-height: 200px;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+        .profile-container {
+            flex-direction: column;
+        }
+
+        .profile-sidebar {
+            width: 100%;
+            position: relative;
+            top: 0;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
 {% endblock %}
 
 {% block body %}
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-lg-4 col-12"></div>
-
-        {% if user.is_authenticated %}
-        <div class="col-lg-4 col-12 mt-2">
-            <form method="POST" action="">
-                {% csrf_token %}
-                <div class="row align-items-center mt-4">
-                    <div class="col">
-                        <label id="label1" class="input">First name</label>
-                        <input type="text" name="fname" class="form-control" value="{{ profile.firstname }}">
-                    </div>
+<div class="container">
+    <div class="profile-container">
+        <!-- Sidebar -->
+        <aside class="profile-sidebar">
+            <div class="user-profile-header">
+                <div class="user-avatar-large">
+                    {{ user.first_name|default:"U"|slice:":1" }}
                 </div>
-                <div class="row align-items-center mt-4">
-                    <div class="col">
-                        <label id="label1" class="input">Last name</label>
-                        <input type="text" name="lname" class="form-control" value="{{ profile.lastname }}">
-                    </div>
-                </div>
-
+                <h3 class="font-bold text-xl mb-1">{{ user.first_name }} {{ user.last_name }}</h3>
+                <p class="text-sm text-[var(--muted-foreground)]">{{ user.email }}</p>
                 {% if profile.phone %}
-                <div class="row align-items-center mt-4">
-                    <div class="col">
-                        <label id="label1" class="input">Phone No</label>
-                        <input type="text" name="phone" class="form-control no-edit" value="{{ profile.phone }}">
-                    </div>
-                </div>
-                {% else %}
-                <div class="row align-items-center mt-4">
-                    <div class="col">
-                        <label id="label1" class="input">Phone No</label>
-                        <input type="text" name="phone" class="form-control" value="">
-                    </div>
-                </div>
+                <p class="text-xs text-[var(--muted-foreground)] mt-1">{{ profile.phone }}</p>
                 {% endif %}
-
-                {% if profile.user.email %}
-                <div class="row align-items-center mt-4">
-                    <div class="col">
-                        <label id="label1" for="exampleInputEmail1" class="form-label">Personal Email address</label>
-                        <input type="email" name="email" class="form-control no-edit" id="exampleInputEmail1" readonly
-                            value="{{ profile.user.email }}">
-                    </div>
-                </div>
-                {% else %}
-                <div class="row align-items-center mt-4">
-                    <div class="col">
-                        <label id="label1" class="input">Personal Email address</label>
-                        <input type="email" name="email" class="form-control" value="">
-                    </div>
-                </div>
-                {% endif %}
-
-                {% if profile.institution_email %}
-                <div class="row align-items-center mt-4">
-                    <div class="col">
-                        <label id="label1" for="exampleInputEmail1" class="form-label">Institution Email address</label>
-                        <input type="email" name="email" class="form-control no-edit" id="exampleInputEmail1" readonly
-                            value="{{ profile.institution_email }}">
-                    </div>
-                </div>
-                {% endif %}
-
-                {% if profile.institution %}
-                <div class="row align-items-center mt-4">
-                    <div class="col">
-                        <label id="label1" for="exampleInputEmail1" class="form-label">Institution Name</label>
-                        <input type="email" name="email" class="form-control no-edit" id="exampleInputEmail1" readonly
-                            value="{{ profile.institution }}">
-                    </div>
-                </div>
-                {% endif %}
-
-                <div class="row mt-4 mx-1">
-                    <input type="submit" class="btn btn-primary mb-5" value="Update">
-                </div>
-            </form>
-
-            <div class="row mt-4">
-                <p class="para3">
-                    This is your profile information. Privacy of our users' information is very important to us.
-                    If you have any concerns about how your data will be used, please check our
-                    <a href="#">Privacy Policy.</a>
-                </p>
             </div>
-        </div>
-        {% endif %}
+
+            <nav class="sidebar-nav">
+                <button class="sidebar-nav-item active" onclick="switchSection('personal-info', this)">
+                    <i data-lucide="user"></i>
+                    Personal Info
+                </button>
+                <button class="sidebar-nav-item" onclick="switchSection('my-orders', this)">
+                    <i data-lucide="shopping-bag"></i>
+                    My Orders
+                </button>
+                <button class="sidebar-nav-item" onclick="switchSection('faqs', this)">
+                    <i data-lucide="help-circle"></i>
+                    FAQ's
+                </button>
+                <div class="h-px bg-gray-100 my-2"></div>
+                <a href="/account/logout" class="sidebar-nav-item text-red-500 hover:text-red-600 hover:bg-red-50">
+                    <i data-lucide="log-out"></i>
+                    Logout
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Content -->
+        <main class="profile-content">
+            <!-- Personal Info Section -->
+            <section id="personal-info" class="content-section">
+                <h2 class="section-title">Personal Information</h2>
+                <form method="POST" action="{% url 'myaccount' %}">
+                    {% csrf_token %}
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" name="fname" value="{{ profile.firstname }}">
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" name="lname" value="{{ profile.lastname }}">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" class="readonly" value="{{ user.email }}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="text" name="phone" value="{{ profile.phone|default:'' }}">
+                        </div>
+                        <div class="form-group">
+                            <label>Birth Date</label>
+                            <input type="date" name="birthday" value="{{ profile.birthday|date:'Y-m-d' }}">
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-end">
+                        <button type="submit" class="btn-primary px-8">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+
+                <div class="mt-12 p-6 bg-blue-50/50 rounded-xl border border-blue-100">
+                    <div class="flex gap-4">
+                        <i data-lucide="info" class="text-blue-500 shrink-0"></i>
+                        <p class="text-sm text-blue-700 leading-relaxed">
+                            Your security is our priority. We use industry-standard encryption to protect your data.
+                            For any major account changes, please contact our support team.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- My Orders Section -->
+            <section id="my-orders" class="content-section" style="display: none;">
+                <h2 class="section-title">My Orders</h2>
+
+                {% if orders %}
+                <div class="space-y-4">
+                    {% for order in orders %}
+                    <div class="orders-card">
+                        <div class="order-header">
+                            <div class="flex items-center gap-4">
+                                <span class="text-sm font-semibold text-[var(--muted-foreground)]">
+                                    #{{ order.reference_id|slice:":8"|upper }}
+                                </span>
+                                <span class="text-xs text-[var(--muted-foreground)]">
+                                    {{ order.created_at|date:"d M Y" }}
+                                </span>
+                            </div>
+                            <span class="order-status status-{{ order.status|lower }}">
+                                {{ order.get_status_display }}
+                            </span>
+                        </div>
+                        <div class="order-body">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-12 h-12 bg-[var(--background)] rounded-lg flex items-center justify-center">
+                                        <i data-lucide="gift" class="text-[var(--primary)]"></i>
+                                    </div>
+                                    <div>
+                                        {% with first_item=order.items_snapshot|first %}
+                                        <h4 class="font-semibold">{{ first_item.name|default:"Gift Card Package" }}</h4>
+                                        <p class="text-xs text-[var(--muted-foreground)]">
+                                            Qty: {{ first_item.quantity|default:1 }}
+                                        </p>
+                                        {% endwith %}
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-bold text-lg">₹{{ order.total_amount }}</p>
+                                    <a href="{% url 'giftcard:order_detail' order.reference_id %}"
+                                        class="text-xs text-[var(--primary)] hover:underline">
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-16">
+                    <div
+                        class="w-20 h-20 bg-[var(--background)] rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="shopping-bag" class="w-10 h-10 text-[var(--muted-foreground)]"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">No orders found</h3>
+                    <p class="text-[var(--muted-foreground)] mb-6">Looks like you haven't made any purchases yet.</p>
+                    <a href="/explore" class="btn-primary">Start Shopping</a>
+                </div>
+                {% endif %}
+            </section>
+
+            <!-- FAQ Section -->
+            <section id="faqs" class="content-section" style="display: none;">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+
+                <div class="space-y-2">
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            What is Studentpeeps?
+                            <i data-lucide="chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Studentpeeps is a platform where university students can register and get student
+                                discounts on their favourite brands.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            How do I get Studentpeeps discount?
+                            <i data-lucide="chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>To get a Studentpeeps account you MUST be attending a college or University which
+                                provides you with an email address or iD card. Go to our website, click on Signup and
+                                enter details.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            Can I get Studentpeeps without being a student?
+                            <i data-lucide="chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>No, you can reap StudentPeeps' offer till you’re a student. Enjoy while you’re in
+                                college!</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-question">
+                            Are gift cards refundable?
+                            <i data-lucide="chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Gift cards cannot be canceled or returned once issued. Please check terms and conditions
+                                before purchase.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-12 text-center">
+                    <p class="text-sm text-[var(--muted-foreground)] mb-4">Still have questions?</p>
+                    <a href="/faq/"
+                        class="text-[var(--primary)] font-semibold hover:underline flex items-center justify-center gap-2">
+                        View all FAQs <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </section>
+        </main>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-    crossorigin="anonymous"></script>
+<script>
+    function switchSection(sectionId, btn) {
+        // Hide all sections
+        document.querySelectorAll('.content-section').forEach(section => {
+            section.style.display = 'none';
+        });
+
+        // Show target section
+        document.getElementById(sectionId).style.display = 'block';
+
+        // Update sidebar active state
+        document.querySelectorAll('.sidebar-nav-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        btn.classList.add('active');
+
+        // Re-create lucide icons for dynamic content if needed
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    }
+
+    function toggleFaq(el) {
+        el.classList.toggle('active');
+        const icon = el.querySelector('[data-lucide="chevron-down"]');
+        if (icon) {
+            // Check if active and maybe rotate icon if needed via CSS
+        }
+    }
+</script>
 {% endblock %}

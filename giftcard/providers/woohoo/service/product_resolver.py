@@ -70,4 +70,9 @@ class ProductResolver:
                 if self.override and self.override.margin is not None
                 else None
             ),
+            "margin_raw": (
+                self.override.margin
+                if self.override and self.override.margin is not None
+                else 0
+            ),
         }

@@ -22,3 +22,4 @@ venv
 !**/migrations/__init__.py
 **/migrations/*.pyc
 .idea
+_reference-react-design

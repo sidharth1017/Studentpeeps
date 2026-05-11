@@ -152,11 +152,13 @@ class Home(View):
                     link = f"/offer/{offer.brand.slug}/{offer.custom_id}/"
 
                 processed.append({
+                    "is_gift_card": False,
                     "link": link,
                     "thumbnail": offer.thumbnail_image.url if offer.thumbnail_image else "",
                     "title": offer.title,
                     "brand": {
-                        "name": offer.brand.name
+                        "name": offer.brand.name,
+                        "logo": offer.brand.logo.url if offer.brand.logo else ""
                     }
                 })
 
@@ -174,13 +176,31 @@ class Home(View):
             ]
 
             for giftcard in ordered_giftcards:
+                # Get pricing data
+                min_p = float(giftcard.min_price)
+                margin = 0
+                if hasattr(giftcard, 'override') and giftcard.override.margin is not None:
+                    margin = float(giftcard.override.margin)
+                
+                # Check for colors - for now we use a default but could be expanded
+                bg_color = '#111827' # Default dark for premium look
+                
                 processed.append({
+                    "is_gift_card": True,
                     "link": f"/giftcard/{giftcard.sku}/",
                     "thumbnail": giftcard.brand_logo or giftcard.base_image,
                     "title": giftcard.name,
                     "brand": {
-                        "name": giftcard.brand_name
-                    }
+                        "name": giftcard.brand_name,
+                        "logo": giftcard.brand_logo
+                    },
+                    "background_color": bg_color,
+                    "secondary_color": bg_color,
+                    "text_color": "#ffffff",
+                    "min_price": int(min_p),
+                    "margin": int(margin * 100) if margin < 1 else int(margin),
+                    "final_price": int(min_p * (1 - (margin if margin < 1 else margin/100))),
+                    "sku": giftcard.sku
                 })
 
         return {
@@ -209,9 +229,36 @@ class Home(View):
                 "content": content,
                 "html": block.custom_html
             })
+            
+        categories = Category.objects.all().order_by('sorting')
+        # Simple name-to-icon mapping for Lucide
+        icon_map = {
+            'for her': 'heart',
+            'for him': 'sparkles',
+            'electronics': 'smartphone',
+            'streaming': 'play',
+            'food': 'utensils-crossed',
+            'fashion': 'shirt',
+            'grocery': 'shopping-cart',
+            'gaming': 'gamepad-2',
+            'travel': 'plane',
+            'jewelry': 'gem',
+            'shopping': 'shopping-bag',
+            'coffee': 'coffee',
+            'health': 'sparkles',
+            'sports': 'dumbbell',
+            'home': 'home-icon',
+            'education': 'graduation-cap',
+        }
+        for cat in categories:
+            cat.lucide_icon = icon_map.get(cat.name.lower(), 'gift')
+
+        top_brands = Brand.objects.all()[:24]
 
         return render(request, "pages/home_page.html", {
-            "layouts": layouts
+            "layouts": layouts,
+            "categories": categories,
+            "top_brands": top_brands
         })
         
 class OurStory(View):
@@ -378,9 +425,17 @@ class CategoryPageView(View):
                 link = f"/offer/{offer.brand.slug}/{offer.custom_id}/"
             offer.link = link
             offers_with_flags.append({
-                'offer': offer,
+                'offer': {
+                    'link': link,
+                    'title': offer.title,
+                    'is_gift_card': False,
+                    'thumbnail_image': offer.thumbnail_image,
+                    'brand': {
+                        'name': offer.brand.name,
+                        'logo': offer.brand.logo.url if offer.brand.logo else ""
+                    }
+                },
                 'is_large': is_large,
-
             })
 
         carousel_images=[
@@ -397,7 +452,7 @@ class CategoryPageView(View):
             'category': category,
             'carousel_images': carousel_images
         }
-        return render(request, 'pages/category_page.html', context)
+        return render(request, 'pages/category_page.html', context) 
 
 class HelpCenterPageView(View):
     def get(self, request, slug):

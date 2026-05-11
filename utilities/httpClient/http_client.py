@@ -11,7 +11,7 @@ class HttpClient:
         self.timeout = timeout or self.DEFAULT_TIMEOUT
         self.session = requests.Session()
 
-    def request(self, method, url, headers=None, params=None, json=None):
+    def request(self, method, url, headers=None, params=None, json=None, data=None):
         start = time.time()
 
         try:
@@ -21,6 +21,7 @@ class HttpClient:
                 headers=headers,
                 params=params,
                 json=json,
+                data=data,
                 timeout=self.timeout
             )
         except requests.Timeout:

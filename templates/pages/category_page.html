@@ -23,7 +23,11 @@
         <!-- Product Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-5 gap-4 sm:gap-6">
             {% for offer_data in offers %}
+            {% if offer_data.offer.is_gift_card %}
+            {% include 'components/gift_card_tile.html' with offer=offer_data.offer %}
+            {% else %}
             {% include 'components/tiles_cardV2.html' with offer=offer_data.offer %}
+            {% endif %}
             {% endfor %}
         </div>
     </div>

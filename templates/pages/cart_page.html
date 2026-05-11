@@ -1,215 +1,1041 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Cart Page{% endblock %}
+{% block title %}Checkout - StudentPeeps{% endblock %}
 
-{% block linkshead %}
-<style>
-    .sticky-right {
-        position: sticky;
-        top: 20px;
-    }
-</style>
+{% block body %}
+<!-- 
+  Converting the React multi-step checkout design into Django + Vanilla JS.
+  Uses 'data-step' attributes to switch between the 4 checkout views smoothly.
+-->
+<div class="min-h-screen bg-background" id="checkout-container">
 
-{% endblock %} {% block body %}
-<div class="min-h-screen bg-background">
-  <div class="max-w-7xl mx-auto px-4 py-8">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-      <!-- LEFT CONTENT -->
-      <div class="lg:col-span-2">
-
-        <!-- Delivery Section -->
-        <div class="bg-white rounded-lg border p-6 mb-6">
-          <div class="flex gap-4">
-            <div class="w-6 h-6 bg-gray-300 rounded"></div>
-
-            <div class="flex-grow">
-              <p class="text-sm text-gray-500 mb-2">
-                Deliver to:
-                <span class="font-semibold text-black">Sidharth</span>
-              </p>
-
-              <div class="flex flex-wrap gap-4 items-center text-sm mb-4">
-                <div class="flex items-center gap-1">
-                  <span>📞</span>
-                  <span>6367562964</span>
-                </div>
-                <div class="flex items-center gap-1">
-                  <span>✉️</span>
-                  <span>sidharthv605@gmail.com</span>
-                </div>
-              </div>
-
-              <div class="flex flex-wrap gap-4 mb-4">
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" checked class="w-4 h-4">
-                  <span class="text-sm">Whatsapp + Email</span>
-                </label>
-
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" class="w-4 h-4">
-                  <span class="text-sm">SMS + Email</span>
-                </label>
-              </div>
-
-              <div class="flex items-center gap-4">
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" class="w-4 h-4">
-                  <span class="text-sm">I am Gyfting</span>
-                </label>
-
-                <button class="px-4 py-2 bg-gray-800 text-white text-sm rounded flex items-center gap-2">
-                  Personalised ▼
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Payment Details Header -->
-        <div class="bg-gray-900 text-white rounded-t-lg px-6 py-3 mb-6">
-          <div class="flex justify-between items-center">
-            <h2 class="text-lg font-semibold">Payment Details</h2>
-            <span class="text-sm">UPI ✔</span>
-          </div>
-        </div>
-
-        <!-- Product Card -->
-        <div class="bg-white border rounded-b-lg p-6 mb-8">
-          <div class="flex gap-6">
-
-            <div class="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center">
-              <div class="text-center">
-                <p class="font-bold">amazon</p>
-                <p class="text-xs text-gray-500">shopping voucher</p>
-              </div>
-            </div>
-
-            <div class="flex-grow">
-              <h3 class="text-xl font-bold mb-2">Amazon Shopping Voucher</h3>
-              <p class="text-sm text-gray-500 mb-4">E-Gift Card (Instant Vouchers)</p>
-
-              <div class="grid grid-cols-3 gap-4 mb-4">
-                <div>
-                  <p class="text-xs text-gray-500">Value</p>
-                  <p class="font-semibold">₹ 2000</p>
-                </div>
-
-                <div>
-                  <p class="text-xs text-gray-500">Quantity</p>
-                  <div class="flex items-center gap-2 border rounded">
-                    <button class="px-2">-</button>
-                    <span class="font-semibold">1</span>
-                    <button class="px-2">+</button>
-                  </div>
-                </div>
-
-                <div>
-                  <p class="text-xs text-gray-500">Total Value</p>
-                  <p class="font-semibold">₹ 2000</p>
-                </div>
-              </div>
-
-              <button class="text-red-500 text-sm font-medium">
-                🗑 Remove
-              </button>
-            </div>
-
-            <div class="text-right">
-              <p class="text-sm text-gray-500">You Pay</p>
-              <p class="text-2xl font-bold">₹2000</p>
-
-              <button class="mt-4 text-green-600 text-sm font-medium flex items-center gap-1">
-                🔒 Set Auto-Buy ℹ️
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Promo Code -->
-        <div class="flex gap-3">
-          <input
-            type="text"
-            placeholder="Enter promo code"
-            class="flex-grow px-4 py-2 border rounded-lg"
-          >
-          <button class="px-6 py-2 bg-green-500 text-white rounded-lg">
-            Apply
+  <div class="sticky top-0 z-50 bg-background/95 backdrop-blur-xl border-b">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <div class="flex h-14 items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <button id="btn-back" type="button"
+            class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-muted hover:text-foreground h-9 w-9">
+            <i data-lucide="arrow-left" class="h-4 w-4"></i>
           </button>
-        </div>
-      </div>
-
-      <!-- RIGHT SIDEBAR -->
-      <div>
-
-        <!-- Promo Banner -->
-        <div class="bg-green-50 border border-green-500 rounded-lg p-4 mb-6 flex justify-between">
-          <span class="font-semibold text-green-600">✔ Apply Promo Code</span>
-          <button class="border border-green-500 px-4 py-1 rounded text-green-600">
-            Apply
-          </button>
-        </div>
-
-        <!-- Payment Summary -->
-        <div class="bg-gray-900 text-white rounded-lg overflow-hidden">
-          <div class="px-6 py-4 border-b border-gray-700">
-            <h3 class="text-lg font-semibold">Payment Summary</h3>
-          </div>
-
-          <div class="px-6 py-4 space-y-4">
-            <div class="flex justify-between border-b pb-4">
-              <span>Voucher Value</span>
-              <span>₹2000</span>
-            </div>
-
-            <div class="flex justify-between border-b pb-4">
-              <span>Payable Amount</span>
-              <span>₹2000</span>
-            </div>
-
-            <div class="space-y-3">
-              <div class="grid grid-cols-3 text-xs font-medium border-b pb-2">
-                <span>Payment Method</span>
-                <span class="text-right">Surcharge</span>
-                <span class="text-right">Payable</span>
-              </div>
-
-              <!-- Payment Row -->
-              <div class="grid grid-cols-3 items-center py-2">
-                <span>Credit Card</span>
-                <span class="text-red-400 text-right">82.6</span>
-                <div class="flex justify-between">
-                  <span>2082.6</span>
-                  <button class="bg-green-500 px-2 py-1 text-xs rounded">
-                    PAY
-                  </button>
-                </div>
-              </div>
-
-              <div class="grid grid-cols-3 items-center py-2">
-                <span>UPI</span>
-                <span class="text-green-400 text-right">0</span>
-                <div class="flex justify-between">
-                  <span>2000</span>
-                  <button class="bg-green-500 px-2 py-1 text-xs rounded">
-                    PAY
-                  </button>
-                </div>
-              </div>
-            </div>
+          <div class="flex items-center gap-2">
+            <!-- Reuse brand identifier -->
+            <span class="font-bold text-sm hidden sm:inline text-xl text-primary tracking-tight">StudentPeeps.</span>
+            <span class="font-bold text-sm hidden sm:inline ml-2 text-muted-foreground border-l pl-2">Checkout</span>
           </div>
         </div>
-
-        <!-- Guarantee -->
-        <div class="mt-6 bg-green-50 border border-green-500 rounded-lg p-4">
-          <p class="font-semibold">✔ Studentpeeps assured</p>
-          <p class="text-xs text-gray-500">100% money back guarantee</p>
-          <button class="text-xs text-green-600 mt-2">Learn more</button>
+        <div class="hidden sm:flex items-center gap-4 text-xs text-muted-foreground">
+          <span class="flex items-center gap-1"><i data-lucide="lock" class="h-3 w-3"></i> SSL Encrypted</span>
+          <span class="flex items-center gap-1"><i data-lucide="shield" class="h-3 w-3"></i> Secure</span>
         </div>
-
       </div>
     </div>
   </div>
+
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+    {% if not cart.items %}
+    <div class="min-h-[60vh] flex flex-col items-center justify-center bg-background px-4">
+      <div class="w-20 h-20 rounded-full bg-muted flex items-center justify-center mb-5">
+        <i data-lucide="shopping-bag" class="h-9 w-9 text-muted-foreground opacity-40"></i>
+      </div>
+      <h1 class="text-xl font-bold mb-1">Your cart is empty</h1>
+      <p class="text-muted-foreground text-sm mb-6">Add some gift cards to proceed to checkout</p>
+      <a href="/explore">
+        <button
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-[var(--primary)] text-white hover:bg-[var(--primary)]/90 h-10 px-4 py-2">
+          Browse Gift Cards
+        </button>
+      </a>
+    </div>
+    {% else %}
+
+    <!-- Stepper Navigation -->
+    <div class="flex items-center justify-center mb-8" id="stepper">
+      <!-- Step 1 -->
+      <div class="flex items-center">
+        <button data-step-target="1"
+          class="step-btn flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-300">
+          <i data-lucide="shopping-bag" class="h-4 w-4 step-icon"></i>
+          <span class="text-xs font-semibold hidden sm:inline">Cart</span>
+          <span class="text-xs font-semibold sm:hidden">1</span>
+        </button>
+        <div class="w-8 sm:w-16 h-0.5 mx-1 sm:mx-2 rounded bg-border step-line" id="line-1"></div>
+      </div>
+      <!-- Step 2 -->
+      <div class="flex items-center">
+        <button data-step-target="2"
+          class="step-btn flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-300">
+          <i data-lucide="user" class="h-4 w-4 step-icon"></i>
+          <span class="text-xs font-semibold hidden sm:inline">Details</span>
+          <span class="text-xs font-semibold sm:hidden">2</span>
+        </button>
+        <div class="w-8 sm:w-16 h-0.5 mx-1 sm:mx-2 rounded bg-border step-line" id="line-2"></div>
+      </div>
+      <!-- Step 3 -->
+      <div class="flex items-center">
+        <button data-step-target="3"
+          class="step-btn flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-300">
+          <i data-lucide="credit-card" class="h-4 w-4 step-icon"></i>
+          <span class="text-xs font-semibold hidden sm:inline">Payment</span>
+          <span class="text-xs font-semibold sm:hidden">3</span>
+        </button>
+        <div class="w-8 sm:w-16 h-0.5 mx-1 sm:mx-2 rounded bg-border step-line" id="line-3"></div>
+      </div>
+      <!-- Step 4 -->
+      <div class="flex items-center">
+        <button data-step-target="4"
+          class="step-btn flex items-center gap-2 px-3 py-2 rounded-xl transition-all duration-300">
+          <i data-lucide="check-circle-2" class="h-4 w-4 step-icon"></i>
+          <span class="text-xs font-semibold hidden sm:inline">Review</span>
+          <span class="text-xs font-semibold sm:hidden">4</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN VIEWS WRAPPER -->
+    <div class="relative overflow-visible" id="checkout-views">
+
+      <!-- ==================== STEP 1: CART ==================== -->
+      <div id="step-view-1"
+        class="transition-all duration-300 ease-in-out transform opacity-100 translate-x-0 absolute w-full">
+        <div class="max-w-2xl mx-auto">
+          <div class="flex items-center justify-between gap-4 mb-5">
+            <div>
+              <h1 class="text-xl sm:text-2xl font-bold">Review Your Items</h1>
+              <p class="text-muted-foreground text-xs mt-0.5">{{ cart.items|length }} items in cart</p>
+            </div>
+            <div id="platform-savings-badge"
+              class="px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 hidden">
+              <span class="text-xs font-semibold text-emerald-700 flex items-center gap-1">
+                <i data-lucide="sparkles" class="h-3 w-3"></i>
+                Save ₹<span id="platform-savings-amt">0.00</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="rounded-2xl bg-white shadow-sm overflow-hidden mb-4 border">
+            {% for item in cart.items %}
+            <div class="cart-item flex items-center gap-3 px-4 py-3.5 border-b border-gray-100 last:border-0"
+              data-sku="{{ item.sku }}" data-amount="{{ item.denomination }}" data-quantity="{{ item.quantity }}"
+              data-margin="{{ item.margin }}" data-name="{{ item.name }}" data-final-price="{{ item.final_price }}">
+              <a href="{% url 'giftcard:giftcard_page' item.sku %}"
+                class="flex items-center gap-3 flex-1 min-w-0 group hover:opacity-80 transition-opacity">
+                <div
+                  class="w-10 h-10 rounded-md flex items-center justify-center flex-shrink-0 relative overflow-hidden bg-gray-900">
+                  <i data-lucide="gift" class="h-5 w-5 text-white relative z-10"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p
+                    class="font-medium text-sm truncate group-hover:text-[var(--primary)] transition-colors item-name-label">
+                    {{ item.name }}</p>
+                  <div class="flex items-center gap-2 mt-0.5">
+                    <span class="text-xs text-muted-foreground">₹<span class="item-denomination-label">{{
+                        item.denomination }}</span> x <span class="item-qty-label">{{ item.quantity }}</span></span>
+                    <span class="text-[10px] font-medium text-emerald-600 item-disc-badge hidden">0% off</span>
+                  </div>
+                </div>
+              </a>
+              <div class="flex items-center gap-2">
+                <div class="flex items-center border rounded-md">
+                  <button type="button"
+                    class="btn-qty-minus h-7 w-7 rounded-none rounded-l-md inline-flex justify-center items-center hover:bg-muted text-gray-500 transition-colors">
+                    <i data-lucide="minus" class="h-3 w-3"></i>
+                  </button>
+                  <span
+                    class="qty-count-disp text-xs font-semibold w-7 flex items-center justify-center tabular-nums border-x">{{
+                    item.quantity }}</span>
+                  <button type="button"
+                    class="btn-qty-plus h-7 w-7 rounded-none rounded-r-md inline-flex justify-center items-center hover:bg-muted text-gray-500 transition-colors">
+                    <i data-lucide="plus" class="h-3 w-3"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="text-right min-w-[65px]">
+                <p class="text-sm font-bold tabular-nums">₹<span class="item-final-price">{{
+                    item.final_price|floatformat:2 }}</span></p>
+                <p class="text-[11px] text-muted-foreground line-through tabular-nums hidden">₹<span
+                    class="item-orig-price">0.00</span></p>
+              </div>
+              <form method="POST" action="{% url 'giftcard:remove_from_cart' %}">
+                {% csrf_token %}
+                <input type="hidden" name="sku" value="{{ item.sku }}">
+                <input type="hidden" name="denomination" value="{{ item.denomination }}">
+                <button type="submit"
+                  class="h-7 w-7 text-gray-400 hover:text-red-500 flex-shrink-0 inline-flex items-center justify-center rounded-md transition-colors bg-white">
+                  <i data-lucide="trash-2" class="h-3.5 w-3.5"></i>
+                </button>
+              </form>
+            </div>
+            {% endfor %}
+          </div>
+
+          <div class="rounded-2xl bg-white shadow-sm p-4 mb-6 border">
+            <h2 class="font-medium text-sm mb-2.5 flex items-center gap-2">
+              <i data-lucide="tag" class="h-3.5 w-3.5 text-muted-foreground"></i>
+              Have a promo code?
+            </h2>
+            <div class="flex gap-2">
+              <input type="text" id="promo-input" placeholder="Enter code"
+                class="flex h-9 w-full rounded-md border border-[var(--muted)] px-3 text-sm focus-visible:outline-none focus:ring-2 focus:ring-[var(--primary)] text-sm shadow-sm" />
+              <button type="button" id="btn-apply-promo"
+                class="inline-flex items-center justify-center rounded-md font-medium transition-colors bg-[var(--primary)] text-white hover:bg-[var(--primary)]/90 h-9 px-4 py-2 text-sm">
+                Apply
+              </button>
+              <button type="button" id="btn-remove-promo"
+                class="hidden inline-flex items-center justify-center rounded-md font-medium transition-colors border bg-white text-gray-700 hover:bg-gray-50 h-9 px-4 py-2 text-sm">
+                Remove
+              </button>
+            </div>
+            <p id="promo-success-msg" class="hidden text-xs text-emerald-600 mt-2 flex items-center gap-1">
+              <i data-lucide="check-circle-2" class="h-3 w-3"></i>
+              <span id="promo-success-text"></span>
+            </p>
+            <div class="mt-2.5 flex flex-wrap gap-1.5">
+              <button type="button"
+                class="promo-hint text-[11px] px-2.5 py-1 rounded-full border border-dashed border-gray-300 text-gray-500 hover:border-[var(--primary)] hover:text-[var(--primary)] transition-colors flex items-center gap-1"
+                data-code="STUDENT10" data-disc="10">
+                <i data-lucide="tag" class="h-2.5 w-2.5"></i> STUDENT10 <span class="text-emerald-600 font-medium">(10%
+                  off)</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between gap-4 rounded-2xl bg-gray-50 border px-4 py-3">
+            <div>
+              <p class="text-xs text-muted-foreground">Subtotal after discounts</p>
+              <div class="flex items-baseline gap-2">
+                <p class="text-lg font-bold tabular-nums">₹<span id="subtotal-disp">{{ total_amount }}</span></p>
+                <p class="text-xs text-muted-foreground line-through tabular-nums hidden" id="raw-subtotal-disp">₹0</p>
+              </div>
+            </div>
+            <button type="button" id="btn-continue-2"
+              class="inline-flex items-center justify-center rounded-md font-medium transition-colors bg-[var(--primary)] text-white hover:bg-[var(--primary)]/90 h-10 px-4 py-2 text-sm shadow-md">
+              Continue
+              <i data-lucide="arrow-right" class="ml-1.5 h-4 w-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== STEP 2: DETAILS ==================== -->
+      <div id="step-view-2"
+        class="transition-all duration-300 ease-in-out transform opacity-0 translate-x-10 absolute w-full invisible pointer-events-none">
+        <div class="max-w-2xl mx-auto">
+          <div class="mb-5">
+            <h1 class="text-xl sm:text-2xl font-bold">Your Details</h1>
+            <p class="text-muted-foreground text-xs mt-0.5">We'll use these to send your gift card codes</p>
+          </div>
+
+          <div class="rounded-2xl bg-white shadow-sm p-5 sm:p-6 space-y-4 mb-6 border">
+            <div class="space-y-1.5">
+              <label class="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
+                <i data-lucide="user" class="h-3 w-3"></i>
+                Full Name
+              </label>
+              <input type="text" id="cust-name" placeholder="Enter your full name"
+                value="{{ request.user.first_name|default:'' }}"
+                class="flex h-10 w-full rounded-md border px-3 text-sm focus-visible:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
+                <i data-lucide="mail" class="h-3 w-3"></i>
+                Email
+              </label>
+              <input type="email" id="cust-email" placeholder="Enter your email address"
+                value="{{ request.user.email|default:'' }}"
+                class="flex h-10 w-full rounded-md border px-3 text-sm focus-visible:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
+                <i data-lucide="phone" class="h-3 w-3"></i>
+                Phone
+              </label>
+              <input type="tel" id="cust-phone" placeholder="Enter your phone number"
+                value="{{ request.user.profile.phone|default:'' }}"
+                class="flex h-10 w-full rounded-md border px-3 text-sm focus-visible:outline-none focus:ring-2 focus:ring-[var(--primary)]" />
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between gap-4 rounded-2xl bg-gray-50 border px-4 py-3">
+            <div>
+              <p class="text-xs text-muted-foreground">Next: choose payment</p>
+            </div>
+            <button type="button" id="btn-continue-3"
+              class="inline-flex items-center justify-center rounded-md font-medium transition-colors bg-[var(--primary)] text-white hover:bg-[var(--primary)]/90 h-10 px-4 py-2 text-sm shadow-md">
+              Choose Payment
+              <i data-lucide="arrow-right" class="ml-1.5 h-4 w-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== STEP 3: PAYMENT ==================== -->
+      <div id="step-view-3"
+        class="transition-all duration-300 ease-in-out transform opacity-0 translate-x-10 absolute w-full invisible pointer-events-none">
+        <div class="max-w-2xl mx-auto">
+          <div class="mb-5">
+            <h1 class="text-xl sm:text-2xl font-bold">Choose Payment Method</h1>
+            <p class="text-muted-foreground text-xs mt-0.5">Select how you'd like to pay — some methods include extra
+              savings</p>
+          </div>
+
+          <div class="mb-4">
+            <p class="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-2 pl-1">Available
+              Methods</p>
+            <div class="space-y-2">
+
+              <!-- UPI Payment Box -->
+              <div
+                class="payment-method-box relative flex items-center gap-3 px-3.5 py-3 rounded-xl cursor-pointer transition-all duration-150 bg-[var(--primary)]/5 ring-2 ring-[var(--primary)]/30 border border-transparent shadow-sm"
+                data-gw="upi" data-label="UPI" data-discount="0">
+                <div class="absolute -top-1.5 right-3">
+                  <div
+                    class="bg-emerald-600 text-white text-[9px] px-1.5 py-0.5 rounded-full flex items-center font-semibold shadow-sm">
+                    <i data-lucide="star" class="h-2 w-2 mr-0.5 fill-current border-0"></i>
+                    Best Price
+                  </div>
+                </div>
+                <div class="flex items-center justify-center w-9 h-9 rounded-md flex-shrink-0 bg-blue-100/50">
+                  <i data-lucide="smartphone" class="h-4 w-4 text-blue-600"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-1.5">
+                    <p class="font-medium text-sm text-gray-900">UPI</p>
+                  </div>
+                  <p class="text-[11px] text-muted-foreground leading-tight mt-0.5">Pay via Google Pay, PhonePe, Paytm
+                  </p>
+                </div>
+                <div class="text-right flex-shrink-0 min-w-[60px]">
+                  <p class="text-sm font-bold tabular-nums text-emerald-600">₹<span class="gw-price-disp">0</span></p>
+                </div>
+                <!-- Check Indicator -->
+                <div
+                  class="payment-check w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors border-[var(--primary)] bg-[var(--primary)]">
+                  <i data-lucide="check" class="h-2.5 w-2.5 text-white"></i>
+                </div>
+              </div>
+
+              <!-- Card Payment Box -->
+              <div
+                class="payment-method-box relative flex items-center gap-3 px-3.5 py-3 rounded-xl cursor-pointer transition-all duration-150 bg-white border border-gray-200 hover:bg-gray-50 shadow-sm"
+                data-gw="card" data-label="Credit/Debit Card" data-surcharge="1.5">
+                <div class="flex items-center justify-center w-9 h-9 rounded-md flex-shrink-0 bg-purple-100/50">
+                  <i data-lucide="credit-card" class="h-4 w-4 text-purple-600"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-1.5">
+                    <p class="font-medium text-sm text-gray-900">Credit / Debit Card</p>
+                  </div>
+                  <p class="text-[11px] text-muted-foreground leading-tight mt-0.5">Visa, Mastercard, RuPay (+1.5% fee)
+                  </p>
+                </div>
+                <div class="text-right flex-shrink-0 min-w-[60px]">
+                  <p class="text-sm font-bold tabular-nums text-gray-800">₹<span class="gw-price-disp">0</span></p>
+                </div>
+                <!-- Check Indicator -->
+                <div
+                  class="payment-check w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors border-gray-300">
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between gap-4 rounded-2xl bg-gray-50 border px-4 py-3 mt-6">
+            <div>
+              <p class="text-xs text-muted-foreground">Total with <span id="payment-label-disp">UPI</span></p>
+              <div class="flex items-baseline gap-2">
+                <p class="text-lg font-bold tabular-nums">₹<span id="final-total-disp">0</span></p>
+                <p class="text-xs text-muted-foreground line-through tabular-nums hidden" id="raw-final-disp">0</p>
+              </div>
+            </div>
+            <button type="button" id="btn-continue-4"
+              class="inline-flex items-center justify-center rounded-md font-medium transition-colors bg-[var(--primary)] text-white hover:bg-[var(--primary)]/90 h-10 px-4 py-2 text-sm shadow-md">
+              Review Order
+              <i data-lucide="arrow-right" class="ml-1.5 h-4 w-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== STEP 4: REVIEW ==================== -->
+      <div id="step-view-4"
+        class="transition-all duration-300 ease-in-out transform opacity-0 translate-x-10 absolute w-full invisible pointer-events-none">
+        <div class="max-w-2xl mx-auto">
+          <div class="mb-5">
+            <h1 class="text-xl sm:text-2xl font-bold">Confirm Your Order</h1>
+            <p class="text-muted-foreground text-xs mt-0.5">Review everything before placing your order</p>
+          </div>
+
+          <!-- Checkout Flow Wrapper -->
+          <div class="rounded-2xl bg-white shadow-sm overflow-hidden mb-4 border">
+            <div class="px-4 py-2.5 border-b border-gray-100 flex items-center justify-between gap-4 bg-gray-50/50">
+              <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Items (<span
+                  id="review-item-count">{{ cart.items|length }}</span>)</p>
+              <button type="button" onclick="checkoutFlow.goToStep(1)"
+                class="text-[11px] text-[var(--primary)] font-medium hover:underline">Edit</button>
+            </div>
+            {% for item in cart.items %}
+            <div class="flex items-center gap-3 px-4 py-3 border-b border-gray-100 last:border-0 review-item"
+              data-sku="{{ item.sku }}" data-name="{{ item.name }}" data-denomination="{{ item.denomination }}"
+              data-quantity="{{ item.quantity }}" data-final-price="{{ item.final_price }}">
+              <div class="w-8 h-8 rounded-md flex items-center justify-center flex-shrink-0 bg-gray-900">
+                <i data-lucide="gift" class="h-4 w-4 text-white"></i>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="font-medium text-sm truncate review-name-label">{{ item.name }}</p>
+                <span class="text-xs text-muted-foreground">₹{{ item.denomination }} × <span class="review-qty">{{
+                    item.quantity }}</span></span>
+              </div>
+              <p class="text-sm font-bold tabular-nums">₹<span class="review-final-price">{{
+                  item.final_price|floatformat:2 }}</span></p>
+            </div>
+            {% endfor %}
+          </div>
+
+          <!-- Address -->
+          <div class="rounded-2xl bg-white shadow-sm overflow-hidden mb-4 border">
+            <div class="px-4 py-2.5 border-b border-gray-100 flex items-center justify-between gap-4 bg-gray-50/50">
+              <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Delivery To</p>
+              <button type="button" onclick="checkoutFlow.goToStep(2)"
+                class="text-[11px] text-[var(--primary)] font-medium hover:underline">Edit</button>
+            </div>
+            <div class="px-4 py-3 space-y-1">
+              <p class="text-sm font-medium" id="review-name">Customer</p>
+              <p class="text-xs text-muted-foreground"><span id="review-email">email</span> · <span
+                  id="review-phone">phone</span></p>
+            </div>
+          </div>
+
+          <!-- Price Breakdown -->
+          <div class="rounded-2xl bg-white shadow-sm overflow-hidden mb-6 border">
+            <div class="px-4 py-2.5 border-b border-gray-100 bg-gray-50/50">
+              <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Price Breakdown</p>
+            </div>
+            <div class="px-4 py-4 space-y-2.5 text-sm">
+              <div class="flex items-center justify-between gap-4">
+                <span class="text-muted-foreground">Subtotal</span>
+                <span class="tabular-nums">₹<span id="review-raw-subtotal">0</span></span>
+              </div>
+
+              <div class="flex items-center justify-between gap-4 text-emerald-600 hidden" id="review-plat-disc-row">
+                <span class="flex items-center gap-1.5"><i data-lucide="sparkles" class="h-3 w-3"></i> Platform
+                  Discount</span>
+                <span class="tabular-nums font-medium">-₹<span id="review-plat-disc">0</span></span>
+              </div>
+
+              <div class="flex items-center justify-between gap-4 text-emerald-600 hidden" id="review-promo-disc-row">
+                <span class="flex items-center gap-1.5"><i data-lucide="tag" class="h-3 w-3"></i> Promo Code</span>
+                <span class="tabular-nums font-medium">-₹<span id="review-promo-disc">0</span></span>
+              </div>
+
+              <div class="flex items-center justify-between gap-4 text-red-500 hidden" id="review-fee-row">
+                <span class="flex items-center gap-1.5">Payment Fee</span>
+                <span class="tabular-nums font-medium">+₹<span id="review-fee-amt">0</span></span>
+              </div>
+
+              <div class="flex items-center justify-between gap-4">
+                <span class="text-muted-foreground">Delivery</span>
+                <span class="text-emerald-600 text-xs font-medium">FREE</span>
+              </div>
+
+              <div class="pt-2.5 border-t border-gray-100">
+                <div class="flex items-center justify-between gap-4">
+                  <span class="font-semibold text-base">You Pay</span>
+                  <div class="text-right">
+                    <span class="text-2xl font-bold tabular-nums text-gray-900">₹<span
+                        id="review-final-total">0</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Razorpay Pay Button -->
+          <div id="payment-error-msg"
+            class="hidden mb-3 px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm flex items-center gap-2">
+            <i data-lucide="alert-circle" class="h-4 w-4 flex-shrink-0"></i>
+            <span id="payment-error-text"></span>
+          </div>
+          <button type="button" id="btn-pay-now"
+            class="w-full h-12 text-base font-semibold rounded-xl inline-flex items-center justify-center gap-2 transition-all bg-[var(--primary)] text-white shadow-md hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed">
+            <i data-lucide="lock" class="h-4 w-4"></i>
+            Pay Securely — ₹<span id="btn-final-total">0</span>
+          </button>
+          <p class="text-center text-[10px] text-muted-foreground mt-2">
+            Powered by <span class="font-semibold capitalize">{{ active_gateway }}</span> · 100% Secure
+          </p>
+
+          <div class="flex items-center justify-center gap-4 text-[11px] text-muted-foreground pt-4">
+            <span class="flex items-center gap-1"><i data-lucide="shield" class="h-3 w-3"></i> Secure</span>
+            <span class="flex items-center gap-1"><i data-lucide="zap" class="h-3 w-3"></i> Instant Delivery</span>
+            <span class="flex items-center gap-1"><i data-lucide="check-circle-2" class="h-3 w-3"></i> Guaranteed</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    {% endif %}
+
+  </div>
 </div>
+
+<!-- Razorpay Checkout Script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+  /**
+   * Vanilla JS logic to manage Stepper, Reactivity & Razorpay Payment
+   */
+  const checkoutFlow = (function () {
+    let currentStep = 1;
+    const TOTAL_STEPS = 4;
+
+    // App State
+    let rawSubtotal = 0;
+    let platformDiscount = 0;
+    let subtotalAfterPlatform = 0;
+
+    let promoDiscountPct = 0;
+    let promoDiscountAmt = 0;
+
+    let selectedGateway = 'upi'; // 'upi' or 'card'
+    let gatewaySurchargePct = 0;
+    let gatewaySurchargeAmt = 0;
+
+    let finalPayable = 0;
+
+    // Init
+    function init() {
+      if (!document.getElementById('checkout-container')) return;
+
+      // Parse DOM to calculate initial values
+      calculateCartBase();
+      updateDerivedValues();
+      updateUI();
+      goToStep(1); // Set initial stepper state to Cart (Blue)
+
+      // Event Listeners
+      document.getElementById('btn-continue-2')?.addEventListener('click', () => goToStep(2));
+      document.getElementById('btn-continue-3')?.addEventListener('click', () => {
+        // Validate details before moving to payment step
+        const name = document.getElementById('cust-name').value.trim();
+        const email = document.getElementById('cust-email').value.trim();
+        const phone = document.getElementById('cust-phone').value.trim();
+        if (!name || !email || !phone) {
+          alert('Please fill in your Name, Email and Phone before proceeding.');
+          return;
+        }
+        goToStep(3);
+      });
+
+      document.getElementById('btn-continue-4')?.addEventListener('click', () => goToStep(4));
+
+      // Pay Now → Razorpay
+      document.getElementById('btn-pay-now')?.addEventListener('click', () => initiateRazorpayPayment());
+      document.getElementById('btn-back')?.addEventListener('click', () => {
+        if (currentStep > 1) {
+          goToStep(currentStep - 1);
+        } else {
+          window.history.back();
+        }
+      });
+
+      // Payment Method Selection
+      document.querySelectorAll('.payment-method-box').forEach(box => {
+        box.addEventListener('click', (e) => {
+          // Reset all
+          document.querySelectorAll('.payment-method-box').forEach(b => {
+            b.classList.remove('bg-[var(--primary)]/5', 'ring-2', 'ring-[var(--primary)]/30', 'border-transparent');
+            b.classList.add('bg-white', 'border-gray-200');
+            b.querySelector('.payment-check').innerHTML = '';
+            b.querySelector('.payment-check').classList.remove('border-[var(--primary)]', 'bg-[var(--primary)]');
+            b.querySelector('.payment-check').classList.add('border-gray-300');
+          });
+
+          // Mark active
+          box.classList.remove('bg-white', 'border-gray-200');
+          box.classList.add('bg-[var(--primary)]/5', 'ring-2', 'ring-[var(--primary)]/30', 'border-transparent');
+          box.querySelector('.payment-check').innerHTML = '<i data-lucide="check" class="h-2.5 w-2.5 text-white"></i>';
+          box.querySelector('.payment-check').classList.remove('border-gray-300');
+          box.querySelector('.payment-check').classList.add('border-[var(--primary)]', 'bg-[var(--primary)]');
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+
+          selectedGateway = box.dataset.gw;
+          document.getElementById('payment-label-disp').textContent = box.dataset.label;
+          gatewaySurchargePct = parseFloat(box.dataset.surcharge || "0");
+
+          updateDerivedValues();
+          updateUI();
+        });
+      });
+
+      // Promo Logic
+      document.getElementById('btn-apply-promo')?.addEventListener('click', () => {
+        const code = document.getElementById('promo-input').value.trim().toUpperCase();
+        if (code === "STUDENT10") applyPromo(10, code);
+        else if (code === "FIRST5") applyPromo(5, code);
+        else if (code === "PEEPS15") applyPromo(15, code);
+        else alert("Invalid Promo Code");
+      });
+
+      // Promo hints click mapping
+      document.querySelectorAll('.promo-hint').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.getElementById('promo-input').value = btn.dataset.code;
+        });
+      });
+
+      // Quantity Plus/Minus listeners
+      document.querySelectorAll('.btn-qty-plus').forEach(btn => {
+        btn.addEventListener('click', () => updateItemQty(btn, 1));
+      });
+      document.querySelectorAll('.btn-qty-minus').forEach(btn => {
+        btn.addEventListener('click', () => updateItemQty(btn, -1));
+      });
+
+      document.getElementById('btn-remove-promo')?.addEventListener('click', () => {
+        promoDiscountPct = 0;
+        document.getElementById('promo-input').disabled = false;
+        document.getElementById('promo-input').value = '';
+        document.getElementById('btn-apply-promo').classList.remove('hidden');
+        document.getElementById('btn-remove-promo').classList.add('hidden');
+        document.getElementById('promo-success-msg').classList.add('hidden');
+        updateDerivedValues();
+        updateUI();
+      });
+
+      // Header Steps clicks
+      document.querySelectorAll('.step-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const t = parseInt(e.currentTarget.dataset.stepTarget);
+          goToStep(t); // allow jumping anywhere
+        });
+      });
+    }
+
+    function updateItemQty(btn, diff) {
+      const row = btn.closest('.cart-item');
+      let qty = parseInt(row.dataset.quantity) + diff;
+      if (qty < 1) return;
+
+      row.dataset.quantity = qty;
+      row.querySelector('.qty-count-disp').textContent = qty;
+      row.querySelector('.item-qty-label').textContent = qty;
+
+      calculateCartBase();
+      updateDerivedValues();
+      updateUI();
+    }
+
+    function applyPromo(pct, code) {
+      promoDiscountPct = pct;
+      document.getElementById('promo-input').disabled = true;
+      document.getElementById('btn-apply-promo').classList.add('hidden');
+      document.getElementById('btn-remove-promo').classList.remove('hidden');
+      document.getElementById('promo-success-msg').classList.remove('hidden');
+      document.getElementById('promo-success-text').textContent = `${code} applied — ${pct}% extra off`;
+      updateDerivedValues();
+      updateUI();
+    }
+
+    function calculateCartBase() {
+      rawSubtotal = 0;
+      subtotalAfterPlatform = 0;
+
+      document.querySelectorAll('.cart-item').forEach(el => {
+        const amt = parseFloat(el.dataset.amount);
+        const qty = parseInt(el.dataset.quantity);
+        let margin = parseFloat(el.dataset.margin || "0");
+        if (margin > 1) margin = margin / 100; // normalize 2 to 0.02
+
+        const orig = amt * qty;
+        const finalp = orig - (orig * margin);
+
+        rawSubtotal += orig;
+        subtotalAfterPlatform += finalp;
+
+        // Populate name from data attribute (formatter-proof)
+        const nameLabel = el.querySelector('.item-name-label');
+        if (nameLabel && el.dataset.name) {
+          nameLabel.textContent = el.dataset.name;
+        }
+
+        // Populate denomination from data attribute
+        const denomLabel = el.querySelector('.item-denomination-label');
+        if (denomLabel) denomLabel.textContent = amt;
+
+        // Populate quantity displays from data attribute
+        const qtyLabel = el.querySelector('.item-qty-label');
+        if (qtyLabel) qtyLabel.textContent = qty;
+        const qtyDisp = el.querySelector('.qty-count-disp');
+        if (qtyDisp) qtyDisp.textContent = qty;
+
+        // update prices in UI
+        el.querySelector('.item-orig-price').textContent = orig.toFixed(2);
+        el.querySelector('.item-final-price').textContent = finalp.toFixed(2);
+        if (margin > 0) {
+          el.querySelector('.item-orig-price').parentElement.classList.remove('hidden');
+          el.querySelector('.item-disc-badge').textContent = `${(margin * 100).toFixed(0)}% off`;
+          el.querySelector('.item-disc-badge').classList.remove('hidden');
+        }
+      });
+
+      platformDiscount = rawSubtotal - subtotalAfterPlatform;
+    }
+
+    function updateDerivedValues() {
+      promoDiscountAmt = subtotalAfterPlatform * (promoDiscountPct / 100);
+      const subtotalAfterPromo = subtotalAfterPlatform - promoDiscountAmt;
+
+      gatewaySurchargeAmt = subtotalAfterPromo * (gatewaySurchargePct / 100);
+      finalPayable = subtotalAfterPromo + gatewaySurchargeAmt;
+    }
+
+    function updateUI() {
+      // Step 1 UI Updates
+      document.getElementById('subtotal-disp').textContent = (subtotalAfterPlatform - promoDiscountAmt).toFixed(2);
+      if (platformDiscount > 0 || promoDiscountAmt > 0) {
+        document.getElementById('raw-subtotal-disp').textContent = `₹${rawSubtotal.toFixed(2)}`;
+        document.getElementById('raw-subtotal-disp').classList.remove('hidden');
+      }
+
+      if (platformDiscount > 0) {
+        document.getElementById('platform-savings-badge').classList.remove('hidden');
+        document.getElementById('platform-savings-amt').textContent = platformDiscount.toFixed(2);
+      }
+
+      // Step 3 UI Updates
+      document.getElementById('final-total-disp').textContent = finalPayable.toFixed(2);
+
+      // Step 4 Review Sheet
+      document.getElementById('review-raw-subtotal').textContent = rawSubtotal.toFixed(2);
+
+      if (platformDiscount > 0) {
+        document.getElementById('review-plat-disc-row').classList.remove('hidden');
+        document.getElementById('review-plat-disc').textContent = platformDiscount.toFixed(2);
+      }
+
+      if (promoDiscountAmt > 0) {
+        document.getElementById('review-promo-disc-row').classList.remove('hidden');
+        document.getElementById('review-promo-disc').textContent = promoDiscountAmt.toFixed(2);
+      } else {
+        document.getElementById('review-promo-disc-row').classList.add('hidden');
+      }
+
+      if (gatewaySurchargeAmt > 0) {
+        document.getElementById('review-fee-row').classList.remove('hidden');
+        document.getElementById('review-fee-amt').textContent = gatewaySurchargeAmt.toFixed(2);
+      } else {
+        document.getElementById('review-fee-row').classList.add('hidden');
+      }
+
+      document.getElementById('review-final-total').textContent = finalPayable.toFixed(2);
+      document.getElementById('btn-final-total').textContent = finalPayable.toFixed(2);
+
+      // Update individual payment boxes dynamic prices
+      document.querySelectorAll('.payment-method-box').forEach(box => {
+        const gSurchPct = parseFloat(box.dataset.surcharge || "0");
+        const base = subtotalAfterPlatform - promoDiscountAmt;
+        const gSurchAmt = base * (gSurchPct / 100);
+        box.querySelector('.gw-price-disp').textContent = (base + gSurchAmt).toFixed(2);
+      });
+    }
+
+    function goToStep(targetStep) {
+      if (targetStep > TOTAL_STEPS || targetStep < 1) return;
+
+      // 1. Update Views using translation
+      for (let i = 1; i <= TOTAL_STEPS; i++) {
+        const view = document.getElementById(`step-view-${i}`);
+        if (i === targetStep) {
+          view.classList.remove('opacity-0', '-translate-x-10', 'translate-x-10', 'invisible', 'pointer-events-none');
+          view.classList.add('opacity-100', 'translate-x-0');
+          // reset position in flow stack
+          view.style.position = 'relative';
+        } else {
+          view.classList.remove('opacity-100', 'translate-x-0');
+          view.classList.add('opacity-0', 'invisible', 'pointer-events-none');
+          view.classList.add(i < targetStep ? '-translate-x-10' : 'translate-x-10');
+          view.style.position = 'absolute';
+        }
+      }
+
+      // 2. Update Header Stepper Styling
+      const brandBlue = '#0173E6';
+      for (let i = 1; i <= TOTAL_STEPS; i++) {
+        const btn = document.querySelector(`button[data-step-target="${i}"]`);
+        const line = document.getElementById(`line-${i}`);
+
+        // Reset
+        btn.style.backgroundColor = '';
+        btn.style.color = '';
+        btn.classList.remove('bg-[#0173E6]', 'text-white', 'shadow-md', 'bg-white', 'text-gray-700', 'border', 'border-gray-200', 'shadow-sm', 'hover:bg-gray-50');
+
+        if (i === targetStep) {
+          // ACTIVE BLUE
+          btn.style.backgroundColor = brandBlue;
+          btn.style.color = '#ffffff';
+          btn.classList.add('shadow-md');
+          btn.classList.add('cursor-default');
+        } else {
+          // INACTIVE WHITE
+          btn.style.backgroundColor = '#ffffff';
+          btn.style.color = '#374151';
+          btn.classList.add('border', 'border-gray-200', 'shadow-sm', 'hover:bg-gray-50', 'cursor-pointer');
+        }
+
+        if (line) {
+          line.style.backgroundColor = (i < targetStep) ? '#10B981' : '#E5E7EB';
+        }
+      }
+
+      // If jumping to Review (4), synchronize data into the sheet before it shows
+      if (targetStep === 4) {
+        const name = document.getElementById('cust-name').value.trim() || 'No Name Provided';
+        const email = document.getElementById('cust-email').value.trim() || 'No Email';
+        const phone = document.getElementById('cust-phone').value.trim() || 'No Phone';
+
+        document.getElementById('review-name').textContent = name;
+        document.getElementById('review-email').textContent = email;
+        document.getElementById('review-phone').textContent = phone;
+
+        // Sync quantities, names, and prices to Review items from cart data attributes
+        document.querySelectorAll('.cart-item').forEach(row => {
+          const sku = row.dataset.sku;
+          const qty = row.dataset.quantity;
+          const itemName = row.dataset.name;
+          const finalP = row.querySelector('.item-final-price').textContent;
+
+          const reviewRow = document.querySelector(`.review-item[data-sku="${sku}"]`);
+          if (reviewRow) {
+            const reviewNameEl = reviewRow.querySelector('.review-name-label');
+            if (reviewNameEl && itemName) reviewNameEl.textContent = itemName;
+            reviewRow.querySelector('.review-qty').textContent = qty;
+            reviewRow.querySelector('.review-final-price').textContent = finalP;
+          }
+        });
+
+        // Also populate review items from their own data attributes (fallback)
+        document.querySelectorAll('.review-item').forEach(row => {
+          if (row.dataset.name) {
+            const nameEl = row.querySelector('.review-name-label');
+            if (nameEl && nameEl.textContent.includes('item.name')) {
+              nameEl.textContent = row.dataset.name;
+            }
+          }
+          if (row.dataset.finalPrice) {
+            const priceEl = row.querySelector('.review-final-price');
+            if (priceEl && priceEl.textContent.includes('item.final_price')) {
+              priceEl.textContent = parseFloat(row.dataset.finalPrice).toFixed(2);
+            }
+          }
+          if (row.dataset.quantity) {
+            const qtyEl = row.querySelector('.review-qty');
+            if (qtyEl && qtyEl.textContent.includes('item.quantity')) {
+              qtyEl.textContent = row.dataset.quantity;
+            }
+          }
+        });
+      }
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      currentStep = targetStep;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    return {
+      init,
+      goToStep
+    };
+  })();
+
+  document.addEventListener('DOMContentLoaded', checkoutFlow.init);
+
+  // ─────────────────────────────────────────────────────────────────────
+  // Razorpay Payment Flow
+  // ─────────────────────────────────────────────────────────────────────
+
+  function getCsrfToken() {
+    return document.cookie.split(';')
+      .map(c => c.trim())
+      .find(c => c.startsWith('csrftoken='))
+      ?.split('=')?.[1] || '';
+  }
+
+  function showPaymentError(msg) {
+    const box = document.getElementById('payment-error-msg');
+    const text = document.getElementById('payment-error-text');
+    if (box && text) {
+      text.textContent = msg;
+      box.classList.remove('hidden');
+    }
+  }
+
+  function hidePaymentError() {
+    const box = document.getElementById('payment-error-msg');
+    if (box) box.classList.add('hidden');
+  }
+
+  function setPayButtonLoading(loading) {
+    const btn = document.getElementById('btn-pay-now');
+    if (!btn) return;
+    if (loading) {
+      btn.disabled = true;
+      btn.innerHTML = '<svg class="animate-spin h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Processing…';
+    } else {
+      btn.disabled = false;
+      btn.innerHTML = `<i data-lucide="lock" class="h-4 w-4"></i> Pay Securely — ₹<span id="btn-final-total">${document.getElementById('review-final-total')?.textContent || '0'}</span>`;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  }
+
+  async function initiateRazorpayPayment() {
+    hidePaymentError();
+
+    const name = document.getElementById('cust-name')?.value.trim() || '';
+    const email = document.getElementById('cust-email')?.value.trim() || '';
+    const phone = document.getElementById('cust-phone')?.value.trim() || '';
+
+    if (!name || !email || !phone) {
+      showPaymentError('Please complete your details in Step 2 before paying.');
+      return;
+    }
+
+    setPayButtonLoading(true);
+
+    try {
+      // 1. Create Razorpay order via our backend
+      const initiateResp = await fetch('{% url "giftcard:initiate_payment" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCsrfToken(),
+        },
+        body: JSON.stringify({ name, email, phone }),
+      });
+
+      const initiateData = await initiateResp.json();
+
+      if (!initiateResp.ok) {
+        if (initiateData.auth_required) {
+          window.location.href = '/account/v2/identify?next=' + encodeURIComponent(window.location.pathname);
+          return;
+        }
+        showPaymentError(initiateData.error || 'Unable to create payment order.');
+        setPayButtonLoading(false);
+        return;
+      }
+
+      const { order_id, reference_id, gateway_type, gateway_order_id, amount, currency, gateway_key, action_url, form_fields } = initiateData;
+
+      // -------------------------------------------------------------
+      // REDIRECT GATEWAY (e.g. PayU)
+      // -------------------------------------------------------------
+      if (gateway_type === "redirect") {
+        setPayButtonLoading(true); // Keep it loading while redirecting
+
+        // Dynamically create a form and submit it
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = action_url;
+        form.style.display = "none";
+
+        for (const key in form_fields) {
+          if (form_fields.hasOwnProperty(key)) {
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = key;
+            input.value = form_fields[key];
+            form.appendChild(input);
+          }
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+
+        return; // Stop execution here, browser handles the rest
+      }
+
+      // -------------------------------------------------------------
+      // MODAL GATEWAY (e.g. Razorpay)
+      // -------------------------------------------------------------
+      if (gateway_type === "modal") {
+        const rzpOptions = {
+          key: gateway_key,
+          amount: amount,
+          currency: currency,
+          name: 'StudentPeeps',
+          description: 'Gift Card Purchase',
+          order_id: gateway_order_id,
+          prefill: {
+            name: name,
+            email: email,
+            contact: phone,
+          },
+          theme: { color: '#0173E6' },
+
+          handler: async function (response) {
+            // 3. Payment successful — verify on backend
+            try {
+              const callbackResp = await fetch('{% url "giftcard:payment_callback" %}', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRFToken': getCsrfToken(),
+                },
+                body: JSON.stringify({
+                  order_id: order_id,
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                }),
+              });
+
+              const callbackData = await callbackResp.json();
+
+              if (callbackData.success) {
+                window.location.href = callbackData.redirect;
+              } else {
+                showPaymentError(callbackData.error || 'Payment verification failed. Please contact support.');
+                setPayButtonLoading(false);
+              }
+            } catch (err) {
+              showPaymentError('Network error during payment verification. Please contact support.');
+              setPayButtonLoading(false);
+            }
+          },
+
+          modal: {
+            ondismiss: function () {
+              // User closed the Razorpay modal without paying
+              setPayButtonLoading(false);
+            }
+          }
+        };
+
+        if (typeof Razorpay === 'undefined') {
+          showPaymentError('Payment gateway SDK not loaded.');
+          setPayButtonLoading(false);
+          return;
+        }
+
+        const rzp = new Razorpay(rzpOptions);
+
+        rzp.on('payment.failed', function (response) {
+          showPaymentError(`Payment failed: ${response.error.description}`);
+          setPayButtonLoading(false);
+        });
+
+        rzp.open();
+      }
+
+    } catch (err) {
+      showPaymentError('Something went wrong. Please try again.');
+      setPayButtonLoading(false);
+    }
+  }
+</script>
+
 {% endblock %}

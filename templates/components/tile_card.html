@@ -1,42 +1,36 @@
 <a href="{{ offer.link }}">
-  <div class="relative bg-white rounded-xl shadow-md overflow-hidden transition hover:shadow-xl h-[300px]">
+    <div class="relative bg-white rounded-xl shadow-md overflow-hidden transition hover:shadow-xl h-[300px]">
 
-      <div class="relative w-full h-[200px]">
-          <img
-              src="{{ offer.thumbnail_image.url }}"
-              alt="{{ offer.title }}"
-              class="w-full h-full object-cover"
-          />
+        <div class="relative w-full h-[200px]">
+            <img src="{{ offer.thumbnail_image.url }}" alt="{{ offer.title }}" class="w-full h-full object-cover" />
 
-          <!-- Brand Area -->
-          <div class="flex items-center justify-center absolute left-1/2 -translate-x-1/2 bottom-[-60px]">
+            <!-- Brand Area -->
+            <div class="flex items-center justify-center absolute left-1/2 -translate-x-1/2 bottom-[-60px]">
 
-              <!-- Brand Logo -->
-              <div class="w-16 h-16 rounded-full bg-white shadow flex items-center justify-center overflow-hidden">
-                  <img
-                      src="{{ offer.brand.logo.url }}"
-                      alt="{{ offer.brand.name }}"
-                      class="w-full h-full object-contain"
-                  />
-              </div>
+                <!-- Brand Logo -->
+                <div class="w-16 h-16 rounded-full bg-white shadow flex items-center justify-center overflow-hidden">
+                    <img src="{{ offer.brand.logo.url }}" alt="{{ offer.brand.name }}"
+                        class="w-full h-full object-contain" />
+                </div>
 
-              <!-- Brand Name -->
-              <div class="text-black font-semibold capitalize text-[18px] flex justify-center w-full relative bottom-[-60px]">
-                  <p>{{ offer.brand.name }}</p>
-              </div>
+                <!-- Brand Name -->
+                <div
+                    class="text-black font-semibold capitalize text-[18px] flex justify-center w-full relative bottom-[-60px]">
+                    <p>{{ offer.brand.name }}</p>
+                </div>
 
-          </div>
-      </div>
+            </div>
+        </div>
 
-      <!-- Content -->
-      <div class="mt-24 p-4">
-          <h3 class="text-lg font-bold leading-tight">
-              {{ offer.title }}
-          </h3>
-          <p class="text-sm text-gray-600 mt-1">
-              {{ offer.subtitle }}
-          </p>
-      </div>
+        <!-- Content -->
+        <div class="mt-24 p-4">
+            <h3 class="text-lg font-bold leading-tight">
+                {{ offer.title }}
+            </h3>
+            <p class="text-sm text-gray-600 mt-1">
+                {{ offer.subtitle }}
+            </p>
+        </div>
 
-  </div>
+    </div>
 </a>
