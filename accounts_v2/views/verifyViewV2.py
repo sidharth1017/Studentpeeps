@@ -56,7 +56,7 @@ class VerifyViewV2(View):
         return render(request, 'account/sendOtp.html', {'phone': masked_details})
 
     def post(self, request):
-        input_otp = request.POST['otp']
+        input_otp = request.POST.get('otp', '')
         stored_hashed_otp = request.session.get('studentpeepsV2')
 
         if stored_hashed_otp and check_password(input_otp, stored_hashed_otp):

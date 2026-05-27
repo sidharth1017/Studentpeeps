@@ -16,7 +16,7 @@ def generate_woohoo_status_curl():
     token_manager = WoohooTokenManager(provider)
     
     # Target reference id from the user's prompt
-    refno = "34a39532-a33c-47e1-90fe-796775617ef3" 
+    refno = "a794ebad-914f-41e6-a1b9-f8173ef82d05" 
     
     # 1. Get fresh token
     token = token_manager.get_token()

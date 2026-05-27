@@ -13,7 +13,7 @@ try:
     res = gw.create_order(
         amount=Decimal("150.00"),
         currency="INR",
-        reference_id=str(uuid.uuid4()),
+        reference_id=f"STDPS-{uuid.uuid4().hex}",
         customer={"name": "Test User", "email": "test@example.com", "phone": "9999999999"},
         surl="http://localhost:8000/success",
         furl="http://localhost:8000/failure"

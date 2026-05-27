@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import View
+from types import SimpleNamespace
 from .models import Brand, Offer, OfferSEO, OfferCodeForUser, RedeemedCodes, OfferDailyAnalytics
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy

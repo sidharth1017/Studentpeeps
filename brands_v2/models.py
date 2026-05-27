@@ -5,6 +5,7 @@ from django.utils.text import slugify
 from django import forms
 from django.utils import timezone
 from django.utils.html import format_html
+from django.urls import reverse
 import json
 
 class OfferCategory(models.TextChoices):

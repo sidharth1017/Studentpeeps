@@ -8,7 +8,7 @@ from django.contrib.auth import logout
 
 def GoogleAuthFun(request):
     next_url = request.GET.get('next')
-    if User.objects.filter(email=request.user.email).exists() & Register.objects.filter(user__email=request.user.email).exists():
+    if User.objects.filter(email=request.user.email).exists() and Register.objects.filter(user__email=request.user.email).exists():
         if next_url:
             return HttpResponseRedirect(next_url)
         else:
@@ -20,5 +20,4 @@ def GoogleAuthFun(request):
         request.session['username'] = user.email
         request.session['fname'] = user.first_name
         request.session['email'] = user.email
-        request.session['password'] = user.password
         return HttpResponseRedirect('/account/v2/phone')

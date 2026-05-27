@@ -6,24 +6,31 @@ from .serializers import *
 import pandas as pd 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 import uuid 
 from django.views.decorators.csrf import csrf_exempt
 from decouple import config
+from django.conf import settings
+import os
 
 # Create your views here
+@staff_member_required
 def Register(request):
     register_objs = Registers.objects.all()
     serializer = RegistersSerializer(register_objs, many=True)
     df = pd.DataFrame(serializer.data)
-    df.to_csv(f"/var/www/studentpeeps/media/data{uuid.uuid4()}.csv", encoding="UTF-8", index=False)
+    export_path = os.path.join(settings.MEDIA_ROOT, f"data{uuid.uuid4()}.csv")
+    df.to_csv(export_path, encoding="UTF-8", index=False)
     return HttpResponse("Data Printed")
 
 
+@staff_member_required
 def Uploads(request):
     Uploads_objs = Upload.objects.all()
     serializer = UploadsSerializer(Uploads_objs, many=True)
     df = pd.DataFrame(serializer.data)
-    df.to_csv(f"/var/www/studentpeeps/media/data{uuid.uuid4()}.csv", encoding="UTF-8", index=False)
+    export_path = os.path.join(settings.MEDIA_ROOT, f"data{uuid.uuid4()}.csv")
+    df.to_csv(export_path, encoding="UTF-8", index=False)
     return HttpResponse("Data Printed")
 
 

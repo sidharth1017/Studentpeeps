@@ -42,7 +42,7 @@ payload = {
       "sku": "EGCGBAMZ001"
     }
   ],
-  "refno": f"test-{uuid.uuid4().hex[:8]}",
+  "refno": f"STDPS-{uuid.uuid4().hex[:8]}",
   "syncOnly": False
 }
 

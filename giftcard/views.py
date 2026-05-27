@@ -27,7 +27,10 @@ class AddToCartView(View):
     def post(self, request):
         sku = request.POST.get("sku")
         denomination = request.POST.get("denomination")
-        quantity = int(request.POST.get("quantity", 1))
+        try:
+            quantity = int(request.POST.get("quantity", 1))
+        except (ValueError, TypeError):
+            quantity = 1
         buy_now = request.POST.get("buy_now") == "true"
 
         resolver = ProductResolver(sku)
@@ -168,7 +171,8 @@ class InitiatePaymentView(LoginRequiredMixin, View):
             return JsonResponse({"error": "Your cart is empty."}, status=400)
 
         total        = cart.total_amount()
-        reference_id = str(uuid4())
+        org_code     = getattr(settings, "WOOHOO_ORG_CODE", "STDPS")
+        reference_id = f"{org_code}-{uuid4().hex}"
         gw_name      = settings.ACTIVE_PAYMENT_GATEWAY
 
         # 1. Create our Order
@@ -288,8 +292,16 @@ class PaymentCallbackView(LoginRequiredMixin, View):
         order.gateway_payment_id = verification.gateway_payment_id
         order.save()
 
-        _place_woohoo_order(order)
+        woohoo_success = _place_woohoo_order(order)
         CartService(request).clear_cart()
+
+        if not woohoo_success:
+            order.status = Order.STATUS_FAILED
+            order.save(update_fields=["status"])
+            return JsonResponse({
+                "success": True,
+                "redirect": reverse("giftcard:order_failed_refund", kwargs={"reference_id": order.reference_id}),
+            })
 
         return JsonResponse({
             "success":  True,
@@ -330,7 +342,9 @@ class PayUSuccessView(View):
             }, status=404)
 
         if order.status not in (Order.STATUS_PAYMENT_INITIATED,):
-            # Already processed (duplicate callback) — just redirect
+            # Already processed (duplicate callback) — redirect to correct page based on current status
+            if order.status == Order.STATUS_FAILED:
+                return redirect(reverse("giftcard:order_failed_refund", kwargs={"reference_id": order.reference_id}))
             return redirect(reverse("giftcard:order_success", kwargs={"reference_id": order.reference_id}))
 
         gateway = get_gateway(order.payment_gateway)
@@ -361,7 +375,7 @@ class PayUSuccessView(View):
         order.gateway_payment_id = mihpayid
         order.save()
 
-        _place_woohoo_order(order)
+        woohoo_success = _place_woohoo_order(order)
 
         # Clear cart manually instead of using CartService(request)
         # Because PayU POSTs back cross-domain without the SameSite session cookie,
@@ -373,6 +387,11 @@ class PayUSuccessView(View):
             if cart:
                 cart.items = []
                 cart.save()
+
+        if not woohoo_success:
+            order.status = Order.STATUS_FAILED
+            order.save(update_fields=["status"])
+            return redirect(reverse("giftcard:order_failed_refund", kwargs={"reference_id": order.reference_id}))
 
         return redirect(reverse("giftcard:order_success", kwargs={"reference_id": order.reference_id}))
 
@@ -421,6 +440,14 @@ class OrderSuccessView(LoginRequiredMixin, View):
     def get(self, request, reference_id):
         order = get_object_or_404(Order, reference_id=reference_id, user=request.user)
         return render(request, "pages/order_success.html", {"order": order})
+
+
+class OrderFailedRefundView(LoginRequiredMixin, View):
+    login_url = "/account/v2/identify"
+
+    def get(self, request, reference_id):
+        order = get_object_or_404(Order, reference_id=reference_id, user=request.user)
+        return render(request, "pages/order_failed_refund.html", {"order": order})
 
 
 class OrderDetailView(LoginRequiredMixin, View):

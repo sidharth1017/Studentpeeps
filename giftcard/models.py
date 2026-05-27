@@ -263,7 +263,7 @@ class ProductOverride(models.Model):
     )
 
     margin = models.DecimalField(
-        max_digits=6,
+        max_digits=10,
         decimal_places=6,
         null=True,
         blank=True,

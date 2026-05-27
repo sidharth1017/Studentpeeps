@@ -45,19 +45,29 @@ def generate_woohoo_order_curl():
         "payments": [
             {
                 "code": "svc",
-                "amount": 500  # valid denomination
+                "amount": 100  # valid denomination
+            },
+                        {
+                "code": "svc",
+                "amount": 100  # valid denomination
             }
         ],
         "products": [
             {
-                "sku": "EGCGBAMZ001",
-                 "price": 500,
+                "sku": "VOUCHERCODE",
+                 "price": 100,
+                 "qty": 1,
+                 "currency": 356
+            },
+                        {
+                "sku": "CNPIN",
+                 "price": 100,
                  "qty": 1,
                  "currency": 356
             }
         ],
-        "refno": f"test-order-{int(datetime.now().timestamp())}",
-        "syncOnly": False
+        "refno": f"STDPS-order-{int(datetime.now().timestamp())}",
+        "syncOnly": True
     }
     
     # 3. Generate correct string

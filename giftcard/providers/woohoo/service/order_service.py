@@ -58,7 +58,7 @@ class WoohooOrderService:
                 "telephone": phone,
                 "country": "IN"
             },
-            "deliveryMode": "ANY",
+            "deliveryMode": "API",
             "payments": [
                 {
                     "code": "svc",

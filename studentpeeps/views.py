@@ -5,13 +5,13 @@ from django.views.generic.base import View
 from django.contrib.auth import logout
 from account.models import Registers, Upload
 
-next = ""
 
 # Create your views here
 def UploadFunc(request):
     if Registers.objects.filter(email=request.user.email).exists() or Upload.objects.filter(email=request.user.email).exists():
-        if next:
-            return HttpResponseRedirect(f'/{next}/')
+        redirect_url = request.session.pop('login_next_url', '')
+        if redirect_url:
+            return HttpResponseRedirect(f'/{redirect_url}/')
         else:
             return HttpResponseRedirect('/')
     else:
@@ -22,11 +22,7 @@ def UploadFunc(request):
         request.session['fname'] = user.first_name
         request.session['lname'] = user.last_name
         request.session['gender'] = ""
-        # request.session['date'] = ""
-        # request.session['month'] = ""
-        # request.session['year'] = ""
         request.session['email'] = user.email
-        request.session['password'] = user.password
         return HttpResponseRedirect('/account/upload/')
 
 
@@ -58,9 +54,8 @@ class ssl(View):
 
 class LoginNext(View):
     def get(self, request, nexturl):
-        global next
         if nexturl == 'null':
-            next = ''
+            request.session.pop('login_next_url', None)
         else:
-            next = nexturl
+            request.session['login_next_url'] = nexturl
         return JsonResponse({"message" : "Done"})

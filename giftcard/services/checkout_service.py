@@ -16,9 +16,12 @@ class CheckoutService:
         if not self.cart.items:
             raise ValueError("Cannot create order from empty cart")
 
+        from django.conf import settings
+        org_code = getattr(settings, "WOOHOO_ORG_CODE", "STDPS")
+
         order = Order.objects.create(
             user=self.cart.user,
-            reference_id=str(uuid4()),
+            reference_id=f"{org_code}-{uuid4().hex}",
             total_amount=self.cart.total_amount(),
             provider_id="woohoo",
         )
@@ -27,11 +30,7 @@ class CheckoutService:
         order.items_snapshot = self.cart.items
         order.save()
 
-        # Final order placed, retire the cart
-        self.cart.is_active = False
-        self.cart.save()
-        
-        # Alternatively, if we just delete it:
+        # Final order placed, delete the cart
         self.cart.delete()
 
         return order

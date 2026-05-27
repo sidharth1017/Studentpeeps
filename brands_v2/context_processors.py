@@ -3,7 +3,10 @@ from .models import Offer, Category
 from django.db.models import Count
 
 def search_offers(request):
-    offers = Offer.objects.all().order_by('-sorting')
+    offers = Offer.objects.select_related('brand').only(
+        'id', 'brand__id', 'brand__slug', 'custom_id', 'sorting'
+    ).all().order_by('-sorting')
+    
     brand_offer_counts = (
         Offer.objects.values('brand')
         .annotate(total=Count('id'))

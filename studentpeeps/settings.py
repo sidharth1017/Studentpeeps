@@ -26,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['studentpeeps.club', '139.59.79.183', 'www.studentpeeps.club', 'localhost', '127.0.0.1', '*']
+ALLOWED_HOSTS = ['studentpeeps.club', '139.59.79.183', 'www.studentpeeps.club', 'localhost', '127.0.0.1']
 
 # Application definition
 INSTALLED_APPS = [
@@ -137,7 +137,6 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 #SMTP Configuration
@@ -250,6 +249,8 @@ WOOHOO_CLIENT_ID = config("WOOHOO_CLIENT_ID")
 WOOHOO_CLIENT_SECRET = config("WOOHOO_CLIENT_SECRET")
 WOOHOO_USERNAME = config("WOOHOO_USERNAME")
 WOOHOO_PASSWORD = config("WOOHOO_PASSWORD")
+WOOHOO_TIMEOUT = 10 if DEBUG else 40
+WOOHOO_ORG_CODE = config("WOOHOO_ORG_CODE", default="STDPS")
 
 # Payment Gateway Config
 # Active gateway: one of the keys in giftcard/payments/registry.py

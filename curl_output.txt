@@ -1,0 +1,14 @@
+
+
+================================================================================
+READY TO USE CURL COMMAND (Valid for a few minutes):
+================================================================================
+
+curl -X POST "https://sandbox.woohoo.in/rest/v3/orders" \
+     -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjb25zdW1lcklkIjo5ODIsImV4cCI6MTc3OTU2Mzc5NiwidG9rZW4iOiI5OGFjNmY1MmIwM2Y2MDNkMjI1MTJiN2JiMjA0Mjk3MCJ9.73QexW3nGXljxqYI0Dd4tcCtlD5-_rz49ODl0AkUN0Q" \
+     -H "Content-Type: application/json" \
+     -H "dateAtClient: 2026-05-17T19:38:36.610635+00:00" \
+     -H "signature: 8b02e0440d6328c3ab5ce4333bfa51b832ab4c5660e91155940b7b2e7e40700503f567907c936bff979bdf280eaca96b2d9b1ff107e5dbf81380b356363c2779" \
+     -d '{"address":{"billToThis":true,"country":"IN","email":"test@example.com","firstname":"Curl","lastname":"Test","telephone":"+919999999999"},"billing":{"country":"IN","email":"test@example.com","firstname":"Curl","lastname":"Test","telephone":"+919999999999"},"deliveryMode":"API","payments":[{"amount":100,"code":"svc"}],"products":[{"currency":356,"price":100,"qty":1,"sku":"CNPIN"}],"refno":"test-order-1779046716","syncOnly":false}'
+
+================================================================================

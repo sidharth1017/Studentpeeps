@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Order Failed (Refund Pending) — StudentPeeps{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-background flex flex-col items-center justify-start py-16 px-4">
+
+    <!-- Card Container -->
+    <div class="w-full max-w-md bg-white rounded-2xl border shadow-sm p-8 text-center">
+
+        <!-- Animated Amber Alert Icon -->
+        <div class="relative flex items-center justify-center mx-auto mb-6">
+            <!-- Glow ring -->
+            <div class="absolute w-24 h-24 rounded-full bg-amber-100 animate-ping-slow opacity-40"></div>
+            <div class="w-20 h-20 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center shadow-md border-4 border-amber-100 relative z-10">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Heading -->
+        <h1 class="text-2xl font-bold text-gray-900 tracking-tight mb-2">Order Cannot Be Created</h1>
+        
+        <!-- Explanation -->
+        <p class="text-gray-600 text-sm mb-6 leading-relaxed">
+            Your payment was processed successfully, but we encountered an issue generating your gift card. 
+            Don't worry! If your amount has been deducted, it will be <strong>refunded in 24/48 hours</strong> to your original payment method.
+        </p>
+
+        <!-- Order Summary Box -->
+        {% if order %}
+        <div class="bg-gray-50 rounded-2xl p-5 text-sm mb-8 text-left border border-gray-100 space-y-2.5">
+            <div class="flex justify-between items-center">
+                <span class="text-muted-foreground text-xs font-semibold uppercase tracking-wider">Order Details</span>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-100 text-amber-800 uppercase tracking-wider">
+                    Refund Pending
+                </span>
+            </div>
+            
+            <hr class="border-gray-200/60 my-1">
+            
+            <div class="flex justify-between text-xs">
+                <span class="text-gray-500">Order Reference:</span>
+                <span class="font-mono font-semibold text-gray-700 select-all">{{ order.reference_id }}</span>
+            </div>
+            <div class="flex justify-between text-xs">
+                <span class="text-gray-500">Amount Paid:</span>
+                <span class="font-bold text-gray-900">₹{{ order.total_amount }}</span>
+            </div>
+            {% if order.gateway_payment_id %}
+            <div class="flex justify-between text-xs">
+                <span class="text-gray-500">Payment ID:</span>
+                <span class="font-mono text-gray-600 truncate max-w-[170px]" title="{{ order.gateway_payment_id }}">{{ order.gateway_payment_id }}</span>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- CTA Actions -->
+        <div class="space-y-3">
+            <a href="/"
+                class="w-full h-12 flex items-center justify-center rounded-xl bg-[var(--primary)] text-white font-semibold shadow-md hover:opacity-90 transition-opacity">
+                Continue Shopping
+            </a>
+            <a href="mailto:hi@studentpeeps.club?subject=Refund%20Query%20-%20{% if order %}{{ order.reference_id }}{% endif %}"
+                class="w-full h-12 flex items-center justify-center rounded-xl bg-white border text-gray-700 font-semibold hover:bg-gray-50 transition-colors">
+                Contact Support
+            </a>
+        </div>
+
+        <!-- Help Footer -->
+        <p class="text-center text-[11px] text-muted-foreground mt-8">
+            Need immediate help? Reach out to us at <a href="mailto:hi@studentpeeps.club" class="underline text-[var(--primary)] font-semibold">hi@studentpeeps.club</a>
+        </p>
+
+    </div>
+</div>
+
+<style>
+    @keyframes ping-slow {
+        75%, 100% {
+            transform: scale(1.4);
+            opacity: 0;
+        }
+    }
+    .animate-ping-slow {
+        animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+</style>
+{% endblock %}

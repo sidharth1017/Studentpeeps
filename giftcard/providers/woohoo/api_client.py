@@ -10,7 +10,8 @@ from .signature import WoohooSignature
 class WoohooApiClient:
     def __init__(self, provider):
         self.provider = provider
-        self.http = HttpClient()
+        timeout = getattr(settings, 'WOOHOO_TIMEOUT', 40)
+        self.http = HttpClient(timeout=timeout)
         self.token_manager = WoohooTokenManager(provider)
 
     def request(self, method, endpoint, query=None, body=None):

@@ -18,6 +18,7 @@ urlpatterns = [
 
     # Post-payment UI
     path('order/<str:reference_id>/success/', views.OrderSuccessView.as_view(), name='order_success'),
+    path('order/<str:reference_id>/failed-refund/', views.OrderFailedRefundView.as_view(), name='order_failed_refund'),
     path('order/<str:reference_id>/detail/',  views.OrderDetailView.as_view(),  name='order_detail'),
 
     # Explore page

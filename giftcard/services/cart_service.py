@@ -6,12 +6,17 @@ class CartService:
 
     def __init__(self, request):
         self.request = request
-        self.user = request.user if request.user.is_authenticated else None
+        user_attr = getattr(request, "user", None)
+        self.user = user_attr if user_attr and user_attr.is_authenticated else None
         
         # Ensure session exists
-        if not request.session.session_key:
-            request.session.create()
-        self.session_key = request.session.session_key
+        session = getattr(request, "session", None)
+        if session:
+            if not session.session_key:
+                session.create()
+            self.session_key = session.session_key
+        else:
+            self.session_key = None
 
     # ----------------------------------------
     # Get or Create Cart
