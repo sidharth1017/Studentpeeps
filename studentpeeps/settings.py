@@ -28,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['studentpeeps.club', '139.59.79.183', 'www.studentpeeps.club', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['studentpeeps.club', '139.59.79.183', 'www.studentpeeps.club', 'playground.studentpeeps.club', 'localhost', '127.0.0.1']
 
 # Application definition
 INSTALLED_APPS = [
