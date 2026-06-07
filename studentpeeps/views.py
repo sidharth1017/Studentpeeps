@@ -1,4 +1,5 @@
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
+import requests
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.views.generic.base import View
@@ -24,6 +25,11 @@ def UploadFunc(request):
         request.session['gender'] = ""
         request.session['email'] = user.email
         return HttpResponseRedirect('/account/upload/')
+
+
+def check_ip(request):
+    ip = requests.get("https://api.ipify.org").text
+    return HttpResponse(ip)
 
 
 class Campus(View):

@@ -38,6 +38,7 @@ urlpatterns = [
     path('ads.txt/', views.Ads.as_view(), name="Ads"),
     path('.well-known/pki-validation/3E4612F07E9BF0ED441A9D77F76CCF06.txt/', views.ssl.as_view(), name="ssl"),
     path('loginnext/<str:nexturl>/', views.LoginNext.as_view(), name="LoginNext"),
+    path('check-ip/', views.check_ip, name="check_ip"),
     path('summernote/', include('django_summernote.urls')),
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root' : settings.MEDIA_ROOT})
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
