@@ -41,7 +41,7 @@
       </div>
       <h1 class="text-xl font-bold mb-1">Your cart is empty</h1>
       <p class="text-muted-foreground text-sm mb-6">Add some gift cards to proceed to checkout</p>
-      <a href="/explore">
+      <a href="{% url 'giftcard:explore' %}">
         <button
           class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-[var(--primary)] text-white hover:bg-[var(--primary)]/90 h-10 px-4 py-2">
           Browse Gift Cards
@@ -524,7 +524,7 @@
         const email = document.getElementById('cust-email').value.trim();
         const phone = document.getElementById('cust-phone').value.trim();
         if (!name || !email || !phone) {
-          alert('Please fill in your Name, Email and Phone before proceeding.');
+          showToast('Please fill in your Name, Email and Phone before proceeding.', 'error');
           return;
         }
         goToStep(3);
@@ -577,7 +577,7 @@
         if (code === "STUDENT10") applyPromo(10, code);
         else if (code === "FIRST5") applyPromo(5, code);
         else if (code === "PEEPS15") applyPromo(15, code);
-        else alert("Invalid Promo Code");
+        else showToast("Invalid Promo Code", "error");
       });
 
       // Promo hints click mapping
@@ -617,6 +617,17 @@
 
     function updateItemQty(btn, diff) {
       const row = btn.closest('.cart-item');
+      
+      let totalQty = 0;
+      document.querySelectorAll('.cart-item').forEach(el => {
+        totalQty += parseInt(el.dataset.quantity);
+      });
+      
+      if (diff > 0 && totalQty >= 5) {
+        showToast("Oops! You can only place up to 5 gift cards in a single order.", "error");
+        return;
+      }
+      
       let qty = parseInt(row.dataset.quantity) + diff;
       if (qty < 1) return;
 
@@ -627,6 +638,39 @@
       calculateCartBase();
       updateDerivedValues();
       updateUI();
+      
+      // Sync with backend
+      const sku = row.dataset.sku;
+      const denomination = row.dataset.amount;
+      const formData = new FormData();
+      formData.append('sku', sku);
+      formData.append('denomination', denomination);
+      formData.append('quantity', qty);
+      
+      fetch('{% url "giftcard:update_cart_item" %}', {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          showToast(data.error, "error");
+          // Revert UI changes
+          row.dataset.quantity = qty - diff;
+          row.querySelector('.qty-count-disp').textContent = row.dataset.quantity;
+          row.querySelector('.item-qty-label').textContent = row.dataset.quantity;
+          calculateCartBase();
+          updateDerivedValues();
+          updateUI();
+        }
+      })
+      .catch(err => {
+        console.error(err);
+      });
     }
 
     function applyPromo(pct, code) {

@@ -33,6 +33,20 @@ class AddToCartView(View):
             quantity = 1
         buy_now = request.POST.get("buy_now") == "true"
 
+        service = CartService(request)
+        cart = service.get_cart()
+
+        # Enforce total limit of 5
+        current_qty = sum(int(item["quantity"]) for item in cart.items)
+        if current_qty + quantity > 5:
+            error_msg = "Oops! You can only place up to 5 gift cards in a single order."
+            if request.headers.get("x-requested-with") == "XMLHttpRequest" or request.headers.get("Content-Type") == "application/json":
+                return JsonResponse({"error": error_msg}, status=400)
+            else:
+                from django.contrib import messages
+                messages.error(request, error_msg)
+                return redirect(request.META.get("HTTP_REFERER", "giftcard:explore"))
+
         resolver = ProductResolver(sku)
         product = resolver.resolve()
         if not product:
@@ -59,13 +73,44 @@ class AddToCartView(View):
             "image": product.get("base_image") or product.get("thumbnail"),
         }
 
-        service = CartService(request)
         service.add_item(product_data)
 
         if buy_now:
             return redirect("giftcard:cart_view")
 
         return JsonResponse({"message": "Added to cart", "cart_count": len(service.get_cart().items)})
+
+
+class UpdateCartItemView(View):
+    def post(self, request):
+        sku = request.POST.get("sku")
+        denomination = request.POST.get("denomination")
+        try:
+            quantity = int(request.POST.get("quantity"))
+        except (ValueError, TypeError):
+            return JsonResponse({"error": "Invalid quantity"}, status=400)
+
+        service = CartService(request)
+        cart = service.get_cart()
+
+        # Enforce total limit of 5
+        other_items_qty = sum(
+            int(item["quantity"]) for item in cart.items 
+            if not (item["sku"] == sku and str(item["denomination"]) == str(denomination))
+        )
+        if other_items_qty + quantity > 5:
+            return JsonResponse({"error": "Oops! You can only place up to 5 gift cards in a single order."}, status=400)
+
+        service.update_item_quantity(sku, denomination, quantity)
+        
+        # Recalculate totals
+        total_amount = float(cart.total_amount())
+        
+        return JsonResponse({
+            "message": "Cart updated", 
+            "cart_count": sum(int(item["quantity"]) for item in cart.items),
+            "total_amount": total_amount
+        })
 
 
 class CartView(View):
@@ -568,6 +613,7 @@ class ExploreView(View):
         query = request.GET.get('search', '')
         category_id = request.GET.get('category', 'all')
         sort_by = request.GET.get('sort', 'popular')
+        selected_price_ranges = request.GET.getlist('price_range')
         
         # Category Icon & Color Mapping
         category_meta = {
@@ -597,6 +643,24 @@ class ExploreView(View):
         if category_id != 'all':
             products = products.filter(override__category__category_id=category_id)
             
+        # Price range filter logic
+        price_ranges = [
+            {'id': 'under-250', 'label': 'Under ₹250', 'min': 0, 'max': 250},
+            {'id': '250-500', 'label': '₹250 - ₹500', 'min': 250, 'max': 500},
+            {'id': '500-1000', 'label': '₹500 - ₹1000', 'min': 500, 'max': 1000},
+            {'id': '1000-2500', 'label': '₹1000 - ₹2500', 'min': 1000, 'max': 2500},
+            {'id': '2500-above', 'label': '₹2500+', 'min': 2500, 'max': 999999},
+        ]
+        
+        if selected_price_ranges:
+            from django.db.models import Q
+            range_queries = Q()
+            for r_id in selected_price_ranges:
+                for r in price_ranges:
+                    if r['id'] == r_id:
+                        range_queries |= Q(min_price__lte=r['max'], max_price__gte=r['min'])
+            products = products.filter(range_queries)
+            
         # Sorting
         if sort_by == 'name':
             products = products.order_by('name')
@@ -609,28 +673,87 @@ class ExploreView(View):
 
         # Get categories with counts
         all_categories = Category.objects.filter(isVisible=True).order_by('sorting')
-        categories_with_meta = []
         
         # Total count
         total_count = ProviderProduct.objects.filter(in_stock=True).count()
         
+        # Build URLs to preserve filters
+        # 1. Category URLs
+        categories_with_meta = []
         for cat in all_categories:
             meta = category_meta.get(cat.category_id, {'icon': 'sparkles', 'color': '#3b82f6'})
             count = ProviderProduct.objects.filter(in_stock=True, override__category=cat).count()
+            
+            cat_qd = request.GET.copy()
+            cat_qd['category'] = cat.category_id
+            
             categories_with_meta.append({
                 'id': cat.category_id,
                 'name': cat.name,
                 'icon': meta['icon'],
                 'color': meta['color'],
-                'count': count
+                'count': count,
+                'url': '?' + cat_qd.urlencode()
             })
+            
+        # All Brands URL
+        all_brands_qd = request.GET.copy()
+        all_brands_qd['category'] = 'all'
+        all_brands_url = '?' + all_brands_qd.urlencode()
+            
+        # 2. Sort URLs
+        sort_urls = {}
+        for s in ['popular', 'name', 'price-low', 'price-high']:
+            sort_qd = request.GET.copy()
+            sort_qd['sort'] = s
+            key = s.replace('-', '_')
+            sort_urls[key] = '?' + sort_qd.urlencode()
+            
+        # 3. Price range URLs & options
+        price_ranges_meta = []
+        for r in price_ranges:
+            pr_qd = request.GET.copy()
+            current_list = pr_qd.getlist('price_range')
+            is_selected = r['id'] in current_list
+            if is_selected:
+                new_list = [x for x in current_list if x != r['id']]
+            else:
+                new_list = current_list + [r['id']]
+            pr_qd.setlist('price_range', new_list)
+            price_ranges_meta.append({
+                'id': r['id'],
+                'label': r['label'],
+                'selected': is_selected,
+                'url': '?' + pr_qd.urlencode()
+            })
+            
+        # 4. Clear URL helpers
+        # Clear category
+        clear_cat_qd = request.GET.copy()
+        clear_cat_qd.pop('category', None)
+        clear_category_url = '?' + clear_cat_qd.urlencode()
+        
+        # Clear search
+        clear_search_qd = request.GET.copy()
+        clear_search_qd.pop('search', None)
+        clear_search_url = '?' + clear_search_qd.urlencode()
+        
+        # Clear all
+        clear_all_url = '?'
             
         context = {
             'products': products,
             'categories': categories_with_meta,
+            'all_brands_url': all_brands_url,
             'total_count': total_count,
             'selected_category': category_id,
             'search_query': query,
             'sort_by': sort_by,
+            'price_ranges': price_ranges_meta,
+            'selected_price_ranges': selected_price_ranges,
+            'sort_urls': sort_urls,
+            'clear_category_url': clear_category_url,
+            'clear_search_url': clear_search_url,
+            'clear_all_url': clear_all_url,
         }
         return render(request, "pages/explore.html", context)

@@ -95,14 +95,14 @@
 
             if (file) {
                 if (!allowedTypes.includes(file.type)) {
-                    alert('Only JPG, PNG, and PDF files are allowed.');
+                    showToast('Only JPG, PNG, and PDF files are allowed.', 'error');
                     $(this).val('');
                     $("h4.FileName").addClass("d-none").text('');
                     return;
                 }
 
                 if (file.size > maxSize) {
-                    alert('File size should not exceed 5MB.');
+                    showToast('File size should not exceed 5MB.', 'error');
                     $(this).val('');
                     $("h4.FileName").addClass("d-none").text('');
                     return;
@@ -116,7 +116,7 @@
         $('form').submit(function () {
             var file = $('#manualFileUpload')[0].files[0];
             if (!file) {
-                alert('Please upload a file.');
+                showToast('Please upload a file.', 'error');
                 return false;
             }
             return true;

@@ -51,7 +51,7 @@
 </style>
 {% endblock %}
 
-{% block content %}
+{% block body %}
 <div class="min-h-screen bg-gray-50/30">
     <!-- Header Section -->
     <div class="border-b bg-white">
@@ -78,30 +78,45 @@
                         {% if selected_category != 'all' %}
                             <input type="hidden" name="category" value="{{ selected_category }}">
                         {% endif %}
+                        {% if sort_by != 'popular' %}
+                            <input type="hidden" name="sort" value="{{ sort_by }}">
+                        {% endif %}
+                        {% for pr in selected_price_ranges %}
+                            <input type="hidden" name="price_range" value="{{ pr }}">
+                        {% endfor %}
                     </form>
                 </div>
             </div>
 
             <!-- Active Filters Chips -->
-            {% if search_query or selected_category != 'all' %}
+            {% if search_query or selected_category != 'all' or selected_price_ranges %}
             <div class="flex flex-wrap items-center gap-2 mt-6">
                 <span class="text-[10px] font-black uppercase tracking-widest text-gray-400 mr-2">Active Filters:</span>
                 
                 {% if selected_category != 'all' %}
-                <a href="?search={{ search_query }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full text-xs font-bold border border-blue-100 hover:bg-blue-100 transition-colors">
+                <a href="{{ clear_category_url }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full text-xs font-bold border border-blue-100 hover:bg-blue-100 transition-colors">
                     Category: {{ selected_category|title }}
                     <i data-lucide="x" class="w-3 h-3"></i>
                 </a>
                 {% endif %}
 
                 {% if search_query %}
-                <a href="?category={{ selected_category }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-xs font-bold border border-gray-200 hover:bg-gray-200 transition-colors">
+                <a href="{{ clear_search_url }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-xs font-bold border border-gray-200 hover:bg-gray-200 transition-colors">
                     "{{ search_query }}"
                     <i data-lucide="x" class="w-3 h-3"></i>
                 </a>
                 {% endif %}
 
-                <a href="?" class="text-[10px] font-bold text-red-500 hover:underline uppercase tracking-wider ml-2">Clear All</a>
+                {% for pr in price_ranges %}
+                    {% if pr.selected %}
+                    <a href="{{ pr.url }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-50 text-green-700 rounded-full text-xs font-bold border border-green-100 hover:bg-green-100 transition-colors">
+                        Price: {{ pr.label }}
+                        <i data-lucide="x" class="w-3 h-3"></i>
+                    </a>
+                    {% endif %}
+                {% endfor %}
+
+                <a href="{{ clear_all_url }}" class="text-[10px] font-bold text-red-500 hover:underline uppercase tracking-wider ml-2">Clear All</a>
             </div>
             {% endif %}
         </div>
@@ -127,7 +142,7 @@
                         <div>
                             <h3 class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Categories</h3>
                             <div class="space-y-1.5">
-                                <a href="?category=all&search={{ search_query }}" 
+                                <a href="{{ all_brands_url }}" 
                                     class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-bold transition-all {% if selected_category == 'all' %}bg-blue-50 text-blue-700 shadow-sm border border-blue-100{% else %}text-gray-500 hover:bg-gray-100 hover:text-gray-900{% endif %}">
                                     <div class="flex items-center gap-3">
                                         <i data-lucide="layout-grid" class="w-4 h-4"></i>
@@ -137,7 +152,7 @@
                                 </a>
                                 
                                 {% for cat in categories %}
-                                <a href="?category={{ cat.id }}&search={{ search_query }}" 
+                                <a href="{{ cat.url }}" 
                                     class="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-bold transition-all {% if selected_category == cat.id %}bg-blue-50 text-blue-700 shadow-sm border border-blue-100{% else %}text-gray-500 hover:bg-gray-100 hover:text-gray-900{% endif %}">
                                     <div class="flex items-center gap-3">
                                         <i data-lucide="{{ cat.icon }}" class="w-4 h-4" style="{% if selected_category == cat.id %}color: {{ cat.color }}{% endif %}"></i>
@@ -151,26 +166,45 @@
 
                         <div class="h-px bg-gray-100"></div>
 
+                        <!-- Price Range -->
+                        <div>
+                            <h3 class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Price Range</h3>
+                            <div class="space-y-2">
+                                {% for pr in price_ranges %}
+                                <a href="{{ pr.url }}" class="flex items-center gap-3 group/item">
+                                    <div class="w-4.5 h-4.5 rounded border border-gray-300 flex items-center justify-center transition-all group-hover/item:border-blue-500 {% if pr.selected %}bg-blue-600 border-blue-600{% endif %}">
+                                        {% if pr.selected %}
+                                        <i data-lucide="check" class="w-3 h-3 text-white"></i>
+                                        {% endif %}
+                                    </div>
+                                    <span class="text-xs font-semibold text-gray-600 group-hover/item:text-gray-900 transition-colors {% if pr.selected %}text-gray-900 font-bold{% endif %}">{{ pr.label }}</span>
+                                </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="h-px bg-gray-100"></div>
+
                         <!-- Sort By -->
                         <div>
                             <h3 class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Sort Order</h3>
                             <div class="grid grid-cols-1 gap-2">
-                                <a href="?category={{ selected_category }}&search={{ search_query }}&sort=popular" 
+                                <a href="{{ sort_urls.popular }}" 
                                     class="px-4 py-2 text-xs font-bold rounded-xl border transition-all text-center
                                     {% if sort_by == 'popular' %}bg-gray-900 text-white border-gray-900 shadow-md{% else %}bg-white text-gray-600 border-gray-200 hover:border-gray-400{% endif %}">
                                     Most Popular
                                 </a>
-                                <a href="?category={{ selected_category }}&search={{ search_query }}&sort=name" 
+                                <a href="{{ sort_urls.name }}" 
                                     class="px-4 py-2 text-xs font-bold rounded-xl border transition-all text-center
                                     {% if sort_by == 'name' %}bg-gray-900 text-white border-gray-900 shadow-md{% else %}bg-white text-gray-600 border-gray-200 hover:border-gray-400{% endif %}">
                                     Name (A-Z)
                                 </a>
-                                <a href="?category={{ selected_category }}&search={{ search_query }}&sort=price-low" 
+                                <a href="{{ sort_urls.price_low }}" 
                                     class="px-4 py-2 text-xs font-bold rounded-xl border transition-all text-center
                                     {% if sort_by == 'price-low' %}bg-gray-900 text-white border-gray-900 shadow-md{% else %}bg-white text-gray-600 border-gray-200 hover:border-gray-400{% endif %}">
                                     Price: Low to High
                                 </a>
-                                <a href="?category={{ selected_category }}&search={{ search_query }}&sort=price-high" 
+                                <a href="{{ sort_urls.price_high }}" 
                                     class="px-4 py-2 text-xs font-bold rounded-xl border transition-all text-center
                                     {% if sort_by == 'price-high' %}bg-gray-900 text-white border-gray-900 shadow-md{% else %}bg-white text-gray-600 border-gray-200 hover:border-gray-400{% endif %}">
                                     Price: High to Low
@@ -200,7 +234,7 @@
                     </div>
                     <h3 class="text-xl font-black text-gray-900">No results found</h3>
                     <p class="text-gray-500 mt-2 max-w-xs mx-auto font-medium">We couldn't find any gift cards matching your search or filters.</p>
-                    <a href="?" class="mt-6 inline-flex items-center gap-2 text-sm font-black text-[var(--primary)] hover:underline">
+                    <a href="{{ clear_all_url }}" class="mt-6 inline-flex items-center gap-2 text-sm font-black text-[var(--primary)] hover:underline">
                         <i data-lucide="refresh-cw" class="w-4 h-4"></i> Reset Filters
                     </a>
                 </div>
@@ -217,7 +251,7 @@
                                 <div class="absolute inset-0 opacity-[0.07]" 
                                      style="background-image: radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px); background-size: 30px 30px, 25px 25px;"></div>
                                 
-                                <!-- Shine Effect -->
+                                <!-- Pattern Overlay Shine Effect -->
                                 <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
                                      style="background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.15) 45%, rgba(255,255,255,0.05) 50%, transparent 55%);"></div>
 

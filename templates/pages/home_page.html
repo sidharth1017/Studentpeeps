@@ -214,14 +214,14 @@
                 </p>
 
                 <div class="flex flex-wrap items-center justify-center gap-3">
-                    <a href="/explore">
+                    <a href="{% url 'giftcard:explore' %}">
                         <button
                             class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-blue-600 hover:bg-blue-700 focus:shadow-outline focus:outline-none">
                             Explore All Cards
                             <i data-lucide="arrow-right" class="ml-2 h-4 w-4"></i>
                         </button>
                     </a>
-                    <a href="/explore?category=exclusive">
+                    <a href="{% url 'giftcard:explore' %}?category=exclusive">
                         <button
                             class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-gray-800 transition duration-200 rounded border border-gray-300 hover:bg-gray-50 focus:shadow-outline focus:outline-none">
                             <i data-lucide="gift" class="mr-2 h-4 w-4"></i>
@@ -240,7 +240,7 @@
                 </p>
                 <div class="flex flex-wrap justify-center gap-2 max-w-5xl mx-auto pb-12">
                     {% for cat in categories|slice:":12" %}
-                    <a href="/explore?category={{ cat.category_id }}">
+                    <a href="{% url 'giftcard:explore' %}?category={{ cat.category_id }}">
                         <button
                             class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-gray-200 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors">
                             <i data-lucide="{{ cat.lucide_icon }}" class="h-3.5 w-3.5 text-gray-500"></i>
@@ -362,7 +362,7 @@
 
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                 {% for cat in categories %}
-                <a href="/explore?category={{ cat.category_id }}" class="group category-card">
+                <a href="{% url 'giftcard:explore' %}?category={{ cat.category_id }}" class="group category-card">
                     <div
                         class="relative p-6 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 overflow-hidden">
                         <div
@@ -420,14 +420,14 @@
                     </p>
 
                     <div class="flex flex-wrap justify-center gap-4">
-                        <a href="/explore">
+                        <a href="{% url 'giftcard:explore' %}">
                             <button
                                 class="inline-flex items-center justify-center h-14 px-8 font-bold tracking-wide text-gray-900 transition duration-200 rounded-full shadow-lg bg-white hover:bg-gray-100">
                                 Browse Gift Cards
                                 <i data-lucide="arrow-right" class="ml-2 h-5 w-5"></i>
                             </button>
                         </a>
-                        <a href="/explore?category=exclusive">
+                        <a href="{% url 'giftcard:explore' %}?category=exclusive">
                             <button
                                 class="inline-flex items-center justify-center h-14 px-8 font-bold tracking-wide text-white transition duration-200 rounded-full border-2 border-white/20 hover:bg-white/5">
                                 <i data-lucide="gift" class="mr-2 h-5 w-5"></i>

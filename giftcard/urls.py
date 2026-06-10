@@ -7,6 +7,7 @@ urlpatterns = [
     path('cart/',            views.CartView.as_view(),            name='cart_view'),
     path('cart/add/',        views.AddToCartView.as_view(),        name='add_to_cart'),
     path('cart/remove/',     views.RemoveFromCartView.as_view(),   name='remove_from_cart'),
+    path('cart/update/',     views.UpdateCartItemView.as_view(),   name='update_cart_item'),
 
     # Payment flow (Shared / Razorpay)
     path('payment/initiate/',  views.InitiatePaymentView.as_view(),  name='initiate_payment'),

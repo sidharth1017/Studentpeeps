@@ -104,6 +104,15 @@ class CartService:
         cart.save()
         return cart
 
+    def update_item_quantity(self, sku, denomination, quantity):
+        cart = self.get_cart()
+        for item in cart.items:
+            if item["sku"] == sku and str(item["denomination"]) == str(denomination):
+                item["quantity"] = int(quantity)
+                break
+        cart.save()
+        return cart
+
     def clear_cart(self):
         cart = self.get_cart()
         cart.items = []

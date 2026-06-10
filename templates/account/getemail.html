@@ -195,7 +195,7 @@
                   document.getElementById('password-section').style.display = 'block'; // show password section
                   document.getElementById('email-form').querySelector('button').style.display = 'none'; // hide continue button
                 } else {
-                  alert("Error submitting email.");
+                  showToast("Error submitting email.", "error");
                 }
               });
           });

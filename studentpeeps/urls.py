@@ -21,12 +21,16 @@ from . import settings
 from . import views
 from accounts_v2.views.googleAuthView import GoogleAuthFun
 
+from django.views.generic import RedirectView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')),
     path('account/v2/', include('accounts_v2.urls')),
     path('offer/', include('brands_v2.urls')),
     path('giftcard/', include('giftcard.urls')),
+    path('explore/', RedirectView.as_view(pattern_name='giftcard:explore', query_string=True)),
+    path('explore', RedirectView.as_view(pattern_name='giftcard:explore', query_string=True)),
     path('event/', views.Campus.as_view(), name="Event"),
     path("", include("main.urls")),
     path('social-auth/', include('social_django.urls', namespace='social')),
