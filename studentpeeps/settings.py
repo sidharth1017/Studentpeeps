@@ -149,7 +149,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # DEFAULT_FROM_EMAIL = 'user@studentpeeps.club'
 
 #SMTP Configuration
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'utilities.email_backend.ZeptoMailAPIBackend'
 EMAIL_HOST = config('ZOHO_SMTP_HOST')
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
