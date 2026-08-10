@@ -24,10 +24,17 @@
         <h1 class="text-2xl font-bold text-gray-900 tracking-tight mb-2">Order Cannot Be Created</h1>
         
         <!-- Explanation -->
-        <p class="text-gray-600 text-sm mb-6 leading-relaxed">
+        <p class="text-gray-600 text-sm mb-4 leading-relaxed">
             Your payment was processed successfully, but we encountered an issue generating your gift card. 
             Don't worry! If your amount has been deducted, it will be <strong>refunded in 24/48 hours</strong> to your original payment method.
         </p>
+
+        {% if order and order.woohoo_response and order.woohoo_response.error %}
+        <div class="bg-red-50 text-red-600 text-sm p-3 rounded-lg border border-red-100 mb-6 font-medium text-left">
+            <strong class="block mb-1">Provider Error:</strong>
+            {{ order.woohoo_response.error }}
+        </div>
+        {% endif %}
 
         <!-- Order Summary Box -->
         {% if order %}

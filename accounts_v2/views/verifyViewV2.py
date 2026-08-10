@@ -96,7 +96,7 @@ class VerifyViewV2(View):
                         login(request, user)
 
                         request.session['user_id'] = user.id
-                        return redirect('/')
+                        return redirect(next_url)
                     user.backend = 'django.contrib.auth.backends.ModelBackend'
                     login(request, user)
                     return redirect(next_url)
@@ -111,7 +111,7 @@ class VerifyViewV2(View):
                     login(request, user)
 
                     request.session['user_id'] = register.id
-                    return redirect('/')
+                    return redirect(next_url)
         else:
             messages.error(request, "Invalid OTP.")
             return redirect('/account/v2/verify')

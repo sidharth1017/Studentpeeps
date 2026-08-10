@@ -117,10 +117,31 @@ class CartView(View):
     def get(self, request):
         service = CartService(request)
         cart = service.get_cart()
+        
+        user = request.user
+        user_name = ""
+        user_email = ""
+        user_phone = ""
+        if user.is_authenticated:
+            from django.core.exceptions import ObjectDoesNotExist
+            try:
+                register = user.register
+                user_phone = register.phone or ""
+                first_name = register.firstname or user.first_name
+                last_name = register.lastname or user.last_name
+                user_name = f"{first_name} {last_name}".strip()
+                user_email = register.institution_email or user.email
+            except (ObjectDoesNotExist, AttributeError):
+                user_name = f"{user.first_name} {user.last_name}".strip()
+                user_email = user.email
+
         return render(request, "pages/cart_page.html", {
             "cart": cart,
             "total_amount": cart.total_amount(),
             "active_gateway": settings.ACTIVE_PAYMENT_GATEWAY,
+            "user_name": user_name,
+            "user_email": user_email,
+            "user_phone": user_phone,
         })
 
 
@@ -149,11 +170,16 @@ def _place_woohoo_order(order):
         "phone": order.customer_phone,
     }
     import time
+    import json
     
     for attempt in range(3):
         try:
             woohoo_service = WoohooOrderService()
             woohoo_response = woohoo_service.create_order(order, customer)
+
+            # Check if Woohoo responded with an error dict directly
+            if woohoo_response.get("code") and not str(woohoo_response.get("code")).startswith("2"):
+                raise Exception(woohoo_response.get("message") or str(woohoo_response))
 
             woohoo_order_id = (
                 woohoo_response.get("orderId")
@@ -164,6 +190,7 @@ def _place_woohoo_order(order):
             order.woohoo_order_id = str(woohoo_order_id)
             order.woohoo_response = woohoo_response
             order.save()
+            
             return True
         except Exception as e:
             if attempt < 2:  # 0, 1
@@ -171,9 +198,20 @@ def _place_woohoo_order(order):
                 continue
                 
             # If all 3 attempts fail, payment remains confirmed, Woohoo failed
-            # Log error for manual retry, customer still sees success page (it's safe)
-            order.woohoo_response = {"error": str(e), "attempts": attempt + 1}
+            error_message = str(e)
+            
+            # Extract specific error message if it's an API exception
+            if hasattr(e, 'response') and e.response:
+                try:
+                    err_dict = json.loads(e.response)
+                    if "message" in err_dict:
+                        error_message = err_dict["message"]
+                except Exception:
+                    pass
+
+            order.woohoo_response = {"error": error_message, "attempts": attempt + 1}
             order.save(update_fields=["woohoo_response"])
+            
             return False
 
 
@@ -501,68 +539,82 @@ class OrderDetailView(LoginRequiredMixin, View):
     def get(self, request, reference_id):
         order = get_object_or_404(Order, reference_id=reference_id, user=request.user)
         
-        # Only sync if not already completed or failed, OR if completed but missing vouchers
         is_terminal_status = order.status in (Order.STATUS_COMPLETED, Order.STATUS_FAILED)
-        
-        if order.woohoo_order_id and (not is_terminal_status or (order.status == Order.STATUS_COMPLETED and not order.is_vouchers_fetched)):
-            from giftcard.providers.woohoo.service.order_service import WoohooOrderService
-            import time
+        identifier = order.woohoo_order_id or order.reference_id
+
+        # Only sync if not terminal OR if completed but missing vouchers
+        if identifier and (not is_terminal_status or (order.status == Order.STATUS_COMPLETED and not order.is_vouchers_fetched)):
+            from django.utils import timezone
+            from datetime import timedelta
             
-            service = WoohooOrderService()
-            
-            # If already completed but missing vouchers, fetch them once
-            if order.status == Order.STATUS_COMPLETED and not order.is_vouchers_fetched:
-                try:
-                    cards_response = service.get_activated_cards(order.woohoo_order_id)
-                    if cards_response and "cards" in cards_response:
-                        order.woohoo_response = cards_response
-                        order.is_vouchers_fetched = True
-                        order.save()
-                except Exception as e:
-                    import logging
-                    logging.getLogger(__name__).error(f"Error fetching vouchers for completed order: {str(e)}")
-            
-            # Otherwise, do the full status sync loop
-            elif not is_terminal_status:
-                max_attempts = 3
-                for attempt in range(max_attempts):
+            # Check 30-second interval rate limit
+            should_sync = True
+            if order.updated_at and (timezone.now() - order.updated_at) < timedelta(seconds=30):
+                # If updated less than 30s ago and vouchers are already fetched or order is in terminal state
+                if is_terminal_status and order.is_vouchers_fetched:
+                    should_sync = False
+                elif not is_terminal_status and order.woohoo_response:
+                    # Allow initial check or enforce 30s throttle
+                    should_sync = False
+
+            if should_sync:
+                from giftcard.providers.woohoo.service.order_service import WoohooOrderService
+                service = WoohooOrderService()
+
+                # If completed but missing vouchers
+                if order.status == Order.STATUS_COMPLETED and not order.is_vouchers_fetched:
                     try:
-                        response = service.get_order_status(order.woohoo_order_id)
+                        cards_response = service.get_activated_cards(identifier)
+                        if cards_response and "cards" in cards_response:
+                            order.woohoo_response = cards_response
+                            order.is_vouchers_fetched = True
+                            order.save()
+                    except Exception as e:
+                        import logging
+                        logging.getLogger(__name__).error(f"Error fetching vouchers for completed order: {str(e)}")
+
+                elif not is_terminal_status:
+                    try:
+                        if order.woohoo_order_id:
+                            response = service.get_order_status(order.woohoo_order_id)
+                            # Fallback for timeout/indexing edge cases: if woohoo_order_id returns 5320, try status by refno
+                            if response.get("code") == 5320:
+                                response = service.get_order_status_by_refno(order.reference_id)
+                        else:
+                            # Timeout scenario where woohoo_order_id was never received
+                            response = service.get_order_status_by_refno(order.reference_id)
+
                         woohoo_status = response.get("status", "").upper()
                         
-                        # Update snapshot if available
+                        # If woohoo returned valid orderId via refno lookup, save it
+                        if response.get("orderId") or response.get("order_id"):
+                            order.woohoo_order_id = str(response.get("orderId") or response.get("order_id"))
+
                         order.woohoo_response = response
-                        
-                        if woohoo_status == "COMPLETE":
+
+                        if woohoo_status in ("COMPLETE", "COMPLETED"):
                             order.status = Order.STATUS_COMPLETED
-                            # Fetch activated cards (vouchers)
                             try:
-                                cards_response = service.get_activated_cards(order.woohoo_order_id)
+                                cards_target = order.woohoo_order_id or order.reference_id
+                                cards_response = service.get_activated_cards(cards_target)
                                 if cards_response and "cards" in cards_response:
                                     order.woohoo_response = cards_response
                                     order.is_vouchers_fetched = True
                             except Exception as card_err:
                                 import logging
                                 logging.getLogger(__name__).error(f"Error fetching activated cards: {str(card_err)}")
-                            
+
                             order.save()
-                            break
                         elif woohoo_status in ("CANCELLED", "ERROR", "FAILED"):
                             order.status = Order.STATUS_FAILED
                             order.save()
-                            break
-                        else:
-                            # Still processing
+                        elif woohoo_status == "PROCESSING":
                             if order.status != Order.STATUS_WOOHOO_PLACED:
                                 order.status = Order.STATUS_WOOHOO_PLACED
-                                order.save()
-                            
-                        if attempt < max_attempts - 1:
-                            time.sleep(1)
+                            order.save()
                     except Exception as e:
                         import logging
                         logging.getLogger(__name__).error(f"Error syncing order status: {str(e)}")
-                        break
 
         return render(request, "pages/order_detail.html", {"order": order})
 

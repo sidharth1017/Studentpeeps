@@ -94,8 +94,8 @@ class WoohooOrderService:
 
     def get_order_status(self, woohoo_order_id: str) -> dict:
         """
-        Fetches the current status of an order from Woohoo V3 API.
-        Reference: https://developers.woohoo.in/docs/rest-api-v3-revamp/order-status-api/
+        Fetches the current status of an order using Woohoo Order ID.
+        Endpoint: /rest/v3/orders/{order_id}
         """
         endpoint = endpoints.ORDER_STATUS.format(order_id=woohoo_order_id)
         response = self.client.request(
@@ -104,12 +104,24 @@ class WoohooOrderService:
         )
         return response
 
-    def get_activated_cards(self, woohoo_order_id: str) -> dict:
+    def get_order_status_by_refno(self, refno: str) -> dict:
+        """
+        Fetches the current status of an order using our reference number (for timeouts).
+        Endpoint: /rest/v3/orders/{refno}/status
+        """
+        endpoint = endpoints.ORDER_STATUS_BY_REFNO.format(refno=refno)
+        response = self.client.request(
+            method="GET",
+            endpoint=endpoint
+        )
+        return response
+
+    def get_activated_cards(self, order_id_or_refno: str) -> dict:
         """
         Fetches the card details (vouchers) for a specific order.
         Reference: https://developers.woohoo.in/docs/rest-api-v3-revamp/activated-cards-api/
         """
-        endpoint = endpoints.ORDER_CARDS.format(order_id=woohoo_order_id)
+        endpoint = endpoints.ORDER_CARDS.format(order_id=order_id_or_refno)
         response = self.client.request(
             method="GET",
             endpoint=endpoint
