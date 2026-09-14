@@ -3,6 +3,11 @@ name: 🚀 Deploy to DigitalOcean
 on:
   workflow_dispatch:
     inputs:
+      branch:
+        description: 'Branch to deploy'
+        required: true
+        default: 'studentpeeps_v3'
+        type: string
       run_migrations:
         description: 'Run database migrations?'
         required: false
@@ -11,7 +16,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploy to Droplet
+    name: Deploy branch "${{ inputs.branch }}" to Droplet
     runs-on: ubuntu-latest
 
     steps:
@@ -23,15 +28,25 @@ jobs:
           ssh-keyscan -H ${{ secrets.DO_HOST }} >> ~/.ssh/known_hosts
 
       - name: 🚀 Deploy via SSH
+        env:
+          BRANCH: ${{ inputs.branch }}
+          RUN_MIGRATIONS: ${{ inputs.run_migrations }}
         run: |
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} << 'EOF'
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} \
+            BRANCH="$BRANCH" RUN_MIGRATIONS="$RUN_MIGRATIONS" bash << 'EOF'
             set -e
 
             echo "📂 Navigating to project directory..."
             cd /var/www/Studentpeeps
 
-            echo "⬇️  Pulling latest changes from GitHub..."
-            git pull origin studentpeeps_v3
+            echo "🌿 Fetching all remote branches..."
+            git fetch origin
+
+            echo "🔀 Switching to branch: $BRANCH"
+            git checkout "$BRANCH"
+
+            echo "⬇️  Pulling latest changes from origin/$BRANCH..."
+            git pull origin "$BRANCH"
 
             echo "📦 Installing/updating Python dependencies..."
             source venv/bin/activate || true
@@ -40,7 +55,7 @@ jobs:
             echo "🖼️  Collecting static files..."
             python manage.py collectstatic --noinput
 
-            if [ "${{ inputs.run_migrations }}" = "true" ]; then
+            if [ "$RUN_MIGRATIONS" = "true" ]; then
               echo "🗃️  Running database migrations..."
               python manage.py migrate --noinput
             else
@@ -50,5 +65,5 @@ jobs:
             echo "🔄 Restarting Gunicorn service..."
             systemctl restart gunicorn
 
-            echo "✅ Deployment complete!"
+            echo "✅ Deployment of branch '$BRANCH' complete!"
           EOF
