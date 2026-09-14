@@ -50,7 +50,7 @@ jobs:
 
             echo "📦 Installing/updating Python dependencies..."
             source venv/bin/activate || true
-            pip install -r requirements.txt --quiet
+            pip install -r requirements_v3.txt --quiet
 
             echo "🖼️  Collecting static files..."
             python manage.py collectstatic --noinput
