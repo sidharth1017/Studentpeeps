@@ -31,7 +31,7 @@ jobs:
             cd /var/www/Studentpeeps
 
             echo "⬇️  Pulling latest changes from GitHub..."
-            git pull origin main
+            git pull origin studentpeeps_v3
 
             echo "📦 Installing/updating Python dependencies..."
             source venv/bin/activate || true
