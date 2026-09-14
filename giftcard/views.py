@@ -191,6 +191,17 @@ def _place_woohoo_order(order):
             order.woohoo_response = woohoo_response
             order.save()
             
+            # --- Call status API right after placing order ---
+            try:
+                status_response = woohoo_service.get_order_status(str(woohoo_order_id))
+                if isinstance(order.woohoo_response, dict):
+                    order.woohoo_response["status_api_response"] = status_response
+                else:
+                    order.woohoo_response = {"place_order": order.woohoo_response, "status_api_response": status_response}
+                order.save(update_fields=["woohoo_response"])
+            except Exception as status_e:
+                pass # Log it or ignore
+            
             return True
         except Exception as e:
             if attempt < 2:  # 0, 1
@@ -211,6 +222,22 @@ def _place_woohoo_order(order):
 
             order.woohoo_response = {"error": error_message, "attempts": attempt + 1}
             order.save(update_fields=["woohoo_response"])
+            
+            # --- Call status API based on reference number since we don't have order_id ---
+            try:
+                woohoo_service = WoohooOrderService()
+                status_response = woohoo_service.get_order_status_by_refno(order.reference_id)
+                order.woohoo_response["status_api_response"] = status_response
+                
+                # If we miraculously got the order placed despite timeout, update the fields
+                if status_response and status_response.get("status") == "COMPLETE":
+                    order.woohoo_order_id = status_response.get("orderId", "")
+                    if order.woohoo_order_id:
+                        order.status = Order.STATUS_WOOHOO_PLACED
+                
+                order.save(update_fields=["woohoo_response", "woohoo_order_id", "status"])
+            except Exception as ref_e:
+                pass
             
             return False
 
