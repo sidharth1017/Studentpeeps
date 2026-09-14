@@ -1,6 +1,6 @@
 {% load static %}
 <div class="group cursor-pointer" onclick="location.href='{{ offer.link }}'">
-    <div class="relative transition-all duration-500 group-hover:-translate-y-2 shadow-sm rounded-xl">
+    <div class="relative transition-all duration-500 group-hover:-translate-y-2 shadow-sm rounded-xl overflow-hidden">
         <div class="relative h-44 sm:h-52 rounded-xl overflow-hidden"
             style="background: linear-gradient(145deg, {{ offer.background_color|default:'#111827' }} 0%, {{ offer.secondary_color|default:offer.background_color|default:'#374151' }} 60%, {{ offer.background_color|default:'#111827' }}ee 100%)">
 
@@ -30,12 +30,15 @@
 
             <!-- Content Area -->
             <div class="absolute bottom-0 left-0 right-0 p-4 pt-12"
-                style="background: linear-gradient(to top, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.15) 60%, transparent 100%);">
+                style="background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 70%, transparent 100%);">
+
+                <p class="text-white/60 text-[10px] font-medium mb-1.5 truncate drop-shadow-sm">
+                    {{ offer.subtitle|default:"Special Student Discount Available" }}
+                </p>
 
                 <div class="flex items-end justify-between gap-3">
                     <div class="flex-1 min-w-0">
-                        <p
-                            class="text-white text-base sm:text-lg font-bold tracking-tight drop-shadow-md leading-tight truncate">
+                        <p class="text-white text-base sm:text-lg font-bold tracking-tight drop-shadow-md leading-tight truncate">
                             {{ offer.brand.name|default:offer.title }}
                         </p>
                         <p class="text-white/70 text-[11px] font-medium mt-0.5 drop-shadow-sm">
@@ -63,13 +66,6 @@
             <div class="absolute top-0 right-0 w-16 h-16 opacity-[0.04]"
                 style="background: conic-gradient(from 180deg at 100% 0%, white, transparent);">
             </div>
-        </div>
-
-        <!-- Footer Description -->
-        <div class="mt-2.5 px-0.5">
-            <p class="text-xs text-muted-foreground line-clamp-1 leading-relaxed">
-                {{ offer.subtitle|default:"Special Student Discount Available" }}
-            </p>
         </div>
     </div>
 </div>

@@ -44,36 +44,37 @@
         </a>
     </div>
 
-    {% if content.offers|length > 5 %}
-    <!-- LEFT ARROW -->
-    <button id="slideLeft"
-        class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-200">
-        ‹
-    </button>
-    {% endif %}
+    <!-- SLIDER STRIP WITH ARROWS -->
+    <div class="relative">
+        {% if content.offers|length > 5 %}
+        <!-- LEFT ARROW -->
+        <button id="slideLeft"
+            class="absolute -left-5 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        {% endif %}
 
-    <!-- SLIDER -->
-    <div id="offerSlider" class="flex gap-6 overflow-x-auto scroll-smooth py-6 no-scrollbar px-1">
-        {% for offer in content.offers %}
-        <div class="flex-none basis-1/5 min-w-[20%]">
-            {% if offer.is_gift_card %}
-            {% include "components/gift_card_tile.html" %}
-            {% else %}
-            {% include "components/tiles_cardV2.html" %}
-            {% endif %}
+        <!-- SLIDER -->
+        <div id="offerSlider" class="flex gap-6 overflow-x-auto scroll-smooth py-2 no-scrollbar">
+            {% for offer in content.offers %}
+            <div class="flex-none basis-1/5 min-w-[20%]">
+                {% if offer.is_gift_card %}
+                {% include "components/gift_card_tile.html" %}
+                {% else %}
+                {% include "components/tiles_cardV2.html" %}
+                {% endif %}
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
 
-
+        {% if content.offers|length > 5 %}
+        <!-- RIGHT ARROW -->
+        <button id="slideRight"
+            class="absolute -right-5 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        {% endif %}
     </div>
-
-    {% if content.offers|length > 5 %}
-    <!-- RIGHT ARROW -->
-    <button id="slideRight"
-        class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-200">
-        ›
-    </button>
-    {% endif %}
 </div>
 
 <script>
