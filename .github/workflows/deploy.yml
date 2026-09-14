@@ -1,0 +1,54 @@
+name: 🚀 Deploy to DigitalOcean
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_migrations:
+        description: 'Run database migrations?'
+        required: false
+        default: 'true'
+        type: boolean
+
+jobs:
+  deploy:
+    name: Deploy to Droplet
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔐 Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DO_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.DO_HOST }} >> ~/.ssh/known_hosts
+
+      - name: 🚀 Deploy via SSH
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} << 'EOF'
+            set -e
+
+            echo "📂 Navigating to project directory..."
+            cd /var/www/Studentpeeps
+
+            echo "⬇️  Pulling latest changes from GitHub..."
+            git pull origin main
+
+            echo "📦 Installing/updating Python dependencies..."
+            source venv/bin/activate || true
+            pip install -r requirements.txt --quiet
+
+            echo "🖼️  Collecting static files..."
+            python manage.py collectstatic --noinput
+
+            if [ "${{ inputs.run_migrations }}" = "true" ]; then
+              echo "🗃️  Running database migrations..."
+              python manage.py migrate --noinput
+            else
+              echo "⏭️  Skipping migrations (disabled by user)"
+            fi
+
+            echo "🔄 Restarting Gunicorn service..."
+            systemctl restart gunicorn
+
+            echo "✅ Deployment complete!"
+          EOF
