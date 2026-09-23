@@ -86,3 +86,46 @@ class GiftcardCallbackTests(TestCase):
         response = self.client.post(reverse("giftcard:payu_success"), payload)
         
         self.assertRedirects(response, reverse("giftcard:order_failed_refund", kwargs={"reference_id": self.order.reference_id}))
+
+
+class PlaceWoohooOrderTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="orderuser", password="password")
+        self.order = Order.objects.create(
+            user=self.user,
+            reference_id="STDPS-refno123",
+            total_amount=500.00,
+            provider_id="woohoo",
+            status=Order.STATUS_PAYMENT_CONFIRMED,
+            customer_name="John Doe",
+            customer_email="john@example.com",
+            customer_phone="9999999999",
+            payment_gateway="payu"
+        )
+
+    @patch('time.sleep', return_value=None)
+    @patch('giftcard.views.WoohooOrderService')
+    def test_place_woohoo_order_polls_refno_status_api(self, mock_service_cls, mock_sleep):
+        mock_service = MagicMock()
+        mock_service_cls.return_value = mock_service
+
+        mock_service.create_order.return_value = {"orderId": "WH123", "status": "PROCESSING"}
+        # Attempt 1: PROCESSING, Attempt 2: COMPLETE
+        mock_service.get_order_status_by_refno.side_effect = [
+            {"status": "PROCESSING", "orderId": "WH123"},
+            {"status": "COMPLETE", "orderId": "WH123"}
+        ]
+        mock_service.get_activated_cards.return_value = {"cards": [{"cardNumber": "1234", "cardPin": "5678"}]}
+
+        from giftcard.views import _place_woohoo_order
+        result = _place_woohoo_order(self.order)
+
+        self.assertTrue(result)
+        self.order.refresh_from_db()
+        self.assertEqual(self.order.status, Order.STATUS_COMPLETED)
+        self.assertTrue(self.order.is_vouchers_fetched)
+        # Verify get_order_status_by_refno was called with reference_id, NOT get_order_status
+        mock_service.get_order_status_by_refno.assert_called_with(self.order.reference_id)
+        mock_service.get_order_status.assert_not_called()
+        self.assertEqual(mock_service.get_order_status_by_refno.call_count, 2)
+

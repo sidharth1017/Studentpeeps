@@ -191,17 +191,68 @@ def _place_woohoo_order(order):
             order.woohoo_response = woohoo_response
             order.save()
             
-            # --- Call status API right after placing order ---
-            try:
-                status_response = woohoo_service.get_order_status(str(woohoo_order_id))
-                if isinstance(order.woohoo_response, dict):
-                    order.woohoo_response["status_api_response"] = status_response
-                else:
-                    order.woohoo_response = {"place_order": order.woohoo_response, "status_api_response": status_response}
-                order.save(update_fields=["woohoo_response"])
-            except Exception as status_e:
-                pass # Log it or ignore
-            
+            # --- Call status API by reference number up to 3 times (at 0s, 10s, 20s) ---
+            for status_attempt in range(3):
+                if status_attempt > 0:
+                    time.sleep(10)
+                try:
+                    status_response = woohoo_service.get_order_status_by_refno(order.reference_id)
+                    if isinstance(order.woohoo_response, dict):
+                        order.woohoo_response["status_api_response"] = status_response
+                    else:
+                        order.woohoo_response = {
+                            "place_order": order.woohoo_response,
+                            "status_api_response": status_response,
+                        }
+
+                    woohoo_status = (
+                        status_response.get("status", "").upper()
+                        if status_response
+                        else ""
+                    )
+
+                    # Update woohoo_order_id if returned in status response
+                    if status_response and (
+                        status_response.get("orderId")
+                        or status_response.get("order_id")
+                    ):
+                        order.woohoo_order_id = str(
+                            status_response.get("orderId")
+                            or status_response.get("order_id")
+                        )
+
+                    if woohoo_status in ("COMPLETE", "COMPLETED"):
+                        order.status = Order.STATUS_COMPLETED
+                        try:
+                            cards_target = (
+                                order.woohoo_order_id or order.reference_id
+                            )
+                            cards_response = woohoo_service.get_activated_cards(
+                                cards_target
+                            )
+                            if cards_response and "cards" in cards_response:
+                                order.woohoo_response = cards_response
+                                order.is_vouchers_fetched = True
+                        except Exception as card_err:
+                            import logging
+                            logging.getLogger(__name__).error(
+                                f"Error fetching activated cards: {str(card_err)}"
+                            )
+
+                        order.save()
+                        return True
+                    elif woohoo_status in ("CANCELLED", "ERROR", "FAILED"):
+                        order.status = Order.STATUS_FAILED
+                        order.save()
+                        return False
+                    else:
+                        order.save()
+                except Exception as status_e:
+                    import logging
+                    logging.getLogger(__name__).error(
+                        f"Error in status check attempt {status_attempt + 1}: {str(status_e)}"
+                    )
+
             return True
         except Exception as e:
             if attempt < 2:  # 0, 1
@@ -229,13 +280,25 @@ def _place_woohoo_order(order):
                 status_response = woohoo_service.get_order_status_by_refno(order.reference_id)
                 order.woohoo_response["status_api_response"] = status_response
                 
-                # If we miraculously got the order placed despite timeout, update the fields
-                if status_response and status_response.get("status") == "COMPLETE":
-                    order.woohoo_order_id = status_response.get("orderId", "")
-                    if order.woohoo_order_id:
-                        order.status = Order.STATUS_WOOHOO_PLACED
+                woohoo_status = (status_response.get("status", "").upper()) if status_response else ""
+                if status_response and woohoo_status in ("COMPLETE", "COMPLETED"):
+                    order.woohoo_order_id = str(status_response.get("orderId") or status_response.get("order_id") or "")
+                    order.status = Order.STATUS_COMPLETED
+                    try:
+                        cards_target = order.woohoo_order_id or order.reference_id
+                        cards_response = woohoo_service.get_activated_cards(cards_target)
+                        if cards_response and "cards" in cards_response:
+                            order.woohoo_response = cards_response
+                            order.is_vouchers_fetched = True
+                    except Exception as card_err:
+                        pass
+                elif status_response and (status_response.get("orderId") or status_response.get("order_id")):
+                    order.woohoo_order_id = str(status_response.get("orderId") or status_response.get("order_id"))
+                    order.status = Order.STATUS_WOOHOO_PLACED
                 
-                order.save(update_fields=["woohoo_response", "woohoo_order_id", "status"])
+                order.save(update_fields=["woohoo_response", "woohoo_order_id", "status", "is_vouchers_fetched"])
+                if order.status == Order.STATUS_COMPLETED:
+                    return True
             except Exception as ref_e:
                 pass
             
@@ -602,14 +665,7 @@ class OrderDetailView(LoginRequiredMixin, View):
 
                 elif not is_terminal_status:
                     try:
-                        if order.woohoo_order_id:
-                            response = service.get_order_status(order.woohoo_order_id)
-                            # Fallback for timeout/indexing edge cases: if woohoo_order_id returns 5320, try status by refno
-                            if response.get("code") == 5320:
-                                response = service.get_order_status_by_refno(order.reference_id)
-                        else:
-                            # Timeout scenario where woohoo_order_id was never received
-                            response = service.get_order_status_by_refno(order.reference_id)
+                        response = service.get_order_status_by_refno(order.reference_id)
 
                         woohoo_status = response.get("status", "").upper()
                         
