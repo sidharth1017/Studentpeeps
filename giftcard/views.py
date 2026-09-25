@@ -161,8 +161,9 @@ class RemoveFromCartView(View):
 def _place_woohoo_order(order):
     """
     Calls the Woohoo API to place the gift card order.
-    Safe — logs errors without raising so the payment success page still shows.
-    Returns True if placed successfully.
+    Handles timeout success scenarios (e.g. APITIMESUCC) and timeout failures (e.g. APITESTTIMFAIL)
+    by polling order status by refno up to 3 times (0s, 10s, 20s).
+    When status becomes COMPLETED, calls get_activated_cards to fetch vouchers.
     """
     customer = {
         "name":  order.customer_name,
@@ -171,10 +172,14 @@ def _place_woohoo_order(order):
     }
     import time
     import json
-    
+    import logging
+    logger = logging.getLogger(__name__)
+
+    woohoo_service = WoohooOrderService()
+
+    # 1. Attempt creating order with Woohoo (up to 3 attempts with 1.5s delay on retry)
     for attempt in range(3):
         try:
-            woohoo_service = WoohooOrderService()
             woohoo_response = woohoo_service.create_order(order, customer)
 
             # Check if Woohoo responded with an error dict directly
@@ -190,79 +195,14 @@ def _place_woohoo_order(order):
             order.woohoo_order_id = str(woohoo_order_id)
             order.woohoo_response = woohoo_response
             order.save()
-            
-            # --- Call status API by reference number up to 3 times (at 0s, 10s, 20s) ---
-            for status_attempt in range(3):
-                if status_attempt > 0:
-                    time.sleep(10)
-                try:
-                    status_response = woohoo_service.get_order_status_by_refno(order.reference_id)
-                    if isinstance(order.woohoo_response, dict):
-                        order.woohoo_response["status_api_response"] = status_response
-                    else:
-                        order.woohoo_response = {
-                            "place_order": order.woohoo_response,
-                            "status_api_response": status_response,
-                        }
-
-                    woohoo_status = (
-                        status_response.get("status", "").upper()
-                        if status_response
-                        else ""
-                    )
-
-                    # Update woohoo_order_id if returned in status response
-                    if status_response and (
-                        status_response.get("orderId")
-                        or status_response.get("order_id")
-                    ):
-                        order.woohoo_order_id = str(
-                            status_response.get("orderId")
-                            or status_response.get("order_id")
-                        )
-
-                    if woohoo_status in ("COMPLETE", "COMPLETED"):
-                        order.status = Order.STATUS_COMPLETED
-                        try:
-                            cards_target = (
-                                order.woohoo_order_id or order.reference_id
-                            )
-                            cards_response = woohoo_service.get_activated_cards(
-                                cards_target
-                            )
-                            if cards_response and "cards" in cards_response:
-                                order.woohoo_response = cards_response
-                                order.is_vouchers_fetched = True
-                        except Exception as card_err:
-                            import logging
-                            logging.getLogger(__name__).error(
-                                f"Error fetching activated cards: {str(card_err)}"
-                            )
-
-                        order.save()
-                        return True
-                    elif woohoo_status in ("CANCELLED", "ERROR", "FAILED"):
-                        order.status = Order.STATUS_FAILED
-                        order.save()
-                        return False
-                    else:
-                        order.save()
-                except Exception as status_e:
-                    import logging
-                    logging.getLogger(__name__).error(
-                        f"Error in status check attempt {status_attempt + 1}: {str(status_e)}"
-                    )
-
-            return True
+            break
         except Exception as e:
+            logger.warning(f"Woohoo create_order attempt {attempt + 1} failed: {str(e)}")
             if attempt < 2:  # 0, 1
                 time.sleep(1.5)  # wait 1.5s before retrying
                 continue
-                
-            # If all 3 attempts fail, payment remains confirmed, Woohoo failed
+
             error_message = str(e)
-            
-            # Extract specific error message if it's an API exception
             if hasattr(e, 'response') and e.response:
                 try:
                     err_dict = json.loads(e.response)
@@ -273,36 +213,74 @@ def _place_woohoo_order(order):
 
             order.woohoo_response = {"error": error_message, "attempts": attempt + 1}
             order.save(update_fields=["woohoo_response"])
-            
-            # --- Call status API based on reference number since we don't have order_id ---
-            try:
-                woohoo_service = WoohooOrderService()
-                status_response = woohoo_service.get_order_status_by_refno(order.reference_id)
+
+    # 2. Status Polling Flow (0s, 10s, 20s)
+    # Always query status by refno regardless of create_order outcome (handles APITIMESUCC & APITESTTIMFAIL)
+    for status_attempt in range(3):
+        if status_attempt > 0:
+            time.sleep(10)
+        try:
+            status_response = woohoo_service.get_order_status_by_refno(order.reference_id)
+            if not status_response:
+                continue
+
+            if isinstance(order.woohoo_response, dict):
                 order.woohoo_response["status_api_response"] = status_response
-                
-                woohoo_status = (status_response.get("status", "").upper()) if status_response else ""
-                if status_response and woohoo_status in ("COMPLETE", "COMPLETED"):
-                    order.woohoo_order_id = str(status_response.get("orderId") or status_response.get("order_id") or "")
-                    order.status = Order.STATUS_COMPLETED
-                    try:
-                        cards_target = order.woohoo_order_id or order.reference_id
-                        cards_response = woohoo_service.get_activated_cards(cards_target)
-                        if cards_response and "cards" in cards_response:
+            else:
+                order.woohoo_response = {
+                    "place_order": order.woohoo_response,
+                    "status_api_response": status_response,
+                }
+
+            woohoo_status = status_response.get("status", "").upper() if status_response else ""
+
+            # Update woohoo_order_id if returned in status response
+            if status_response and (
+                status_response.get("orderId") or status_response.get("order_id")
+            ):
+                order.woohoo_order_id = str(
+                    status_response.get("orderId") or status_response.get("order_id")
+                )
+
+            if woohoo_status in ("COMPLETE", "COMPLETED"):
+                # First, set order status to COMPLETED
+                order.status = Order.STATUS_COMPLETED
+                order.save()
+
+                # Second, call Activated Cards API
+                try:
+                    cards_target = order.woohoo_order_id or order.reference_id
+                    cards_response = woohoo_service.get_activated_cards(cards_target)
+                    if cards_response:
+                        if isinstance(order.woohoo_response, dict):
+                            order.woohoo_response["activated_cards"] = cards_response
+                            if "cards" in cards_response:
+                                order.woohoo_response["cards"] = cards_response["cards"]
+                        else:
                             order.woohoo_response = cards_response
+
+                        if "cards" in cards_response or (isinstance(cards_response, list) and len(cards_response) > 0):
                             order.is_vouchers_fetched = True
-                    except Exception as card_err:
-                        pass
-                elif status_response and (status_response.get("orderId") or status_response.get("order_id")):
-                    order.woohoo_order_id = str(status_response.get("orderId") or status_response.get("order_id"))
-                    order.status = Order.STATUS_WOOHOO_PLACED
-                
-                order.save(update_fields=["woohoo_response", "woohoo_order_id", "status", "is_vouchers_fetched"])
-                if order.status == Order.STATUS_COMPLETED:
-                    return True
-            except Exception as ref_e:
-                pass
-            
-            return False
+                except Exception as card_err:
+                    logger.error(f"Error fetching activated cards: {str(card_err)}")
+
+                order.save()
+                return True
+
+            elif woohoo_status in ("CANCELLED", "ERROR", "FAILED"):
+                order.status = Order.STATUS_FAILED
+                order.save()
+                return False
+            else:
+                order.status = Order.STATUS_WOOHOO_PLACED
+                order.save()
+        except Exception as status_e:
+            logger.error(f"Error in status check attempt {status_attempt + 1}: {str(status_e)}")
+
+    if order.status in (Order.STATUS_COMPLETED, Order.STATUS_WOOHOO_PLACED):
+        return True
+
+    return False
 
 
 # ──────────────────────────────────────────────────────────────────────────────

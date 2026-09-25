@@ -129,3 +129,47 @@ class PlaceWoohooOrderTests(TestCase):
         mock_service.get_order_status.assert_not_called()
         self.assertEqual(mock_service.get_order_status_by_refno.call_count, 2)
 
+    @patch('time.sleep', return_value=None)
+    @patch('giftcard.views.WoohooOrderService')
+    def test_place_woohoo_order_timeout_success_scenario(self, mock_service_cls, mock_sleep):
+        """Simulates APITIMESUCC scenario: create_order times out, but refno status check resolves COMPLETE and triggers get_activated_cards."""
+        mock_service = MagicMock()
+        mock_service_cls.return_value = mock_service
+
+        # create_order raises timeout exception
+        mock_service.create_order.side_effect = Exception("HTTP Timeout on create_order")
+        mock_service.get_order_status_by_refno.side_effect = [
+            {"status": "PROCESSING", "orderId": "WHTIMEOUT123"},
+            {"status": "COMPLETE", "orderId": "WHTIMEOUT123"}
+        ]
+        mock_service.get_activated_cards.return_value = {"cards": [{"cardNumber": "9999", "cardPin": "1111"}]}
+
+        from giftcard.views import _place_woohoo_order
+        result = _place_woohoo_order(self.order)
+
+        self.assertTrue(result)
+        self.order.refresh_from_db()
+        self.assertEqual(self.order.status, Order.STATUS_COMPLETED)
+        self.assertEqual(self.order.woohoo_order_id, "WHTIMEOUT123")
+        self.assertTrue(self.order.is_vouchers_fetched)
+        mock_service.get_activated_cards.assert_called_once_with("WHTIMEOUT123")
+
+    @patch('time.sleep', return_value=None)
+    @patch('giftcard.views.WoohooOrderService')
+    def test_place_woohoo_order_timeout_failure_scenario(self, mock_service_cls, mock_sleep):
+        """Simulates APITESTTIMFAIL scenario: create_order times out, and refno status check returns CANCELLED/FAILED."""
+        mock_service = MagicMock()
+        mock_service_cls.return_value = mock_service
+
+        mock_service.create_order.side_effect = Exception("HTTP Timeout on create_order")
+        mock_service.get_order_status_by_refno.return_value = {"status": "CANCELLED", "orderId": "WHTIMEOUTFAIL"}
+
+        from giftcard.views import _place_woohoo_order
+        result = _place_woohoo_order(self.order)
+
+        self.assertFalse(result)
+        self.order.refresh_from_db()
+        self.assertEqual(self.order.status, Order.STATUS_FAILED)
+        mock_service.get_activated_cards.assert_not_called()
+
+
