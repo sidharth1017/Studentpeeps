@@ -172,4 +172,27 @@ class PlaceWoohooOrderTests(TestCase):
         self.assertEqual(self.order.status, Order.STATUS_FAILED)
         mock_service.get_activated_cards.assert_not_called()
 
+    @patch('time.sleep', return_value=None)
+    @patch('giftcard.tasks.WoohooOrderService')
+    def test_poll_woohoo_order_status_task_triggers_activated_cards(self, mock_service_cls, mock_sleep):
+        """Tests that poll_woohoo_order_status_task automatically polls Woohoo status and calls get_activated_cards when COMPLETE."""
+        mock_service = MagicMock()
+        mock_service_cls.return_value = mock_service
+
+        mock_service.get_order_status_by_refno.side_effect = [
+            {"status": "PROCESSING", "orderId": "WHBG123"},
+            {"status": "COMPLETE", "orderId": "WHBG123"}
+        ]
+        mock_service.get_activated_cards.return_value = {"cards": [{"cardNumber": "8888", "cardPin": "2222"}]}
+
+        from giftcard.tasks import poll_woohoo_order_status_task
+        task_result = poll_woohoo_order_status_task(self.order.id, max_attempts=5, interval_seconds=0)
+
+        self.assertTrue(task_result)
+        self.order.refresh_from_db()
+        self.assertEqual(self.order.status, Order.STATUS_COMPLETED)
+        self.assertTrue(self.order.is_vouchers_fetched)
+        mock_service.get_activated_cards.assert_called_once_with("WHBG123")
+
+
 

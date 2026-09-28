@@ -278,6 +278,13 @@ def _place_woohoo_order(order):
             logger.error(f"Error in status check attempt {status_attempt + 1}: {str(status_e)}")
 
     if order.status in (Order.STATUS_COMPLETED, Order.STATUS_WOOHOO_PLACED):
+        if not order.is_vouchers_fetched:
+            try:
+                from giftcard.tasks import poll_woohoo_order_status_task
+                poll_woohoo_order_status_task.delay(order.id)
+                logger.info(f"Dispatched background polling task for order {order.id}")
+            except Exception as task_err:
+                logger.error(f"Failed to dispatch background polling task for order {order.id}: {str(task_err)}")
         return True
 
     return False
