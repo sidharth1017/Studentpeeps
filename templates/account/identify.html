@@ -1,161 +1,64 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}StudentPeeps | Create Account{% endblock %}
+{% block title %}StudentPeeps | Login or Sign up{% endblock %}
 
 {% block linkshead %}
 <meta name="description"
-  content="Sign up on Studentpeeps to get student discounts when you shop. Enter your email and password to make an account on Studentpeeps.">
-<!-- Font import removed -->
-<link rel="stylesheet" href="{% static 'css/google.css' %}">
-<style>
-  input.form-control {
-    height: 46px;
-    background: rgb(239, 244, 244);
-  }
-
-  h2 {
-    color: #272727;
-    font-weight: bold;
-  }
-
-  p {
-    font-size: 16px;
-  }
-
-  .col label {
-    color: black;
-    font-weight: 700;
-    padding-bottom: 10px;
-    font-size: 15px;
-  }
-
-  .btn-primary {
-    font-weight: bold;
-    height: 40px;
-    line-height: 2.5rem;
-    padding: 0 3rem;
-    width: 100%;
-    border: 0;
-    border-radius: 0.5rem;
-    background-image: linear-gradient(131deg, #57408a, #433375, #452c79, #301e55) !important;
-    background-size: 300% 100%;
-    transition: all 0.3s ease-in-out;
-    margin-top: 10px !important;
-    margin-bottom: 100px;
-  }
-
-  .btn-primary:hover {
-    background-size: 100% 100%;
-    transform: translateY(-0.15em);
-    color: white;
-  }
-
-  section {
-    margin-top: 50px;
-  }
-
-  .fix {
-    position: relative;
-    width: 100%;
-    max-width: 440px;
-    min-width: 320px;
-    margin: 0px auto;
-    padding: 2em 2em 1em;
-  }
-
-  .sign {
-    text-align: center;
-    margin-top: 2em;
-    width: 100%;
-    cursor: default;
-  }
-
-  .sign a {
-    background: none;
-    font-size: 1em;
-    text-decoration: underline;
-    color: var(--primary);
-  }
-
-  body {
-    background-image: url("/static/images/illustrator_signup.webp");
-    background-repeat: no-repeat;
-    background-position-y: 90px;
-  }
-
-  @media (max-width:786px) {
-    body {
-      background-image: url("");
-    }
-  }
-
-  .new_footer_area {
-    margin-top: 310px;
-    border-top: 1px solid rgb(165, 165, 165);
-  }
-
-  .btn-goggle {
-    width: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none !important;
-  }
-</style>
-
+  content="Log in or sign up to StudentPeeps with your mobile number or email. We'll send an OTP to verify.">
 {% endblock %}
 
 {% block body %}
+<div class="wrap">
+  <div class="auth">
+    <div class="co-sec auth-card">
+      <span class="auth-ic"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></span>
+      <h1>Login or signup</h1>
+      <p class="auth-sub">We will send an OTP to verify</p>
 
-<section>
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="fix col-12 col-md-8 col-lg-8 col-xl-6">
-        <div class="row">
-          <div class="col text-center">
-            <h2>Login or signup</h2>
-            <p>We will send an OTP to verify</p>
-            <!-- <div class="row d-flex justify-content-center mt-4">
-              <div class="col d-flex justify-content-center">
-                <a href="{% url 'social:begin' backend='google-oauth2' %}" class="btn btn-goggle mb-2"><img
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/2048px-Google_%22G%22_logo.svg.png"
-                    class="goggle-icon" alt="">
-                  <span class="text-decoration-none text-dark text-center"
-                    style="font-weight: bold; ">Continue With
-                    Google</span></a>
-              </div>
-            </div> -->
-            <!-- <div class="row justify-content-start mt-4">
-              <div class="col underline">
-                <div class="underline-div"></div>
-                <p class="underline-text">or</p>
-                <div class="underline-div"></div>
-              </div>
-            </div> -->
-            {% for message in messages %}
-            <div class="alert alert-success">{{message}}</div>
-            {% endfor %}
-          </div>
+      {% for message in messages %}
+      <div class="{% if message.tags == 'error' %}ck-err{% else %}auth-ok{% endif %}" role="alert">
+        <svg class="ic ic-s" aria-hidden="true"><use href="#i-{% if message.tags == 'error' %}alert{% else %}check-c{% endif %}"/></svg>
+        <span>{{ message }}</span>
+      </div>
+      {% endfor %}
+
+      <form id="identify-form" method="POST" class="auth-form" novalidate>
+        {% csrf_token %}
+        <div class="fld">
+          <label class="lbl" for="identifier-input">Enter mobile number or email</label>
+          <input type="text" name="identifier" class="inp" id="identifier-input" required
+            autocomplete="username" inputmode="email" autofocus placeholder="10-digit mobile or you@example.com">
+          <p class="auth-err hide" id="identifier-err" role="alert">Enter a valid 10-digit mobile number or email address.</p>
         </div>
-        <div class="row align-items-center">
-        </div>
-        <form id="identify-form" method="POST">
-          {% csrf_token %}
-          <div class="row align-items-center mt-4">
-            <div class="col">
-              <label class="input">Enter mobile number or email</label>
-              <input type="text" name="identifier" class="form-control" id="identifier-input" required>
-            </div>
-          </div>
-          <div class="row justify-content-start mt-4">
-            <div class="col">
-              <button class="btn btn-primary mt-4" id="continue-btn">Continue</button>
-            </div>
-          </div>
-        </form>
+        <button class="btn btn-p btn-lg btn-blk" id="continue-btn" type="submit">Continue</button>
+      </form>
 
-</section>
+      <p class="secure-l"><svg class="ic ic-s" aria-hidden="true"><use href="#i-lock"/></svg>No password needed. We only use your details to sign you in.</p>
+    </div>
+  </div>
+</div>
 
-
+<script>
+  (function () {
+    var form = document.getElementById('identify-form');
+    var input = document.getElementById('identifier-input');
+    var err = document.getElementById('identifier-err');
+    var phone = /^\d{10}$/, email = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    form.addEventListener('submit', function (e) {
+      var v = input.value.trim();
+      input.value = v;
+      if (!phone.test(v) && !email.test(v)) {
+        e.preventDefault();
+        err.classList.remove('hide');
+        input.classList.add('bad');
+        input.focus();
+      }
+    });
+    input.addEventListener('input', function () {
+      err.classList.add('hide');
+      input.classList.remove('bad');
+    });
+  })();
+</script>
 {% endblock %}

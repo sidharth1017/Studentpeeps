@@ -19,6 +19,7 @@ from typing import Dict, Optional
 from django.conf import settings
 
 from .base import PaymentGateway, PaymentOrderResult, PaymentVerificationResult
+from .methods import payu_enforce_value
 
 
 class PayUGateway(PaymentGateway):
@@ -103,9 +104,11 @@ class PayUGateway(PaymentGateway):
         customer: Optional[Dict[str, str]] = None,
         surl: str = "",
         furl: str = "",
+        pay_method: Optional[str] = None,
     ) -> PaymentOrderResult:
         """
         Generates all fields needed for a PayU payment form.
+        If `pay_method` is given, PayU's hosted page is locked to that method (see methods.py).
         The caller (InitiatePaymentView) must supply customer details and callback URLs.
         """
         if not customer:
@@ -151,6 +154,12 @@ class PayUGateway(PaymentGateway):
             "udf4":        "",
             "udf5":        "",
         }
+
+        # Lock PayU's hosted page to the method picked on our checkout (UPI only, cards only, ...).
+        # enforce_paymethod is not part of the request hash.
+        enforce = payu_enforce_value(pay_method)
+        if enforce:
+            form_fields["enforce_paymethod"] = enforce
 
         return PaymentOrderResult(
             gateway_order_id=txnid,

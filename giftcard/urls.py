@@ -22,6 +22,9 @@ urlpatterns = [
     path('order/<str:reference_id>/failed-refund/', views.OrderFailedRefundView.as_view(), name='order_failed_refund'),
     path('order/<str:reference_id>/detail/',  views.OrderDetailView.as_view(),  name='order_detail'),
 
+    # Live search suggestions
+    path('search/suggest/',   views.SearchSuggestView.as_view(),  name='search_suggest'),
+
     # Explore page
     path('explore/',          views.ExploreView.as_view(),        name='explore'),
 

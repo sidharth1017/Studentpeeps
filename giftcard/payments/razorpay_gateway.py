@@ -32,6 +32,7 @@ class RazorpayGateway(PaymentGateway):
         customer: Optional[Dict[str, str]] = None,
         surl: str = "",
         furl: str = "",
+        pay_method: Optional[str] = None,  # not used by the Razorpay modal
     ) -> PaymentOrderResult:
         """Creates a Razorpay order. Amount in rupees → converted to paise."""
         amount_paise = int(amount * 100)

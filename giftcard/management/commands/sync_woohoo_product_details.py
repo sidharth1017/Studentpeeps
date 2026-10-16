@@ -41,18 +41,20 @@ class Command(BaseCommand):
                 provider=provider
             )
 
-        if not products.exists():
+        product_list = list(products)
+
+        if not product_list:
             self.stdout.write("No products found to sync")
             return
 
         self.stdout.write(
-            f"Syncing Woohoo product details for {products.count()} product(s)..."
+            f"Syncing Woohoo product details for {len(product_list)} product(s)..."
         )
 
         success = 0
         failed = 0
 
-        for product in products.iterator(chunk_size=50):
+        for product in product_list:
             try:
                 service.fetch_and_update(product)
                 success += 1

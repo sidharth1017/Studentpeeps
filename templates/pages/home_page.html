@@ -1,443 +1,636 @@
-{% extends 'base.html' %} {% load static %}
+{% extends 'base.html' %}
+{% load static %}
 
-{% block metatags %}
-<meta name="description"
-    content="Get FREE Student Discounts on your favorite brands like Bewakoof, Rapido Bike Taxi & Bitclass. Student discount for samsung, Oneplus student discount, Apple Student Discount." />
-<meta name="keywords"
-    content="studentpeeps, student peeps, student offers, student coupon code, discount codes, college id, student discount ,student discounts ,student deals, apple student discount, Student discounts for Samsung, oneplus student discount, student discount india, asus student discount, bewakoof coupon code, github student developer pack " />
-{% endblock %}
-
-{% block ogmetatags %}
-<meta property="og:title" content="Student Peeps: Free Student Discounts | Student Deals & Offers">
-<meta property="og:description"
-    content="Get FREE Student Discounts on your favorite brands like Bewakoof, Rapido Bike Taxi & Bitclass. Student discount for samsung, Oneplus student discount, Apple Student Discount.">
-<meta property="og:image"
-    content="https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/ogimages/ogImage.jpg">
-<meta property="og:url" content="https://studentpeeps.club/">
-<link rel="canonical" href="https://studentpeeps.club/">
-{% endblock %}
-
-{% block title %}Student Peeps: Free Student Discounts | Student Deals & Offers{% endblock %}
-
-{% block linkshead %}
-<style>
-    :root {
-        --background: #ffffff;
-        --foreground: #020817;
-        --muted: #f1f5f9;
-        --muted-foreground: #64748b;
-        --popover: #ffffff;
-        --popover-foreground: #020817;
-        --border: #e2e8f0;
-        --input: #e2e8f0;
-        --card: #ffffff;
-        --card-foreground: #020817;
-        --primary: #3b82f6;
-        --primary-foreground: #ffffff;
-        --secondary: #f1f5f9;
-        --secondary-foreground: #0f172a;
-        --accent: #f1f5f9;
-        --accent-foreground: #0f172a;
-        --destructive: #ff4444;
-        --destructive-foreground: #ffffff;
-        --ring: #94a3b8;
-        --radius: 0.5rem;
-    }
-
-    @keyframes marquee {
-        0% {
-            transform: translateX(0);
-        }
-
-        100% {
-            transform: translateX(-50%);
-        }
-    }
-
-    .animate-marquee {
-        display: flex;
-        width: max-content;
-        animation: marquee 40s linear infinite;
-    }
-
-    .animate-marquee:hover {
-        animation-play-state: paused;
-    }
-
-    /* Fireworks Animations */
-    @keyframes fw-launch {
-        0% {
-            height: 0;
-            opacity: 0;
-            bottom: 0;
-        }
-
-        40% {
-            height: 120px;
-            opacity: 0.8;
-            bottom: 40%;
-        }
-
-        60% {
-            height: 0;
-            opacity: 0;
-            bottom: 80%;
-        }
-
-        100% {
-            height: 0;
-            opacity: 0;
-            bottom: 80%;
-        }
-    }
-
-    @keyframes fw-spark {
-        0% {
-            transform: translate(0, 0) scale(0);
-            opacity: 0;
-        }
-
-        10% {
-            transform: translate(0, 0) scale(1.4);
-            opacity: 1;
-        }
-
-        100% {
-            transform: translate(var(--dx), var(--dy)) scale(0);
-            opacity: 0;
-        }
-    }
-
-    .firework-container {
-        position: absolute;
-        bottom: 0;
-        left: var(--x);
-        width: 2px;
-        height: 120px;
-        background: linear-gradient(to top, transparent, var(--color));
-        opacity: 0;
-        animation: fw-launch 3.5s infinite var(--delay);
-    }
-
-    .spark {
-        position: absolute;
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        background-color: var(--color);
-        left: var(--x);
-        top: var(--y);
-        opacity: 0;
-        animation: fw-spark 2.5s infinite var(--delay);
-    }
-
-    /* Floating Joy Section Confetti */
-    @keyframes float-dot {
-
-        0%,
-        100% {
-            transform: translate(0, 0) scale(1);
-        }
-
-        50% {
-            transform: translate(4px, -8px) scale(1.3);
-        }
-    }
-
-    .confetti-dot {
-        position: absolute;
-        border-radius: 50%;
-        animation: float-dot 3s ease-in-out infinite;
-    }
-
-    .hero-gradient-text {
-        background: linear-gradient(to right, #f97316, #f43f5e, #8b5cf6);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
-
-    .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-
-    .category-card:hover .chevron-icon {
-        visibility: visible;
-        opacity: 1;
-        transform: translateY(-50%) translateX(0);
-    }
-
-    .chevron-icon {
-        transition: all 0.3s ease;
-        transform: translateY(-50%) translateX(-4px);
-        opacity: 0;
-    }
-</style>
-{% endblock %}
+{% block title %}StudentPeeps — Gift cards for less than they’re worth{% endblock %}
 
 {% block body %}
-<div class="min-h-screen bg-white">
-    <!-- FESTIVE HERO -->
-    <section class="relative overflow-hidden bg-white">
-        <div class="absolute inset-0 pointer-events-none overflow-hidden">
-            <!-- Simulated Fireworks -->
-            <div class="firework-container" style="--x: 12%; --color: #FF6B35; --delay: 0s;"></div>
-            <div class="firework-container" style="--x: 30%; --color: #7B2FF7; --delay: 1.8s;"></div>
-            <div class="firework-container" style="--x: 50%; --color: #00C2FF; --delay: 0.6s;"></div>
-            <div class="firework-container" style="--x: 70%; --color: #FF3366; --delay: 3.2s;"></div>
-            <div class="firework-container" style="--x: 88%; --color: #FFB800; --delay: 2.0s;"></div>
+<!-- HERO SECTION -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <h1 class="h-xl">Gift cards that cost less than they’re worth.</h1>
+        <p class="lede">PVR INOX, Domino’s, Levi’s and 300+ more gift cards at up to 16.5% off. Pay with UPI for the best price, and get the code on WhatsApp in seconds.</p>
+        
+        <!-- Big Search Bar -->
+        <div class="bigsearch">
+          <form action="{% url 'giftcard:explore' %}" method="GET" style="margin:0">
+            <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+            <input type="search" name="search" placeholder="Search a brand or category" aria-label="Search gift cards" autocomplete="off">
+          </form>
         </div>
 
-        <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-20 sm:pt-28 lg:pt-36 pb-4">
-            <div class="text-center max-w-3xl mx-auto">
-                <div class="mb-8 flex justify-center">
-                    <span
-                        class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gray-100 text-sm font-medium text-gray-800">
-                        <i data-lucide="star" class="h-3 w-3 fill-amber-400 text-amber-400"></i>
-                        500+ Premium Brands
-                    </span>
-                </div>
+        <!-- Popular Brand Quick Chips -->
+        <div class="popchips">
+          <span>Popular</span>
+          <a class="chip" href="/giftcard/EGVGBPVRC001/">PVR INOX</a>
+          <a class="chip" href="/giftcard/EGCGBDEGCS001/">Domino’s</a>
+          <a class="chip" href="/giftcard/EGCGBMYNC001/">Myntra</a>
+          <a class="chip" href="/giftcard/EGVGBSTB001/">Starbucks</a>
+          <a class="chip" href="/giftcard/EGCGBUBER001/">Uber</a>
+        </div>
+      </div>
 
-                <h1 class="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight mb-6 leading-[1.2] pb-1">
-                    <span class="block text-gray-900">Gifts to spark</span>
-                    <span class="block italic font-serif hero-gradient-text pb-2">joy.</span>
-                </h1>
-
-                <p class="text-base sm:text-lg text-gray-500 max-w-xl mx-auto mb-10 leading-relaxed">
-                    Discover gift cards from 500+ of the world's most loved brands. Instant delivery, no fees,
-                    guaranteed smiles.
-                </p>
-
-                <div class="flex flex-wrap items-center justify-center gap-3">
-                    <a href="{% url 'giftcard:explore' %}">
-                        <button
-                            class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-blue-600 hover:bg-blue-700 focus:shadow-outline focus:outline-none">
-                            Explore All Cards
-                            <i data-lucide="arrow-right" class="ml-2 h-4 w-4"></i>
-                        </button>
-                    </a>
-                    <a href="{% url 'giftcard:explore' %}?category=exclusive">
-                        <button
-                            class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-gray-800 transition duration-200 rounded border border-gray-300 hover:bg-gray-50 focus:shadow-outline focus:outline-none">
-                            <i data-lucide="gift" class="mr-2 h-4 w-4"></i>
-                            Popular Gifts
-                        </button>
-                    </a>
-                </div>
-            </div>
+      <!-- Live Savings Calculator Card -->
+      <div class="est" id="savingsEst">
+        <h2>What would you save?</h2>
+        <div class="brands" role="group" aria-label="Pick a brand you use">
+          {% for b in calculator_brands %}
+          <button type="button" class="chip {% if forloop.first %}active{% endif %}" 
+                  data-calc-id="{{ b.id }}" 
+                  data-calc-name="{{ b.name }}" 
+                  data-calc-discount="{{ b.discount }}" 
+                  data-calc-sku="{{ b.sku }}"
+                  aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+            {{ b.name }}
+          </button>
+          {% endfor %}
         </div>
 
-        <!-- Quick Browse Brands/Categories -->
-        <div class="relative z-10 mt-8 sm:mt-12">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <p class="text-center text-[10px] font-semibold text-gray-400 mb-4 uppercase tracking-[0.2em]">
-                    Quick Browse
-                </p>
-                <div class="flex flex-wrap justify-center gap-2 max-w-5xl mx-auto pb-12">
-                    {% for cat in categories|slice:":12" %}
-                    <a href="{% url 'giftcard:explore' %}?category={{ cat.category_id }}">
-                        <button
-                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-gray-200 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors">
-                            <i data-lucide="{{ cat.lucide_icon }}" class="h-3.5 w-3.5 text-gray-500"></i>
-                            {{ cat.name }}
-                        </button>
-                    </a>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </section>
+        <label class="spend" for="estRange">
+          <span id="spendLabel">You spend on PVR INOX</span>
+          <b class="num" id="spendValueDisplay">₹3,000 a month</b>
+        </label>
+        <input class="range" id="estRange" type="range" min="500" max="10000" step="250" value="3000" aria-label="Monthly spend">
 
-    <!-- BRAND MARQUEE -->
-    <section class="py-6 bg-white overflow-hidden border-y border-gray-100">
-        <div class="relative">
-            <div class="animate-marquee gap-6">
-                {% for brand in top_brands %}
-                <div class="flex-shrink-0 flex items-center gap-3 px-5 py-3 rounded-xl bg-gray-50 shadow-sm">
-                    <div class="w-8 h-8 rounded-md flex items-center justify-center overflow-hidden bg-white p-1">
-                        {% if brand.logo %}
-                        <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="w-full h-full object-contain">
-                        {% else %}
-                        <i data-lucide="gift" class="h-4 w-4 text-gray-400"></i>
-                        {% endif %}
-                    </div>
-                    <span class="text-sm font-semibold text-gray-800">{{ brand.name }}</span>
-                </div>
-                {% endfor %}
-                <!-- Duplicate for seamless loop -->
-                {% for brand in top_brands %}
-                <div class="flex-shrink-0 flex items-center gap-3 px-5 py-3 rounded-xl bg-gray-50 shadow-sm">
-                    <div class="w-8 h-8 rounded-md flex items-center justify-center overflow-hidden bg-white p-1">
-                        {% if brand.logo %}
-                        <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="w-full h-full object-contain">
-                        {% else %}
-                        <i data-lucide="gift" class="h-4 w-4 text-gray-400"></i>
-                        {% endif %}
-                    </div>
-                    <span class="text-sm font-semibold text-gray-800">{{ brand.name }}</span>
-                </div>
-                {% endfor %}
-            </div>
+        <div class="out" id="estOutput" aria-live="polite">
+          <div class="big num"><span class="hl" id="annualSavingDisplay">₹4,410</span><small>a year</small></div>
+          <p class="how" id="calcDescription">Buy ₹3,000 of PVR INOX gift cards a month and pay with UPI at 12.25% off, then spend them as usual.</p>
         </div>
-    </section>
 
-    <!-- BENEFITS SECTION -->
-    <section class="py-12 sm:py-16">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
-                <div class="flex flex-col items-center text-center group">
-                    <div
-                        class="w-14 h-14 rounded-full bg-amber-50 flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
-                        <i data-lucide="zap" class="h-6 w-6 text-amber-500"></i>
-                    </div>
-                    <h3 class="font-bold text-sm sm:text-base text-gray-900">Instant Delivery</h3>
-                    <p class="text-xs sm:text-sm text-gray-500 mt-1">Get codes in seconds</p>
-                </div>
-                <div class="flex flex-col items-center text-center group">
-                    <div
-                        class="w-14 h-14 rounded-full bg-emerald-50 flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
-                        <i data-lucide="shield" class="h-6 w-6 text-emerald-500"></i>
-                    </div>
-                    <h3 class="font-bold text-sm sm:text-base text-gray-900">100% Secure</h3>
-                    <p class="text-xs sm:text-sm text-gray-500 mt-1">Safe & encrypted</p>
-                </div>
-                <div class="flex flex-col items-center text-center group">
-                    <div
-                        class="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
-                        <i data-lucide="clock" class="h-6 w-6 text-blue-500"></i>
-                    </div>
-                    <h3 class="font-bold text-sm sm:text-base text-gray-900">No Expiry</h3>
-                    <p class="text-xs sm:text-sm text-gray-500 mt-1">Use anytime</p>
-                </div>
-                <div class="flex flex-col items-center text-center group">
-                    <div
-                        class="w-14 h-14 rounded-full bg-orange-50 flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
-                        <i data-lucide="trending-up" class="h-6 w-6 text-orange-500"></i>
-                    </div>
-                    <h3 class="font-bold text-sm sm:text-base text-gray-900">Best Prices</h3>
-                    <p class="text-xs sm:text-sm text-gray-500 mt-1">Guaranteed value</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- DYNAMIC BLOCKS (Trending Now, etc.) -->
-    <div class="dynamic-blocks-container">
-        {% for block in layouts %}
-        {% if block.layoutType == "carousel" %}
-        {% include "components/main_slider.html" with images=block.content.images %}
-        {% elif block.layoutType == "category_carousel" %}
-        {% include "components/category_slider.html" with category_section=block.content.slider %}
-        {% elif block.layoutType == "custom_html" %}
-        <div class="w-full">
-            {{ block.html|safe }}
-        </div>
-        {% elif block.layoutType == "tile_slider" %}
-        <!-- Special styling for specific sections from React home.tsx -->
-        <div class="py-10">
-            {% include "components/tile_slider.html" with content=block.content %}
-        </div>
-        {% endif %}
-        {% endfor %}
+        <a class="btn btn-p btn-blk" id="calcCtaBtn" href="/giftcard/EGVGBPVRC001/">Get a PVR INOX card</a>
+      </div>
     </div>
 
-    <!-- SHOP BY CATEGORY -->
-    <section class="py-16 sm:py-24 bg-gray-50/50">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <span
-                    class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-blue-50 text-xs font-semibold text-blue-600 mb-4">
-                    <i data-lucide="sparkles" class="h-3 w-3"></i>
-                    Browse by Category
-                </span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">Shop by Category</h2>
-                <p class="text-gray-500 max-w-lg mx-auto">Find the perfect gift card for every occasion and every person
-                </p>
-            </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                {% for cat in categories %}
-                <a href="{% url 'giftcard:explore' %}?category={{ cat.category_id }}" class="group category-card">
-                    <div
-                        class="relative p-6 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 overflow-hidden">
-                        <div
-                            class="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
-                            <i data-lucide="{{ cat.lucide_icon }}" class="h-6 w-6 text-gray-700"></i>
-                        </div>
-                        <h3 class="font-bold text-gray-900">{{ cat.name }}</h3>
-                        <p class="text-xs text-gray-400 mt-1">Explore Deals</p>
-
-                        <div class="chevron-icon absolute top-1/2 right-6 -translate-y-1/2">
-                            <i data-lucide="chevron-right" class="h-5 w-5 text-gray-300"></i>
-                        </div>
-
-                        <!-- Mini Gradient Accent -->
-                        <div
-                            class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gray-100 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                        </div>
-                    </div>
-                </a>
-                {% endfor %}
-            </div>
+    <!-- 4 Value Promises -->
+    <div class="promises">
+      <div class="promise">
+        <svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg>
+        <div>
+          <b>Brand-authorised codes</b>
+          <span>Issued by the brand or its official issuer</span>
         </div>
-    </section>
-
-    <!-- JOY CTA -->
-    <section class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
-        <div class="mx-auto max-w-7xl">
-            <div class="relative rounded-3xl overflow-hidden bg-gray-900 py-16 sm:py-24 px-8 text-center shadow-2xl">
-                <!-- Confetti/Dots simulated -->
-                <div class="absolute inset-0 opacity-20 pointer-events-none">
-                    <div class="confetti-dot"
-                        style="left: 10%; top: 20%; width: 6px; height: 6px; background: #FF6B35;"></div>
-                    <div class="confetti-dot"
-                        style="left: 80%; top: 15%; width: 8px; height: 8px; background: #7B2FF7;"></div>
-                    <div class="confetti-dot"
-                        style="left: 25%; top: 75%; width: 5px; height: 5px; background: #00C2FF;"></div>
-                    <div class="confetti-dot"
-                        style="left: 70%; top: 80%; width: 7px; height: 7px; background: #FF3366;"></div>
-                </div>
-
-                <div class="relative z-10 max-w-2xl mx-auto">
-                    <div class="flex justify-center mb-8">
-                        <div
-                            class="w-20 h-20 rounded-full bg-gradient-to-br from-orange-400 via-pink-500 to-violet-500 flex items-center justify-center animate-bounce duration-3000">
-                            <i data-lucide="party-popper" class="h-10 w-10 text-white"></i>
-                        </div>
-                    </div>
-
-                    <h2 class="text-3xl sm:text-5xl font-extrabold text-white mb-6 leading-tight">
-                        Gifts full of <span class="italic font-serif text-pink-400">joy.</span>
-                    </h2>
-                    <p class="text-gray-400 text-lg mb-10 max-w-lg mx-auto">
-                        Browse our collection of 500+ premium gift cards and find the perfect surprise for anyone, any
-                        occasion.
-                    </p>
-
-                    <div class="flex flex-wrap justify-center gap-4">
-                        <a href="{% url 'giftcard:explore' %}">
-                            <button
-                                class="inline-flex items-center justify-center h-14 px-8 font-bold tracking-wide text-gray-900 transition duration-200 rounded-full shadow-lg bg-white hover:bg-gray-100">
-                                Browse Gift Cards
-                                <i data-lucide="arrow-right" class="ml-2 h-5 w-5"></i>
-                            </button>
-                        </a>
-                        <a href="{% url 'giftcard:explore' %}?category=exclusive">
-                            <button
-                                class="inline-flex items-center justify-center h-14 px-8 font-bold tracking-wide text-white transition duration-200 rounded-full border-2 border-white/20 hover:bg-white/5">
-                                <i data-lucide="gift" class="mr-2 h-5 w-5"></i>
-                                Gift Ideas
-                            </button>
-                        </a>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div class="promise">
+        <svg class="ic" aria-hidden="true"><use href="#i-bolt"/></svg>
+        <div>
+          <b>Usually under a minute</b>
+          <span>Delivered on WhatsApp and email</span>
         </div>
-    </section>
-</div>
+      </div>
+      <div class="promise">
+        <svg class="ic" aria-hidden="true"><use href="#i-tag"/></svg>
+        <div>
+          <b>Every price shown upfront</b>
+          <span>See what each payment method costs before you pay</span>
+        </div>
+      </div>
+      <div class="promise">
+        <svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg>
+        <div>
+          <b>Code didn’t work? Full refund</b>
+          <span>Tell us within 7 days</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOP BY CATEGORY -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-h">
+      <div>
+        <h2>Shop by category</h2>
+      </div>
+      <a class="btn-q" href="{% url 'giftcard:explore' %}">All brands</a>
+    </div>
+    <div class="cats">
+      {% for cat in categories %}
+      <a class="cat" href="{% url 'giftcard:explore' %}?category={{ cat.category_id }}">
+        <svg class="ic" aria-hidden="true"><use href="#{{ cat.icon }}"/></svg>
+        <span>{{ cat.name }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- POPULAR WITH STUDENTS THIS WEEK (FROM DB PRODUCTS) -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-h">
+      <div>
+        <h2>Popular with students this week</h2>
+        <p>What students bought most in the last 7 days.</p>
+      </div>
+      <a class="btn-q md-up" href="{% url 'giftcard:explore' %}">See all</a>
+    </div>
+    <div class="rail">
+      {% for card in popular_cards %}
+      <a class="bt" href="/giftcard/{{ card.sku }}/">
+        <div class="gc {{ card.pattern_cls }}" style="--a:{{ card.pal_0 }};--b:{{ card.pal_1 }}" aria-hidden="true">
+          <div class="gc-in">
+            <div class="gc-top">
+              <div>
+                <div class="gc-brand {{ card.brand_size_cls }}">{{ card.display_brand }}</div>
+                <div class="gc-kind">Gift card</div>
+              </div>
+            </div>
+            <div class="gc-bot">
+              <span class="off">Up to {{ card.discount_display }} off</span>
+              <span class="gc-mark">studentpeeps</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="bt-name">{{ card.display_brand }}</div>
+          <div class="bt-row" style="margin-top:3px">
+            <span class="bt-cat">{{ card.category_name }}</span>
+          </div>
+          <div class="bt-meta" style="margin-top:5px">
+            <span>{{ card.range_txt }}</span>
+            <span><svg class="ic"><use href="#{{ card.use_icon }}"/></svg>{{ card.use_txt }}</span>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- TREATS UNDER ₹300 (FROM DB PRODUCTS) -->
+<section class="sec" id="treats">
+  <div class="wrap">
+    <div class="sec-h">
+      <div>
+        <h2>Treats under ₹300</h2>
+        <p>Small gifts for exam week, late nights and “thanks for the notes”.</p>
+      </div>
+    </div>
+    <div class="treats">
+      {% for treat in treats %}
+      <a class="treat" href="/giftcard/{{ treat.sku }}/">
+        <div class="gc {{ treat.pattern_cls }}" style="--a:{{ treat.pal_0 }};--b:{{ treat.pal_1 }}" aria-hidden="true">
+          <div class="gc-in" style="padding: 10cqw;">
+            <div class="gc-top">
+              <div class="gc-brand" style="font-size: 13cqw;">{{ treat.display_brand }}</div>
+            </div>
+            <div class="gc-bot">
+              <span class="gc-mark" style="font-size: 6cqw;">sp</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <b>{{ treat.tagline }}</b>
+          <span>{{ treat.display_brand }} gift card</span>
+        </div>
+        <div class="p num">
+          <span class="sr">You pay </span>{{ treat.pay_price_str }}
+          <small><span class="sr">Card value </span>{{ treat.card_value_str }}</small>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- GIFTS FOR EVERY OCCASION -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-h">
+      <div>
+        <h2>Gifts for every occasion</h2>
+        <p>Each one opens with its own card design and your note in handwriting.</p>
+      </div>
+    </div>
+    <div class="occs">
+      {% for occ in occasions %}
+      <a class="occ" href="{% url 'giftcard:explore' %}">
+        <div class="gc {{ occ.pt }}" style="--a:{{ occ.pal.0 }};--b:{{ occ.pal.1 }}" aria-hidden="true">
+          <div class="gc-in">
+            <div class="gc-top">
+              <div>
+                {% if occ.sub %}<div class="gc-sub">{{ occ.sub }}</div>{% endif %}
+                <div class="gc-theme">{{ occ.theme_title }}</div>
+              </div>
+            </div>
+            <div class="gc-bot">
+              <span></span>
+              <span class="gc-mark">studentpeeps</span>
+            </div>
+          </div>
+        </div>
+        <b>{{ occ.title }}</b>
+        <span>{{ occ.line }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- GIFTING THAT DOESN'T FEEL LIKE A PAYMENT (SPLIT SECTION) -->
+<section class="sec">
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <h2 style="font-size:clamp(26px,4vw,34px)">Gifting that doesn’t feel like a payment</h2>
+        <p class="lede" style="margin-top:10px">Pick a card, write a note, and we deliver it on WhatsApp with your note in handwriting.</p>
+        
+        <ol class="steps3">
+          <li>
+            <div>
+              <b>Pick a brand and amount</b>
+              <span>Or start from an occasion and the design is picked for you.</span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <b>Write a note, add a voice note</b>
+              <span>It opens with the card, handwritten, in any language.</span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <b>We send it on WhatsApp</b>
+              <span>Right away, or at the time you choose.</span>
+            </div>
+          </li>
+        </ol>
+
+        <a class="btn btn-p" href="/giftcard/EGCGBDEGCS001/" style="margin-top:24px">Send a gift</a>
+      </div>
+
+      <!-- WhatsApp Preview -->
+      <div class="chatprev" aria-label="Example of the WhatsApp message your friend receives">
+        <div class="cp-h">
+          <span class="avatar">sp</span>
+          <div>
+            <b>StudentPeeps</b>
+            <span>Business account</span>
+          </div>
+        </div>
+        <div class="bubble">
+          <div class="gc p-confetti" style="--a:#FF4F86;--b:#FF9F1C" aria-hidden="true">
+            <div class="gc-in">
+              <div class="gc-top">
+                <div>
+                  <div class="gc-sub">PVR INOX gift card</div>
+                  <div class="gc-theme">Happy birthday!</div>
+                </div>
+              </div>
+              <div class="gc-bot">
+                <div class="gc-amt"><small>Card value</small>₹1,000</div>
+                <span class="gc-mark">studentpeeps</span>
+              </div>
+            </div>
+          </div>
+          <p>Hi Priya! Aditi sent you a ₹1,000 PVR INOX gift card with a note. Open your gift: <span class="lnk">peeps.gift/k8Q2x</span></p>
+          <time>12:00 AM</time>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVERY CARD, ONE WALLET (SPLIT SECTION) -->
+<section class="sec">
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <h2 style="font-size:clamp(26px,4vw,34px)">Every card, one wallet</h2>
+        <p class="lede" style="margin-top:10px">Balances update as you spend. We remind you 30 and 7 days before a card expires, and a week before the birthdays you save.</p>
+        <a class="btn btn-s" href="/account/v2/myaccount/" style="margin-top:20px">View your account</a>
+      </div>
+
+      <div class="wpromo">
+        <div class="wp-card">
+          <div class="gc p-waves" style="--a:#7C3FD6;--b:#30177D" aria-hidden="true">
+            <div class="gc-in" style="padding:10cqw">
+              <div class="gc-top"><div class="gc-brand" style="font-size:14cqw">Myntra</div></div>
+            </div>
+          </div>
+          <div>
+            <b>Myntra</b>
+            <span class="num">₹640 left of ₹1,000</span>
+          </div>
+          <span class="pill a">Expires in 18 days</span>
+        </div>
+
+        <div class="wp-card">
+          <div class="gc p-waves" style="--a:#FF7457;--b:#C9302B" aria-hidden="true">
+            <div class="gc-in" style="padding:10cqw">
+              <div class="gc-top"><div class="gc-brand" style="font-size:14cqw">BookMyShow</div></div>
+            </div>
+          </div>
+          <div>
+            <b>BookMyShow</b>
+            <span class="num">₹500 left of ₹500</span>
+          </div>
+          <span class="pill">Valid till Apr 2027</span>
+        </div>
+
+        <div class="wp-card">
+          <div class="gc p-grid" style="--a:#FF9F1C;--b:#F2542D" aria-hidden="true">
+            <div class="gc-in" style="padding:10cqw">
+              <div class="gc-top"><div class="gc-brand" style="font-size:14cqw">Starbucks</div></div>
+            </div>
+          </div>
+          <div>
+            <b>Starbucks</b>
+            <span class="num">₹500 left of ₹500</span>
+          </div>
+          <span class="pill b">Gift from Rohan</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT STUDENTS SAY (REVIEWS) -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-h">
+      <div>
+        <h2>What students say</h2>
+      </div>
+    </div>
+    <div class="quotes">
+      <figure class="quote">
+        <p>“Bought a Myntra card at a discount and spent it the same minute. Felt illegal. It isn’t.”</p>
+        <footer>
+          <svg class="av" viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="32" r="32" fill="#FFE1EC"/>
+            <path d="M17 47 Q13 17 32 13.5 Q51 17 47 47 Z" fill="#1B1A22"/>
+            <path d="M5 64 Q8 46 32 44 Q56 46 59 64 Z" fill="#FF4F86"/>
+            <rect x="27" y="34" width="10" height="13" rx="4" fill="#C98D60"/>
+            <ellipse cx="32" cy="27" rx="11.5" ry="13.5" fill="#C98D60"/>
+            <circle cx="27.6" cy="28" r="1.5" fill="#1B1A22"/>
+            <circle cx="36.4" cy="28" r="1.5" fill="#1B1A22"/>
+            <path d="M28.5 33.2 Q32 36 35.5 33.2" stroke="#6E2F25" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+          </svg>
+          <span>
+            <b style="color:var(--ink);font-weight:640">Ishita</b><br>
+            2nd year, Pune
+          </span>
+        </footer>
+      </figure>
+
+      <figure class="quote">
+        <p>“Sent my brother a Bhai Dooj card with a voice note. He replied with fourteen laughing emojis.”</p>
+        <footer>
+          <svg class="av" viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="32" r="32" fill="#E2E8FF"/>
+            <path d="M5 64 Q8 46 32 44 Q56 46 59 64 Z" fill="#2442E6"/>
+            <rect x="27" y="34" width="10" height="13" rx="4" fill="#B67A4F"/>
+            <ellipse cx="32" cy="27" rx="11.5" ry="13.5" fill="#B67A4F"/>
+            <path d="M20.5 25 Q20 11.5 32 11.5 Q44 11.5 43.5 24 Q38 16.5 30 17.5 Q24 18.5 20.5 25 Z" fill="#18171F"/>
+            <circle cx="27.6" cy="28" r="1.5" fill="#1B1A22"/>
+            <circle cx="36.4" cy="28" r="1.5" fill="#1B1A22"/>
+            <g fill="none" stroke="#1B1A22" stroke-width="1.1"><circle cx="27.6" cy="28" r="3.6"/><circle cx="36.4" cy="28" r="3.6"/><path d="M31.2 28h1.6"/></g>
+            <path d="M28.5 33.2 Q32 36 35.5 33.2" stroke="#6E2F25" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+          </svg>
+          <span>
+            <b style="color:var(--ink);font-weight:640">Aarav</b><br>
+            MBA, Bengaluru
+          </span>
+        </footer>
+      </figure>
+
+      <figure class="quote">
+        <p>“Our Friday Domino’s order goes on gift cards now. Every few weeks the savings cover a whole pizza.”</p>
+        <footer>
+          <svg class="av" viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="32" r="32" fill="#DDF5EC"/>
+            <path d="M5 64 Q8 46 32 44 Q56 46 59 64 Z" fill="#17BF91"/>
+            <rect x="27" y="34" width="10" height="13" rx="4" fill="#A86C44"/>
+            <ellipse cx="32" cy="27" rx="11.5" ry="13.5" fill="#A86C44"/>
+            <circle cx="32" cy="10.5" r="5.5" fill="#2A1C18"/>
+            <circle cx="27.6" cy="28" r="1.5" fill="#1B1A22"/>
+            <circle cx="36.4" cy="28" r="1.5" fill="#1B1A22"/>
+            <path d="M28.5 33.2 Q32 36 35.5 33.2" stroke="#6E2F25" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+          </svg>
+          <span>
+            <b style="color:var(--ink);font-weight:640">Sneha</b><br>
+            3rd year, Delhi
+          </span>
+        </footer>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- OUR STORY / FOUNDERS -->
+<section class="sec" id="story">
+  <div class="wrap">
+    <div class="story">
+      <div class="founders-w">
+        <div class="founders">
+          <svg viewBox="0 0 520 440" role="img" aria-label="Illustration of co-founders Ayush Mittal and Sidharth Verma">
+            <!-- Sidharth -->
+            <g>
+              <path d="M220 440 L220 338 Q222 272 286 254 L390 254 Q454 272 456 338 L456 440 Z" fill="#2F6A55"/>
+              <path d="M298 255 L338 318 L378 255 Z" fill="#F2EEE6"/>
+              <path d="M317 200 L317 262 Q338 286 359 262 L359 200 Z" fill="#B67A4F"/>
+              <path d="M317 212 Q338 236 359 212 L359 228 Q338 246 317 228 Z" fill="#94603B" opacity=".55"/>
+              <ellipse cx="287" cy="160" rx="10" ry="15" fill="#B67A4F"/>
+              <ellipse cx="389" cy="160" rx="10" ry="15" fill="#B67A4F"/>
+              <ellipse cx="338" cy="150" rx="51" ry="62" fill="#B67A4F"/>
+              <path d="M288 158 Q290 214 338 214 Q386 214 388 158 Q382 196 362 192 Q338 184 314 192 Q294 196 288 158 Z" fill="#18171F" opacity=".92"/>
+              <path d="M284 156 Q272 78 340 80 Q408 82 393 150 Q388 116 360 106 Q326 118 298 112 Q288 126 284 156 Z" fill="#18171F"/>
+              <path d="M307 133 Q319 126 330 132" stroke="#18171F" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+              <path d="M346 132 Q357 126 369 133" stroke="#18171F" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+              <ellipse cx="319" cy="149" rx="4.6" ry="5.4" fill="#1B1A22"/>
+              <ellipse cx="357" cy="149" rx="4.6" ry="5.4" fill="#1B1A22"/>
+              <path d="M337 156 Q345 172 334 176" stroke="#94603B" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+              <path d="M321 186 Q338 200 355 186" stroke="#F3EDE6" stroke-width="4" fill="none" stroke-linecap="round"/>
+            </g>
+            <!-- Ayush -->
+            <g>
+              <path d="M68 440 L68 338 Q70 272 134 254 L238 254 Q302 272 304 338 L304 440 Z" fill="#2442E6"/>
+              <path d="M146 255 L186 318 L226 255 Z" fill="#FFFFFF"/>
+              <path d="M165 200 L165 262 Q186 286 207 262 L207 200 Z" fill="#C98D60"/>
+              <ellipse cx="135" cy="160" rx="10" ry="15" fill="#C98D60"/>
+              <ellipse cx="237" cy="160" rx="10" ry="15" fill="#C98D60"/>
+              <ellipse cx="186" cy="150" rx="51" ry="62" fill="#C98D60"/>
+              <path d="M133 150 Q128 84 186 84 Q244 84 239 146 Q228 110 194 108 Q160 106 142 124 Q136 134 133 150 Z" fill="#1B1A22"/>
+              <path d="M155 133 Q167 126 178 132" stroke="#1B1A22" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+              <path d="M194 132 Q205 126 217 133" stroke="#1B1A22" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+              <ellipse cx="167" cy="149" rx="4.6" ry="5.4" fill="#1B1A22"/>
+              <ellipse cx="205" cy="149" rx="4.6" ry="5.4" fill="#1B1A22"/>
+              <g fill="none" stroke="#1B1A22" stroke-width="3.5">
+                <rect x="150" y="136" width="30" height="25" rx="9"/>
+                <rect x="192" y="136" width="30" height="25" rx="9"/>
+                <path d="M180 146 Q186 141 192 146"/>
+              </g>
+              <path d="M185 156 Q193 172 182 176" stroke="#A66E46" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+              <path d="M169 186 Q186 200 203 186" stroke="#6E2F25" stroke-width="4" fill="none" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
+        <div class="fnames">
+          <div><b>Ayush Mittal</b><span>Co-founder</span></div>
+          <div><b>Sidharth Verma</b><span>Co-founder</span></div>
+        </div>
+      </div>
+
+      <div>
+        <h2 style="font-size:clamp(26px,4vw,36px)">It started with one idea and a waitlist.</h2>
+        <p class="lede" style="margin-top:12px">In February 2021, an idea clicked for Ayush: students were missing out on discounts brands would happily give them. We registered a domain, taught ourselves to code and put up a landing page to collect a waitlist.</p>
+        <p class="lede" style="margin-top:10px">Brands ignored our emails until one said yes. Then came Rapido, a community that grew from 50 students to 500, and a platform that now helps lakhs of students pay less.</p>
+
+        <div class="stats">
+          <div><b>2.5 lakh+</b><span>students on StudentPeeps</span></div>
+          <div><b>10 lakh+</b><span>visits a year</span></div>
+          <div><b>10,000+</b><span>in our WhatsApp community</span></div>
+        </div>
+
+        <a class="btn btn-s" href="/ourstory/" style="margin-top:24px">Read our story</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUESTIONS, ANSWERED (FAQ ACCORDIONS) -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-h">
+      <div>
+        <h2>Questions, answered</h2>
+      </div>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>
+          <span>How quickly will I get my gift card?</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
+        </summary>
+        <p class="a">Most cards arrive in under a minute on WhatsApp and email. If a brand takes longer, the card page says so before you pay.</p>
+      </details>
+
+      <details>
+        <summary>
+          <span>Are these real brand gift cards?</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
+        </summary>
+        <p class="a">Yes. Every card is issued by the brand or its authorised issuer and goes straight from them to you. We never resell used or second-hand cards.</p>
+      </details>
+
+      <details>
+        <summary>
+          <span>Why does the price change with how I pay?</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
+        </summary>
+        <p class="a">Banks and card networks charge different fees for each payment method, and we pass the difference on. UPI usually gets the biggest discount. Every method’s price is on the card page before you pay.</p>
+      </details>
+
+      <details>
+        <summary>
+          <span>Is there GST on gift cards?</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
+        </summary>
+        <p class="a">No GST is charged when you buy a gift card. The brand applies GST when you spend it.</p>
+      </details>
+
+      <details>
+        <summary>
+          <span>What if a code doesn’t work?</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
+        </summary>
+        <p class="a">Tell us within 7 days of buying. We’ll replace the card or refund you in full, whichever you prefer.</p>
+      </details>
+
+      <details>
+        <summary>
+          <span>Can I cancel an order?</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
+        </summary>
+        <p class="a">Cards are issued the moment you pay, so paid orders can’t be cancelled. Scheduled gifts can be cancelled for a full refund until an hour before they’re sent.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- CROSS PROMO BANNER -->
+<section class="sec" style="padding-top:8px">
+  <div class="wrap">
+    <div class="cross">
+      <div>
+        <b>Looking for student discount codes instead?</b>
+        <span>Codes for Bewakoof, Rapido, Dell and more live on the StudentPeeps discount club.</span>
+      </div>
+      <a class="btn btn-s" href="https://studentpeeps.club" target="_blank" rel="noopener">
+        Visit studentpeeps.club
+        <svg class="ic ic-s" aria-hidden="true"><use href="#i-external"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENT-SIDE SCRIPT FOR SAVINGS CALCULATOR -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const brandsData = {
+    {% for b in calculator_brands %}
+    "{{ b.id }}": {
+      name: "{{ b.name|escapejs }}",
+      discount: {{ b.discount }},
+      sku: "{{ b.sku }}"
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  };
+
+  let activeBrandId = "{{ calculator_brands.0.id }}";
+  let currentSpend = 3000;
+
+  const spendLabel = document.getElementById("spendLabel");
+  const spendValueDisplay = document.getElementById("spendValueDisplay");
+  const estRange = document.getElementById("estRange");
+  const annualSavingDisplay = document.getElementById("annualSavingDisplay");
+  const calcDescription = document.getElementById("calcDescription");
+  const calcCtaBtn = document.getElementById("calcCtaBtn");
+
+  function updateCalculator() {
+    const brand = brandsData[activeBrandId] || brandsData["pvr"];
+    spendValueDisplay.textContent = "₹" + currentSpend.toLocaleString("en-IN") + " a month";
+    spendLabel.textContent = "You spend on " + brand.name;
+
+    const annualSpend = currentSpend * 12;
+    const annualSaving = Math.round(annualSpend * (brand.discount / 100));
+    
+    annualSavingDisplay.textContent = "₹" + annualSaving.toLocaleString("en-IN");
+    calcDescription.textContent = "Buy ₹" + currentSpend.toLocaleString("en-IN") + " of " + brand.name + " gift cards a month and pay with UPI at " + brand.discount + "% off, then spend them as usual.";
+    
+    if (calcCtaBtn) {
+      calcCtaBtn.textContent = "Get a " + brand.name + " card";
+      calcCtaBtn.href = "/giftcard/" + brand.sku + "/";
+    }
+  }
+
+  // Handle brand chip clicks
+  const chips = document.querySelectorAll("#savingsEst .brands button[data-calc-id]");
+  chips.forEach(btn => {
+    btn.addEventListener("click", function() {
+      chips.forEach(c => {
+        c.classList.remove("active");
+        c.setAttribute("aria-pressed", "false");
+      });
+      btn.classList.add("active");
+      btn.setAttribute("aria-pressed", "true");
+      activeBrandId = btn.getAttribute("data-calc-id");
+      updateCalculator();
+    });
+  });
+
+  // Handle range slider changes
+  if (estRange) {
+    estRange.addEventListener("input", function() {
+      currentSpend = parseInt(this.value, 10) || 3000;
+      updateCalculator();
+    });
+  }
+
+  updateCalculator();
+});
+</script>
 {% endblock %}

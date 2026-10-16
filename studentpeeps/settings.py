@@ -91,8 +91,22 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        'OPTIONS': {
+            'timeout': 60,  # Wait up to 60 seconds for locks to clear instead of throwing immediate "database is locked"
+        },
     }
 }
+
+from django.db.backends.signals import connection_created
+from django.dispatch import receiver
+
+@receiver(connection_created)
+def configure_sqlite(sender, connection, **kwargs):
+    if connection.vendor == 'sqlite':
+        with connection.cursor() as cursor:
+            cursor.execute('PRAGMA journal_mode=WAL;')
+            cursor.execute('PRAGMA synchronous=NORMAL;')
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -244,7 +258,8 @@ ZEPTO_SMTP = {
 
 
 # Woohoo API Config
-WOOHOO_BASE_URL = "https://sandbox.woohoo.in"
+# WOOHOO_BASE_URL = "https://sandbox.woohoo.in"
+WOOHOO_BASE_URL = "https://extapi12.woohoo.in"
 WOOHOO_CLIENT_ID = config("WOOHOO_CLIENT_ID")
 WOOHOO_CLIENT_SECRET = config("WOOHOO_CLIENT_SECRET")
 WOOHOO_USERNAME = config("WOOHOO_USERNAME")

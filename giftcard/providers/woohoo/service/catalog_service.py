@@ -85,9 +85,9 @@ class WoohooCatalogService:
         """
         Sync products for ALL existing ProviderCategory records
         """
-        categories = ProviderCategory.objects.filter(
+        categories = list(ProviderCategory.objects.filter(
             provider=self.provider
-        )
+        ))
 
         for category in categories:
             self.sync_category_products(category)

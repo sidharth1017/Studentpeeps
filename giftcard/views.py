@@ -135,7 +135,13 @@ class CartView(View):
                 user_name = f"{user.first_name} {user.last_name}".strip()
                 user_email = user.email
 
+        from giftcard.payments.methods import get_enabled_methods
+        payment_methods = get_enabled_methods()
+        default_method = next((m for m in payment_methods if m["is_best"]), payment_methods[0])
+
         return render(request, "pages/cart_page.html", {
+            "payment_methods": payment_methods,
+            "default_method": default_method["key"],
             "cart": cart,
             "total_amount": cart.total_amount(),
             "active_gateway": settings.ACTIVE_PAYMENT_GATEWAY,
@@ -158,13 +164,45 @@ class RemoveFromCartView(View):
 # Shared helpers
 # ──────────────────────────────────────────────────────────────────────────────
 
+def _is_on_hold(order):
+    """True when the order was paid for but deliberately not sent to Woohoo (admin switch off)."""
+    return isinstance(order.woohoo_response, dict) and bool(order.woohoo_response.get("on_hold"))
+
+
+def _hold_order(order):
+    """
+    Park a paid order because gift card buying is switched off (Utilities > Gift card settings).
+    Status stays PAYMENT_CONFIRMED so it can be fulfilled or refunded later; Woohoo is never called.
+    """
+    import logging
+    from django.utils import timezone
+    from utilities.models import GiftCardSettings
+    order.woohoo_response = {
+        "on_hold": True,
+        "reason": "Gift card buying is switched off",
+        "message": GiftCardSettings.customer_hold_message(),
+        "held_at": timezone.now().isoformat(),
+    }
+    order.save(update_fields=["woohoo_response", "updated_at"])
+    logging.getLogger(__name__).warning(
+        f"Order {order.reference_id} paid but NOT sent to Woohoo: gift card buying is switched off."
+    )
+
+
 def _place_woohoo_order(order):
     """
     Calls the Woohoo API to place the gift card order.
+    If gift card buying is switched off in the admin, nothing is sent to Woohoo: the order is
+    put on hold and False is returned (check _is_on_hold(order) to tell this from a real failure).
     Handles timeout success scenarios (e.g. APITIMESUCC) and timeout failures (e.g. APITESTTIMFAIL)
     by polling order status by refno up to 3 times (0s, 10s, 20s).
     When status becomes COMPLETED, calls get_activated_cards to fetch vouchers.
     """
+    from utilities.models import GiftCardSettings
+    if not GiftCardSettings.purchases_are_enabled():
+        _hold_order(order)
+        return False
+
     customer = {
         "name":  order.customer_name,
         "email": order.customer_email,
@@ -322,13 +360,23 @@ class InitiatePaymentView(LoginRequiredMixin, View):
         if not all([customer_name, customer_email, customer_phone]):
             return JsonResponse({"error": "Name, email and phone are required."}, status=400)
 
+        # Payment method chosen on our checkout. It must be enabled in the admin
+        # (Utilities > Payment method options); the gateway page is locked to it and
+        # its extra fee / discount is applied to the amount charged.
+        from giftcard.payments.methods import get_enabled_option, adjust_amount
+        pay_method = data.get("pay_method")
+        method_option = get_enabled_option(pay_method)
+        if not method_option:
+            return JsonResponse({"error": "That payment method isn't available. Please choose another."}, status=400)
+
         service = CartService(request)
         cart = service.get_cart()
 
         if not cart.items:
             return JsonResponse({"error": "Your cart is empty."}, status=400)
 
-        total        = cart.total_amount()
+        cart_total   = cart.total_amount()
+        total        = adjust_amount(cart_total, method_option)  # cart total +/- the method's fee / discount
         org_code     = getattr(settings, "WOOHOO_ORG_CODE", "STDPS")
         reference_id = f"{org_code}-{uuid4().hex}"
         gw_name      = settings.ACTIVE_PAYMENT_GATEWAY
@@ -362,6 +410,7 @@ class InitiatePaymentView(LoginRequiredMixin, View):
                 customer={"name": customer_name, "email": customer_email, "phone": customer_phone},
                 surl=surl,
                 furl=furl,
+                pay_method=pay_method,
             )
         except Exception as e:
             # Important: return JSON so the JS frontend `.json()` function doesn't crash on standard 500 HTML
@@ -454,8 +503,9 @@ class PaymentCallbackView(LoginRequiredMixin, View):
         CartService(request).clear_cart()
 
         if not woohoo_success:
-            order.status = Order.STATUS_FAILED
-            order.save(update_fields=["status"])
+            if not _is_on_hold(order):
+                order.status = Order.STATUS_FAILED
+                order.save(update_fields=["status"])
             return JsonResponse({
                 "success": True,
                 "redirect": reverse("giftcard:order_failed_refund", kwargs={"reference_id": order.reference_id}),
@@ -547,8 +597,9 @@ class PayUSuccessView(View):
                 cart.save()
 
         if not woohoo_success:
-            order.status = Order.STATUS_FAILED
-            order.save(update_fields=["status"])
+            if not _is_on_hold(order):
+                order.status = Order.STATUS_FAILED
+                order.save(update_fields=["status"])
             return redirect(reverse("giftcard:order_failed_refund", kwargs={"reference_id": order.reference_id}))
 
         return redirect(reverse("giftcard:order_success", kwargs={"reference_id": order.reference_id}))
@@ -597,6 +648,8 @@ class OrderSuccessView(LoginRequiredMixin, View):
 
     def get(self, request, reference_id):
         order = get_object_or_404(Order, reference_id=reference_id, user=request.user)
+        if _is_on_hold(order):
+            return redirect(reverse("giftcard:order_failed_refund", kwargs={"reference_id": order.reference_id}))
         return render(request, "pages/order_success.html", {"order": order})
 
 
@@ -605,7 +658,12 @@ class OrderFailedRefundView(LoginRequiredMixin, View):
 
     def get(self, request, reference_id):
         order = get_object_or_404(Order, reference_id=reference_id, user=request.user)
-        return render(request, "pages/order_failed_refund.html", {"order": order})
+        on_hold = _is_on_hold(order)
+        return render(request, "pages/order_failed_refund.html", {
+            "order": order,
+            "on_hold": on_hold,
+            "hold_message": (order.woohoo_response or {}).get("message", "") if on_hold else "",
+        })
 
 
 class OrderDetailView(LoginRequiredMixin, View):
@@ -616,9 +674,10 @@ class OrderDetailView(LoginRequiredMixin, View):
         
         is_terminal_status = order.status in (Order.STATUS_COMPLETED, Order.STATUS_FAILED)
         identifier = order.woohoo_order_id or order.reference_id
+        on_hold = _is_on_hold(order)
 
-        # Only sync if not terminal OR if completed but missing vouchers
-        if identifier and (not is_terminal_status or (order.status == Order.STATUS_COMPLETED and not order.is_vouchers_fetched)):
+        # Only sync if not terminal OR if completed but missing vouchers. Held orders were never sent to Woohoo.
+        if identifier and not on_hold and (not is_terminal_status or (order.status == Order.STATUS_COMPLETED and not order.is_vouchers_fetched)):
             from django.utils import timezone
             from datetime import timedelta
             
@@ -684,7 +743,11 @@ class OrderDetailView(LoginRequiredMixin, View):
                         import logging
                         logging.getLogger(__name__).error(f"Error syncing order status: {str(e)}")
 
-        return render(request, "pages/order_detail.html", {"order": order})
+        return render(request, "pages/order_detail.html", {
+            "order": order,
+            "on_hold": on_hold,
+            "hold_message": (order.woohoo_response or {}).get("message", "") if on_hold else "",
+        })
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -877,3 +940,71 @@ class ExploreView(View):
             'clear_all_url': clear_all_url,
         }
         return render(request, "pages/explore.html", context)
+
+
+class SearchSuggestView(View):
+    """Live search suggestions for the header/home search box and mobile search sheet."""
+    TRENDING = ["PVR", "Myntra", "Domino", "BookMyShow", "Uber", "Amazon"]
+
+    @staticmethod
+    def _brand(p):
+        override = getattr(p, "override", None)
+        cat = getattr(override, "category", None) if override else None
+        return {
+            "name": p.brand_name or p.name,
+            "sku": p.sku,
+            "category": cat.name if cat else "Gift card",
+            "image": p.thumbnail or p.small_image or "",
+            "min": int(p.min_price or 0),
+            "max": int(p.max_price or 0),
+        }
+
+    def get(self, request):
+        from django.db.models import Q
+        from brands_v2.models import Category
+        from .models import ProviderProduct
+
+        q = request.GET.get("q", "").strip()[:60]
+        qs = ProviderProduct.objects.filter(in_stock=True).select_related("override", "override__category")
+        categories = Category.objects.filter(isVisible=True).order_by("sorting")
+
+        if not q:
+            trending, seen = [], set()
+            for term in self.TRENDING:
+                p = qs.filter(Q(brand_name__icontains=term) | Q(name__icontains=term)).first()
+                if p and p.sku not in seen:
+                    seen.add(p.sku)
+                    trending.append(self._brand(p))
+            return JsonResponse({
+                "q": q,
+                "brands": trending,
+                "categories": [{"id": c.category_id, "name": c.name} for c in categories],
+            })
+
+        matches = qs.filter(
+            Q(name__icontains=q) | Q(brand_name__icontains=q) | Q(override__category__name__icontains=q)
+        )
+        ql = q.lower()
+        ranked = sorted(
+            matches[:60],
+            key=lambda p: (0 if (p.brand_name or p.name).lower().startswith(ql) else 1, (p.brand_name or p.name).lower()),
+        )
+        brands, seen_names = [], set()
+        for p in ranked:
+            key = (p.brand_name or p.name).strip().lower()
+            if key in seen_names:
+                continue
+            seen_names.add(key)
+            brands.append(p)
+        ranked = brands[:8]
+
+        cats = []
+        for c in categories.filter(name__icontains=q):
+            cats.append({
+                "id": c.category_id,
+                "name": c.name,
+                "count": ProviderProduct.objects.filter(in_stock=True, override__category=c).count(),
+            })
+
+        return JsonResponse({"q": q, "brands": [self._brand(p) for p in ranked], "categories": cats})
+

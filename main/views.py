@@ -210,55 +210,182 @@ class Home(View):
         }
 
     def get(self, request):
+        from giftcard.models import ProviderProduct, ProductOverride
+        from brands_v2.models import Category
+        from decimal import Decimal
 
-        homepage_blocks = Homepage.objects.filter(
-            status="active"
-        ).order_by("position")
-
-        layouts = []
-
-        for block in homepage_blocks:
-            if block.layout_type == "tile_slider":
-                content = self.build_tile_slider(block)
-            else:
-                content = block.data
-
-            layouts.append({
-                "index": block.position,
-                "layoutType": block.layout_type,
-                "content": content,
-                "html": block.custom_html
-            })
-            
-        categories = Category.objects.all().order_by('sorting')
-        # Simple name-to-icon mapping for Lucide
-        icon_map = {
-            'for her': 'heart',
-            'for him': 'sparkles',
-            'electronics': 'smartphone',
-            'streaming': 'play',
-            'food': 'utensils-crossed',
-            'fashion': 'shirt',
-            'grocery': 'shopping-cart',
-            'gaming': 'gamepad-2',
-            'travel': 'plane',
-            'jewelry': 'gem',
-            'shopping': 'shopping-bag',
-            'coffee': 'coffee',
-            'health': 'sparkles',
-            'sports': 'dumbbell',
-            'home': 'home-icon',
-            'education': 'graduation-cap',
+        # -------------------------------------------------------------
+        # 1. Categories with SVG sprite icons
+        # -------------------------------------------------------------
+        cat_icon_map = {
+            'food-beverages': 'i-cup',
+            'food_drink': 'i-cup',
+            'fashion-lifestyle': 'i-shirt',
+            'fashion': 'i-shirt',
+            'entertainment': 'i-ticket',
+            'e-commerce': 'i-bag',
+            'shopping': 'i-bag',
+            'travel': 'i-suitcase',
+            'health-beauty': 'i-heart',
+            'electronics-appliances': 'i-headphones',
+            'tech': 'i-headphones',
+            'gaming': 'i-gamepad',
+            'grocery': 'i-basket',
+            'sportswear-footwear': 'i-shoe',
+            'sports': 'i-shoe',
+            'books': 'i-book',
+            'home-furnishings': 'i-sofa',
+            'home-needs': 'i-home',
+            'jewellery': 'i-gem',
+            'luxury-brands': 'i-sparkle',
+            'others': 'i-tag',
         }
-        for cat in categories:
-            cat.lucide_icon = icon_map.get(cat.name.lower(), 'gift')
 
-        top_brands = Brand.objects.all()[:24]
+        db_categories = list(Category.objects.all().order_by('sorting'))
+        categories_data = []
+        for c in db_categories:
+            slug = c.category_id or ''
+            icon = cat_icon_map.get(slug, cat_icon_map.get(slug.lower().replace(' ', '-'), 'i-tag'))
+            categories_data.append({
+                'id': c.id,
+                'name': c.name,
+                'category_id': slug,
+                'icon': icon,
+            })
+
+        # -------------------------------------------------------------
+        # 2. Brand Design Metadata (Palette, Pattern, Discount, Use)
+        # -------------------------------------------------------------
+        BRAND_CONFIG = {
+            'EGVGBPVRC001': {'display': 'PVR INOX', 'discount': 12.25, 'pal': ('#2442E6', '#6440E0'), 'pt': 'p-rings', 'use': 'Online & in-store', 'use_icon': 'i-store'},
+            'EGCGBDEGCS001': {'display': "Domino's", 'discount': 4.5, 'pal': ('#FF9F1C', '#F2542D'), 'pt': 'p-stars', 'use': 'Online & in-store', 'use_icon': 'i-store'},
+            'EGCGBMYNC001': {'display': 'Myntra', 'discount': 1.0, 'pal': ('#7C3FD6', '#30177D'), 'pt': 'p-waves', 'use': 'Online', 'use_icon': 'i-globe'},
+            'EGVGBSTB001': {'display': 'Starbucks', 'discount': 3.75, 'pal': ('#FF9F1C', '#F2542D'), 'pt': 'p-grid', 'use': 'Online & in-store', 'use_icon': 'i-store'},
+            'EGCGBUBER001': {'display': 'Uber', 'discount': 1.5, 'pal': ('#2FA8FF', '#2350DB'), 'pt': 'p-lines', 'use': 'Online', 'use_icon': 'i-globe'},
+            'EGCGBCROM001': {'display': 'Croma', 'discount': 0.5, 'pal': ('#2442E6', '#6440E0'), 'pt': 'p-grid', 'use': 'Online & in-store', 'use_icon': 'i-store'},
+            'EGCGBLVSS001': {'display': "Levi's", 'discount': 5.25, 'pal': ('#C2337A', '#541750'), 'pt': 'p-stars', 'use': 'Online & in-store', 'use_icon': 'i-store'},
+            'EGCGBSCLPL002': {'display': 'Lenskart', 'discount': 5.5, 'pal': ('#7C3FD6', '#30177D'), 'pt': 'p-rings', 'use': 'Online & in-store', 'use_icon': 'i-store'},
+            'EGCGBCINE001': {'display': 'Cinepolis', 'discount': 16.5, 'pal': ('#7C3FD6', '#30177D'), 'pt': 'p-grid', 'use': 'Online & in-store', 'use_icon': 'i-store'},
+            'EGCGBDCN003': {'display': 'Decathlon', 'discount': 2.0, 'pal': ('#3A4160', '#14172F'), 'pt': 'p-rings', 'use': 'Online & in-store', 'use_icon': 'i-store'},
+            'EGCGBCCD001': {'display': 'Cafe Coffee Day', 'discount': 6.75, 'pal': ('#E3A866', '#B4602F'), 'pt': 'p-stars', 'use': 'In-store', 'use_icon': 'i-store'},
+            'EGVGBKFC001': {'display': 'KFC', 'discount': 2.75, 'pal': ('#E3A866', '#B4602F'), 'pt': 'p-grid', 'use': 'Online & in-store', 'use_icon': 'i-store'},
+            'EGCGBPZH001': {'display': 'Pizza Hut', 'discount': 4.5, 'pal': ('#E3A866', '#B4602F'), 'pt': 'p-grid', 'use': 'Online & in-store', 'use_icon': 'i-store'},
+            'EGCGBSUBW001': {'display': 'Subway', 'discount': 5.5, 'pal': ('#FF9F1C', '#F2542D'), 'pt': 'p-rings', 'use': 'In-store', 'use_icon': 'i-store'},
+            'EGCGBWS002': {'display': 'Westside', 'discount': 5.5, 'pal': ('#7C3FD6', '#30177D'), 'pt': 'p-rings', 'use': 'Online & in-store', 'use_icon': 'i-store'},
+            'EGCGBZOMA001': {'display': 'Zomato', 'discount': 2.5, 'pal': ('#FF7457', '#C9302B'), 'pt': 'p-rings', 'use': 'Online', 'use_icon': 'i-globe'},
+            'EGCGBBLINK002': {'display': 'Blinkit', 'discount': 2.5, 'pal': ('#17BF91', '#0A7368'), 'pt': 'p-lines', 'use': 'Online', 'use_icon': 'i-globe'},
+            'EGCGBBBS001': {'display': 'Bigbasket', 'discount': 1.0, 'pal': ('#7FC93A', '#1F8F57'), 'pt': 'p-zig', 'use': 'Online', 'use_icon': 'i-globe'},
+            'EGVGBAPOPHA001': {'display': 'Apollo Pharmacy', 'discount': 5.5, 'pal': ('#C2337A', '#541750'), 'pt': 'p-grid', 'use': 'Online & in-store', 'use_icon': 'i-store'},
+        }
+
+        # -------------------------------------------------------------
+        # 3. Popular Cards Query
+        # -------------------------------------------------------------
+        popular_skus = list(BRAND_CONFIG.keys())
+        popular_products_qs = ProviderProduct.objects.filter(
+            sku__in=popular_skus, in_stock=True
+        ).select_related('override', 'override__category')
+
+        popular_products_map = {p.sku: p for p in popular_products_qs}
+        popular_cards = []
+
+        for sku in popular_skus:
+            prod = popular_products_map.get(sku)
+            if not prod:
+                continue
+
+            conf = BRAND_CONFIG.get(sku, {})
+            disp_brand = conf.get('display') or prod.brand_name or prod.name
+            min_p = int(prod.min_price or 100)
+            max_p = int(prod.max_price or 5000)
+
+            if min_p == max_p:
+                range_txt = f"₹{min_p:,}"
+            else:
+                range_txt = f"₹{min_p:,}–₹{max_p:,}"
+
+            # Brand length class
+            L = len(disp_brand)
+            b_cls = 'x3' if L > 30 else 'xxl' if L > 22 else 'xl' if L > 14 else 'long' if L > 9 else ''
+
+            cat_name = "Gift card"
+            if hasattr(prod, 'override') and prod.override.category:
+                cat_name = prod.override.category.name
+
+            popular_cards.append({
+                'sku': prod.sku,
+                'name': prod.name,
+                'display_brand': disp_brand,
+                'brand_size_cls': b_cls,
+                'pal_0': conf.get('pal', ('#2442E6', '#6440E0'))[0],
+                'pal_1': conf.get('pal', ('#2442E6', '#6440E0'))[1],
+                'pattern_cls': conf.get('pt', 'p-dots'),
+                'discount_display': f"{conf.get('discount', 5.0)}%",
+                'range_txt': range_txt,
+                'category_name': cat_name,
+                'use_txt': conf.get('use', 'Online & in-store'),
+                'use_icon': conf.get('use_icon', 'i-store'),
+                'min_price': min_p,
+            })
+
+        # -------------------------------------------------------------
+        # 4. Treats Under ₹300
+        # -------------------------------------------------------------
+        TREATS_SPEC = [
+            {'brand_name': 'Starbucks', 'sku': 'EGVGBSTB001', 'tagline': 'A coffee before the paper', 'card_val': 250, 'discount': 3.75, 'pal': ('#FF9F1C', '#F2542D'), 'pt': 'p-grid'},
+            {'brand_name': 'Uber', 'sku': 'EGCGBUBER001', 'tagline': 'A ride home after the fest', 'card_val': 150, 'discount': 1.5, 'pal': ('#2FA8FF', '#2350DB'), 'pt': 'p-lines'},
+            {'brand_name': "Domino's", 'sku': 'EGCGBDEGCS001', 'tagline': 'Pizza for the group project', 'card_val': 250, 'discount': 4.5, 'pal': ('#FF9F1C', '#F2542D'), 'pt': 'p-stars'},
+            {'brand_name': 'KFC', 'sku': 'EGVGBKFC001', 'tagline': 'Midnight snacks, sorted', 'card_val': 200, 'discount': 2.75, 'pal': ('#E3A866', '#B4602F'), 'pt': 'p-grid'},
+            {'brand_name': 'PVR INOX', 'sku': 'EGVGBPVRC001', 'tagline': 'A movie after results', 'card_val': 300, 'discount': 12.25, 'pal': ('#2442E6', '#6440E0'), 'pt': 'p-rings'},
+            {'brand_name': 'Cafe Coffee Day', 'sku': 'EGCGBCCD001', 'tagline': 'Thanks for the notes', 'card_val': 100, 'discount': 6.75, 'pal': ('#E3A866', '#B4602F'), 'pt': 'p-stars'},
+        ]
+
+        treats_list = []
+        for t in TREATS_SPEC:
+            disc_amt = t['card_val'] * (t['discount'] / 100.0)
+            pay_val = t['card_val'] - disc_amt
+            pay_str = f"₹{pay_val:.2f}".rstrip('0').rstrip('.')
+            treats_list.append({
+                'sku': t['sku'],
+                'display_brand': t['brand_name'],
+                'tagline': t['tagline'],
+                'card_val': t['card_val'],
+                'card_value_str': f"₹{t['card_val']:,}",
+                'pay_price_str': pay_str,
+                'pal_0': t['pal'][0],
+                'pal_1': t['pal'][1],
+                'pattern_cls': t['pt'],
+            })
+
+        # -------------------------------------------------------------
+        # 5. Interactive Calculator Brands
+        # -------------------------------------------------------------
+        calculator_brands = [
+            {'id': 'pvr', 'name': 'PVR INOX', 'discount': 12.25, 'sku': 'EGVGBPVRC001'},
+            {'id': 'ccd', 'name': 'Cafe Coffee Day', 'discount': 6.75, 'sku': 'EGCGBCCD001'},
+            {'id': 'levis', 'name': "Levi's", 'discount': 5.25, 'sku': 'EGCGBLVSS001'},
+            {'id': 'dominos', 'name': "Domino's", 'discount': 4.5, 'sku': 'EGCGBDEGCS001'},
+            {'id': 'starbucks', 'name': 'Starbucks', 'discount': 3.75, 'sku': 'EGVGBSTB001'},
+        ]
+
+        # -------------------------------------------------------------
+        # 6. Occasions Data
+        # -------------------------------------------------------------
+        occasions = [
+            {'key': 'diwali', 'title': 'Diwali', 'sub': 'Sun, 8 Nov', 'line': 'Lights, mithai, new clothes', 'pal': ('#3B1A8F', '#C2337A'), 'pt': 'p-diya', 'theme_title': 'Shubh Deepavali', 'category': 'festive'},
+            {'key': 'bhaidooj', 'title': 'Bhai Dooj', 'sub': 'Tue, 10 Nov', 'line': 'For the sibling who has your back', 'pal': ('#FF7457', '#B32B76'), 'pt': 'p-hearts', 'theme_title': 'Happy Bhai Dooj', 'category': 'family'},
+            {'key': 'birthday', 'title': 'Birthdays', 'sub': '', 'line': 'Midnight delivery, sorted', 'pal': ('#FF4F86', '#FF9F1C'), 'pt': 'p-confetti', 'theme_title': 'Happy birthday!', 'category': 'personal'},
+            {'key': 'thanks', 'title': 'Thank you', 'sub': '', 'line': 'For notes, rides and favours', 'pal': ('#17BF91', '#0A6578'), 'pt': 'p-waves', 'theme_title': 'Thank you!', 'category': 'gratitude'},
+            {'key': 'luck', 'title': 'Exam luck', 'sub': '', 'line': 'Coffee before the paper', 'pal': ('#FF9F1C', '#E2463F'), 'pt': 'p-stars', 'theme_title': 'All the best!', 'category': 'college'},
+            {'key': 'congrats', 'title': 'Congrats', 'sub': '', 'line': 'Placements, results, first jobs', 'pal': ('#2442E6', '#7C3FD6'), 'pt': 'p-confetti', 'theme_title': 'You did it!', 'category': 'milestone'},
+        ]
 
         return render(request, "pages/home_page.html", {
-            "layouts": layouts,
-            "categories": categories,
-            "top_brands": top_brands
+            "categories": categories_data,
+            "popular_cards": popular_cards,
+            "treats": treats_list,
+            "calculator_brands": calculator_brands,
+            "occasions": occasions,
         })
         
 class OurStory(View):

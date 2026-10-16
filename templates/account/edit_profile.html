@@ -3,486 +3,185 @@
 
 {% block title %}StudentPeeps | My Account{% endblock %}
 
-{% block linkshead %}
-<style>
-    :root {
-        --profile-sidebar-width: 280px;
-    }
-
-    .profile-container {
-        display: flex;
-        gap: 2rem;
-        min-height: calc(100vh - 200px);
-        margin-top: 2rem;
-        margin-bottom: 4rem;
-    }
-
-    /* Sidebar Styles */
-    .profile-sidebar {
-        width: var(--profile-sidebar-width);
-        flex-shrink: 0;
-        background: white;
-        border-radius: 1rem;
-        border: 1px solid var(--border);
-        padding: 1.5rem;
-        height: fit-content;
-        position: sticky;
-        top: 5rem;
-        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-    }
-
-    .user-profile-header {
-        text-align: center;
-        padding-bottom: 1.5rem;
-        margin-bottom: 1.5rem;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .user-avatar-large {
-        width: 80px;
-        height: 80px;
-        background: var(--primary);
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        font-weight: bold;
-        margin: 0 auto 1rem;
-        box-shadow: 0 10px 15px -3px rgba(1, 115, 230, 0.3);
-    }
-
-    .sidebar-nav {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .sidebar-nav-item {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.75rem 1rem;
-        border-radius: 0.5rem;
-        color: var(--muted-foreground);
-        font-weight: 500;
-        transition: all 0.2s ease;
-        cursor: pointer;
-        border: none;
-        background: transparent;
-        width: 100%;
-        text-align: left;
-    }
-
-    .sidebar-nav-item:hover {
-        background: var(--background);
-        color: var(--primary);
-    }
-
-    .sidebar-nav-item.active {
-        background: var(--primary);
-        color: white;
-    }
-
-    .sidebar-nav-item i {
-        width: 20px;
-        height: 20px;
-    }
-
-    /* Content Area Styles */
-    .profile-content {
-        flex: 1;
-        background: white;
-        border-radius: 1rem;
-        border: 1px solid var(--border);
-        padding: 2.5rem;
-        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-    }
-
-    .section-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 2rem;
-        color: var(--foreground);
-        border-left: 4px solid var(--primary);
-        padding-left: 1rem;
-    }
-
-    /* Forms */
-    .form-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1.5rem;
-    }
-
-    .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .form-group label {
-        font-size: 0.875rem;
-        font-weight: 600;
-        color: var(--muted-foreground);
-    }
-
-    .form-group input {
-        width: 100%;
-        padding: 0.75rem 1rem;
-        border: 1px solid var(--border);
-        border-radius: 0.5rem;
-        background: var(--background);
-        transition: all 0.2s ease;
-    }
-
-    .form-group input:focus {
-        border-color: var(--primary);
-        box-shadow: 0 0 0 4px rgba(1, 115, 230, 0.1);
-        outline: none;
-        background: white;
-    }
-
-    .form-group input.readonly {
-        background: #f1f5f9;
-        cursor: not-allowed;
-    }
-
-    /* Orders Table */
-    .orders-card {
-        border: 1px solid var(--border);
-        border-radius: 0.75rem;
-        overflow: hidden;
-        margin-bottom: 1rem;
-        transition: all 0.2s ease;
-    }
-
-    .orders-card:hover {
-        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-        transform: translateY(-2px);
-    }
-
-    .order-header {
-        background: var(--background);
-        padding: 1rem 1.5rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .order-body {
-        padding: 1.5rem;
-    }
-
-    .order-status {
-        padding: 0.25rem 0.75rem;
-        border-radius: 9999px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-    }
-
-    .status-completed {
-        background: #dcfce7;
-        color: #166534;
-    }
-
-    .status-pending {
-        background: #fef9c3;
-        color: #854d0e;
-    }
-
-    .status-failed {
-        background: #fee2e2;
-        color: #991b1b;
-    }
-
-    /* FAQ Accordion */
-    .faq-item {
-        border-bottom: 1px solid var(--border);
-        padding: 1rem 0;
-    }
-
-    .faq-question {
-        font-weight: 600;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .faq-answer {
-        margin-top: 0.5rem;
-        color: var(--muted-foreground);
-        font-size: 0.95rem;
-        max-height: 0;
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
-
-    .faq-item.active .faq-answer {
-        max-height: 200px;
-    }
-
-    /* Responsive */
-    @media (max-width: 992px) {
-        .profile-container {
-            flex-direction: column;
-        }
-
-        .profile-sidebar {
-            width: 100%;
-            position: relative;
-            top: 0;
-        }
-
-        .form-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
-{% endblock %}
-
 {% block body %}
-<div class="container">
-    <div class="profile-container">
+{% with display_name=profile.firstname|default:user.first_name|default:"there" %}
+<div class="wrap">
+    <div class="acc">
         <!-- Sidebar -->
-        <aside class="profile-sidebar">
-            <div class="user-profile-header">
-                <div class="user-avatar-large">
-                    {{ user.first_name|default:"U"|slice:":1" }}
+        <aside class="acc-side">
+            <div class="acc-me">
+                <span class="avatar">{{ display_name|slice:":1"|upper }}</span>
+                <div style="min-width:0">
+                    <b>{{ profile.firstname|default:user.first_name }} {{ profile.lastname|default:user.last_name }}</b>
+                    {% if user.email %}<span>{{ user.email }}</span>{% endif %}
+                    {% if profile.phone %}<span class="num">+91 {{ profile.phone }}</span>{% endif %}
                 </div>
-                <h3 class="font-bold text-xl mb-1">{{ user.first_name }} {{ user.last_name }}</h3>
-                <p class="text-sm text-[var(--muted-foreground)]">{{ user.email }}</p>
-                {% if profile.phone %}
-                <p class="text-xs text-[var(--muted-foreground)] mt-1">{{ profile.phone }}</p>
-                {% endif %}
             </div>
 
-            <nav class="sidebar-nav">
-                <button class="sidebar-nav-item active" onclick="switchSection('personal-info', this)">
-                    <i data-lucide="user"></i>
-                    Personal Info
+            <nav class="acc-nav" aria-label="Account sections">
+                <button type="button" class="active" data-section="personal-info" onclick="switchSection('personal-info', this)">
+                    <svg class="ic" aria-hidden="true"><use href="#i-user"/></svg>Personal info
                 </button>
-                <button class="sidebar-nav-item" onclick="switchSection('my-orders', this)">
-                    <i data-lucide="shopping-bag"></i>
-                    My Orders
+                <button type="button" data-section="my-orders" onclick="switchSection('my-orders', this)">
+                    <svg class="ic" aria-hidden="true"><use href="#i-bag"/></svg>My orders
+                    {% if orders %}<span class="pill" style="height:20px;font-size:11.5px">{{ orders|length }}</span>{% endif %}
                 </button>
-                <button class="sidebar-nav-item" onclick="switchSection('faqs', this)">
-                    <i data-lucide="help-circle"></i>
-                    FAQ's
+                <button type="button" data-section="faqs" onclick="switchSection('faqs', this)">
+                    <svg class="ic" aria-hidden="true"><use href="#i-help"/></svg>FAQs
                 </button>
-                <div class="h-px bg-gray-100 my-2"></div>
-                <a href="/account/logout" class="sidebar-nav-item text-red-500 hover:text-red-600 hover:bg-red-50">
-                    <i data-lucide="log-out"></i>
-                    Logout
+                <a href="/account/logout" class="out">
+                    <svg class="ic" aria-hidden="true"><use href="#i-logout"/></svg>Sign out
                 </a>
             </nav>
+
+            <div class="acc-me sm-only" style="padding:10px 14px">
+                <div class="acct-theme" style="border:0;padding:0;width:100%">
+                    <svg class="ic" aria-hidden="true"><use href="#i-sun"/></svg><span>Theme</span>
+                    <div class="seg" role="group" aria-label="Theme">
+                        <button type="button" data-theme-set="system" aria-pressed="false">Auto</button>
+                        <button type="button" data-theme-set="light" aria-pressed="false">Light</button>
+                        <button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+                    </div>
+                </div>
+            </div>
         </aside>
 
         <!-- Content -->
-        <main class="profile-content">
-            <!-- Personal Info Section -->
-            <section id="personal-info" class="content-section">
-                <h2 class="section-title">Personal Information</h2>
+        <main class="acc-main">
+            <!-- Personal Info -->
+            <section id="personal-info" class="acc-sec content-section">
+                <h2>Personal info</h2>
+                <p class="sub">Hi {{ display_name }}, keep your details up to date so receipts reach you.</p>
                 <form method="POST" action="{% url 'myaccount' %}">
                     {% csrf_token %}
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>First Name</label>
-                            <input type="text" name="fname" value="{{ profile.firstname }}">
+                    <div class="acc-grid">
+                        <div class="fld">
+                            <label class="lbl" for="pf-fname">First name</label>
+                            <input class="inp" id="pf-fname" type="text" name="fname" autocomplete="given-name" value="{{ profile.firstname|default:'' }}">
                         </div>
-                        <div class="form-group">
-                            <label>Last Name</label>
-                            <input type="text" name="lname" value="{{ profile.lastname }}">
+                        <div class="fld">
+                            <label class="lbl" for="pf-lname">Last name</label>
+                            <input class="inp" id="pf-lname" type="text" name="lname" autocomplete="family-name" value="{{ profile.lastname|default:'' }}">
                         </div>
-                        <div class="form-group">
-                            <label>Email Address</label>
-                            <input type="email" class="readonly" value="{{ user.email }}" readonly>
+                        <div class="fld">
+                            <label class="lbl" for="pf-email">Email <small>can’t be changed</small></label>
+                            <input class="inp" id="pf-email" type="email" value="{{ user.email }}" readonly>
                         </div>
-                        <div class="form-group">
-                            <label>Phone Number</label>
-                            <input type="text" name="phone" value="{{ profile.phone|default:'' }}">
+                        <div class="fld">
+                            <label class="lbl" for="pf-phone">Mobile number</label>
+                            <div class="pre">
+                                <span>+91</span>
+                                <input class="inp num" id="pf-phone" type="tel" name="phone" inputmode="numeric" autocomplete="tel-national" value="{{ profile.phone|default:'' }}">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Birth Date</label>
-                            <input type="date" name="birthday" value="{{ profile.birthday|date:'Y-m-d' }}">
+                        <div class="fld">
+                            <label class="lbl" for="pf-bday">Birthday <small>optional</small></label>
+                            <input class="inp" id="pf-bday" type="date" name="birthday" value="{{ profile.birthday|date:'Y-m-d' }}">
                         </div>
                     </div>
 
-                    <div class="mt-8 flex justify-end">
-                        <button type="submit" class="btn-primary px-8">
-                            Save Changes
-                        </button>
+                    <div class="acc-actions">
+                        <button type="submit" class="btn btn-p">Save changes</button>
                     </div>
                 </form>
 
-                <div class="mt-12 p-6 bg-blue-50/50 rounded-xl border border-blue-100">
-                    <div class="flex gap-4">
-                        <i data-lucide="info" class="text-blue-500 shrink-0"></i>
-                        <p class="text-sm text-blue-700 leading-relaxed">
-                            Your security is our priority. We use industry-standard encryption to protect your data.
-                            For any major account changes, please contact our support team.
-                        </p>
-                    </div>
+                <div class="acc-note">
+                    <svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg>
+                    <p>Your details are encrypted and only used to deliver your gift cards and receipts. For bigger account changes, write to hi@studentpeeps.club.</p>
                 </div>
             </section>
 
-            <!-- My Orders Section -->
-            <section id="my-orders" class="content-section" style="display: none;">
-                <h2 class="section-title">My Orders</h2>
+            <!-- My Orders -->
+            <section id="my-orders" class="acc-sec content-section" style="display: none;">
+                <h2>My orders</h2>
+                <p class="sub">Every card you’ve bought, newest first.</p>
 
                 {% if orders %}
-                <div class="space-y-4">
+                <div class="acc-orders">
                     {% for order in orders %}
-                    <div class="orders-card">
-                        <div class="order-header">
-                            <div class="flex items-center gap-4">
-                                <span class="text-sm font-semibold text-[var(--muted-foreground)]">
-                                    #{{ order.reference_id|slice:":8"|upper }}
-                                </span>
-                                <span class="text-xs text-[var(--muted-foreground)]">
-                                    {{ order.created_at|date:"d M Y" }}
-                                </span>
-                            </div>
-                            <span class="order-status status-{{ order.status|lower }}">
-                                {{ order.get_status_display }}
-                            </span>
+                    {% with first_item=order.items_snapshot|first %}
+                    <a class="acc-order" href="{% url 'giftcard:order_detail' order.reference_id %}">
+                        <span class="ck-art"><svg class="ic" aria-hidden="true"><use href="#i-gift"/></svg></span>
+                        <div style="min-width:0">
+                            <b>{{ first_item.name|default:"Gift card" }}</b>
+                            <span class="meta">#{{ order.reference_id|slice:":8"|upper }} · {{ order.created_at|date:"d M Y" }} · Qty {{ first_item.quantity|default:1 }}</span><br>
+                            <span class="pill {% if order.status == 'COMPLETED' %}g{% elif order.status == 'FAILED' %}r{% else %}a{% endif %}">{{ order.get_status_display }}</span>
                         </div>
-                        <div class="order-body">
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center gap-4">
-                                    <div
-                                        class="w-12 h-12 bg-[var(--background)] rounded-lg flex items-center justify-center">
-                                        <i data-lucide="gift" class="text-[var(--primary)]"></i>
-                                    </div>
-                                    <div>
-                                        {% with first_item=order.items_snapshot|first %}
-                                        <h4 class="font-semibold">{{ first_item.name|default:"Gift Card Package" }}</h4>
-                                        <p class="text-xs text-[var(--muted-foreground)]">
-                                            Qty: {{ first_item.quantity|default:1 }}
-                                        </p>
-                                        {% endwith %}
-                                    </div>
-                                </div>
-                                <div class="text-right">
-                                    <p class="font-bold text-lg">₹{{ order.total_amount }}</p>
-                                    <a href="{% url 'giftcard:order_detail' order.reference_id %}"
-                                        class="text-xs text-[var(--primary)] hover:underline">
-                                        View Details
-                                    </a>
-                                </div>
-                            </div>
+                        <div class="r">
+                            <b>₹{{ order.total_amount }}</b>
+                            <span>View</span>
                         </div>
-                    </div>
+                    </a>
+                    {% endwith %}
                     {% endfor %}
                 </div>
                 {% else %}
-                <div class="text-center py-16">
-                    <div
-                        class="w-20 h-20 bg-[var(--background)] rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i data-lucide="shopping-bag" class="w-10 h-10 text-[var(--muted-foreground)]"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold mb-2">No orders found</h3>
-                    <p class="text-[var(--muted-foreground)] mb-6">Looks like you haven't made any purchases yet.</p>
-                    <a href="/explore" class="btn-primary">Start Shopping</a>
+                <div class="empty">
+                    <div class="ib"><svg class="ic" aria-hidden="true"><use href="#i-bag"/></svg></div>
+                    <h3>No orders yet</h3>
+                    <p>Cards you buy show up here, with their codes and receipts.</p>
+                    <a href="{% url 'giftcard:explore' %}" class="btn btn-p">Browse gift cards</a>
                 </div>
                 {% endif %}
             </section>
 
-            <!-- FAQ Section -->
-            <section id="faqs" class="content-section" style="display: none;">
-                <h2 class="section-title">Frequently Asked Questions</h2>
+            <!-- FAQs -->
+            <section id="faqs" class="acc-sec content-section" style="display: none;">
+                <h2>Frequently asked questions</h2>
+                <p class="sub">Quick answers about StudentPeeps and your gift cards.</p>
 
-                <div class="space-y-2">
-                    <div class="faq-item" onclick="toggleFaq(this)">
-                        <div class="faq-question">
-                            What is Studentpeeps?
-                            <i data-lucide="chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Studentpeeps is a platform where university students can register and get student
-                                discounts on their favourite brands.</p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item" onclick="toggleFaq(this)">
-                        <div class="faq-question">
-                            How do I get Studentpeeps discount?
-                            <i data-lucide="chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>To get a Studentpeeps account you MUST be attending a college or University which
-                                provides you with an email address or iD card. Go to our website, click on Signup and
-                                enter details.</p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item" onclick="toggleFaq(this)">
-                        <div class="faq-question">
-                            Can I get Studentpeeps without being a student?
-                            <i data-lucide="chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>No, you can reap StudentPeeps' offer till you’re a student. Enjoy while you’re in
-                                college!</p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item" onclick="toggleFaq(this)">
-                        <div class="faq-question">
-                            Are gift cards refundable?
-                            <i data-lucide="chevron-down"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>Gift cards cannot be canceled or returned once issued. Please check terms and conditions
-                                before purchase.</p>
-                        </div>
-                    </div>
+                <div class="faq">
+                    <details>
+                        <summary>What is StudentPeeps?<svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg></summary>
+                        <p class="a">StudentPeeps is a platform where university students can register and get student discounts on their favourite brands.</p>
+                    </details>
+                    <details>
+                        <summary>How do I get the StudentPeeps discount?<svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg></summary>
+                        <p class="a">To get a StudentPeeps account you must be attending a college or university that gives you an email address or ID card. Click Sign in and enter your details.</p>
+                    </details>
+                    <details>
+                        <summary>Can I use StudentPeeps without being a student?<svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg></summary>
+                        <p class="a">No, StudentPeeps offers are for students. Enjoy them while you’re in college!</p>
+                    </details>
+                    <details>
+                        <summary>Are gift cards refundable?<svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg></summary>
+                        <p class="a">Gift cards can’t be cancelled or returned once issued. Please check the terms and conditions before you buy.</p>
+                    </details>
                 </div>
 
-                <div class="mt-12 text-center">
-                    <p class="text-sm text-[var(--muted-foreground)] mb-4">Still have questions?</p>
-                    <a href="/faq/"
-                        class="text-[var(--primary)] font-semibold hover:underline flex items-center justify-center gap-2">
-                        View all FAQs <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </a>
-                </div>
+                <p style="margin-top:20px">
+                    <a href="/faq/" class="btn-q">View all FAQs <svg class="ic ic-s" aria-hidden="true"><use href="#i-chev-r"/></svg></a>
+                </p>
             </section>
         </main>
     </div>
 </div>
+{% endwith %}
 
 <script>
     function switchSection(sectionId, btn) {
-        // Hide all sections
         document.querySelectorAll('.content-section').forEach(section => {
-            section.style.display = 'none';
+            section.style.display = section.id === sectionId ? 'block' : 'none';
         });
-
-        // Show target section
-        document.getElementById(sectionId).style.display = 'block';
-
-        // Update sidebar active state
-        document.querySelectorAll('.sidebar-nav-item').forEach(item => {
-            item.classList.remove('active');
+        document.querySelectorAll('.acc-nav button').forEach(item => {
+            item.classList.toggle('active', item === btn);
         });
-        btn.classList.add('active');
-
-        // Re-create lucide icons for dynamic content if needed
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
+        if (history.replaceState) history.replaceState(null, '', '#' + sectionId);
     }
 
-    function toggleFaq(el) {
-        el.classList.toggle('active');
-        const icon = el.querySelector('[data-lucide="chevron-down"]');
-        if (icon) {
-            // Check if active and maybe rotate icon if needed via CSS
-        }
+    // Open the section named in the URL hash (e.g. /account/v2/myaccount/#my-orders)
+    function openFromHash() {
+        const id = location.hash.slice(1);
+        const btn = id && document.querySelector('.acc-nav button[data-section="' + id + '"]');
+        if (btn) { switchSection(id, btn); window.scrollTo(0, 0); }
     }
+    window.addEventListener('hashchange', openFromHash);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        openFromHash();
+        {% for message in messages %}
+        if (typeof showToast === 'function') showToast("{{ message|escapejs }}", "{% if message.tags == 'error' %}error{% else %}success{% endif %}");
+        {% endfor %}
+    });
 </script>
 {% endblock %}

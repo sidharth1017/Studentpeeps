@@ -1,154 +1,45 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}StudentPeeps | Create Account{% endblock %}
+{% block title %}StudentPeeps | Verify OTP{% endblock %}
 
 {% block linkshead %}
-<meta name="description"
-  content="Sign up on Studentpeeps to get student discounts when you shop. Enter your email and password to make an account on Studentpeeps.">
-<!-- Font import removed -->
-<link rel="stylesheet" href="{% static 'css/google.css' %}">
-<style>
-  input.form-control {
-    height: 46px;
-    background: rgb(239, 244, 244);
-  }
-
-  h2 {
-    color: #272727;
-    font-weight: bold;
-  }
-
-  p {
-    font-size: 16px;
-  }
-
-  .col label {
-    color: black;
-    font-weight: 700;
-    padding-bottom: 10px;
-    font-size: 15px;
-  }
-
-  .btn-primary {
-    font-weight: bold;
-    height: 40px;
-    line-height: 2.5rem;
-    padding: 0 3rem;
-    width: 100%;
-    border: 0;
-    border-radius: 0.5rem;
-    background-image: linear-gradient(131deg, #57408a, #433375, #452c79, #301e55) !important;
-    background-size: 300% 100%;
-    transition: all 0.3s ease-in-out;
-    margin-top: 10px !important;
-  }
-
-  .btn-primary:hover {
-    background-size: 100% 100%;
-    transform: translateY(-0.15em);
-    color: white;
-  }
-
-  section {
-    margin-top: 50px;
-  }
-
-  .fix {
-    position: relative;
-    width: 100%;
-    max-width: 440px;
-    min-width: 320px;
-    margin: 0px auto;
-    padding: 2em 2em 1em;
-  }
-
-  .sign {
-    text-align: center;
-    margin-top: 20px;
-    width: 100%;
-    cursor: default;
-    margin-bottom: 100px;
-  }
-
-  .sign a {
-    background: none;
-    font-size: 1em;
-    text-decoration: underline;
-    color: var(--primary);
-  }
-
-  body {
-    background-image: url("/static/images/illustrator_signup.webp");
-    background-repeat: no-repeat;
-    background-position-y: 90px;
-  }
-
-  @media (max-width:786px) {
-    body {
-      background-image: url("");
-    }
-  }
-
-  .new_footer_area {
-    margin-top: 310px;
-    border-top: 1px solid rgb(165, 165, 165);
-  }
-
-  .btn-goggle {
-    width: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none !important;
-  }
-</style>
-
+<meta name="description" content="Enter the OTP we sent you to log in to StudentPeeps.">
 {% endblock %}
 
 {% block body %}
+<div class="wrap">
+  <div class="auth">
+    <div class="co-sec auth-card">
+      <span class="auth-ic"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg></span>
+      <h1>Verify yourself</h1>
+      <p class="auth-sub">OTP sent to <b class="num">{{ phone }}</b></p>
 
-<section>
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="fix col-12 col-md-8 col-lg-8 col-xl-6">
-        <div class="row">
-          <div class="col text-center">
-            <h2>Verify Yourself</h2>
-            <p>OTP sent to {{phone}}</p>
-            {% for message in messages %}
-            <div class="alert alert-success">{{message}}</div>
-            {% endfor %}
-          </div>
-        </div>
-        <div class="row align-items-center">
-        </div>
-        <form method="POST">
-          {% csrf_token %}
-          <div class="row align-items-center mt-4">
-            <div class="col">
-              <label class="input">Enter OTP</label>
-              <input type="text" name="otp" class="form-control" required>
-            </div>
-          </div>
-          <div class="row justify-content-start mt-4">
-            <div class="col">
-              <button class="btn btn-primary mt-4">Verify OTP</button>
-            </div>
-          </div>
-          <div class="sign">
-            <p>
-              Haven’t received the OTP?
-              <span id="resend-container">
-                <span id="countdown">Resend in 30s</span>
-              </span>
-            </p>
-          </div>
+      {% for message in messages %}
+      <div class="{% if message.tags == 'error' %}ck-err{% else %}auth-ok{% endif %}" role="alert">
+        <svg class="ic ic-s" aria-hidden="true"><use href="#i-{% if message.tags == 'error' %}alert{% else %}check-c{% endif %}"/></svg>
+        <span>{{ message }}</span>
       </div>
+      {% endfor %}
+
+      <form method="POST" class="auth-form">
+        {% csrf_token %}
+        <div class="fld">
+          <label class="lbl" for="otp-input">Enter OTP</label>
+          <input type="text" name="otp" id="otp-input" class="inp num auth-otp" required
+            inputmode="numeric" autocomplete="one-time-code" maxlength="6" autofocus placeholder="••••••">
+        </div>
+        <button class="btn btn-p btn-lg btn-blk" type="submit">Verify OTP</button>
+      </form>
+
+      <p class="auth-resend">
+        Haven’t received the OTP?
+        <span id="resend-container"><span id="countdown">Resend in 30s</span></span>
+      </p>
+      <p class="auth-resend" style="margin-top:-8px"><a class="btn-q" href="{% url 'IdentifyViewV2' %}">Use a different number or email</a></p>
     </div>
   </div>
-  </form>
-</section>
+</div>
 
 <script>
   let seconds = 30;
@@ -158,12 +49,10 @@
     seconds--;
     if (seconds <= 0) {
       clearInterval(interval);
-      container.innerHTML = `<a href="{% url 'resend_otp' %}" id="resend-link">Resend</a>`;
+      container.innerHTML = `<a class="btn-q" href="{% url 'resend_otp' %}" id="resend-link">Resend</a>`;
     } else {
       document.getElementById('countdown').innerText = `Resend in ${seconds}s`;
     }
   }, 1000);
 </script>
-
-
 {% endblock %}

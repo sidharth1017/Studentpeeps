@@ -1,367 +1,233 @@
-{% extends 'base.html' %} {% load static %} {% block title %}Our story |
-Studentpeeps{% endblock %} {% block linkshead %}
-<link rel="stylesheet" href="{% static 'css/ourstory.css' %}" />
-{% endblock %} {% block body %}
+{% extends 'base.html' %}
+{% load static %}
 
+{% block title %}Our Story — StudentPeeps{% endblock %}
+
+{% block linkshead %}
 <style>
-  .team-members {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  width: 100%;
-}
+  .tline {
+    margin-top: 20px;
+    border-left: 2px solid var(--rule-2);
+    padding-left: 24px;
+    display: grid;
+    margin-left: 6px;
+  }
+  .tline li {
+    position: relative;
+    padding-bottom: 22px;
+  }
+  .tline li:last-child {
+    padding-bottom: 4px;
+  }
+  .tline li::before {
+    content: "";
+    position: absolute;
+    left: -31px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--blue);
+    box-shadow: 0 0 0 4px var(--paper);
+  }
+  .tline time {
+    font-size: 13.5px;
+    font-weight: 680;
+    color: var(--blue);
+  }
+  .tline b {
+    display: block;
+    font-size: 17px;
+    font-weight: 680;
+    margin-top: 2px;
+    color: var(--ink);
+  }
+  .tline p {
+    color: var(--ink-2);
+    font-size: 15.5px;
+    margin-top: 4px;
+    max-width: 60ch;
+  }
+  .vals {
+    display: grid;
+    gap: 12px;
+    margin-top: 16px;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  @media (min-width: 640px) {
+    .vals {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .val {
+    padding: 16px 18px;
+    border-radius: 18px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+  }
+  .val b {
+    display: block;
+    font-size: 16px;
+    font-weight: 680;
+    color: var(--ink);
+  }
+  .val p {
+    font-size: 14.5px;
+    color: var(--ink-2);
+    margin-top: 4px;
+  }
 </style>
-<header class="section header">
-  <div class="menu">
-    <ul>
-      <li class="menu-icon">
-        {% if user.is_authenticated %}
-        <i data-lucide="menu" class=""></i>
-        {% else %}
-        <i data-lucide="menu" class="notification"></i>
-        {% endif %}
-      </li>
-      <li class="desktop-list"><a href="/">&nbsp;Home</a></li>
-      <li class="desktop-list"><a href="/ourstory/">&nbsp;Our story</a></li>
-    </ul>
-  </div>
-  <div class="cont">
-    <h1 class="heading">
-      Making student's life happier,<span> inspiring </span>and rewarding
-    </h1>
-    <button>Let's Explore</button>
-  </div>
-  <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 150px; width: 100%; bottom: -235px">
-    <path d="M0.00,92.27 C216.83,192.92 304.30,8.39 500.00,109.03 L500.00,0.00 L0.00,0.00 Z"
-      style="stroke: none; fill: #a479ff"></path>
-  </svg>
-  <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 150px; width: 100%; bottom: -185px">
-    <path d="M0.00,92.27 C216.83,192.92 304.30,8.39 500.00,109.03 L500.00,0.00 L0.00,0.00 Z"
-      style="stroke: none; fill: #8051e4"></path>
-  </svg>
-  <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 150px; width: 100%; bottom: -135px">
-    <path d="M0.00,92.27 C216.83,192.92 304.30,8.39 500.00,109.03 L500.00,0.00 L0.00,0.00 Z"
-      style="stroke: none; fill: #6f48c4"></path>
-  </svg>
-  <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 150px; width: 100%; bottom: -85px">
-    <path d="M0.00,92.27 C216.83,192.92 304.30,8.39 500.00,109.03 L500.00,0.00 L0.00,0.00 Z"
-      style="stroke: none; fill: var(--primary)"></path>
-  </svg>
-</header>
-<section class="team">
-  <div class="cont">
-    <h1 class="heading">
-      Meet the <span class="highlight">Studentpeeps</span> team
-    </h1>
-    <span class="sub-heading">The people backstage, who stay up late, survive on coffee, hustling to
-      build something great!</span>
-    <div class="team-members">
-      <div class="team-member">
-        <div class="profile-image">
-          <video class="ayush-video" loop="true" autoplay="autoplay" muted>
-            <source src="/static/images/ayush.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <span class="name"> Ayush Mittal </span>
-        <span class="designation">Co-founder</span>
-        <div class="social-icons">
-          <a href="https://www.linkedin.com/in/ayushmittal22/" target="_blank"><i data-lucide="linkedin" class="-square"></i></a>
-          <a href="https://twitter.com/ayushmiittal" target="_blank"><i data-lucide="twitter" class=""></i></a>
-          <a href="https://www.instagram.com/ayush.mittal22" target="_blank"><i data-lucide="instagram" class=""></i></a>
-        </div>
-      </div>
-      <div class="team-member">
-        <div class="profile-image">
-          <video class="sidharth-video" loop="true" autoplay="autoplay" muted>
-            <source src="/static/images/sidharth.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <span class="name"> Sidharth Verma </span>
-        <span class="designation">Co-founder</span>
-        <div class="social-icons">
-          <a href="https://www.linkedin.com/in/sidharth-verma-3830801b2/" target="_blank"><i data-lucide="linkedin"
-              class="-square"></i></a>
-          <a href="https://twitter.com/Sidharthv6367" target="_blank"><i data-lucide="twitter" class=""></i></a>
-          <a href="https://www.instagram.com/__sidharth.v/" target="_blank"><i data-lucide="instagram" class=""></i></a>
-        </div>
-      </div>
-      <!-- <div class="team-member">
-        <div class="profile-image">
-          <video class="syed-video" loop="true" autoplay="autoplay" muted>
-            <source src="/static/images/chirag.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <span class="name"> Chirag Mittal</span>
-        <span class="designation">Co-founder</span>
-        <div class="social-icons">
-          <a
-            href="https://www.linkedin.com/mwlite/in/chiragmittalcm"
-            target="_blank"
-            ><i class="fa fa-linkedin-square"></i
-          ></a>
-          <a href="https://www.twitter.com/yeah_its_chirag" target="_blank"
-            ><i class="fa fa-twitter"></i
-          ></a>
-          <a href="https://www.instagram.com/yeah_its_cm" target="_blank"
-            ><i class="fa fa-instagram"></i
-          ></a>
-        </div>
-      </div> -->
-      <!-- <div class="team-member">
-        <div class="profile-image">
-          <video class="tushar-video" loop="true" autoplay="autoplay" muted>
-            <source src="/static/images/tushar.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <span class="name"> Tushar Khandelwal </span>
-        <span class="designation">Brand partnerships </span>
-        <div class="social-icons">
-          <a
-            href="https://www.linkedin.com/in/tushar-khandelwal-63a26718b"
-            target="_blank"
-            ><i class="fa fa-linkedin-square"></i
-          ></a>
-          <a href="" target="_blank"><i data-lucide="twitter" class=""></i></a>
-          <a href="" target="_blank"><i data-lucide="instagram" class=""></i></a>
-        </div>
-      </div> -->
-      <!-- <div class="team-member">
-        <div class="profile-image">
-          <video class="syed-video" loop="true" autoplay="autoplay" muted>
-            <source src="/static/images/syed.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <span class="name"> Syed Mazhar Ali Raza </span>
-        <span class="designation">Frontend Developer</span>
-        <div class="social-icons">
-          <a
-            href="https://www.linkedin.com/in/syedmazharaliraza/"
-            target="_blank"
-            ><i class="fa fa-linkedin-square"></i
-          ></a>
-          <a href="https://twitter.com/110Syedmazhar" target="_blank"
-            ><i class="fa fa-twitter"></i
-          ></a>
-          <a href="https://www.instagram.com/_syedmazhar_" target="_blank"
-            ><i class="fa fa-instagram"></i
-          ></a>
-        </div>
-      </div>
-      <div class="team-member">
-        <div class="profile-image">
-          <video class="sanskriti-video" loop="true" autoplay="autoplay" muted>
-            <source src="/static/images/sanskriti.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <span class="name"> Sanskriti Saxena</span>
-        <span class="designation">Operations</span>
-        <div class="social-icons">
-          <a
-            href="https://www.linkedin.com/in/sanskriti-saxena-7a74a91b6"
-            target="_blank"
-            ><i class="fa fa-linkedin-square"></i
-          ></a>
-          <a href="https://twitter.com/SanskritiSaxe18?s=09" target="_blank"
-            ><i class="fa fa-twitter"></i
-          ></a>
-          <a href="https://www.instagram.com/_saansa/" target="_blank"
-            ><i class="fa fa-instagram"></i
-          ></a>
-        </div>
-      </div> -->
-    </div>
-  </div>
-</section>
-<section class="values">
-  <div class="cont">
-    <h1 class="heading">
-      Crazy culture we follow.<br /><span class="highlight">Some cool rituals we swear by</span>
-    </h1>
-    <div class="values-wrapper">
-      <div class="value">
-        <div class="icon">💯</div>
-        <div class="content">
-          <h1 class="title">Execution 100%</h1>
-          <span class="description">Action over words. Execution over planning.
-          </span>
-        </div>
-      </div>
-      <div class="value">
-        <div class="icon">🤔</div>
-        <div class="content">
-          <h1 class="title">Learn everyday</h1>
-          <span class="description">There should not be a day where we don't learn anything new.
-          </span>
-        </div>
-      </div>
-      <div class="value">
-        <div class="icon">💚</div>
-        <div class="content">
-          <h1 class="title">Passion</h1>
-          <span class="description">Passionate, driven and committed about what we build.
-          </span>
-        </div>
-      </div>
-      <div class="value">
-        <div class="icon">🔥</div>
-        <div class="content">
-          <h1 class="title">Obsession</h1>
-          <span class="description">Dedicated to making students’ experience and lives better. We
-            simply love what we do.</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="timeline">
-  <div class="cont">
-    <h1 class="heading">Our Story?</h1>
-    <span class="sub-heading">Raise the curtain. It all started back when…
-    </span>
-    <div class="timeline-cont">
-      <div class="line2"></div>
-      <div class="line"></div>
-      <div class="wrapper">
-        <div class="bead"></div>
-        <div class="content">
-          <h2>Idea <span class="highlight">pops up</span></h2>
-          <span class="time">February 10, 2021</span><br />
-          <p>An idea clicked in Ayush's head. We start researching.</p>
-        </div>
-      </div>
-      <div class="wrapper">
-        <div class="bead"></div>
-        <div class="content">
-          <h2>The <span class="highlight">official start</span></h2>
-          <span class="time">February 22, 2021</span><br />
-          <p>
-            Registered the domain. Ayush and Tushar sit to learn how to code.
-            After countless trials, built a simple landing page and started
-            collecting waitlist contacts
-          </p>
-        </div>
-      </div>
-      <div class="wrapper">
-        <div class="bead"></div>
-        <div class="content">
-          <h2>Aproaching <span class="highlight">users</span></h2>
-          <span class="time">March - April, 2021</span><br />
-          <p>
-            Talking to students who wanted this product. After a bunch of calls,
-            we decided to go all in.
-          </p>
-        </div>
-      </div>
-      <div class="wrapper">
-        <div class="bead"></div>
-        <div class="content">
-          <h2>Our <span class="highlight">first pitch</span></h2>
-          <span class="time">April - May, 2021</span>
-          <p>
-            Sidharth gets onboard. He started to build our website.<br />
-            We start shortlisting brands, emailing a few. No one takes a
-            meeting. Stressed, we try again. 3 weeks later, a meeting happens.
-            We get one brand onboard, ‘Naagin Sauce’.
-          </p>
-        </div>
-      </div>
-      <div class="wrapper">
-        <div class="bead"></div>
-        <div class="content">
-          <h2>Creating a <span class="highlight">better product</span></h2>
-          <span class="time">May - June, 2021</span>
-          <p>
-            Sanskriti joins us. We get more brands like Propshop24, TribFashion,
-            Avni, and Bitclass onboard.
-          </p>
-        </div>
-      </div>
-      <div class="wrapper">
-        <div class="bead"></div>
-        <div class="content">
-          <h2>User Experience <span class="highlight">is vital</span></h2>
-          <span class="time">July - August, 2021</span>
-          <p>
-            We realised we had a good website. But it had to be great. This
-            time, Ayush and Sidharth start discussing and hire 2-3 interns to
-            help us out
-          </p>
-        </div>
-      </div>
-      <div class="wrapper">
-        <div class="bead"></div>
-        <div class="content">
-          <h2>Baby steps to a <span class="highlight">giant leap</span></h2>
-          <span class="time">August, 2021</span>
-          <p>
-            Ayush, Sanskriti and Tushar focus on getting brands onboard. End up
-            meeting founders and partner up with a lot of different brands.
-          </p>
-        </div>
-      </div>
-      <div class="wrapper">
-        <div class="bead"></div>
-        <div class="content">
-          <h2>
-            Small small wins - <span class="highlight">all smiles :)</span>
-          </h2>
-          <span class="time">August, 2021</span>
-          <p>
-            We get Rapido onboard. Gradually, saw college students using our
-            discounts, saving on time and money. We craved this day.
-          </p>
-        </div>
-      </div>
-      <div class="wrapper">
-        <div class="bead"></div>
-        <div class="content">
-          <h2>A community <span class="highlight">from scratch</span></h2>
-          <span class="time">October, 2021</span>
-          <p>
-            Syed joins us. We enhance the user experience on our website.
-            Meanwhile, team plunged to set up a closed-club with 50 students.
-            Soon, people network and we grow into a 500-member strong community.
-          </p>
-        </div>
-      </div>
-      <div class="wrapper">
-        <div class="bead"></div>
-        <div class="content">
-          <h2>
-            Striving, failing, reviving. There’s no
-            <span class="highlight">looking back.</span>
-          </h2>
-          <span class="time">November, 2021 - Present</span>
-          <p>
-            We’ll keep building, iterating and marketing our product, till the
-            day it becomes the favorite savior to every student life.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+{% endblock %}
 
-{% endblock %} {% block linksbody %}
-<script src="/static/js/timeline.js"></script>
-<script>
-  menuIcon = document.querySelector(".menu .menu-icon");
-  menuIconInner = document.querySelector(".menu .menu-icon i");
+{% block body %}
+<div class="wrap" style="padding-top: 14px; padding-bottom: 48px;">
+  <!-- Breadcrumb -->
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <svg class="ic"><use href="#i-chev-r"/></svg>
+    <span>Our story</span>
+  </nav>
 
-  [menuIcon, menuOverlay].forEach((element) => {
-    element.onclick = () => {
-      document.body.classList.toggle("menu-active");
-      menuCont.classList.toggle("active");
-      if (menuIconInner.classList.contains("fa-bars")) {
-        setTimeout(() => {
-          menuIconInner.classList.remove("fa-bars");
-          menuIconInner.classList.add("fa-times");
-        }, 120);
-      } else {
-        menuIconInner.classList.remove("fa-times");
-        menuIconInner.classList.add("fa-bars");
-      }
-      menuOverlay.classList.toggle("active");
-    };
-  });
-</script>
+  <!-- Hero Story Section -->
+  <div class="story" style="padding: 14px 0 6px;">
+    <div>
+      <h1 class="h-xl" style="font-size: clamp(38px, 6vw, 64px); max-width: 14ch;">It started with one idea and a waitlist.</h1>
+      <p class="lede">In February 2021, an idea clicked for Ayush: students were missing out on discounts brands would happily give them. We registered a domain, taught ourselves to code and put up a landing page to collect a waitlist.</p>
+      <p class="lede" style="margin-top: 10px;">Brands ignored our emails until one said yes. Then came Rapido, a community that grew from 50 students to 500, and a platform that now helps lakhs of students pay less. This gift card store is the next step.</p>
+
+      <div class="stats">
+        <div><b>2.5 lakh+</b><span>students on StudentPeeps</span></div>
+        <div><b>10 lakh+</b><span>visits a year</span></div>
+        <div><b>10,000+</b><span>in our WhatsApp community</span></div>
+      </div>
+    </div>
+
+    <!-- Founders Illustration -->
+    <div class="founders-w">
+      <div class="founders">
+        <svg viewBox="0 0 520 440" role="img" aria-label="Illustration of co-founders Ayush Mittal and Sidharth Verma">
+          <!-- Sidharth -->
+          <g>
+            <path d="M220 440 L220 338 Q222 272 286 254 L390 254 Q454 272 456 338 L456 440 Z" fill="#2F6A55"/>
+            <path d="M298 255 L338 318 L378 255 Z" fill="#F2EEE6"/>
+            <path d="M317 200 L317 262 Q338 286 359 262 L359 200 Z" fill="#B67A4F"/>
+            <path d="M317 212 Q338 236 359 212 L359 228 Q338 246 317 228 Z" fill="#94603B" opacity=".55"/>
+            <ellipse cx="287" cy="160" rx="10" ry="15" fill="#B67A4F"/>
+            <ellipse cx="389" cy="160" rx="10" ry="15" fill="#B67A4F"/>
+            <ellipse cx="338" cy="150" rx="51" ry="62" fill="#B67A4F"/>
+            <path d="M288 158 Q290 214 338 214 Q386 214 388 158 Q382 196 362 192 Q338 184 314 192 Q294 196 288 158 Z" fill="#18171F" opacity=".92"/>
+            <path d="M284 156 Q272 78 340 80 Q408 82 393 150 Q388 116 360 106 Q326 118 298 112 Q288 126 284 156 Z" fill="#18171F"/>
+            <path d="M307 133 Q319 126 330 132" stroke="#18171F" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <path d="M346 132 Q357 126 369 133" stroke="#18171F" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <ellipse cx="319" cy="149" rx="4.6" ry="5.4" fill="#1B1A22"/>
+            <ellipse cx="357" cy="149" rx="4.6" ry="5.4" fill="#1B1A22"/>
+            <path d="M337 156 Q345 172 334 176" stroke="#94603B" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            <path d="M321 186 Q338 200 355 186" stroke="#F3EDE6" stroke-width="4" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- Ayush -->
+          <g>
+            <path d="M68 440 L68 338 Q70 272 134 254 L238 254 Q302 272 304 338 L304 440 Z" fill="#2442E6"/>
+            <path d="M146 255 L186 318 L226 255 Z" fill="#FFFFFF"/>
+            <path d="M165 200 L165 262 Q186 286 207 262 L207 200 Z" fill="#C98D60"/>
+            <ellipse cx="135" cy="160" rx="10" ry="15" fill="#C98D60"/>
+            <ellipse cx="237" cy="160" rx="10" ry="15" fill="#C98D60"/>
+            <ellipse cx="186" cy="150" rx="51" ry="62" fill="#C98D60"/>
+            <path d="M133 150 Q128 84 186 84 Q244 84 239 146 Q228 110 194 108 Q160 106 142 124 Q136 134 133 150 Z" fill="#1B1A22"/>
+            <path d="M155 133 Q167 126 178 132" stroke="#1B1A22" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <path d="M194 132 Q205 126 217 133" stroke="#1B1A22" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <ellipse cx="167" cy="149" rx="4.6" ry="5.4" fill="#1B1A22"/>
+            <ellipse cx="205" cy="149" rx="4.6" ry="5.4" fill="#1B1A22"/>
+            <g fill="none" stroke="#1B1A22" stroke-width="3.5">
+              <rect x="150" y="136" width="30" height="25" rx="9"/>
+              <rect x="192" y="136" width="30" height="25" rx="9"/>
+              <path d="M180 146 Q186 141 192 146"/>
+            </g>
+            <path d="M185 156 Q193 172 182 176" stroke="#A66E46" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            <path d="M169 186 Q186 200 203 186" stroke="#6E2F25" stroke-width="4" fill="none" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+      <div class="fnames">
+        <div><b>Ayush Mittal</b><span>Co-founder</span></div>
+        <div><b>Sidharth Verma</b><span>Co-founder</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline & Core Values Section -->
+  <section class="sec">
+    <div class="story" style="align-items: start;">
+      <div>
+        <h2 style="font-size: clamp(24px, 3.5vw, 30px);">How it happened</h2>
+        <ol class="tline">
+          <li>
+            <time>10 Feb 2021</time>
+            <b>The idea</b>
+            <p>An idea clicks for Ayush. We start researching the same day.</p>
+          </li>
+          <li>
+            <time>22 Feb 2021</time>
+            <b>The official start</b>
+            <p>We register the domain, learn to code, build a simple landing page and start a waitlist.</p>
+          </li>
+          <li>
+            <time>Mar–Apr 2021</time>
+            <b>Talking to students</b>
+            <p>After a bunch of calls with students who wanted this, we decide to go all in.</p>
+          </li>
+          <li>
+            <time>Apr–May 2021</time>
+            <b>Our first yes</b>
+            <p>Sidharth joins and builds the website. No brand takes a meeting, until three weeks later one does: Naagin Sauce comes on board.</p>
+          </li>
+          <li>
+            <time>Aug 2021</time>
+            <b>Rapido signs up</b>
+            <p>Students start using our discounts and saving time and money. The day we’d been waiting for.</p>
+          </li>
+          <li>
+            <time>Oct 2021</time>
+            <b>A community from scratch</b>
+            <p>A closed club of 50 students grows into a 500-member community.</p>
+          </li>
+          <li>
+            <time>2026</time>
+            <b>Gift cards</b>
+            <p>The same savings on brands students use every day, delivered on WhatsApp in seconds.</p>
+          </li>
+        </ol>
+      </div>
+
+      <div>
+        <h2 style="font-size: clamp(24px, 3.5vw, 30px);">What we care about</h2>
+        <div class="vals">
+          <div class="val">
+            <b>Execution first</b>
+            <p>Action over words, execution over planning.</p>
+          </div>
+          <div class="val">
+            <b>Learn every day</b>
+            <p>No day goes by without learning something new.</p>
+          </div>
+          <div class="val">
+            <b>Passion</b>
+            <p>Driven and committed about what we build.</p>
+          </div>
+          <div class="val">
+            <b>Obsession</b>
+            <p>We exist to make students’ lives better, and we love it.</p>
+          </div>
+        </div>
+
+        <div class="cross" style="margin-top: 24px;">
+          <div>
+            <b>Shop the gift card store</b>
+            <span>300+ gift cards, codes on WhatsApp in seconds.</span>
+          </div>
+          <a class="btn btn-p" href="{% url 'giftcard:explore' %}">Browse gift cards</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
 {% endblock %}

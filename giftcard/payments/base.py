@@ -65,6 +65,7 @@ class PaymentGateway(ABC):
         customer: Optional[Dict[str, str]] = None,
         surl: str = "",
         furl: str = "",
+        pay_method: Optional[str] = None,
     ) -> PaymentOrderResult:
         """
         Create a payment order / gather all data needed to initiate payment.
@@ -76,6 +77,9 @@ class PaymentGateway(ABC):
             customer:     {"name": str, "email": str, "phone": str}  — required by redirect gateways
             surl:         Success redirect URL  (required by redirect gateways)
             furl:         Failure redirect URL  (required by redirect gateways)
+            pay_method:   Payment method the customer picked on our checkout (key from
+                          PAY_METHODS in giftcard/payments/methods.py). Gateways that can lock
+                          their payment page to one method should do so; others may ignore it.
 
         Returns:
             PaymentOrderResult
