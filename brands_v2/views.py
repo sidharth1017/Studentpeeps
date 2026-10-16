@@ -111,7 +111,11 @@ class BrandPageView(View):
                 'description': f"Get the latest student discounts and offers from {brand.name}. Save big on your favorite products and services.",
             }
 
-        context = {
+        for offer in offers:
+            link = f"/offer/{offer.brand.slug}/{offer.custom_id}/"
+            offer.link = link
+
+        context = {     
             'brand': brand,
             'offers': offers,
             'seo': seo_obj,

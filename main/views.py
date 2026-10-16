@@ -23,7 +23,7 @@ from django.db.models import Count
 @method_decorator(csrf_exempt, name="dispatch")
 class Home(View):
     def get(self, request):
-        recommended_offer_ids = ['spxdailyobjects15', 'spxdell7percent','spxnilkamal5', 'spxblissclub10', 'spxbb6', 'spxwtf25']
+        recommended_offer_ids = ['spxlenovo5000', '	hp-india','spxlenovo2000', 'spxdell7percent', 'spxdailyobjects15']
         recommended_offers = Offer.objects.filter(custom_id__in=recommended_offer_ids)
         offers_dict = {offer.custom_id: offer for offer in recommended_offers}
         ordered_recommended = [offers_dict[oid] for oid in recommended_offer_ids if oid in offers_dict]
