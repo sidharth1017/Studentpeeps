@@ -20,7 +20,7 @@ PAY_METHODS = {
     "upi":        {"label": "UPI",                 "description": "Google Pay, PhonePe, Paytm or any UPI app", "payu": "upi",                  "icon": "qr",     "fee": "0"},
     "card":       {"label": "Credit / Debit card", "description": "Visa, Mastercard, RuPay",                   "payu": "creditcard|debitcard", "icon": "card",   "fee": "1.5"},
     "netbanking": {"label": "Net banking",         "description": "Pay from your bank account",                "payu": "netbanking",           "icon": "bank",   "fee": "0"},
-    "wallet":     {"label": "Wallets",             "description": "Pay with your wallet balance",              "payu": "cashcard",             "icon": "wallet", "fee": "0"},
+    "wallet":     {"label": "Wallets",             "description": "Pay with your wallet balance",              "payu": "cashcard",             "icon": "wallet", "fee": "1.25"},
     "emi":        {"label": "EMI",                 "description": "Split into monthly instalments",            "payu": "emi",                  "icon": "cal",    "fee": "0"},
     "paylater":   {"label": "Pay later",           "description": "Buy now, pay later",                        "payu": "bnpl",                 "icon": "clock",  "fee": "0"},
 }
@@ -47,21 +47,30 @@ def adjust_amount(total: Decimal, option) -> Decimal:
     return adjusted.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
 
 
-def get_enabled_methods() -> List[Dict]:
+def _method_tag(o, net: Decimal) -> str:
+    if net > 0 and o.fee_percent:
+        return f"{o.fee_percent.normalize():f}% fee"
+    if net < 0 and o.discount_percent:
+        return f"{o.discount_percent.normalize():f}% off"
+    if net == 0 and o.enabled:
+        return "No extra fee"
+    return ""
+
+
+def get_all_methods() -> List[Dict]:
     """
-    Enabled methods in display order, as dicts for the checkout page.
-    Falls back to UPI if the admin has switched everything off, so checkout is never a dead end.
+    Every supported payment method in display order (enabled and disabled).
+    Used on product page and checkout so customers see the full list.
     """
     from utilities.models import PaymentMethodOption
-    PaymentMethodOption.ensure_defaults()
-    options = list(PaymentMethodOption.objects.filter(enabled=True).order_by("sort_order", "id"))
-    if not options:
-        import logging
-        logging.getLogger(__name__).warning("All payment methods are disabled; falling back to UPI.")
-        options = [PaymentMethodOption.objects.get(method="upi")]
 
-    nets = [net_percent(o) for o in options]
-    cheapest, dearest = min(nets), max(nets)
+    PaymentMethodOption.ensure_defaults()
+    options = list(PaymentMethodOption.objects.order_by("sort_order", "id"))
+    enabled = [o for o in options if o.enabled]
+    nets_enabled = [net_percent(o) for o in enabled] if enabled else [Decimal("0")]
+    cheapest = min(nets_enabled)
+    dearest = max(nets_enabled)
+
     out = []
     for o in options:
         net = net_percent(o)
@@ -73,11 +82,39 @@ def get_enabled_methods() -> List[Dict]:
             "fee_percent": o.fee_percent,
             "discount_percent": o.discount_percent,
             "net_percent": net,
-            "tag": (f"{o.fee_percent.normalize():f}% fee" if net > 0 and o.fee_percent else "")
-                   or (f"{o.discount_percent.normalize():f}% off" if net < 0 and o.discount_percent else ""),
-            "is_best": cheapest < dearest and net == cheapest,
+            "enabled": o.enabled,
+            "tag": _method_tag(o, net),
+            "is_best": o.enabled and len(enabled) > 1 and cheapest < dearest and net == cheapest,
         })
     return out
+
+
+def get_enabled_methods() -> List[Dict]:
+    """
+    Enabled methods only. Falls back to UPI if everything is switched off.
+    """
+    enabled = [m for m in get_all_methods() if m["enabled"]]
+    if enabled:
+        return enabled
+    import logging
+    from utilities.models import PaymentMethodOption
+
+    logging.getLogger(__name__).warning("All payment methods are disabled; falling back to UPI.")
+    PaymentMethodOption.ensure_defaults()
+    upi = PaymentMethodOption.objects.get(method="upi")
+    net = net_percent(upi)
+    return [{
+        "key": upi.method,
+        "label": upi.display_label,
+        "description": upi.display_description,
+        "icon": PAY_METHODS[upi.method]["icon"],
+        "fee_percent": upi.fee_percent,
+        "discount_percent": upi.discount_percent,
+        "net_percent": net,
+        "enabled": True,
+        "tag": _method_tag(upi, net),
+        "is_best": True,
+    }]
 
 
 def get_enabled_option(key: Optional[str]):

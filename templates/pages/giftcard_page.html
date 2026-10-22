@@ -20,6 +20,87 @@
   .preview .gc {
     box-shadow: 0 30px 50px -28px rgba(15,21,51,.7), inset 0 0 0 1px rgba(255,255,255,.18);
   }
+  .gc-tnc {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .gc-tnc ul,
+  .gc-tnc ol {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .gc-tnc li {
+    padding-left: 18px;
+    position: relative;
+  }
+  .gc-tnc li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--ink-3);
+  }
+  .gc-tnc p {
+    margin: 0 0 8px;
+  }
+  .gc-tnc a {
+    color: var(--blue);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .gc-tnc a:hover { color: var(--blue-2, var(--blue)); }
+  .gc-highlights {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+  }
+  .gc-highlights p {
+    margin: 0;
+    padding-left: 20px;
+    position: relative;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .gc-highlights p::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--blue);
+    font-weight: 800;
+  }
+  .gc-highlights ul {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .gc-highlights li {
+    padding-left: 20px;
+    position: relative;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .gc-highlights li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--blue);
+    font-weight: 800;
+  }
+  .gc-highlights a {
+    color: var(--blue);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
 </style>
 {% endblock %}
 
@@ -66,13 +147,17 @@
           <!-- About Card -->
           <div class="panel" style="padding: 20px;">
             <h2 style="font-size: 19px; margin-bottom: 12px;">About this card</h2>
-            <p style="color: var(--ink-2); font-size: 14.5px; line-height: 1.5;">{{ giftcard.description|default:"Use with this brand for your everyday shopping and savings." }}</p>
+            {% if giftcard.description %}
+            <p style="color: var(--ink-2); font-size: 14.5px; line-height: 1.5;">{{ giftcard.description }}</p>
+            {% else %}
+            <p style="color: var(--ink-2); font-size: 14.5px; line-height: 1.5;">Use this gift card with {{ giftcard.brand_name|default:giftcard.name }} for everyday shopping and savings.</p>
+            {% endif %}
             <div class="facts" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; margin-top: 14px;">
               <div class="fact" style="display: flex; gap: 10px; align-items: flex-start;">
                 <svg class="ic" style="color: var(--blue); margin-top: 2px;"><use href="#i-cal"/></svg>
                 <div>
-                  <b style="display: block; font-size: 14.5px; font-weight: 660;">Valid 12 months</b>
-                  <span style="display: block; font-size: 13px; color: var(--ink-3);">From the day it’s issued</span>
+                  <b style="display: block; font-size: 14.5px; font-weight: 660;">{% if giftcard.expiry_info %}{{ giftcard.expiry_info }}{% else %}Valid 12 months{% endif %}</b>
+                  <span style="display: block; font-size: 13px; color: var(--ink-3);">{% if giftcard.expiry_info %}From the issuer{% else %}From the day it’s issued{% endif %}</span>
                 </div>
               </div>
               <div class="fact" style="display: flex; gap: 10px; align-items: flex-start;">
@@ -99,6 +184,13 @@
             </div>
           </div>
 
+          {% if giftcard.short_description_html %}
+          <div class="panel" style="padding: 20px;">
+            <h2 style="font-size: 19px; margin-bottom: 12px;">Good to know</h2>
+            <div class="gc-highlights">{{ giftcard.short_description_html }}</div>
+          </div>
+          {% endif %}
+
           <!-- How to Use -->
           <div class="panel" style="padding: 20px;">
             <h2 style="font-size: 19px; margin-bottom: 12px;">How to use it</h2>
@@ -121,11 +213,23 @@
           <!-- Key terms -->
           <div class="panel" style="padding: 20px;">
             <h2 style="font-size: 19px; margin-bottom: 12px;">Key terms</h2>
+            {% if giftcard.tnc_content %}
+            <div class="gc-tnc terms">{{ giftcard.tnc_content|safe }}</div>
+            {% else %}
             <ul class="terms" style="display: grid; gap: 8px; font-size: 14.5px; color: var(--ink-2);">
               <li style="padding-left: 18px; position: relative;">• Valid for 12 months from the day it’s issued.</li>
               <li style="padding-left: 18px; position: relative;">• Treat it like cash. Anyone with the code can spend it.</li>
               <li style="padding-left: 18px; position: relative;">• Code not working? Tell us within 7 days and we’ll replace it or refund you in full.</li>
             </ul>
+            {% endif %}
+            {% if giftcard.tnc_link %}
+            <p style="margin-top: 14px; margin-bottom: 0; font-size: 14px;">
+              <a href="{{ giftcard.tnc_link }}" target="_blank" rel="noopener noreferrer" class="btn-q" style="display: inline-flex; align-items: center; gap: 6px;">
+                Full terms & conditions
+                <svg class="ic ic-s" aria-hidden="true"><use href="#i-globe"/></svg>
+              </a>
+            </p>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -135,7 +239,7 @@
     <div class="buy" style="min-width: 0; display: flex; flex-direction: column; gap: 20px;">
       <div>
         <h1 style="font-size: 32px; letter-spacing: -.02em;">{{ giftcard.brand_name|default:giftcard.name }} gift card</h1>
-        <p class="sub" style="font-size: 15.5px; color: var(--ink-2); margin-top: 6px;">{{ giftcard.short_description|default:"Gift card delivered on WhatsApp and email in seconds." }}</p>
+        <p class="sub" style="font-size: 15.5px; color: var(--ink-2); margin-top: 6px;">Delivered on WhatsApp and email in seconds.</p>
         <div class="tags" style="display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 12px;">
           <span class="tag"><svg class="ic"><use href="#i-bolt"/></svg>Instant delivery</span>
           <span class="tag"><svg class="ic"><use href="#i-store"/></svg>Online & in-store</span>
@@ -195,17 +299,37 @@
           <span>Card value</span>
           <span id="cardValueDisp" class="num" style="font-weight: 600; color: var(--ink);">₹100</span>
         </div>
-        <div class="mrow" style="display: flex; justify-content: space-between; padding: 5px 0; font-size: 15.5px; color: var(--green);">
-          <span>UPI discount (<span id="discountPercentDisp">5</span>%)</span>
-          <span id="savingsDisp" class="num" style="font-weight: 600;">−₹5</span>
+        <div class="mrow" id="upiDiscountRow" style="display: flex; justify-content: space-between; padding: 5px 0; font-size: 15.5px; color: var(--ink-2);">
+          <span><span id="upiDiscountPrefix">UPI discount</span> (<span id="discountPercentDisp" class="num" style="color: var(--ink); font-weight: 650;">5</span>%)</span>
+          <span id="savingsDisp" class="num" style="font-weight: 600; color: var(--green);">−₹5</span>
         </div>
         <div class="mtot" style="display: flex; justify-content: space-between; align-items: flex-end; padding-top: 12px; margin-top: 8px; border-top: 1px dashed var(--rule-2);">
           <b style="font-size: 17px; font-weight: 680;">You pay with UPI</b>
           <span class="p num" id="finalPrice" style="font-stretch: 118%; font-weight: 800; font-size: 32px; line-height: 1; letter-spacing: -.025em; color: var(--ink);">₹95</span>
         </div>
-        <p class="msave" style="margin-top: 8px; font-size: 14.5px; font-weight: 650; text-align: right; color: var(--green);">
-          You save <span class="hl" id="totalSavedPill">₹5</span>
+        <p class="msave" id="msaveLine" style="margin-top: 8px; font-size: 14.5px; font-weight: 650; text-align: right; color: var(--green);">
+          <span id="msavePrefix">You save </span><span class="hl" id="totalSavedPill">₹5</span>
         </p>
+
+        {% if payment_methods|length > 1 %}
+        <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--rule);">
+          <p style="font-size: 13.5px; font-weight: 650; color: var(--ink); margin: 0 0 10px;">Other ways to pay</p>
+          <ul id="paymentMethodsList" style="list-style: none; padding: 0; margin: 0; display: grid; gap: 8px;">
+            {% for m in payment_methods %}
+            {% if m.key != 'upi' %}
+            <li class="gc-pm-row" data-net="{{ m.net_percent }}"
+              style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; font-size: 14px; color: var(--ink-2);">
+              <span style="min-width: 0;">
+                <span style="display: block; font-weight: 620; color: var(--ink);">{{ m.label }}</span>
+                {% if m.tag %}<small style="font-size: 12px;">{{ m.tag }}</small>{% endif %}
+              </span>
+              <span class="gc-pm-pay num" style="font-weight: 700; color: var(--ink); flex: none;">—</span>
+            </li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
       </div>
 
       <!-- Add to Cart Form -->
@@ -247,7 +371,8 @@
 </div>
 
 <script>
-  const discountPercent = parseFloat("{{ giftcard.margin_raw|default:5 }}") || 5;
+  const parsedMargin = parseFloat("{{ giftcard.margin_raw|default:0 }}");
+  const discountPercent = Number.isFinite(parsedMargin) ? parsedMargin : 0;
   let currentAmount = 100;
   let currentQty = 1;
 
@@ -260,27 +385,67 @@
   const customAmountRow = document.getElementById('customAmountRow');
   const customAmountInput = document.getElementById('customAmountInput');
 
-  if (discountPercentDisp) discountPercentDisp.textContent = discountPercent;
+  function formatMarginPct(pct) {
+    if (!Number.isFinite(pct)) return "0";
+    const rounded = Math.round(pct * 100) / 100;
+    return rounded % 1 === 0 ? String(rounded.toFixed(0)) : String(rounded);
+  }
+
+  if (discountPercentDisp) discountPercentDisp.textContent = formatMarginPct(discountPercent);
 
   function updatePrice() {
     const amount = currentAmount;
     const qty = currentQty;
     const originalTotal = amount * qty;
 
-    let pct = discountPercent;
-    if (pct > 0 && pct < 1) {
-      pct = pct * 100;
-    }
-
-    const discountValue = (originalTotal * pct) / 100;
-    const savings = Math.round(discountValue);
+    const pct = discountPercent;
+    const adjustment = (originalTotal * pct) / 100;
+    const savings = Math.round(adjustment);
     const finalAmount = Math.round(originalTotal - savings);
 
     finalPriceEl.textContent = "₹" + finalAmount.toLocaleString("en-IN");
-    savingsDisp.textContent = "−₹" + savings.toLocaleString("en-IN");
     cardValueDisp.textContent = "₹" + originalTotal.toLocaleString("en-IN");
-    totalSavedPill.textContent = "₹" + savings.toLocaleString("en-IN");
     cardOverlayAmount.textContent = "₹" + amount.toLocaleString("en-IN");
+
+    if (discountPercentDisp) {
+      discountPercentDisp.textContent = formatMarginPct(pct);
+    }
+
+    const msaveEl = document.getElementById('msaveLine');
+    const msavePrefix = document.getElementById('msavePrefix');
+    const upiDiscountPrefix = document.getElementById('upiDiscountPrefix');
+    if (pct >= 0) {
+      savingsDisp.textContent = "−₹" + savings.toLocaleString("en-IN");
+      savingsDisp.style.color = 'var(--green)';
+      if (upiDiscountPrefix) upiDiscountPrefix.textContent = 'UPI discount';
+      totalSavedPill.textContent = "₹" + savings.toLocaleString("en-IN");
+      if (msaveEl && msavePrefix) {
+        msaveEl.style.display = pct > 0 ? '' : 'none';
+        msaveEl.style.color = 'var(--green)';
+        msavePrefix.textContent = 'You save ';
+      }
+    } else {
+      const surcharge = Math.abs(savings);
+      savingsDisp.textContent = "+₹" + surcharge.toLocaleString("en-IN");
+      savingsDisp.style.color = 'var(--amber, #d97706)';
+      if (upiDiscountPrefix) upiDiscountPrefix.textContent = 'UPI adjustment';
+      totalSavedPill.textContent = "₹" + surcharge.toLocaleString("en-IN");
+      if (msaveEl && msavePrefix) {
+        msaveEl.style.display = '';
+        msaveEl.style.color = 'var(--ink-2)';
+        msavePrefix.textContent = 'Includes service fee of ';
+      }
+    }
+
+    const platformPay = finalAmount;
+    document.querySelectorAll('.gc-pm-row').forEach(row => {
+      const net = parseFloat(row.dataset.net || '0');
+      const payEl = row.querySelector('.gc-pm-pay');
+      if (!payEl) return;
+      const methodPay = Math.round(platformPay * (1 + net / 100));
+      payEl.textContent = '₹' + methodPay.toLocaleString('en-IN');
+      payEl.style.color = 'var(--ink)';
+    });
 
     document.getElementById('selectedDenomination').value = amount;
     document.getElementById('selectedQty').value = qty;

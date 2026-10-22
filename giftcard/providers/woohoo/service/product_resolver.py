@@ -1,18 +1,18 @@
 from giftcard.models import ProviderProduct, ProductOverride
-from decimal import Decimal
+
+from giftcard.services.margin_pricing import margin_as_percent
+from giftcard.services.product_copy import format_short_description_html
+
 
 def format_margin(value):
     if value is None:
         return None
 
-    value = Decimal(value)
-
-    # Percentage (0 < value < 1)
-    if Decimal("0") < value < Decimal("1"):
-        return f"{int(value * 100)}%"
-
-    # Flat amount
-    return f"₹{int(value)}"
+    pct = margin_as_percent(value)
+    if pct == pct.to_integral_value():
+        return f"{int(pct)}%"
+    normalized = pct.normalize()
+    return f"{normalized}%"
 
 class ProductResolver:
     """
@@ -57,11 +57,21 @@ class ProductResolver:
         """
         Returns final merged product data.
         """
+        tnc_content = self._value("tnc_content")
+        if not tnc_content:
+            tnc_content = self.product.tnc_content or ""
+
         return {
             "sku": self.product.sku,
             "name": self._value("name"),
             "description": self._value("description"),
-            "tnc_content": self._value("tnc_content"),
+            "short_description": self.product.short_description or "",
+            "short_description_html": format_short_description_html(
+                self.product.short_description or ""
+            ),
+            "tnc_content": tnc_content,
+            "tnc_link": self.product.tnc_link or "",
+            "expiry_info": self.product.expiry_info or "",
             "brand_name": self._value("brand_name"),
             "brand_code": self._value("brand_code"),
             "brand_logo": self._brand_logo_url(),

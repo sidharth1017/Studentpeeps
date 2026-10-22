@@ -533,11 +533,10 @@
       document.querySelectorAll('.cart-item').forEach(el => {
         const amt = parseFloat(el.dataset.amount);
         const qty = parseInt(el.dataset.quantity);
-        let margin = parseFloat(el.dataset.margin || "0");
-        if (margin > 1) margin = margin / 100; // normalize 2 to 0.02
+        const marginPct = parseFloat(el.dataset.margin || "0");
 
         const orig = amt * qty;
-        const finalp = orig - (orig * margin);
+        const finalp = orig - (orig * marginPct / 100);
 
         rawSubtotal += orig;
         subtotalAfterPlatform += finalp;
@@ -561,9 +560,12 @@
         // update prices in UI
         el.querySelector('.item-orig-price').textContent = orig.toFixed(2);
         el.querySelector('.item-final-price').textContent = finalp.toFixed(2);
-        if (margin > 0) {
+        if (marginPct > 0) {
           el.querySelector('.item-orig-price').parentElement.classList.remove('hidden');
-          el.querySelector('.item-disc-badge').textContent = `${(margin * 100).toFixed(0)}% off`;
+          const discLabel = marginPct === Math.floor(marginPct)
+            ? `${marginPct.toFixed(0)}% off`
+            : `${marginPct}% off`;
+          el.querySelector('.item-disc-badge').textContent = discLabel;
           el.querySelector('.item-disc-badge').classList.remove('hidden');
         }
       });

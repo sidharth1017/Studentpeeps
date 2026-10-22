@@ -52,15 +52,11 @@ class AddToCartView(View):
         if not product:
             return JsonResponse({"error": "Product not found"}, status=404)
 
+        from giftcard.services.margin_pricing import price_after_margin
+
         margin_raw = Decimal(str(product.get("margin_raw", 0)))
         unit_price = Decimal(str(denomination))
-
-        if Decimal("0") < margin_raw < Decimal("1"):
-            discount = unit_price * margin_raw
-        else:
-            discount = (unit_price * margin_raw) / Decimal("100")
-
-        final_price = unit_price - discount
+        final_price = price_after_margin(unit_price, margin_raw)
 
         product_data = {
             "sku": sku,
@@ -780,12 +776,15 @@ class GiftcardPageView(View):
             {"name": "BigBasket", "category": "Grocery", "offer": "3% off", "initial": "B", "color": "bg-green-500"},
         ]
 
+        from giftcard.payments.methods import get_enabled_methods
+
         return render(request, "pages/giftcard_page.html", {
             "giftcard": giftcard_data,
             "provider_product": provider_product,
             "seo": seo,
             "faqs": faqs,
             "similar_cards": similar_cards,
+            "payment_methods": get_enabled_methods(),
         })
 
 class ExploreView(View):

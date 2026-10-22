@@ -36,10 +36,9 @@ def _brand_size_cls(name: str) -> str:
 def _discount_from_margin(margin) -> float | None:
     if margin is None:
         return None
-    m = float(margin)
-    if 0 < m < 1:
-        return m * 100
-    return m
+    from giftcard.services.margin_pricing import margin_as_percent
+
+    return float(margin_as_percent(margin))
 
 
 def product_tile_fields(sku: str, display_name: str, margin=None) -> dict:

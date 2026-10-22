@@ -179,8 +179,13 @@ class Home(View):
                 # Get pricing data
                 min_p = float(giftcard.min_price)
                 margin = 0
+                margin_val = None
                 if hasattr(giftcard, 'override') and giftcard.override.margin is not None:
-                    margin = float(giftcard.override.margin)
+                    margin_val = giftcard.override.margin
+
+                from giftcard.services.margin_pricing import margin_as_percent, price_after_margin
+
+                margin_pct = float(margin_as_percent(margin_val)) if margin_val is not None else 0.0
                 
                 # Check for colors - for now we use a default but could be expanded
                 bg_color = '#111827' # Default dark for premium look
@@ -198,8 +203,8 @@ class Home(View):
                     "secondary_color": bg_color,
                     "text_color": "#ffffff",
                     "min_price": int(min_p),
-                    "margin": int(margin * 100) if margin < 1 else int(margin),
-                    "final_price": int(min_p * (1 - (margin if margin < 1 else margin/100))),
+                    "margin": margin_pct,
+                    "final_price": int(price_after_margin(min_p, margin_val)),
                     "sku": giftcard.sku
                 })
 
@@ -396,10 +401,8 @@ class Home(View):
                 try:
                     margin = prod.override.margin
                     if margin is not None:
-                        m = float(margin)
-                        if 0 < m < 1:
-                            return m * 100
-                        return m
+                        from giftcard.services.margin_pricing import margin_as_percent
+                        return float(margin_as_percent(margin))
                 except Exception:
                     pass
             return float(fallback)

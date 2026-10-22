@@ -55,8 +55,8 @@
                                 ₹{{ offer.final_price|default:offer.min_price|default:"450" }}
                             </span>
                         </div>
-                        <span class="text-[10px] font-semibold drop-shadow-sm text-emerald-400">
-                            {{ offer.margin|default:"10" }}% off
+                        <span class="text-[10px] font-semibold drop-shadow-sm {% if offer.margin < 0 %}text-amber-300{% else %}text-emerald-400{% endif %}">
+                            {% if offer.margin < 0 %}{{ offer.margin|floatformat:-2 }}% markup{% else %}{{ offer.margin|default:"10" }}% off{% endif %}
                         </span>
                     </div>
                 </div>

@@ -569,11 +569,12 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 16cqw;
-  height: 16cqw;
-  padding: 2cqw;
+  width: 22cqw;
+  height: 22cqw;
+  padding: 3.2cqw;
   background: rgba(255, 255, 255, 0.96);
-  border-radius: 3.2cqw;
+  border-radius: 4cqw;
+  overflow: hidden;
   box-shadow:
     0 2px 10px rgba(15, 21, 51, 0.14),
     inset 0 0 0 1px rgba(255, 255, 255, 0.8);
@@ -586,6 +587,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   max-height: 100%;
   object-fit: contain;
   object-position: center;
+  border-radius: 2.2cqw;
 }
 .gc-theme {
   font-stretch: 118%;
@@ -605,8 +607,10 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 }
 
 @container (max-width: 150px) { .gc .gc-mark:not(.gc-mark-fallback) { display: none; } }
-@container (max-width: 150px) { .gc .gc-mark-badge { width: 13cqw; height: 13cqw; border-radius: 2.6cqw; padding: 1.6cqw; } }
-@container (min-width: 280px) { .gc .gc-mark-badge { width: 18cqw; height: 18cqw; border-radius: 3.6cqw; padding: 2.2cqw; } }
+@container (max-width: 150px) { .gc .gc-mark-badge { width: 17cqw; height: 17cqw; border-radius: 3.4cqw; padding: 2.5cqw; } }
+@container (min-width: 280px) { .gc .gc-mark-badge { width: 26cqw; height: 26cqw; border-radius: 4.6cqw; padding: 3.6cqw; } }
+@container (max-width: 150px) { .gc .gc-mark-logo { border-radius: 1.6cqw; } }
+@container (min-width: 280px) { .gc .gc-mark-logo { border-radius: 2.6cqw; } }
 @container (max-width: 110px) { .gc .gc-kind { display: none; } }
 
 /* Patterns */
@@ -1015,10 +1019,10 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .gc .gc-mark.gc-mark-sp {
   display: grid;
   place-items: center;
-  width: 10cqw;
-  height: 10cqw;
-  padding: 1.3cqw;
-  border-radius: 2.2cqw;
+  width: 22cqw;
+  height: 22cqw;
+  padding: 1.7cqw;
+  border-radius: 4cqw;
   background: #fff;
   opacity: 1;
   box-shadow: 0 1px 3px rgba(0, 0, 0, .18);
@@ -1030,9 +1034,13 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   width: 100%;
   height: 100%;
   object-fit: contain;
+  border-radius: 2.2cqw;
 }
 @container (max-width: 150px) {
   .gc .gc-mark.gc-mark-sp { display: none; }
+}
+@container (min-width: 280px) {
+  .gc .gc-mark.gc-mark-sp { width: 26cqw; height: 26cqw; border-radius: 4.6cqw; padding: 1.9cqw; }
 }
 
 /* 4 Promises Row */
@@ -1194,6 +1202,41 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .bt-meta .ic { width: 15px; height: 15px; }
 .bt-meta span { display: inline-flex; align-items: center; gap: 4px; }
 .bt .na { font-size: 13.5px; color: var(--red); font-weight: 620; }
+
+/* Listing tiles: larger corner badge + logo (Popular / explore grid) */
+.bt .gc-bot .gc-mark-badge,
+.bt .gc-bot .gc-mark.gc-mark-sp {
+  width: 26cqw;
+  height: 26cqw;
+  padding: 3.4cqw;
+  border-radius: 4.6cqw;
+}
+@container (max-width: 150px) {
+  .bt .gc .gc-mark-badge,
+  .bt .gc .gc-mark.gc-mark-sp {
+    width: 20cqw;
+    height: 20cqw;
+    padding: 2.6cqw;
+    border-radius: 4cqw;
+  }
+}
+@container (min-width: 280px) {
+  .bt .gc .gc-mark-badge,
+  .bt .gc .gc-mark.gc-mark-sp {
+    width: 30cqw;
+    height: 30cqw;
+    padding: 4cqw;
+    border-radius: 5.2cqw;
+  }
+}
+@container (max-width: 150px) {
+  .bt .gc .gc-mark-logo,
+  .bt .gc .gc-mark.gc-mark-sp img { border-radius: 1.6cqw; }
+}
+@container (min-width: 280px) {
+  .bt .gc .gc-mark-logo,
+  .bt .gc .gc-mark.gc-mark-sp img { border-radius: 2.8cqw; }
+}
 
 /* Treats Under ₹300 */
 .treats { display: grid; gap: 12px; }

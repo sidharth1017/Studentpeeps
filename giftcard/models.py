@@ -277,7 +277,7 @@ class ProductOverride(models.Model):
         decimal_places=6,
         null=True,
         blank=True,
-        help_text="Margin percentage or absolute (platform-defined)"
+        help_text="UPI margin as percent off face value (e.g. 16.5 = 16.5% off, -1 = 1% surcharge)"
     )
 
     brand_name = models.CharField(
