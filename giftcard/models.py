@@ -226,6 +226,16 @@ class ProviderProduct(models.Model):
     def __str__(self):
         return f"{self.name} ({self.sku})"
 
+    @property
+    def tile_brand_logo_url(self):
+        try:
+            override = self.override
+        except ProductOverride.DoesNotExist:
+            return None
+        if override.brand_logo:
+            return override.brand_logo.url
+        return None
+
 
 class ProductOverride(models.Model):
     """
@@ -282,9 +292,28 @@ class ProductOverride(models.Model):
         blank=True
     )
 
-    brand_logo = models.URLField(
+    brand_logo = models.ImageField(
+        upload_to="giftcard/brand_logos/",
         null=True,
-        blank=True
+        blank=True,
+    )
+
+    logo_domain = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="Optional Logo.dev domain override (e.g. zee5.com)",
+    )
+
+    logo_dev_etag = models.CharField(
+        max_length=64,
+        null=True,
+        blank=True,
+    )
+
+    logo_fetched_at = models.DateTimeField(
+        null=True,
+        blank=True,
     )
 
     thumbnail = models.URLField(

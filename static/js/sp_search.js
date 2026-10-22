@@ -16,15 +16,38 @@
       .then(function (d) { cache[key] = d; return d; });
   }
 
+  function gcMarkHtml() {
+    var url = cfg.markUrl;
+    if (url) {
+      return '<span class="gc-mark gc-mark-sp" aria-hidden="true"><img src="' + esc(url) + '" alt=""></span>';
+    }
+    return '<span class="gc-mark" aria-hidden="true">studentpeeps</span>';
+  }
+
   function brandItem(b) {
     var range = b.min && b.max ? '₹' + b.min.toLocaleString('en-IN') + ' – ₹' + b.max.toLocaleString('en-IN') : '';
-    var thumb = b.image
-      ? '<img src="' + esc(b.image) + '" alt="" loading="lazy">'
-      : '<span>' + esc((b.name || '?').charAt(0)) + '</span>';
+    var pat = esc(b.pattern || 'p-dots');
+    var pal0 = esc(b.pal_0 || '#2442E6');
+    var pal1 = esc(b.pal_1 || '#6440E0');
+    var bcls = esc(b.brand_size_cls || '');
+    var tile =
+      '<div class="gc ' + pat + ' sg-mini" style="--a:' + pal0 + ';--b:' + pal1 + '" aria-hidden="true">' +
+      '<div class="gc-in sg-mini-in">' +
+      '<div class="gc-top"><div>' +
+      '<div class="gc-brand ' + bcls + '">' + esc(b.name) + '</div>' +
+      '<div class="gc-kind">Gift card</div></div></div>' +
+      '<div class="gc-bot"><span></span>' + gcMarkHtml() + '</div>' +
+      '</div></div>';
+    var right = '';
+    if (b.discount_pct > 0) {
+      right = '<span class="r"><span class="off">' + esc(b.discount_label || '') + ' off</span></span>';
+    } else if (range) {
+      right = '<span class="r sg-p">' + range + '</span>';
+    }
     return '<a class="sg-i" href="/giftcard/' + encodeURIComponent(b.sku) + '/">' +
-      '<span class="mini">' + thumb + '</span>' +
+      '<span class="mini">' + tile + '</span>' +
       '<span class="sg-t">' + esc(b.name) + '<small>' + esc(b.category) + '</small></span>' +
-      (range ? '<span class="r sg-p">' + range + '</span>' : '') + '</a>';
+      right + '</a>';
   }
 
   function render(q, d) {

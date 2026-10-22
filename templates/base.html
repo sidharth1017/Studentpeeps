@@ -48,7 +48,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Anek+Latin:wdth,wght@75..125,300..800&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
 
   <!-- Core Prototype Design System -->
-  <link rel="stylesheet" href="{% static 'css/sp_design.css' %}?v=20261015h" />
+  <link rel="stylesheet" href="{% static 'css/sp_design.css' %}?v=20261022c" />
   <script>
     /* Apply the saved theme before first paint. Default is Light; "system" follows the OS. */
     (function () {
@@ -168,8 +168,8 @@
   <!-- TOP STRIP -->
   <div class="strip">
     <div class="wrap">
-      <span>Pay with UPI for the best price on every card.</span>
-      <a href="{% url 'giftcard:explore' %}">Browse cards</a>
+      <span>{{ promo_strip_text|default:"Pay with UPI for the best price on every card." }}</span>
+      <a href="{{ promo_strip_href|default:'/giftcard/explore/' }}">{{ promo_strip_link|default:"Browse cards" }}</a>
     </div>
   </div>
 
@@ -178,7 +178,7 @@
     <div class="wrap hdr-row">
       <!-- Logo -->
       <a class="logo" href="/" aria-label="StudentPeeps home">
-        <span class="logo-mark"><img src="{% static 'images/sp_mark.png' %}" alt=""></span>
+        <span class="logo-mark"><img class="logo-img" src="{% static 'images/sp_mark.png' %}" alt="" width="35" height="36"></span>
         <span class="logo-word">StudentPeeps</span>
         <span class="logo-sub md-up">Gift cards</span>
       </a>
@@ -201,6 +201,10 @@
         <!-- Explore link -->
         <a class="icon-btn md-up" href="{% url 'giftcard:explore' %}" title="Explore gift cards" aria-label="Explore gift cards">
           <svg class="ic ic-l" aria-hidden="true"><use href="#i-grid"/></svg>
+        </a>
+
+        <a class="icon-btn md-up" href="/account/v2/myaccount/" title="Your wallet" aria-label="Your wallet">
+          <svg class="ic ic-l" aria-hidden="true"><use href="#i-wallet"/></svg>
         </a>
 
         <!-- Cart button with badge -->
@@ -250,15 +254,12 @@
 
     <!-- Category Subnav -->
     <nav class="subnav wrap" aria-label="Top categories">
-      <a href="{% url 'giftcard:explore' %}?category=food-beverages">Food & Dining</a>
-      <a href="{% url 'giftcard:explore' %}?category=fashion-lifestyle">Fashion</a>
-      <a href="{% url 'giftcard:explore' %}?category=entertainment">Entertainment</a>
-      <a href="{% url 'giftcard:explore' %}?category=e-commerce">E-Commerce</a>
-      <a href="{% url 'giftcard:explore' %}?category=electronics-appliances">Electronics</a>
-      <a href="{% url 'giftcard:explore' %}?category=grocery">Grocery</a>
+      {% for cat in subnav_categories %}
+      <a href="{% url 'giftcard:explore' %}?category={{ cat.category_id|urlencode }}">{{ cat.name }}</a>
+      {% endfor %}
       <a href="{% url 'giftcard:explore' %}">All brands</a>
-      <a class="sp" href="{% url 'giftcard:explore' %}?category=entertainment">Trending</a>
-      <a href="/ourstory/">Our story</a>
+      <a class="sp" href="{% url 'giftcard:explore' %}?category=entertainment">Diwali gifts</a>
+      <a href="mailto:ayush@studentpeeps.club?subject=Bulk%20order">Bulk orders</a>
     </nav>
   </header>
 
@@ -273,7 +274,7 @@
       <div class="ftr-grid">
         <div class="ftr-brand">
           <a class="logo" href="/">
-            <span class="logo-mark"><img src="{% static 'images/sp_mark.png' %}" alt=""></span>
+            <span class="logo-mark"><img class="logo-img" src="{% static 'images/sp_mark.png' %}" alt="" width="35" height="36"></span>
             <span class="logo-word">StudentPeeps</span>
           </a>
           <p>Gift cards for 300+ brands, for less than they’re worth. Part of StudentPeeps, the student discount club.</p>
@@ -289,9 +290,10 @@
           <h4>Shop</h4>
           <ul>
             <li><a href="{% url 'giftcard:explore' %}">All gift cards</a></li>
-            <li><a href="{% url 'giftcard:explore' %}?sort=price-low">Best prices</a></li>
-            <li><a href="{% url 'giftcard:explore' %}?price_range=under-250">Under ₹250</a></li>
-            <li><a href="{% url 'giftcard:explore' %}?category=food-beverages">Food & Dining</a></li>
+            <li><a href="{% url 'giftcard:explore' %}?sort=price-low">Biggest discounts</a></li>
+            <li><a href="{% url 'giftcard:explore' %}?category=entertainment">Diwali gifts</a></li>
+            <li><a href="{% url 'giftcard:explore' %}?price_range=under-250">Under ₹500</a></li>
+            <li><a href="{% url 'giftcard:explore' %}?category=food-beverages">Food & Beverages</a></li>
             <li><a href="{% url 'giftcard:explore' %}?category=entertainment">Entertainment</a></li>
           </ul>
         </div>
@@ -299,7 +301,7 @@
           <h4>Categories</h4>
           <ul>
             <li><a href="{% url 'giftcard:explore' %}?category=fashion-lifestyle">Fashion & Lifestyle</a></li>
-            <li><a href="{% url 'giftcard:explore' %}?category=electronics-appliances">Electronics</a></li>
+            <li><a href="{% url 'giftcard:explore' %}?category=electronics-appliances">Electronics & Appliances</a></li>
             <li><a href="{% url 'giftcard:explore' %}?category=grocery">Grocery</a></li>
             <li><a href="{% url 'giftcard:explore' %}?category=travel">Travel</a></li>
             <li><a href="{% url 'giftcard:explore' %}?category=jewellery">Jewellery</a></li>
@@ -410,9 +412,13 @@
     }
   </script>
   <script>
-    window.SP_SEARCH = { suggestUrl: "{% url 'giftcard:search_suggest' %}", exploreUrl: "{% url 'giftcard:explore' %}" };
+    window.SP_SEARCH = {
+      suggestUrl: "{% url 'giftcard:search_suggest' %}",
+      exploreUrl: "{% url 'giftcard:explore' %}",
+      markUrl: "{% static 'images/sp_mark.png' %}"
+    };
   </script>
-  <script src="{% static 'js/sp_search.js' %}?v=1" defer></script>
+  <script src="{% static 'js/sp_search.js' %}?v=2" defer></script>
   <script>
     /* Theme switch: Auto follows the OS, Light/Dark are remembered in this browser */
     (function () {

@@ -1,9 +1,12 @@
 import json
+import time
 import urllib.request
 import urllib.error
 from django.conf import settings
 from django.core.mail.backends.base import BaseEmailBackend
 from django.core.mail.message import EmailMultiAlternatives
+
+from utilities.logging import log_outbound_http, log_integration_event
 
 class ZeptoMailAPIBackend(BaseEmailBackend):
     def __init__(self, fail_silently=False, **kwargs):
@@ -84,12 +87,49 @@ class ZeptoMailAPIBackend(BaseEmailBackend):
         data = json.dumps(payload).encode("utf-8")
         req = urllib.request.Request(self.api_url, data=data, headers=headers, method="POST")
 
+        start = time.time()
         try:
             with urllib.request.urlopen(req, timeout=10) as response:
-                if response.status in (200, 201):
+                duration_ms = int((time.time() - start) * 1000)
+                ok = response.status in (200, 201)
+                log_outbound_http(
+                    method="POST",
+                    url=self.api_url,
+                    status_code=response.status,
+                    duration_ms=duration_ms,
+                    request_headers=headers,
+                    request_body={"subject": message.subject, "to_count": len(message.to)},
+                    response_body={"ok": ok},
+                    integration="zeptomail",
+                )
+                log_integration_event(
+                    integration="zeptomail",
+                    action="send_email",
+                    success=ok,
+                    detail={"subject": message.subject, "to_count": len(message.to)},
+                )
+                if ok:
                     return True
         except urllib.error.URLError as e:
+            duration_ms = int((time.time() - start) * 1000)
+            log_outbound_http(
+                method="POST",
+                url=self.api_url,
+                status_code=None,
+                duration_ms=duration_ms,
+                request_headers=headers,
+                request_body={"subject": message.subject, "to_count": len(message.to)},
+                integration="zeptomail",
+                error=str(e),
+            )
+            log_integration_event(
+                integration="zeptomail",
+                action="send_email",
+                success=False,
+                detail={"subject": message.subject},
+                error=str(e),
+            )
             if not self.fail_silently:
                 raise e
-        
+
         return False

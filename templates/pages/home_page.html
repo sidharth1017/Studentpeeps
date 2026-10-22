@@ -9,8 +9,8 @@
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <h1 class="h-xl">Gift cards that cost less than they’re worth.</h1>
-        <p class="lede">PVR INOX, Domino’s, Levi’s and 300+ more gift cards at up to 16.5% off. Pay with UPI for the best price, and get the code on WhatsApp in seconds.</p>
+        <h1 class="h-xl">India’s trusted marketplace for gift&nbsp;cards <span class="h-emoji" aria-hidden="true">🎁</span></h1>
+        <p class="lede">Movies, food, fashion and 300+ more brands at up to {{ max_discount_pct|floatformat:-2 }}% off. Receive your codes instantly, ready to use.</p>
         
         <!-- Big Search Bar -->
         <div class="bigsearch">
@@ -24,41 +24,52 @@
         <div class="popchips">
           <span>Popular</span>
           <a class="chip" href="/giftcard/EGVGBPVRC001/">PVR INOX</a>
+          <a class="chip" href="/giftcard/EGCGBCINE001/">Cinepolis</a>
           <a class="chip" href="/giftcard/EGCGBDEGCS001/">Domino’s</a>
-          <a class="chip" href="/giftcard/EGCGBMYNC001/">Myntra</a>
-          <a class="chip" href="/giftcard/EGVGBSTB001/">Starbucks</a>
-          <a class="chip" href="/giftcard/EGCGBUBER001/">Uber</a>
+          <a class="chip" href="/giftcard/EGCGBSCLPL002/">Lenskart</a>
+          <a class="chip" href="/giftcard/EGCGBWS002/">Westside</a>
         </div>
       </div>
 
-      <!-- Live Savings Calculator Card -->
-      <div class="est" id="savingsEst">
-        <h2>What would you save?</h2>
-        <div class="brands" role="group" aria-label="Pick a brand you use">
-          {% for b in calculator_brands %}
-          <button type="button" class="chip {% if forloop.first %}active{% endif %}" 
-                  data-calc-id="{{ b.id }}" 
-                  data-calc-name="{{ b.name }}" 
-                  data-calc-discount="{{ b.discount }}" 
-                  data-calc-sku="{{ b.sku }}"
-                  aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
-            {{ b.name }}
-          </button>
+      <!-- Student favourites (prototype hero panel) -->
+      <div class="est picks">
+        <h2>Student favourites</h2>
+        <p class="hint" style="margin-top:4px">Where students spend the most, priced for UPI.</p>
+        <ul class="pk">
+          {% for pick in hero_picks %}
+          <li>
+            <a href="/giftcard/{{ pick.sku }}/">
+              <div class="gc pk-thumb {{ pick.pattern_cls }}" style="--a:{{ pick.pal_0 }};--b:{{ pick.pal_1 }}" aria-hidden="true">
+                <div class="gc-in pk-thumb-in">
+                  <div class="gc-top">
+                    <div>
+                      <div class="gc-brand {{ pick.brand_size_cls }}">{{ pick.name }}</div>
+                      <div class="gc-kind">Gift card</div>
+                    </div>
+                  </div>
+                  <div class="gc-bot">
+                    <span></span>
+                    {% include "components/gc_corner_mark.html" %}
+                  </div>
+                </div>
+              </div>
+              <span class="pk-t">
+                <b>{{ pick.name }}</b>
+                <span>{{ pick.why }}</span>
+              </span>
+              <span class="pk-p">
+                {% if pick.discount > 0 %}
+                <span class="off">{{ pick.discount_display }} off</span>
+                {% else %}
+                <span class="pill a">No discount</span>
+                {% endif %}
+                <small>{{ pick.sample_amt_str }} for <b>{{ pick.pay_str }}</b> on UPI</small>
+              </span>
+            </a>
+          </li>
           {% endfor %}
-        </div>
-
-        <label class="spend" for="estRange">
-          <span id="spendLabel">You spend on PVR INOX</span>
-          <b class="num" id="spendValueDisplay">₹3,000 a month</b>
-        </label>
-        <input class="range" id="estRange" type="range" min="500" max="10000" step="250" value="3000" aria-label="Monthly spend">
-
-        <div class="out" id="estOutput" aria-live="polite">
-          <div class="big num"><span class="hl" id="annualSavingDisplay">₹4,410</span><small>a year</small></div>
-          <p class="how" id="calcDescription">Buy ₹3,000 of PVR INOX gift cards a month and pay with UPI at 12.25% off, then spend them as usual.</p>
-        </div>
-
-        <a class="btn btn-p btn-blk" id="calcCtaBtn" href="/giftcard/EGVGBPVRC001/">Get a PVR INOX card</a>
+        </ul>
+        <a class="btn btn-p btn-blk" href="{% url 'giftcard:explore' %}?sort=price-low">See all deals</a>
       </div>
     </div>
 
@@ -74,8 +85,8 @@
       <div class="promise">
         <svg class="ic" aria-hidden="true"><use href="#i-bolt"/></svg>
         <div>
-          <b>Usually under a minute</b>
-          <span>Delivered on WhatsApp and email</span>
+          <b>Instant delivery</b>
+          <span>Codes ready to use the moment you pay</span>
         </div>
       </div>
       <div class="promise">
@@ -86,10 +97,10 @@
         </div>
       </div>
       <div class="promise">
-        <svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg>
+        <svg class="ic" aria-hidden="true"><use href="#i-help"/></svg>
         <div>
-          <b>Code didn’t work? Full refund</b>
-          <span>Tell us within 7 days</span>
+          <b>24/7 support</b>
+          <span>Help with any query, any time</span>
         </div>
       </div>
     </div>
@@ -121,8 +132,8 @@
   <div class="wrap">
     <div class="sec-h">
       <div>
-        <h2>Popular with students this week</h2>
-        <p>What students bought most in the last 7 days.</p>
+        <h2>Popular this week</h2>
+        <p>What people bought most in the last 7 days.</p>
       </div>
       <a class="btn-q md-up" href="{% url 'giftcard:explore' %}">See all</a>
     </div>
@@ -138,8 +149,8 @@
               </div>
             </div>
             <div class="gc-bot">
-              <span class="off">Up to {{ card.discount_display }} off</span>
-              <span class="gc-mark">studentpeeps</span>
+              <span class="off">{{ card.discount_display }} off on UPI</span>
+              {% include "components/gc_corner_mark.html" with brand_logo_url=card.tile_brand_logo_url %}
             </div>
           </div>
         </div>
@@ -177,7 +188,8 @@
               <div class="gc-brand" style="font-size: 13cqw;">{{ treat.display_brand }}</div>
             </div>
             <div class="gc-bot">
-              <span class="gc-mark" style="font-size: 6cqw;">sp</span>
+              <span></span>
+              {% include "components/gc_corner_mark.html" %}
             </div>
           </div>
         </div>
@@ -235,7 +247,7 @@
     <div class="split">
       <div>
         <h2 style="font-size:clamp(26px,4vw,34px)">Gifting that doesn’t feel like a payment</h2>
-        <p class="lede" style="margin-top:10px">Pick a card, write a note, and we deliver it on WhatsApp with your note in handwriting.</p>
+        <p class="lede" style="margin-top:10px">Pick a card, write a note, and we deliver it instantly, with your note in handwriting.</p>
         
         <ol class="steps3">
           <li>
@@ -264,7 +276,7 @@
       <!-- WhatsApp Preview -->
       <div class="chatprev" aria-label="Example of the WhatsApp message your friend receives">
         <div class="cp-h">
-          <span class="avatar">sp</span>
+          <span class="avatar logo-av"><img src="{% static 'images/sp_mark.png' %}" alt=""></span>
           <div>
             <b>StudentPeeps</b>
             <span>Business account</span>
@@ -299,8 +311,8 @@
     <div class="split">
       <div>
         <h2 style="font-size:clamp(26px,4vw,34px)">Every card, one wallet</h2>
-        <p class="lede" style="margin-top:10px">Balances update as you spend. We remind you 30 and 7 days before a card expires, and a week before the birthdays you save.</p>
-        <a class="btn btn-s" href="/account/v2/myaccount/" style="margin-top:20px">View your account</a>
+        <p class="lede" style="margin-top:10px">Every card you buy stays here, with its balance updated as you spend.</p>
+        <a class="btn btn-s" href="/account/v2/myaccount/" style="margin-top:20px">Open your wallet</a>
       </div>
 
       <div class="wpromo">
@@ -477,7 +489,7 @@
       <div>
         <h2 style="font-size:clamp(26px,4vw,36px)">It started with one idea and a waitlist.</h2>
         <p class="lede" style="margin-top:12px">In February 2021, an idea clicked for Ayush: students were missing out on discounts brands would happily give them. We registered a domain, taught ourselves to code and put up a landing page to collect a waitlist.</p>
-        <p class="lede" style="margin-top:10px">Brands ignored our emails until one said yes. Then came Rapido, a community that grew from 50 students to 500, and a platform that now helps lakhs of students pay less.</p>
+        <p class="lede" style="margin-top:10px">Brands ignored our emails until one said yes. Then came Rapido, a community that grew from 50 students to 500, and a site that now helps lakhs of students pay less.</p>
 
         <div class="stats">
           <div><b>2.5 lakh+</b><span>students on StudentPeeps</span></div>
@@ -566,71 +578,4 @@
     </div>
   </div>
 </section>
-
-<!-- CLIENT-SIDE SCRIPT FOR SAVINGS CALCULATOR -->
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  const brandsData = {
-    {% for b in calculator_brands %}
-    "{{ b.id }}": {
-      name: "{{ b.name|escapejs }}",
-      discount: {{ b.discount }},
-      sku: "{{ b.sku }}"
-    }{% if not forloop.last %},{% endif %}
-    {% endfor %}
-  };
-
-  let activeBrandId = "{{ calculator_brands.0.id }}";
-  let currentSpend = 3000;
-
-  const spendLabel = document.getElementById("spendLabel");
-  const spendValueDisplay = document.getElementById("spendValueDisplay");
-  const estRange = document.getElementById("estRange");
-  const annualSavingDisplay = document.getElementById("annualSavingDisplay");
-  const calcDescription = document.getElementById("calcDescription");
-  const calcCtaBtn = document.getElementById("calcCtaBtn");
-
-  function updateCalculator() {
-    const brand = brandsData[activeBrandId] || brandsData["pvr"];
-    spendValueDisplay.textContent = "₹" + currentSpend.toLocaleString("en-IN") + " a month";
-    spendLabel.textContent = "You spend on " + brand.name;
-
-    const annualSpend = currentSpend * 12;
-    const annualSaving = Math.round(annualSpend * (brand.discount / 100));
-    
-    annualSavingDisplay.textContent = "₹" + annualSaving.toLocaleString("en-IN");
-    calcDescription.textContent = "Buy ₹" + currentSpend.toLocaleString("en-IN") + " of " + brand.name + " gift cards a month and pay with UPI at " + brand.discount + "% off, then spend them as usual.";
-    
-    if (calcCtaBtn) {
-      calcCtaBtn.textContent = "Get a " + brand.name + " card";
-      calcCtaBtn.href = "/giftcard/" + brand.sku + "/";
-    }
-  }
-
-  // Handle brand chip clicks
-  const chips = document.querySelectorAll("#savingsEst .brands button[data-calc-id]");
-  chips.forEach(btn => {
-    btn.addEventListener("click", function() {
-      chips.forEach(c => {
-        c.classList.remove("active");
-        c.setAttribute("aria-pressed", "false");
-      });
-      btn.classList.add("active");
-      btn.setAttribute("aria-pressed", "true");
-      activeBrandId = btn.getAttribute("data-calc-id");
-      updateCalculator();
-    });
-  });
-
-  // Handle range slider changes
-  if (estRange) {
-    estRange.addEventListener("input", function() {
-      currentSpend = parseInt(this.value, 10) || 3000;
-      updateCalculator();
-    });
-  }
-
-  updateCalculator();
-});
-</script>
 {% endblock %}

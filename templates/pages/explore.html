@@ -35,7 +35,7 @@
   <div class="ex-head">
     <div>
       <h1>{% if search_query %}Results for “{{ search_query }}”{% elif selected_category != 'all' %}{{ selected_category|title }}{% else %}All gift cards{% endif %}</h1>
-      <p id="exCount">{{ total_count }} brands available</p>
+      <p id="exCount">{{ total_count }} brand{{ total_count|pluralize }}</p>
     </div>
     
     <!-- Sort select for desktop -->
@@ -142,10 +142,10 @@
         {% if not products %}
         <div class="empty" style="text-align: center; padding: 48px 20px;">
           <svg class="ic" style="width: 48px; height: 48px; color: var(--ink-3); margin: 0 auto 12px;"><use href="#i-search"/></svg>
-          <h3>No gift cards found</h3>
-          <p style="color: var(--ink-2); margin-top: 6px;">Try adjusting your search terms or clearing some filters.</p>
+          <h3>No cards match all of these</h3>
+          <p style="color: var(--ink-2); margin-top: 6px;">Loosening one filter usually fixes it. Try clearing your search or removing a category.</p>
           <div style="margin-top: 18px;">
-            <a href="{{ clear_all_url }}" class="btn btn-p">Reset filters</a>
+            <a href="{{ clear_all_url }}" class="btn btn-p">Clear all filters</a>
           </div>
         </div>
         {% else %}
@@ -165,7 +165,7 @@
                 </div>
                 <div class="gc-bot">
                   <span class="off">Up to 5% off</span>
-                  <span class="gc-mark">studentpeeps</span>
+                  {% include "components/gc_corner_mark.html" with brand_logo_url=product.tile_brand_logo_url %}
                 </div>
               </div>
             </div>

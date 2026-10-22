@@ -1,4 +1,6 @@
 from django.urls import path
+
+from giftcard.admin_fetch_logos import AdminFetchBrandLogosView
 from . import views
 
 app_name = 'giftcard'
@@ -27,6 +29,8 @@ urlpatterns = [
 
     # Explore page
     path('explore/',          views.ExploreView.as_view(),        name='explore'),
+
+    path('admin/fetch-logos/', AdminFetchBrandLogosView.as_view(), name='admin_fetch_logos'),
 
     # Product page (must be last to avoid consuming other patterns)
     path('<slug:sku>/',       views.GiftcardPageView.as_view(),    name='giftcard_page'),

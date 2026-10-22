@@ -31,6 +31,20 @@ class WoohooTokenManager:
             duration_ms=duration
         )
 
+        from utilities.logging import log_provider_api_call
+
+        log_provider_api_call(
+            provider_id=self.provider.id,
+            method=method,
+            url=url,
+            request_headers={"Content-Type": "application/json"},
+            request_body=body,
+            response_status=status,
+            response_body=response,
+            signature="",
+            duration_ms=duration,
+        )
+
     def _make_auth_request(self, endpoint, payload):
         import json
         from django.utils import timezone

@@ -112,3 +112,17 @@ class WoohooApiClient:
             signature=signature,
             duration_ms=duration
         )
+
+        from utilities.logging import log_provider_api_call
+
+        log_provider_api_call(
+            provider_id=self.provider.id,
+            method=method,
+            url=url,
+            request_headers=headers,
+            request_body=body,
+            response_status=status,
+            response_body=response,
+            signature=signature,
+            duration_ms=duration,
+        )

@@ -257,21 +257,23 @@ class Home(View):
         # 2. Brand Design Metadata (Palette, Pattern, Discount, Use)
         # -------------------------------------------------------------
         BRAND_CONFIG = {
-            'EGVGBPVRC001': {'display': 'PVR INOX', 'discount': 12.25, 'pal': ('#2442E6', '#6440E0'), 'pt': 'p-rings', 'use': 'Online & in-store', 'use_icon': 'i-store'},
+            'EGVGBPVRC001': {'display': 'PVR INOX', 'discount': 12.0, 'pal': ('#2442E6', '#6440E0'), 'pt': 'p-rings', 'use': 'Online & in-store', 'use_icon': 'i-store'},
             'EGCGBDEGCS001': {'display': "Domino's", 'discount': 4.5, 'pal': ('#FF9F1C', '#F2542D'), 'pt': 'p-stars', 'use': 'Online & in-store', 'use_icon': 'i-store'},
-            'EGCGBMYNC001': {'display': 'Myntra', 'discount': 1.0, 'pal': ('#7C3FD6', '#30177D'), 'pt': 'p-waves', 'use': 'Online', 'use_icon': 'i-globe'},
+            'EGCGBMYNC001': {'display': 'Myntra', 'discount': 0.75, 'pal': ('#7C3FD6', '#30177D'), 'pt': 'p-waves', 'use': 'Online', 'use_icon': 'i-globe'},
             'EGVGBSTB001': {'display': 'Starbucks', 'discount': 3.75, 'pal': ('#FF9F1C', '#F2542D'), 'pt': 'p-grid', 'use': 'Online & in-store', 'use_icon': 'i-store'},
             'EGCGBUBER001': {'display': 'Uber', 'discount': 1.5, 'pal': ('#2FA8FF', '#2350DB'), 'pt': 'p-lines', 'use': 'Online', 'use_icon': 'i-globe'},
             'EGCGBCROM001': {'display': 'Croma', 'discount': 0.5, 'pal': ('#2442E6', '#6440E0'), 'pt': 'p-grid', 'use': 'Online & in-store', 'use_icon': 'i-store'},
             'EGCGBLVSS001': {'display': "Levi's", 'discount': 5.25, 'pal': ('#C2337A', '#541750'), 'pt': 'p-stars', 'use': 'Online & in-store', 'use_icon': 'i-store'},
-            'EGCGBSCLPL002': {'display': 'Lenskart', 'discount': 5.5, 'pal': ('#7C3FD6', '#30177D'), 'pt': 'p-rings', 'use': 'Online & in-store', 'use_icon': 'i-store'},
+            'EGCGBSCLPL002': {'display': 'Lenskart', 'discount': 5.25, 'pal': ('#7C3FD6', '#30177D'), 'pt': 'p-rings', 'use': 'Online & in-store', 'use_icon': 'i-store'},
             'EGCGBCINE001': {'display': 'Cinepolis', 'discount': 16.5, 'pal': ('#7C3FD6', '#30177D'), 'pt': 'p-grid', 'use': 'Online & in-store', 'use_icon': 'i-store'},
             'EGCGBDCN003': {'display': 'Decathlon', 'discount': 2.0, 'pal': ('#3A4160', '#14172F'), 'pt': 'p-rings', 'use': 'Online & in-store', 'use_icon': 'i-store'},
             'EGCGBCCD001': {'display': 'Cafe Coffee Day', 'discount': 6.75, 'pal': ('#E3A866', '#B4602F'), 'pt': 'p-stars', 'use': 'In-store', 'use_icon': 'i-store'},
             'EGVGBKFC001': {'display': 'KFC', 'discount': 2.75, 'pal': ('#E3A866', '#B4602F'), 'pt': 'p-grid', 'use': 'Online & in-store', 'use_icon': 'i-store'},
             'EGCGBPZH001': {'display': 'Pizza Hut', 'discount': 4.5, 'pal': ('#E3A866', '#B4602F'), 'pt': 'p-grid', 'use': 'Online & in-store', 'use_icon': 'i-store'},
             'EGCGBSUBW001': {'display': 'Subway', 'discount': 5.5, 'pal': ('#FF9F1C', '#F2542D'), 'pt': 'p-rings', 'use': 'In-store', 'use_icon': 'i-store'},
-            'EGCGBWS002': {'display': 'Westside', 'discount': 5.5, 'pal': ('#7C3FD6', '#30177D'), 'pt': 'p-rings', 'use': 'Online & in-store', 'use_icon': 'i-store'},
+            'EGCGBWS002': {'display': 'Westside', 'discount': 5.25, 'pal': ('#7C3FD6', '#30177D'), 'pt': 'p-waves', 'use': 'Online & in-store', 'use_icon': 'i-store'},
+            'EGCGBAJIORRL001': {'display': 'AJIO', 'discount': 3.25, 'pal': ('#7C3FD6', '#30177D'), 'pt': 'p-waves', 'use': 'Online', 'use_icon': 'i-globe'},
+            'EGCGBGRDM001': {'display': 'Giva Silver Coin', 'discount': 0.75, 'pal': ('#0A7368', '#17BF91'), 'pt': 'p-grid', 'use': 'Online', 'use_icon': 'i-globe'},
             'EGCGBZOMA001': {'display': 'Zomato', 'discount': 2.5, 'pal': ('#FF7457', '#C9302B'), 'pt': 'p-rings', 'use': 'Online', 'use_icon': 'i-globe'},
             'EGCGBBLINK002': {'display': 'Blinkit', 'discount': 2.5, 'pal': ('#17BF91', '#0A7368'), 'pt': 'p-lines', 'use': 'Online', 'use_icon': 'i-globe'},
             'EGCGBBBS001': {'display': 'Bigbasket', 'discount': 1.0, 'pal': ('#7FC93A', '#1F8F57'), 'pt': 'p-zig', 'use': 'Online', 'use_icon': 'i-globe'},
@@ -317,6 +319,7 @@ class Home(View):
                 'name': prod.name,
                 'display_brand': disp_brand,
                 'brand_size_cls': b_cls,
+                'tile_brand_logo_url': prod.tile_brand_logo_url,
                 'pal_0': conf.get('pal', ('#2442E6', '#6440E0'))[0],
                 'pal_1': conf.get('pal', ('#2442E6', '#6440E0'))[1],
                 'pattern_cls': conf.get('pt', 'p-dots'),
@@ -333,7 +336,7 @@ class Home(View):
         # -------------------------------------------------------------
         TREATS_SPEC = [
             {'brand_name': 'Starbucks', 'sku': 'EGVGBSTB001', 'tagline': 'A coffee before the paper', 'card_val': 250, 'discount': 3.75, 'pal': ('#FF9F1C', '#F2542D'), 'pt': 'p-grid'},
-            {'brand_name': 'Uber', 'sku': 'EGCGBUBER001', 'tagline': 'A ride home after the fest', 'card_val': 150, 'discount': 1.5, 'pal': ('#2FA8FF', '#2350DB'), 'pt': 'p-lines'},
+            {'brand_name': 'Subway', 'sku': 'EGCGBSUBW001', 'tagline': 'Lunch between lectures', 'card_val': 200, 'discount': 5.5, 'pal': ('#FF9F1C', '#F2542D'), 'pt': 'p-rings'},
             {'brand_name': "Domino's", 'sku': 'EGCGBDEGCS001', 'tagline': 'Pizza for the group project', 'card_val': 250, 'discount': 4.5, 'pal': ('#FF9F1C', '#F2542D'), 'pt': 'p-stars'},
             {'brand_name': 'KFC', 'sku': 'EGVGBKFC001', 'tagline': 'Midnight snacks, sorted', 'card_val': 200, 'discount': 2.75, 'pal': ('#E3A866', '#B4602F'), 'pt': 'p-grid'},
             {'brand_name': 'PVR INOX', 'sku': 'EGVGBPVRC001', 'tagline': 'A movie after results', 'card_val': 300, 'discount': 12.25, 'pal': ('#2442E6', '#6440E0'), 'pt': 'p-rings'},
@@ -358,19 +361,74 @@ class Home(View):
             })
 
         # -------------------------------------------------------------
-        # 5. Interactive Calculator Brands
+        # 5. Occasions Data
         # -------------------------------------------------------------
-        calculator_brands = [
-            {'id': 'pvr', 'name': 'PVR INOX', 'discount': 12.25, 'sku': 'EGVGBPVRC001'},
-            {'id': 'ccd', 'name': 'Cafe Coffee Day', 'discount': 6.75, 'sku': 'EGCGBCCD001'},
-            {'id': 'levis', 'name': "Levi's", 'discount': 5.25, 'sku': 'EGCGBLVSS001'},
-            {'id': 'dominos', 'name': "Domino's", 'discount': 4.5, 'sku': 'EGCGBDEGCS001'},
-            {'id': 'starbucks', 'name': 'Starbucks', 'discount': 3.75, 'sku': 'EGVGBSTB001'},
+        max_discount_pct = max((c.get('discount', 0) for c in BRAND_CONFIG.values()), default=0)
+        picks_spec = [
+            {'sku': 'EGVGBPVRC001', 'name': 'PVR INOX', 'why': 'Movie nights'},
+            {'sku': 'EGCGBMYNC001', 'name': 'Myntra', 'why': 'Fashion'},
+            {'sku': 'EGCGBAJIORRL001', 'name': 'AJIO', 'why': 'Fashion'},
+            {'sku': 'EGCGBWS002', 'name': 'Westside', 'why': 'Fashion'},
+            {'sku': 'EGCGBSCLPL002', 'name': 'Lenskart', 'why': 'Glasses and lenses'},
+            {'sku': 'EGCGBGRDM001', 'name': 'Giva Silver Coin', 'why': 'Silver jewellery'},
         ]
+        pick_skus = [p['sku'] for p in picks_spec]
+        pick_products = {
+            p.sku: p for p in ProviderProduct.objects.filter(sku__in=pick_skus).select_related('override')
+        }
+        hero_picks = []
+        sample_amt = 1000
 
-        # -------------------------------------------------------------
-        # 6. Occasions Data
-        # -------------------------------------------------------------
+        def _format_pick_inr(amount):
+            rounded = round(float(amount) * 100) / 100
+            if rounded == int(rounded):
+                return f"₹{int(rounded):,}"
+            return f"₹{rounded:,.2f}"
+
+        def _format_pick_disc(d):
+            d = float(d)
+            if d == int(d):
+                return f"{int(d)}%"
+            return f"{d:g}%"
+
+        def _pick_discount(prod, fallback):
+            if prod:
+                try:
+                    margin = prod.override.margin
+                    if margin is not None:
+                        m = float(margin)
+                        if 0 < m < 1:
+                            return m * 100
+                        return m
+                except Exception:
+                    pass
+            return float(fallback)
+
+        for spec in picks_spec:
+            sku = spec['sku']
+            conf = BRAND_CONFIG.get(sku, {})
+            prod = pick_products.get(sku) or popular_products_map.get(sku)
+            if not conf and not prod:
+                continue
+            pick_name = spec['name']
+            disc = _pick_discount(prod, conf.get('discount', 0))
+            pay_val = sample_amt * (1 - disc / 100)
+            L = len(pick_name)
+            b_cls = 'x3' if L > 30 else 'xxl' if L > 22 else 'xl' if L > 14 else 'long' if L > 9 else ''
+            hero_picks.append({
+                'sku': sku,
+                'name': pick_name,
+                'why': spec['why'],
+                'discount': disc,
+                'discount_display': _format_pick_disc(disc),
+                'sample_amt_str': f"₹{sample_amt:,}",
+                'pay_str': _format_pick_inr(pay_val),
+                'brand_size_cls': b_cls,
+                'pal_0': conf.get('pal', ('#2442E6', '#6440E0'))[0],
+                'pal_1': conf.get('pal', ('#2442E6', '#6440E0'))[1],
+                'pattern_cls': conf.get('pt', 'p-dots'),
+            })
+
         occasions = [
             {'key': 'diwali', 'title': 'Diwali', 'sub': 'Sun, 8 Nov', 'line': 'Lights, mithai, new clothes', 'pal': ('#3B1A8F', '#C2337A'), 'pt': 'p-diya', 'theme_title': 'Shubh Deepavali', 'category': 'festive'},
             {'key': 'bhaidooj', 'title': 'Bhai Dooj', 'sub': 'Tue, 10 Nov', 'line': 'For the sibling who has your back', 'pal': ('#FF7457', '#B32B76'), 'pt': 'p-hearts', 'theme_title': 'Happy Bhai Dooj', 'category': 'family'},
@@ -384,8 +442,9 @@ class Home(View):
             "categories": categories_data,
             "popular_cards": popular_cards,
             "treats": treats_list,
-            "calculator_brands": calculator_brands,
             "occasions": occasions,
+            "hero_picks": hero_picks,
+            "max_discount_pct": max_discount_pct,
         })
         
 class OurStory(View):

@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'accounts_v2',
     'main',
     'brands_v2',
-    'utilities',
+    'utilities.apps.UtilitiesConfig',
     'giftcard',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'utilities.middleware.request_logging.RequestLoggingMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -78,6 +79,7 @@ TEMPLATES = [
                 'brands_v2.context_processors.search_offers',
                 'brands_v2.context_processors.categories',
                 'giftcard.context_processors.cart_count',
+                'giftcard.context_processors.subnav_categories',
             ],
         },
     },
@@ -239,11 +241,24 @@ AWS_S3_ENDPOINT_URL = 'https://blr1.digitaloceanspaces.com'
 
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = 'public-read'
+AWS_S3_OBJECT_PARAMETERS = {
+    'ACL': 'public-read',
+}
 AWS_LOCATION = 'studentpeeps'
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/{AWS_LOCATION}/"
+
+# Django 4.2+ uses STORAGES; without this, uploads stay on disk while MEDIA_URL points at Spaces.
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 
 
 # ZeptoMail (secondary SMTP)
@@ -267,6 +282,10 @@ WOOHOO_PASSWORD = config("WOOHOO_PASSWORD")
 WOOHOO_TIMEOUT = 10 if DEBUG else 40
 WOOHOO_ORG_CODE = config("WOOHOO_ORG_CODE", default="STDPS")
 
+# Logo.dev (gift card brand logos)
+LOGO_DEV_SECRET_KEY = config("LOGO_DEV_SECRET_KEY", default="")
+LOGO_DEV_PUBLISHABLE_KEY = config("LOGO_DEV_PUBLISHABLE_KEY", default="")
+
 # Payment Gateway Config
 # Active gateway: one of the keys in giftcard/payments/registry.py
 # Switch between "razorpay" and "payu" here — no other change needed
@@ -280,3 +299,11 @@ RAZORPAY_KEY_SECRET = config("RAZORPAY_KEY_SECRET")
 PAYU_MERCHANT_KEY  = config("PAYU_MERCHANT_KEY")
 PAYU_MERCHANT_SALT = config("PAYU_MERCHANT_SALT")
 PAYU_USE_TEST      = True   # Set False for production
+
+# Datadog Log Management (JSON stdout + optional HTTP intake)
+DD_API_KEY = config("DD_API_KEY", default="")
+DD_SITE = config("DD_SITE", default="datadoghq.com")
+DD_SERVICE = config("DD_SERVICE", default="studentpeeps")
+DD_ENV = config("DD_ENV", default="development" if DEBUG else "production")
+DD_VERSION = config("DD_VERSION", default="")
+DD_LOGS_INTAKE_URL = f"https://http-intake.logs.{DD_SITE}/api/v2/logs"

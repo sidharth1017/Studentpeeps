@@ -40,6 +40,19 @@ class ProductResolver:
 
         return getattr(self.product, field, None)
 
+    def _brand_logo_url(self):
+        if self.override and self.override.brand_logo:
+            return self.override.brand_logo.url
+        provider_logo = getattr(self.product, "brand_logo", None)
+        if provider_logo:
+            return provider_logo
+        return None
+
+    def _tile_brand_logo_url(self):
+        if self.override and self.override.brand_logo:
+            return self.override.brand_logo.url
+        return None
+
     def resolve(self) -> dict:
         """
         Returns final merged product data.
@@ -51,7 +64,8 @@ class ProductResolver:
             "tnc_content": self._value("tnc_content"),
             "brand_name": self._value("brand_name"),
             "brand_code": self._value("brand_code"),
-            "brand_logo": self._value("brand_logo"),
+            "brand_logo": self._brand_logo_url(),
+            "tile_brand_logo": self._tile_brand_logo_url(),
             "thumbnail": self._value("thumbnail"),
 
             "min_price": self.product.min_price,

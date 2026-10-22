@@ -1,6 +1,61 @@
 from django.contrib import admin
-from .models import Provider, ProviderCategory, CategoryMapping, ProviderAuthToken, ProviderApiLog, ProviderProduct, ProductOverride, Cart, Order, PaymentTransaction
+from django.utils.html import format_html
+
+from .models import (
+    Provider,
+    ProviderCategory,
+    CategoryMapping,
+    ProviderAuthToken,
+    ProviderApiLog,
+    ProviderProduct,
+    ProductOverride,
+    Cart,
+    Order,
+    PaymentTransaction,
+)
+
 # Register your models here.
+
+
+def _brand_logo_preview(file_field):
+    if file_field:
+        return format_html(
+            '<img src="{}" alt="" style="max-height:72px;max-width:160px;object-fit:contain;" />',
+            file_field.url,
+        )
+    return "—"
+
+
+class ProductOverrideInline(admin.StackedInline):
+    model = ProductOverride
+    can_delete = False
+    extra = 0
+    max_num = 1
+    readonly_fields = ("brand_logo_preview", "logo_dev_etag", "logo_fetched_at")
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    "category",
+                    "name",
+                    "margin",
+                    "brand_name",
+                    "brand_code",
+                    "brand_logo_preview",
+                    "brand_logo",
+                    "logo_domain",
+                    "logo_dev_etag",
+                    "logo_fetched_at",
+                    "thumbnail",
+                ),
+            },
+        ),
+    )
+
+    @admin.display(description="Current brand logo")
+    def brand_logo_preview(self, obj):
+        return _brand_logo_preview(obj.brand_logo)
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
@@ -51,10 +106,48 @@ class ProviderApiLogAdmin(admin.ModelAdmin):
 
 @admin.register(ProviderProduct)
 class ProviderProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'sku', 'provider')
-    search_fields = ('provider__name', 'sku', 'name')
+    list_display = ("name", "sku", "provider", "override_logo_status")
+    search_fields = ("provider__name", "sku", "name", "brand_name")
+    inlines = (ProductOverrideInline,)
+
+    @admin.display(description="Override logo")
+    def override_logo_status(self, obj):
+        try:
+            override = obj.override
+        except ProductOverride.DoesNotExist:
+            return "No override"
+        if override.brand_logo:
+            return format_html(
+                '<img src="{}" style="height:28px;max-width:80px;object-fit:contain;" />',
+                override.brand_logo.url,
+            )
+        return "Override exists, no logo file"
 
 @admin.register(ProductOverride)
 class ProductOverrideAdmin(admin.ModelAdmin):
-    list_display = ('product', 'category', 'name')
-    search_fields = ('product__provider__name', 'product__sku', 'name')
+    list_display = ("product", "category", "name", "logo_fetched_at", "brand_logo_preview")
+    search_fields = ("product__provider__name", "product__sku", "name", "brand_name", "logo_domain")
+    readonly_fields = ("brand_logo_preview", "logo_dev_etag", "logo_fetched_at")
+    fieldsets = (
+        (None, {
+            'fields': ('product', 'category', 'name', 'description', 'tnc_content', 'margin'),
+        }),
+        ('Brand', {
+            'fields': (
+                'brand_name',
+                'brand_code',
+                'brand_logo_preview',
+                'brand_logo',
+                'logo_domain',
+                'logo_dev_etag',
+                'logo_fetched_at',
+            ),
+        }),
+        ('Media overrides', {
+            'fields': ('thumbnail',),
+        }),
+    )
+
+    @admin.display(description="Preview")
+    def brand_logo_preview(self, obj):
+        return _brand_logo_preview(obj.brand_logo)

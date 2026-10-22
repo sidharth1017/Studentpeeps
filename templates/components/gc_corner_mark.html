@@ -1,0 +1,14 @@
+{% load static %}
+{% if brand_logo_url %}
+<span class="gc-mark-badge">
+  <img class="gc-mark-logo" src="{{ brand_logo_url }}" alt="" loading="lazy"
+    onerror="this.closest('.gc-mark-badge').style.display='none';this.closest('.gc-mark-badge').nextElementSibling.style.display='grid';">
+</span>
+<span class="gc-mark gc-mark-sp" style="display:none" aria-hidden="true">
+  <img src="{% static 'images/sp_mark.png' %}" alt="">
+</span>
+{% else %}
+<span class="gc-mark gc-mark-sp" aria-hidden="true">
+  <img src="{% static 'images/sp_mark.png' %}" alt="">
+</span>
+{% endif %}

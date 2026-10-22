@@ -13,6 +13,8 @@ import requests
 from django.contrib import messages
 from typing import Tuple
 
+from utilities.logging import log_integration_event
+
 
 def send_otp_sms_via_Twillio(phone: str, otp: str) -> bool:
     try:
@@ -22,8 +24,21 @@ def send_otp_sms_via_Twillio(phone: str, otp: str) -> bool:
             from_=settings.TWILIO_PHONE_NUMBER,
             to=f"+91{phone}"
         )
+        log_integration_event(
+            integration="twilio",
+            action="send_otp_sms",
+            success=True,
+            detail={"phone_last4": phone[-4:] if phone else ""},
+        )
         return True
     except Exception as e:
+        log_integration_event(
+            integration="twilio",
+            action="send_otp_sms",
+            success=False,
+            detail={"phone_last4": phone[-4:] if phone else ""},
+            error=str(e),
+        )
         print(f"Error sending OTP to {phone}: {e}")
         return False
 
@@ -44,9 +59,22 @@ def send_otp_sms_via_AWS_SNS(phone: str, otp: str) -> bool:
             PhoneNumber=phone_number,
             Message=message
         )
+        log_integration_event(
+            integration="aws_sns",
+            action="send_otp_sms",
+            success=True,
+            detail={"phone_last4": phone[-4:] if phone else ""},
+        )
         return True
 
     except (BotoCoreError, ClientError) as e:
+        log_integration_event(
+            integration="aws_sns",
+            action="send_otp_sms",
+            success=False,
+            detail={"phone_last4": phone[-4:] if phone else ""},
+            error=str(e),
+        )
         print(f"Error sending OTP to {phone}: {e}")
         return False
 
@@ -68,9 +96,22 @@ def send_otp_sms_via_fast2sms(phone: str, otp: str) -> bool:
         }
 
         response = requests.get(url, params=payload, headers=headers)
-
-        return response.status_code == 200 and "true" in response.text.lower()
+        ok = response.status_code == 200 and "true" in response.text.lower()
+        log_integration_event(
+            integration="fast2sms",
+            action="send_otp_sms",
+            success=ok,
+            detail={"phone_last4": phone[-4:] if phone else "", "status_code": response.status_code},
+        )
+        return ok
     except Exception as e:
+        log_integration_event(
+            integration="fast2sms",
+            action="send_otp_sms",
+            success=False,
+            detail={"phone_last4": phone[-4:] if phone else ""},
+            error=str(e),
+        )
         print(f"Error sending OTP to {phone}: {e}")
         return False
 
@@ -147,8 +188,22 @@ def send_sms_via_fast2sms(phone: str, name: str, messageId: int) -> bool:
             'cache-control': 'no-cache'
         }
         response = requests.get(url, params=payload, headers=headers)
-        return response.status_code == 200 and "true" in response.text.lower()
+        ok = response.status_code == 200 and "true" in response.text.lower()
+        log_integration_event(
+            integration="fast2sms",
+            action="send_sms",
+            success=ok,
+            detail={"phone_last4": phone[-4:] if phone else "", "message_id": messageId},
+        )
+        return ok
     except Exception as e:
+        log_integration_event(
+            integration="fast2sms",
+            action="send_sms",
+            success=False,
+            detail={"phone_last4": phone[-4:] if phone else "", "message_id": messageId},
+            error=str(e),
+        )
         print(f"Error sending SMS to {phone}: {e}")
         return False
 
