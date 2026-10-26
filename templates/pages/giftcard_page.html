@@ -268,8 +268,8 @@
         <div id="customAmountRow" class="hide" style="margin-top: 10px;">
           <div class="pre" style="display: flex;">
             <span style="display: flex; align-items: center; padding: 0 14px; border: 1.5px solid var(--rule-2); border-right: 0; border-radius: 12px 0 0 12px; background: var(--surface-2); font-weight: 700;">₹</span>
-            <input type="number" id="customAmountInput" placeholder="Enter amount (₹{{ giftcard.min_price|floatformat:0 }}–₹{{ giftcard.max_price|floatformat:0 }})"
-                   min="{{ giftcard.min_price|floatformat:0 }}" max="{{ giftcard.max_price|floatformat:0 }}" step="1"
+            <input type="number" id="customAmountInput" placeholder="{% if giftcard.price_type == 'RANGE' %}e.g. ₹750 or ₹1,230 (₹{{ giftcard.min_price|floatformat:0 }}–₹{{ giftcard.max_price|floatformat:0 }}, steps of ₹10){% else %}Enter amount (₹{{ giftcard.min_price|floatformat:0 }}–₹{{ giftcard.max_price|floatformat:0 }}){% endif %}"
+                   min="{{ giftcard.min_price|floatformat:0 }}" max="{{ giftcard.max_price|floatformat:0 }}" step="{{ giftcard.amount_step|default:1 }}"
                    class="inp" style="border-radius: 0 12px 12px 0; font-weight: 600;">
           </div>
           <p id="amountError" class="hint" style="color: var(--red, #dc2626); margin-top: 8px; display: none;"></p>
@@ -380,6 +380,7 @@
     max: {{ giftcard.max_price|default:0 }},
     priceType: "{{ giftcard.price_type|default:'RANGE' }}",
     allowCustom: {{ giftcard.allow_custom_amount|yesno:"true,false" }},
+    amountStep: {{ giftcard.amount_step|default:1 }},
     presetAmounts: JSON.parse(document.getElementById('gc-amount-choices').textContent || '[]'),
     slabValues: JSON.parse(document.getElementById('gc-slab-values').textContent || '[]')
   };
@@ -411,6 +412,11 @@
       if (!gcPricing.slabValues.includes(v)) {
         return "This card is only available in fixed amounts shown above.";
       }
+    }
+    if (gcPricing.priceType === "RANGE" && gcPricing.amountStep > 1 && v % gcPricing.amountStep !== 0) {
+      return "Use a round amount between ₹" + gcPricing.min.toLocaleString("en-IN") +
+        " and ₹" + gcPricing.max.toLocaleString("en-IN") +
+        " in steps of ₹" + gcPricing.amountStep + " — for example ₹500 or ₹1,230.";
     }
     return null;
   }
