@@ -255,22 +255,24 @@
         </h2>
 
         <div class="amts" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;" id="amountButtonsGroup">
-          <button type="button" class="amt active" data-amount="100" aria-pressed="true" style="box-shadow: inset 0 0 0 2px var(--blue); background: var(--blue-tint); color: var(--blue);">
-            ₹100
+          {% for amt in giftcard.amount_choices %}
+          <button type="button" class="amt{% if amt == giftcard.default_amount %} active{% endif %}" data-amount="{{ amt }}" aria-pressed="{% if amt == giftcard.default_amount %}true{% else %}false{% endif %}"{% if amt == giftcard.default_amount %} style="box-shadow: inset 0 0 0 2px var(--blue); background: var(--blue-tint); color: var(--blue);"{% endif %}>
+            ₹{{ amt|floatformat:0 }}
           </button>
-          <button type="button" class="amt" data-amount="250" aria-pressed="false">₹250</button>
-          <button type="button" class="amt" data-amount="500" aria-pressed="false">₹500</button>
-          <button type="button" class="amt" data-amount="1000" aria-pressed="false">₹1,000</button>
-          <button type="button" class="amt" data-amount="2000" aria-pressed="false">₹2,000</button>
+          {% endfor %}
+          {% if giftcard.allow_custom_amount %}
           <button type="button" class="amt" data-amount="custom" aria-pressed="false">Other</button>
+          {% endif %}
         </div>
 
         <div id="customAmountRow" class="hide" style="margin-top: 10px;">
           <div class="pre" style="display: flex;">
             <span style="display: flex; align-items: center; padding: 0 14px; border: 1.5px solid var(--rule-2); border-right: 0; border-radius: 12px 0 0 12px; background: var(--surface-2); font-weight: 700;">₹</span>
-            <input type="number" id="customAmountInput" placeholder="Enter amount (e.g. 750)" 
+            <input type="number" id="customAmountInput" placeholder="Enter amount (₹{{ giftcard.min_price|floatformat:0 }}–₹{{ giftcard.max_price|floatformat:0 }})"
+                   min="{{ giftcard.min_price|floatformat:0 }}" max="{{ giftcard.max_price|floatformat:0 }}" step="1"
                    class="inp" style="border-radius: 0 12px 12px 0; font-weight: 600;">
           </div>
+          <p id="amountError" class="hint" style="color: var(--red, #dc2626); margin-top: 8px; display: none;"></p>
         </div>
       </section>
 
@@ -336,7 +338,7 @@
       <form id="addToCartForm" method="POST" action="{% url 'giftcard:add_to_cart' %}">
         {% csrf_token %}
         <input type="hidden" name="sku" value="{{ giftcard.sku }}">
-        <input type="hidden" name="denomination" id="selectedDenomination" value="100">
+        <input type="hidden" name="denomination" id="selectedDenomination" value="{{ giftcard.default_amount }}">
         <input type="hidden" name="quantity" id="selectedQty" value="1">
         <input type="hidden" name="buy_now" id="buyNowField" value="false">
 
@@ -370,10 +372,21 @@
   </div>
 </div>
 
+{{ giftcard.amount_choices|json_script:"gc-amount-choices" }}
+{{ giftcard.denominations|json_script:"gc-slab-values" }}
 <script>
+  const gcPricing = {
+    min: {{ giftcard.min_price|default:0 }},
+    max: {{ giftcard.max_price|default:0 }},
+    priceType: "{{ giftcard.price_type|default:'RANGE' }}",
+    allowCustom: {{ giftcard.allow_custom_amount|yesno:"true,false" }},
+    presetAmounts: JSON.parse(document.getElementById('gc-amount-choices').textContent || '[]'),
+    slabValues: JSON.parse(document.getElementById('gc-slab-values').textContent || '[]')
+  };
+
   const parsedMargin = parseFloat("{{ giftcard.margin_raw|default:0 }}");
   const discountPercent = Number.isFinite(parsedMargin) ? parsedMargin : 0;
-  let currentAmount = 100;
+  let currentAmount = {{ giftcard.default_amount|default:100 }};
   let currentQty = 1;
 
   const finalPriceEl = document.getElementById('finalPrice');
@@ -384,6 +397,34 @@
   const totalSavedPill = document.getElementById('totalSavedPill');
   const customAmountRow = document.getElementById('customAmountRow');
   const customAmountInput = document.getElementById('customAmountInput');
+  const amountErrorEl = document.getElementById('amountError');
+
+  function validateAmount(value) {
+    const v = parseInt(value, 10);
+    if (!Number.isFinite(v) || v <= 0) {
+      return "Enter a valid whole rupee amount.";
+    }
+    if (v < gcPricing.min || v > gcPricing.max) {
+      return "Choose an amount between ₹" + gcPricing.min.toLocaleString("en-IN") + " and ₹" + gcPricing.max.toLocaleString("en-IN") + ".";
+    }
+    if (gcPricing.priceType === "SLAB" && gcPricing.slabValues.length) {
+      if (!gcPricing.slabValues.includes(v)) {
+        return "This card is only available in fixed amounts shown above.";
+      }
+    }
+    return null;
+  }
+
+  function showAmountError(msg) {
+    if (!amountErrorEl) return;
+    if (msg) {
+      amountErrorEl.textContent = msg;
+      amountErrorEl.style.display = "block";
+    } else {
+      amountErrorEl.textContent = "";
+      amountErrorEl.style.display = "none";
+    }
+  }
 
   function formatMarginPct(pct) {
     if (!Number.isFinite(pct)) return "0";
@@ -473,9 +514,11 @@
       if (val === 'custom') {
         customAmountRow.classList.remove('hide');
         customAmountInput.focus();
+        showAmountError(null);
       } else {
         customAmountRow.classList.add('hide');
         currentAmount = parseInt(val, 10);
+        showAmountError(null);
         updatePrice();
       }
     });
@@ -483,8 +526,10 @@
 
   if (customAmountInput) {
     customAmountInput.addEventListener('input', function() {
+      const err = validateAmount(this.value);
+      showAmountError(err);
       const v = parseInt(this.value, 10);
-      if (!isNaN(v) && v > 0) {
+      if (!err && !isNaN(v)) {
         currentAmount = v;
         updatePrice();
       }
@@ -517,6 +562,13 @@
   function handleCartAction(buyNow) {
     if (!buyNow && cartItemAdded) {
       window.location.href = '/giftcard/cart/';
+      return;
+    }
+
+    const err = validateAmount(currentAmount);
+    if (err) {
+      showAmountError(err);
+      showToast(err, "error");
       return;
     }
 

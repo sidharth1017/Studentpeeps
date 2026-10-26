@@ -2,6 +2,7 @@ from giftcard.models import ProviderProduct, ProductOverride
 
 from giftcard.services.margin_pricing import margin_as_percent
 from giftcard.services.product_copy import format_short_description_html
+from giftcard.services.product_pricing import pricing_config_for_product
 
 
 def format_margin(value):
@@ -81,7 +82,7 @@ class ProductResolver:
             "min_price": self.product.min_price,
             "max_price": self.product.max_price,
             "currency": self.product.currency_code,
-            "denominations": self.product.denominations,
+            **pricing_config_for_product(self.product),
 
             "category": (
                 self.override.category

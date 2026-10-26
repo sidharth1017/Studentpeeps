@@ -1,9 +1,9 @@
 from django.utils import timezone
-from decimal import Decimal
 
 from giftcard.models import ProviderProduct
 from giftcard.providers.woohoo.api_client import WoohooApiClient
 from giftcard.providers.woohoo import endpoints
+from giftcard.providers.woohoo.price_parser import parse_woohoo_product_price
 
 
 class WoohooProductDetailService:
@@ -29,6 +29,11 @@ class WoohooProductDetailService:
         )
 
         price = data.get("price", {})
+        parsed_price = parse_woohoo_product_price(
+            price,
+            list_min=data.get("minPrice"),
+            list_max=data.get("maxPrice"),
+        )
 
         product.provider_product_id = data.get("id")
         product.description = data.get("description")
@@ -38,12 +43,16 @@ class WoohooProductDetailService:
         product.brand_code = data.get("brandCode", "")
         product.brand_logo = data.get("brandLogo", product.brand_logo)
 
-        product.currency_code = price.get("currency", {}).get(
-            "code", product.currency_code
-        )
-        product.currency_symbol = price.get("currency", {}).get(
-            "symbol", product.currency_symbol
-        )
+        currency = price.get("currency") if isinstance(price, dict) else {}
+        if not isinstance(currency, dict):
+            currency = {}
+        product.currency_code = currency.get("code", product.currency_code)
+        product.currency_symbol = currency.get("symbol", product.currency_symbol)
+
+        product.min_price = parsed_price.min_price
+        product.max_price = parsed_price.max_price
+        product.price_type = parsed_price.price_type
+        product.denominations = parsed_price.denominations
 
         product.expiry_info = data.get("expiry", "")
         product.tnc_content = data.get("tnc", {}).get("content", "")
@@ -64,6 +73,10 @@ class WoohooProductDetailService:
             "brand_logo",
             "currency_code",
             "currency_symbol",
+            "min_price",
+            "max_price",
+            "price_type",
+            "denominations",
             "expiry_info",
             "tnc_content",
             "tnc_link",

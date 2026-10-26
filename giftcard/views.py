@@ -52,6 +52,18 @@ class AddToCartView(View):
         if not product:
             return JsonResponse({"error": "Product not found"}, status=404)
 
+        from giftcard.models import ProviderProduct
+        from giftcard.services.product_pricing import validate_denomination
+
+        provider_product = ProviderProduct.objects.filter(sku=sku).first()
+        if provider_product:
+            ok, err = validate_denomination(provider_product, denomination)
+            if not ok:
+                if request.headers.get("x-requested-with") == "XMLHttpRequest":
+                    return JsonResponse({"error": err}, status=400)
+                messages.error(request, err)
+                return redirect(request.META.get("HTTP_REFERER", "giftcard:explore"))
+
         from giftcard.services.margin_pricing import price_after_margin
 
         margin_raw = Decimal(str(product.get("margin_raw", 0)))

@@ -8,6 +8,7 @@ from giftcard.models import (
 )
 from giftcard.providers.woohoo.api_client import WoohooApiClient
 from giftcard.providers.woohoo import endpoints
+from giftcard.providers.woohoo.price_parser import parse_woohoo_product_price
 
 
 class WoohooCatalogService:
@@ -138,7 +139,11 @@ class WoohooCatalogService:
         if not sku:
             return  # skip invalid rows safely
 
-        price_block = self._extract_price_block(data)
+        parsed_price = parse_woohoo_product_price(
+            data.get("price"),
+            list_min=data.get("minPrice"),
+            list_max=data.get("maxPrice"),
+        )
 
         ProviderProduct.objects.update_or_create(
             provider=self.provider,
@@ -147,11 +152,11 @@ class WoohooCatalogService:
                 "name": data.get("name", ""),
                 "url": data.get("url", ""),
 
-                "min_price": self._to_decimal(data.get("minPrice")),
-                "max_price": self._to_decimal(data.get("maxPrice")),
+                "min_price": parsed_price.min_price or self._to_decimal(data.get("minPrice")),
+                "max_price": parsed_price.max_price or self._to_decimal(data.get("maxPrice")),
 
-                "price_type": price_block.get("type"),
-                "denominations": price_block.get("denominations", []),
+                "price_type": parsed_price.price_type,
+                "denominations": parsed_price.denominations,
 
                 "thumbnail": data.get("images", {}).get("thumbnail", ""),
                 "mobile_image": data.get("images", {}).get("mobile", ""),
@@ -177,24 +182,6 @@ class WoohooCatalogService:
     # ==================================================
     # HELPERS (CRASH PROOF)
     # ==================================================
-
-    def _extract_price_block(self, data: dict) -> dict:
-        """
-        Safely extract price block from Woohoo list API
-        """
-        price = data.get("price")
-
-        if not isinstance(price, dict):
-            return {}
-
-        cpg = price.get("cpg")
-
-        if isinstance(cpg, dict):
-            for _, block in cpg.items():
-                if isinstance(block, dict):
-                    return block
-
-        return {}
 
     def _to_decimal(self, value):
         try:
