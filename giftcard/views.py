@@ -850,6 +850,16 @@ class ExploreView(View):
             products = products.order_by('min_price')
         elif sort_by == 'price-high':
             products = products.order_by('-min_price')
+        elif sort_by == 'disc':
+            from giftcard.services.gc_tile_style import product_tile_fields
+
+            def _discount_pct(prod):
+                override = getattr(prod, 'override', None)
+                margin = getattr(override, 'margin', None) if override else None
+                name = prod.brand_name or prod.name
+                return product_tile_fields(prod.sku, name, margin=margin)['discount_pct']
+
+            products = sorted(products, key=_discount_pct, reverse=True)
         else:
             products = products.order_by('-created_at')
 
@@ -885,7 +895,7 @@ class ExploreView(View):
             
         # 2. Sort URLs
         sort_urls = {}
-        for s in ['popular', 'name', 'price-low', 'price-high']:
+        for s in ['popular', 'disc', 'name', 'price-low', 'price-high']:
             sort_qd = request.GET.copy()
             sort_qd['sort'] = s
             key = s.replace('-', '_')

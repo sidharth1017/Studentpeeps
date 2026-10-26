@@ -1,0 +1,26 @@
+<a class="bt disc-offer" href="{{ offer.link }}">
+  <div class="disc-card">
+    <div class="disc-card-img">
+      {% if offer.thumbnail_url %}
+      <img src="{{ offer.thumbnail_url }}" alt="{{ offer.title }}" loading="lazy" width="400" height="250">
+      {% else %}
+      <div class="disc-card-fallback" aria-hidden="true"></div>
+      {% endif %}
+      {% if offer.is_exclusive %}
+      <span class="disc-badge">Exclusive</span>
+      {% endif %}
+    </div>
+    <div class="disc-card-body">
+      {% if offer.brand_logo %}
+      <img class="disc-brand-logo" src="{{ offer.brand_logo }}" alt="" width="40" height="40" loading="lazy">
+      {% endif %}
+      <div class="disc-card-copy">
+        <div class="disc-brand">{{ offer.brand_name }}</div>
+        <div class="disc-title">{{ offer.title }}</div>
+        {% if offer.subtitle %}
+        <div class="disc-sub">{{ offer.subtitle }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</a>

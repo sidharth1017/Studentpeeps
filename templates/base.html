@@ -17,7 +17,7 @@
   <!-- Dynamic Meta Tags  -->
   {% block metatags %}
   <meta name="description"
-    content="Gift cards for PVR INOX, Domino’s, Myntra and 300+ brands at a discount. Pay with UPI for the best price; codes arrive on WhatsApp in seconds." />
+    content="Gift cards for PVR INOX, Domino’s, Myntra and 300+ brands at a discount. Pay with UPI for the best price; codes arrive by email instantly." />
   <meta name="keywords"
     content="Student Discounts, Gift Cards, Student Deals, Domino's, PVR, Myntra, Starbucks, UPI discount" />
   {% endblock %}
@@ -27,7 +27,7 @@
   {% block ogmetatags %}
   <meta property="og:title" content="StudentPeeps — Gift cards for less than they’re worth">
   <meta property="og:description"
-    content="Gift cards for PVR INOX, Domino’s, Myntra and 300+ brands at a discount. Pay with UPI for the best price; codes arrive on WhatsApp in seconds.">
+    content="Gift cards for PVR INOX, Domino’s, Myntra and 300+ brands at a discount. Pay with UPI for the best price; codes arrive by email instantly.">
   <meta property="og:image"
     content="https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/ogimages/ogImage.jpg">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
@@ -48,7 +48,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Anek+Latin:wdth,wght@75..125,300..800&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
 
   <!-- Core Prototype Design System -->
-  <link rel="stylesheet" href="{% static 'css/sp_design.css' %}?v=20261022c" />
+  <link rel="stylesheet" href="{% static 'css/sp_design.css' %}?v=20261027a" />
   <script>
     /* Apply the saved theme before first paint. Default is Light; "system" follows the OS. */
     (function () {
@@ -260,6 +260,7 @@
       <a href="{% url 'giftcard:explore' %}">All brands</a>
       <a class="sp" href="{% url 'giftcard:explore' %}?category=entertainment">Diwali gifts</a>
       <a href="mailto:ayush@studentpeeps.club?subject=Bulk%20order">Bulk orders</a>
+      <a href="{% url 'DiscountsPage' %}">Coupons</a>
     </nav>
   </header>
 
@@ -290,45 +291,45 @@
           <h4>Shop</h4>
           <ul>
             <li><a href="{% url 'giftcard:explore' %}">All gift cards</a></li>
-            <li><a href="{% url 'giftcard:explore' %}?sort=price-low">Biggest discounts</a></li>
+            <li><a href="{% url 'giftcard:explore' %}?sort=disc">Biggest discounts</a></li>
             <li><a href="{% url 'giftcard:explore' %}?category=entertainment">Diwali gifts</a></li>
-            <li><a href="{% url 'giftcard:explore' %}?price_range=under-250">Under ₹500</a></li>
-            <li><a href="{% url 'giftcard:explore' %}?category=food-beverages">Food & Beverages</a></li>
-            <li><a href="{% url 'giftcard:explore' %}?category=entertainment">Entertainment</a></li>
+            <li><a href="{% url 'giftcard:explore' %}?price_range=250-500">Under ₹500</a></li>
           </ul>
         </div>
         <div>
-          <h4>Categories</h4>
+          <h4>Help</h4>
           <ul>
-            <li><a href="{% url 'giftcard:explore' %}?category=fashion-lifestyle">Fashion & Lifestyle</a></li>
-            <li><a href="{% url 'giftcard:explore' %}?category=electronics-appliances">Electronics & Appliances</a></li>
-            <li><a href="{% url 'giftcard:explore' %}?category=grocery">Grocery</a></li>
-            <li><a href="{% url 'giftcard:explore' %}?category=travel">Travel</a></li>
-            <li><a href="{% url 'giftcard:explore' %}?category=jewellery">Jewellery</a></li>
+            <li><a href="/account/v2/myaccount/">Track a gift</a></li>
+            <li><a href="/faq/">Refunds and cancellations</a></li>
+            <li><a href="/faq/">How redemption works</a></li>
+            <li><a href="mailto:hi@studentpeeps.club">hi@studentpeeps.club</a></li>
           </ul>
         </div>
         <div>
           <h4>Company</h4>
           <ul>
+            <li><a href="{% url 'DiscountsPage' %}">Student discount codes</a></li>
+            <li><a href="mailto:ayush@studentpeeps.club?subject=Bulk%20order">Bulk and corporate gifting</a></li>
             <li><a href="/ourstory/">Our story</a></li>
-            <li><a href="https://studentpeeps.club" target="_blank" rel="noopener">Student discount club</a></li>
-            <li><a href="/faq/">FAQ</a></li>
-            <li><a href="/contactus/">Contact Us</a></li>
+            <li><a href="/contactus/">Partner with us</a></li>
           </ul>
         </div>
         <div>
           <h4>Legal</h4>
           <ul>
+            <li><a href="/faq/">Terms of use</a></li>
             <li><a href="/privacypolicy/">Privacy policy</a></li>
-            <li><a href="/faq/">Terms & Refunds</a></li>
+            <li><a href="/faq/">Refund policy</a></li>
+            <li><a href="/contactus/">Grievance redressal</a></li>
           </ul>
         </div>
       </div>
 
       <div class="legal">
-        <p><b>StudentPeeps</b> is operated by <b>Enigmee Ventures</b>. Customer care: hi@studentpeeps.club.</p>
+        <p><b>StudentPeeps</b> is operated by <b>Enigmee Ventures</b>, [registered office address]. GSTIN [to be added].</p>
+        <p>Customer care: hi@studentpeeps.club. Grievance Officer: [name], hi@studentpeeps.club. We acknowledge every complaint within 48 hours and resolve it within one month.</p>
         <p>StudentPeeps is a marketplace. Gift cards are issued by the respective brands or their authorised issuers, and their terms apply. Brand names belong to their owners and are used only to identify their gift cards.</p>
-        <p>© {% now "Y" %} StudentPeeps. Real authorised cards, delivered instantly on WhatsApp and email.</p>
+        <p>© {% now "Y" %} StudentPeeps. Real authorised cards, delivered instantly by email.</p>
       </div>
     </div>
   </footer>

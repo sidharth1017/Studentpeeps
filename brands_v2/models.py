@@ -6,6 +6,7 @@ from django import forms
 from django.utils import timezone
 from django.utils.html import format_html
 from django.urls import reverse
+from urllib.parse import urlencode
 import json
 
 class OfferCategory(models.TextChoices):
@@ -109,7 +110,8 @@ class Category(models.Model):
         return self.name
     
     def get_absolute_url(self):
-        return reverse('CategoryPage', args=[self.category_id])
+        base = reverse("DiscountExplore")
+        return f"{base}?{urlencode({'category': self.category_id})}"
 
     class Meta:
         verbose_name_plural = "Categories"

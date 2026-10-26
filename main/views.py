@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, redirect
 from django.views.generic.base import View
 from django.contrib import messages
 from .models import Contact, RequestBrand, Foundation, Resource, Brand, Subscribe, Homepage, PolicyPage
@@ -15,8 +15,43 @@ import json
 from django.contrib.auth.models import User
 from brands_v2.models import Offer, Category
 import random
-from django.db.models import Count
+from django.db.models import Count, Q
 from giftcard.models import ProviderProduct
+
+
+def brand_offer_count_map():
+    rows = Offer.objects.values("brand").annotate(total=Count("id"))
+    return {row["brand"]: row["total"] for row in rows}
+
+
+def offer_detail_link(offer, brand_offer_map):
+    if brand_offer_map.get(offer.brand_id, 0) > 1:
+        return f"/brand/{offer.brand.slug}/"
+    return f"/offer/{offer.brand.slug}/{offer.custom_id}/"
+
+
+def offer_as_tile(offer, brand_offer_map):
+    logo = offer.brand.logo.url if offer.brand.logo else ""
+    thumb = offer.thumbnail_image.url if offer.thumbnail_image else ""
+    return {
+        "link": offer_detail_link(offer, brand_offer_map),
+        "title": offer.title,
+        "subtitle": offer.subtitle,
+        "brand_name": offer.brand.name,
+        "brand_logo": logo,
+        "thumbnail_url": thumb,
+        "is_exclusive": offer.isExclusive,
+    }
+
+
+RECOMMENDED_DISCOUNT_OFFER_IDS = [
+    "spxdailyobjects15",
+    "spxdell7percent",
+    "spxnilkamal5",
+    "spxblissclub10",
+    "spxbb6",
+    "spxwtf25",
+]
 
 
 # Create your views here.
@@ -375,7 +410,8 @@ class Home(View):
             {'sku': 'EGCGBAJIORRL001', 'name': 'AJIO', 'why': 'Fashion'},
             {'sku': 'EGCGBWS002', 'name': 'Westside', 'why': 'Fashion'},
             {'sku': 'EGCGBSCLPL002', 'name': 'Lenskart', 'why': 'Glasses and lenses'},
-            {'sku': 'EGCGBGRDM001', 'name': 'Giva Silver Coin', 'why': 'Silver jewellery'},
+            {'sku': 'EGCGBGRDM001', 'name': 'Giva Silver', 'why': 'Silver jewellery'},
+            {'sku': 'EGCGBCINE001', 'name': 'Cinepolis', 'why': 'Movie nights'},
         ]
         pick_skus = [p['sku'] for p in picks_spec]
         pick_products = {
@@ -564,84 +600,232 @@ class IdVerificationMessage(View):
         return render(request,'account/idCardVerification.html')
 
 
+class DiscountsPageView(View):
+    """Student discount coupons & promo codes (legacy offers hub, new UI)."""
+
+    def get(self, request):
+        brand_offer_map = brand_offer_count_map()
+
+        recommended_qs = Offer.objects.filter(
+            custom_id__in=RECOMMENDED_DISCOUNT_OFFER_IDS
+        ).select_related("brand")
+        offers_by_id = {o.custom_id: o for o in recommended_qs}
+        recommended_offers = [
+            offer_as_tile(offers_by_id[oid], brand_offer_map)
+            for oid in RECOMMENDED_DISCOUNT_OFFER_IDS
+            if oid in offers_by_id
+        ]
+
+        all_offers = list(Offer.objects.select_related("brand").order_by("-sorting"))
+        featured_sample = random.sample(all_offers, min(15, len(all_offers)))
+        featured_offers = [
+            offer_as_tile(offer, brand_offer_map) for offer in featured_sample
+        ]
+
+        discount_categories = list(
+            Category.objects.filter(isVisible=True).order_by("sorting")
+        )
+
+        context = {
+            "recommended_offers": recommended_offers,
+            "featured_offers": featured_offers,
+            "discount_categories": discount_categories,
+            "offer_count": len(all_offers),
+            "canonical_url": request.build_absolute_uri(request.path),
+        }
+        return render(request, "pages/discounts_page.html", context)
+
+
+class DiscountExploreView(View):
+    """Browse/filter student discount offers — mirrors giftcard ExploreView."""
+
+    CATEGORY_META = {
+        "fashion": {"icon": "shirt", "color": "#ff4d4d"},
+        "tech": {"icon": "smartphone", "color": "#4d79ff"},
+        "travel": {"icon": "plane", "color": "#4dff88"},
+        "food_drink": {"icon": "utensils-crossed", "color": "#ffb347"},
+        "health_beauty": {"icon": "sparkles", "color": "#ff66b2"},
+        "home_utilities": {"icon": "home", "color": "#9966ff"},
+        "education": {"icon": "graduation-cap", "color": "#4da6ff"},
+        "entertainment": {"icon": "play", "color": "#ff4d4d"},
+        "exclusive": {"icon": "sparkles", "color": "#6440E0"},
+        "nonexclusive": {"icon": "tag", "color": "#17BF91"},
+    }
+
+    ACCESS_FILTERS = [
+        {"id": "exclusive", "label": "Exclusive offers"},
+        {"id": "open", "label": "Open to all students"},
+    ]
+
+    def _offer_count_for_category(self, category_id):
+        if category_id == "exclusive":
+            return Offer.objects.filter(isExclusive=True).count()
+        if category_id == "nonexclusive":
+            return Offer.objects.filter(isExclusive=False).count()
+        if category_id == "all":
+            return Offer.objects.count()
+        return Offer.objects.filter(category__category_id=category_id).count()
+
+    def _selected_category_label(self, category_id):
+        if category_id == "all":
+            return "All offers"
+        if category_id == "exclusive":
+            return "Exclusive offers"
+        if category_id == "nonexclusive":
+            return "Non-exclusive offers"
+        cat = Category.objects.filter(category_id=category_id).first()
+        if cat:
+            return cat.name
+        return category_id.replace("_", " ").replace("-", " ").title()
+
+    def get(self, request):
+        query = request.GET.get("search", "")
+        category_id = request.GET.get("category", "all")
+        sort_by = request.GET.get("sort", "popular")
+        selected_access = request.GET.getlist("price_range")
+
+        offers_qs = Offer.objects.select_related("brand", "category")
+
+        if query:
+            offers_qs = offers_qs.filter(
+                Q(title__icontains=query)
+                | Q(subtitle__icontains=query)
+                | Q(brand__name__icontains=query)
+            )
+
+        if category_id == "exclusive":
+            offers_qs = offers_qs.filter(isExclusive=True)
+        elif category_id == "nonexclusive":
+            offers_qs = offers_qs.filter(isExclusive=False)
+        elif category_id != "all":
+            offers_qs = offers_qs.filter(category__category_id=category_id)
+
+        if selected_access:
+            access_q = Q()
+            for access_id in selected_access:
+                if access_id == "exclusive":
+                    access_q |= Q(isExclusive=True)
+                elif access_id == "open":
+                    access_q |= Q(isExclusive=False)
+            if access_q:
+                offers_qs = offers_qs.filter(access_q)
+
+        if sort_by == "name":
+            offers_qs = offers_qs.order_by("brand__name", "title")
+        elif sort_by == "price-low":
+            offers_qs = offers_qs.order_by("title")
+        elif sort_by == "price-high":
+            offers_qs = offers_qs.order_by("-title")
+        else:
+            offers_qs = offers_qs.order_by("-sorting")
+
+        brand_offer_map = brand_offer_count_map()
+        offers = [offer_as_tile(o, brand_offer_map) for o in offers_qs]
+
+        all_categories = list(Category.objects.filter(isVisible=True).order_by("sorting"))
+        total_count = Offer.objects.count()
+
+        categories_with_meta = []
+        for special_id, special_name in (
+            ("exclusive", "Exclusive"),
+            ("nonexclusive", "Non-exclusive"),
+        ):
+            meta = self.CATEGORY_META.get(special_id, {"icon": "sparkles", "color": "#3b82f6"})
+            cat_qd = request.GET.copy()
+            cat_qd["category"] = special_id
+            categories_with_meta.append(
+                {
+                    "id": special_id,
+                    "name": special_name,
+                    "icon": meta["icon"],
+                    "color": meta["color"],
+                    "count": self._offer_count_for_category(special_id),
+                    "url": "?" + cat_qd.urlencode(),
+                }
+            )
+
+        for cat in all_categories:
+            meta = self.CATEGORY_META.get(
+                cat.category_id, {"icon": "sparkles", "color": "#3b82f6"}
+            )
+            cat_qd = request.GET.copy()
+            cat_qd["category"] = cat.category_id
+            categories_with_meta.append(
+                {
+                    "id": cat.category_id,
+                    "name": cat.name,
+                    "icon": meta["icon"],
+                    "color": meta["color"],
+                    "count": self._offer_count_for_category(cat.category_id),
+                    "url": "?" + cat_qd.urlencode(),
+                }
+            )
+
+        all_brands_qd = request.GET.copy()
+        all_brands_qd["category"] = "all"
+        all_brands_url = "?" + all_brands_qd.urlencode()
+
+        sort_urls = {}
+        for s in ["popular", "name", "price-low", "price-high"]:
+            sort_qd = request.GET.copy()
+            sort_qd["sort"] = s
+            key = s.replace("-", "_")
+            sort_urls[key] = "?" + sort_qd.urlencode()
+
+        price_ranges_meta = []
+        for access in self.ACCESS_FILTERS:
+            pr_qd = request.GET.copy()
+            current_list = pr_qd.getlist("price_range")
+            is_selected = access["id"] in current_list
+            if is_selected:
+                new_list = [x for x in current_list if x != access["id"]]
+            else:
+                new_list = current_list + [access["id"]]
+            pr_qd.setlist("price_range", new_list)
+            price_ranges_meta.append(
+                {
+                    "id": access["id"],
+                    "label": access["label"],
+                    "selected": is_selected,
+                    "url": "?" + pr_qd.urlencode(),
+                }
+            )
+
+        clear_cat_qd = request.GET.copy()
+        clear_cat_qd.pop("category", None)
+        clear_category_url = "?" + clear_cat_qd.urlencode()
+
+        clear_search_qd = request.GET.copy()
+        clear_search_qd.pop("search", None)
+        clear_search_url = "?" + clear_search_qd.urlencode()
+
+        clear_all_url = "?"
+
+        context = {
+            "offers": offers,
+            "categories": categories_with_meta,
+            "all_brands_url": all_brands_url,
+            "total_count": total_count,
+            "selected_category": category_id,
+            "selected_category_label": self._selected_category_label(category_id),
+            "search_query": query,
+            "sort_by": sort_by,
+            "price_ranges": price_ranges_meta,
+            "selected_price_ranges": selected_access,
+            "sort_urls": sort_urls,
+            "clear_category_url": clear_category_url,
+            "clear_search_url": clear_search_url,
+            "clear_all_url": clear_all_url,
+        }
+        return render(request, "pages/discount_explore.html", context)
+
+
 # Categories for Offers
 class CategoryPageView(View):
     def get(self, request, category_id):
-        categoryTitle = ""
-        if category_id == "exclusive":
-            offers = Offer.objects.filter(isExclusive=True).order_by('-sorting')
-            category = Category(title="Exclusive Discounts", category_id="exclusive")
-            category.meta_title = "Exclusive Discounts for Students - Studentpeeps"
-            category.meta_description = "Find exclusive discounts for students on various brands and services."
-            category.meta_keywords = "exclusive discounts, student discounts, brand offers"
-
-        elif category_id == "nonexclusive":
-            offers = Offer.objects.filter(isExclusive=False).order_by('-sorting')
-            category = Category(title="Non-Exclusive Discounts", category_id="nonexclusive")
-            category.meta_title = "Non-Exclusive Discounts for Students - Studentpeeps"
-            category.meta_description = "Discover non-exclusive discounts for students on various brands and services."
-            category.meta_keywords = "non-exclusive discounts, student discounts, brand offers"
-
-        elif category_id == "all":
-            offers = Offer.objects.all().order_by('-sorting')
-            category = Category(title="All Discounts", category_id="all")
-            category.meta_title = "Student Discounts, Offers & Promo Codes for Students | Amazon, Flipkart, Udemy & More – Studentpeeps"
-            category.meta_description = "Looking for the best student discounts, coupons, and upcoming sales? At Studentpeeps, we bring you verified offers from top brands so you can save big on tech, fashion, travel, education, and lifestyle. Get exclusive Amazon and Flipkart upcoming sale dates, Big Billion Days, and Great Indian Festival offers, along with today’s deals, promo codes, and coupons tailored for students. Whether you’re hunting for low-price laptops, cheap laptops in India, or the latest generation devices from Lenovo, Dell, Apple, and Samsung, we’ve got you covered. Boost your learning with Udemy’s ₹100 gift card for students and enjoy a free Notion Pro plan to organize your academic life. Explore huge savings on software with Adobe’s 65% student discount and Microsoft Office 365 free for students. Stay entertained with Spotify, YouTube Premium, Apple Music, and Amazon Prime student offers—all at up to 50% off. Refresh your style with Myntra student discounts, DailyObjects smart accessories, Blissclub activewear, and Bacca Bucci sneakers. For travel, grab Etihad, Indigo, Air India, and Lufthansa student flight discounts, making domestic and international trips lighter on your pocket. Studentpeeps is your one-stop student store—a platform where you discover student ID discounts, free coupons, discount codes, and special offers across every category. From Amazon upcoming offers to Flipkart mobile sale dates, we track it all so you never miss a deal. Start saving today with Studentpeeps—the ultimate student benefits hub for India’s smartest learners and trendsetters."
-            category.meta_keywords = "student discounts in India, verified student offers, student coupons and promo codes for college and university students, upcoming student sales across Amazon, Flipkart, Udemy and more, best student discount sites in India, top verified deals for students, student savings platform, affordable shopping for students, exclusive student offers and discount codes for every category, verified student deals for college students across tech, fashion, travel, food and education."
-
-        else:
-            offers = Offer.objects.filter(category__category_id=category_id).order_by('-sorting')
-            category = get_object_or_404(Category, category_id=category_id)
-
-        # Add URLs (works for all because category is always a model object now)
-        category.og_url = request.build_absolute_uri()
-        category.canonical_url = request.build_absolute_uri(request.path)
-
-        brand_offer_counts = (
-            Offer.objects.values('brand')
-            .annotate(total=Count('id'))
-        )
-        brand_offer_map = {item['brand']: item['total'] for item in brand_offer_counts}
-        # Add offer flags
-        offers_with_flags = []
-        for idx, offer in enumerate(offers):
-            block_pos = idx % 10
-            is_large = block_pos == 0 or block_pos == 6
-
-            if brand_offer_map.get(offer.brand.id, 0) > 1:
-                link = f"/brand/{offer.brand.slug}/"
-            else:
-                link = f"/offer/{offer.brand.slug}/{offer.custom_id}/"
-            offer.link = link
-            offers_with_flags.append({
-                'offer': {
-                    'link': link,
-                    'title': offer.title,
-                    'is_gift_card': False,
-                    'thumbnail_image': offer.thumbnail_image,
-                    'brand': {
-                        'name': offer.brand.name,
-                        'logo': offer.brand.logo.url if offer.brand.logo else ""
-                    }
-                },
-                'is_large': is_large,
-            })
-
-        carousel_images=[
-            "https://website-cdn.xoxoday.com/sales_order_invoice/Diwali%20Deals%201%20Mob.png",
-            "https://website-cdn.xoxoday.com/sales_order_invoice/Hotel%20Banner%202%20APP.png",
-            "https://website-cdn.xoxoday.com/sales_order_invoice/Diwali%20Deals%201%20Mob.png",
-            "https://website-cdn.xoxoday.com/sales_order_invoice/Hotel%20Banner%202%20APP.png"
-        ]
-
-        context = {
-            'offers': offers_with_flags,
-            'heading': category.title,
-            'pattern_img': 'images/pattern9.png',
-            'category': category,
-            'carousel_images': carousel_images
-        }
-        return render(request, 'pages/category_page.html', context) 
+        qd = request.GET.copy()
+        qd["category"] = category_id
+        return redirect(f"/discounts/explore/?{qd.urlencode()}")
 
 class HelpCenterPageView(View):
     def get(self, request, slug):

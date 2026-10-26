@@ -43,6 +43,7 @@
       <label for="sortSelect">Sort</label>
       <select id="sortSelect" onchange="location.href=this.value;">
         <option value="{{ sort_urls.popular }}" {% if sort_by == 'popular' %}selected{% endif %}>Most popular</option>
+        <option value="{{ sort_urls.disc }}" {% if sort_by == 'disc' %}selected{% endif %}>Biggest discount</option>
         <option value="{{ sort_urls.name }}" {% if sort_by == 'name' %}selected{% endif %}>Name (A to Z)</option>
         <option value="{{ sort_urls.price_low }}" {% if sort_by == 'price-low' %}selected{% endif %}>Price: Low to High</option>
         <option value="{{ sort_urls.price_high }}" {% if sort_by == 'price-high' %}selected{% endif %}>Price: High to Low</option>

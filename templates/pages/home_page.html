@@ -69,7 +69,7 @@
           </li>
           {% endfor %}
         </ul>
-        <a class="btn btn-p btn-blk" href="{% url 'giftcard:explore' %}?sort=price-low">See all deals</a>
+        <a class="btn btn-p btn-blk" href="{% url 'giftcard:explore' %}?sort=disc">See all deals</a>
       </div>
     </div>
 
@@ -264,7 +264,7 @@
           </li>
           <li>
             <div>
-              <b>We send it on WhatsApp</b>
+              <b>We email it to them</b>
               <span>Right away, or at the time you choose.</span>
             </div>
           </li>
@@ -273,13 +273,12 @@
         <a class="btn btn-p" href="/giftcard/EGCGBDEGCS001/" style="margin-top:24px">Send a gift</a>
       </div>
 
-      <!-- WhatsApp Preview -->
-      <div class="chatprev" aria-label="Example of the WhatsApp message your friend receives">
+      <div class="chatprev" aria-label="Example of the email your friend receives">
         <div class="cp-h">
           <span class="avatar logo-av"><img src="{% static 'images/sp_mark.png' %}" alt=""></span>
           <div>
             <b>StudentPeeps</b>
-            <span>Business account</span>
+            <span>hi@studentpeeps.club</span>
           </div>
         </div>
         <div class="bubble">
@@ -297,7 +296,7 @@
               </div>
             </div>
           </div>
-          <p>Hi Priya! Aditi sent you a ₹1,000 PVR INOX gift card with a note. Open your gift: <span class="lnk">peeps.gift/k8Q2x</span></p>
+          <p><b>Aditi sent you a gift</b><br>Hi Priya! Aditi sent you a ₹1,000 PVR INOX gift card with a note. Open your gift: <span class="lnk">peeps.gift/k8Q2x</span></p>
           <time>12:00 AM</time>
         </div>
       </div>
@@ -369,7 +368,7 @@
     </div>
     <div class="quotes">
       <figure class="quote">
-        <p>“Bought a Myntra card at a discount and spent it the same minute. Felt illegal. It isn’t.”</p>
+        <p>“Bought a PVR INOX card for a weekend movie. The code came by email in a minute and worked fine at the counter.”</p>
         <footer>
           <svg class="av" viewBox="0 0 64 64" aria-hidden="true">
             <circle cx="32" cy="32" r="32" fill="#FFE1EC"/>
@@ -389,7 +388,7 @@
       </figure>
 
       <figure class="quote">
-        <p>“Sent my brother a Bhai Dooj card with a voice note. He replied with fourteen laughing emojis.”</p>
+        <p>“Got my brother a Lenskart gift card for his birthday. Took a couple of minutes to set up and he used it the same week.”</p>
         <footer>
           <svg class="av" viewBox="0 0 64 64" aria-hidden="true">
             <circle cx="32" cy="32" r="32" fill="#E2E8FF"/>
@@ -410,7 +409,7 @@
       </figure>
 
       <figure class="quote">
-        <p>“Our Friday Domino’s order goes on gift cards now. Every few weeks the savings cover a whole pizza.”</p>
+        <p>“I buy a Westside card before I go shopping. The discount is small, but it adds up over a few visits.”</p>
         <footer>
           <svg class="av" viewBox="0 0 64 64" aria-hidden="true">
             <circle cx="32" cy="32" r="32" fill="#DDF5EC"/>
@@ -432,77 +431,6 @@
   </div>
 </section>
 
-<!-- OUR STORY / FOUNDERS -->
-<section class="sec" id="story">
-  <div class="wrap">
-    <div class="story">
-      <div class="founders-w">
-        <div class="founders">
-          <svg viewBox="0 0 520 440" role="img" aria-label="Illustration of co-founders Ayush Mittal and Sidharth Verma">
-            <!-- Sidharth -->
-            <g>
-              <path d="M220 440 L220 338 Q222 272 286 254 L390 254 Q454 272 456 338 L456 440 Z" fill="#2F6A55"/>
-              <path d="M298 255 L338 318 L378 255 Z" fill="#F2EEE6"/>
-              <path d="M317 200 L317 262 Q338 286 359 262 L359 200 Z" fill="#B67A4F"/>
-              <path d="M317 212 Q338 236 359 212 L359 228 Q338 246 317 228 Z" fill="#94603B" opacity=".55"/>
-              <ellipse cx="287" cy="160" rx="10" ry="15" fill="#B67A4F"/>
-              <ellipse cx="389" cy="160" rx="10" ry="15" fill="#B67A4F"/>
-              <ellipse cx="338" cy="150" rx="51" ry="62" fill="#B67A4F"/>
-              <path d="M288 158 Q290 214 338 214 Q386 214 388 158 Q382 196 362 192 Q338 184 314 192 Q294 196 288 158 Z" fill="#18171F" opacity=".92"/>
-              <path d="M284 156 Q272 78 340 80 Q408 82 393 150 Q388 116 360 106 Q326 118 298 112 Q288 126 284 156 Z" fill="#18171F"/>
-              <path d="M307 133 Q319 126 330 132" stroke="#18171F" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-              <path d="M346 132 Q357 126 369 133" stroke="#18171F" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-              <ellipse cx="319" cy="149" rx="4.6" ry="5.4" fill="#1B1A22"/>
-              <ellipse cx="357" cy="149" rx="4.6" ry="5.4" fill="#1B1A22"/>
-              <path d="M337 156 Q345 172 334 176" stroke="#94603B" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-              <path d="M321 186 Q338 200 355 186" stroke="#F3EDE6" stroke-width="4" fill="none" stroke-linecap="round"/>
-            </g>
-            <!-- Ayush -->
-            <g>
-              <path d="M68 440 L68 338 Q70 272 134 254 L238 254 Q302 272 304 338 L304 440 Z" fill="#2442E6"/>
-              <path d="M146 255 L186 318 L226 255 Z" fill="#FFFFFF"/>
-              <path d="M165 200 L165 262 Q186 286 207 262 L207 200 Z" fill="#C98D60"/>
-              <ellipse cx="135" cy="160" rx="10" ry="15" fill="#C98D60"/>
-              <ellipse cx="237" cy="160" rx="10" ry="15" fill="#C98D60"/>
-              <ellipse cx="186" cy="150" rx="51" ry="62" fill="#C98D60"/>
-              <path d="M133 150 Q128 84 186 84 Q244 84 239 146 Q228 110 194 108 Q160 106 142 124 Q136 134 133 150 Z" fill="#1B1A22"/>
-              <path d="M155 133 Q167 126 178 132" stroke="#1B1A22" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-              <path d="M194 132 Q205 126 217 133" stroke="#1B1A22" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-              <ellipse cx="167" cy="149" rx="4.6" ry="5.4" fill="#1B1A22"/>
-              <ellipse cx="205" cy="149" rx="4.6" ry="5.4" fill="#1B1A22"/>
-              <g fill="none" stroke="#1B1A22" stroke-width="3.5">
-                <rect x="150" y="136" width="30" height="25" rx="9"/>
-                <rect x="192" y="136" width="30" height="25" rx="9"/>
-                <path d="M180 146 Q186 141 192 146"/>
-              </g>
-              <path d="M185 156 Q193 172 182 176" stroke="#A66E46" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-              <path d="M169 186 Q186 200 203 186" stroke="#6E2F25" stroke-width="4" fill="none" stroke-linecap="round"/>
-            </g>
-          </svg>
-        </div>
-        <div class="fnames">
-          <div><b>Ayush Mittal</b><span>Co-founder</span></div>
-          <div><b>Sidharth Verma</b><span>Co-founder</span></div>
-        </div>
-      </div>
-
-      <div>
-        <h2 style="font-size:clamp(26px,4vw,36px)">It started with one idea and a waitlist.</h2>
-        <p class="lede" style="margin-top:12px">In February 2021, an idea clicked for Ayush: students were missing out on discounts brands would happily give them. We registered a domain, taught ourselves to code and put up a landing page to collect a waitlist.</p>
-        <p class="lede" style="margin-top:10px">Brands ignored our emails until one said yes. Then came Rapido, a community that grew from 50 students to 500, and a site that now helps lakhs of students pay less.</p>
-
-        <div class="stats">
-          <div><b>2.5 lakh+</b><span>students on StudentPeeps</span></div>
-          <div><b>10 lakh+</b><span>visits a year</span></div>
-          <div><b>10,000+</b><span>in our WhatsApp community</span></div>
-        </div>
-
-        <a class="btn btn-s" href="/ourstory/" style="margin-top:24px">Read our story</a>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- QUESTIONS, ANSWERED (FAQ ACCORDIONS) -->
 <section class="sec">
   <div class="wrap">
@@ -517,7 +445,7 @@
           <span>How quickly will I get my gift card?</span>
           <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
         </summary>
-        <p class="a">Most cards arrive in under a minute on WhatsApp and email. If a brand takes longer, the card page says so before you pay.</p>
+        <p class="a">Most cards arrive in under a minute by email. If a brand takes longer, the card page says so before you pay.</p>
       </details>
 
       <details>
@@ -559,22 +487,6 @@
         </summary>
         <p class="a">Cards are issued the moment you pay, so paid orders can’t be cancelled. Scheduled gifts can be cancelled for a full refund until an hour before they’re sent.</p>
       </details>
-    </div>
-  </div>
-</section>
-
-<!-- CROSS PROMO BANNER -->
-<section class="sec" style="padding-top:8px">
-  <div class="wrap">
-    <div class="cross">
-      <div>
-        <b>Looking for student discount codes instead?</b>
-        <span>Codes for Bewakoof, Rapido, Dell and more live on the StudentPeeps discount club.</span>
-      </div>
-      <a class="btn btn-s" href="https://studentpeeps.club" target="_blank" rel="noopener">
-        Visit studentpeeps.club
-        <svg class="ic ic-s" aria-hidden="true"><use href="#i-external"/></svg>
-      </a>
     </div>
   </div>
 </section>

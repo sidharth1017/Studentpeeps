@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Explore Student Coupons — StudentPeeps{% endblock %}
+
+{% block linkshead %}
+<style>
+  @media (min-width: 1024px) {
+    .lg-grid {
+      display: grid !important;
+      grid-template-columns: 260px minmax(0, 1fr) !important;
+      gap: 36px !important;
+      align-items: start !important;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="wrap" style="padding-top: 14px; padding-bottom: 40px;">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <svg class="ic"><use href="#i-chev-r"/></svg>
+    {% if selected_category != 'all' %}
+    <a href="{% url 'DiscountExplore' %}">Coupons</a>
+    <svg class="ic"><use href="#i-chev-r"/></svg>
+    <span>{{ selected_category_label }}</span>
+    {% else %}
+    <span>All offers</span>
+    {% endif %}
+  </nav>
+
+  <div class="ex-head">
+    <div>
+      <h1>{% if search_query %}Results for “{{ search_query }}”{% elif selected_category != 'all' %}{{ selected_category_label }}{% else %}All student offers{% endif %}</h1>
+      <p id="exCount">{{ total_count }} offer{{ total_count|pluralize }}</p>
+    </div>
+
+    <div class="sortsel md-up">
+      <label for="sortSelect">Sort</label>
+      <select id="sortSelect" onchange="location.href=this.value;">
+        <option value="{{ sort_urls.popular }}" {% if sort_by == 'popular' %}selected{% endif %}>Most popular</option>
+        <option value="{{ sort_urls.name }}" {% if sort_by == 'name' %}selected{% endif %}>Name (A to Z)</option>
+        <option value="{{ sort_urls.price_low }}" {% if sort_by == 'price-low' %}selected{% endif %}>Price: Low to High</option>
+        <option value="{{ sort_urls.price_high }}" {% if sort_by == 'price-high' %}selected{% endif %}>Price: High to Low</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="chiprow not-lg" role="group" aria-label="Categories" style="display: flex; gap: 8px; overflow-x: auto; padding: 6px 0 14px; -webkit-overflow-scrolling: touch;">
+    <a href="{{ all_brands_url }}" class="chip {% if selected_category == 'all' %}active{% endif %}">All</a>
+    {% for cat in categories %}
+    <a href="{{ cat.url }}" class="chip {% if selected_category == cat.id %}active{% endif %}">
+      {{ cat.name }}
+      <span class="ct">{{ cat.count }}</span>
+    </a>
+    {% endfor %}
+  </div>
+
+  <div class="ex-layout">
+    <div class="lg-grid" style="display: block;">
+      <aside class="side lg-only" style="background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r-lg); padding: 20px;">
+        <div class="fgroup" style="padding-bottom: 16px; border-bottom: 1px solid var(--rule);">
+          <h3 style="font-size: 15px; margin-bottom: 8px;">Search</h3>
+          <form action="." method="GET" style="margin:0">
+            <div style="position: relative;">
+              <svg class="ic" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--ink-3); width: 16px; height: 16px;"><use href="#i-search"/></svg>
+              <input type="search" name="search" value="{{ search_query }}" placeholder="Filter brands or offers..."
+                     class="inp" style="height: 40px; font-size: 14px; padding-left: 36px; border-radius: 10px;">
+            </div>
+            {% if selected_category != 'all' %}<input type="hidden" name="category" value="{{ selected_category }}">{% endif %}
+            {% for pr in selected_price_ranges %}
+            <input type="hidden" name="price_range" value="{{ pr }}">
+            {% endfor %}
+            {% if sort_by and sort_by != 'popular' %}<input type="hidden" name="sort" value="{{ sort_by }}">{% endif %}
+          </form>
+        </div>
+
+        <div class="fgroup" style="padding: 16px 0; border-bottom: 1px solid var(--rule);">
+          <h3 style="font-size: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <span>Categories</span>
+            {% if selected_category != 'all' %}<a href="{{ clear_category_url }}" class="btn-q" style="font-size: 12px;">Clear</a>{% endif %}
+          </h3>
+          <div style="max-height: 280px; overflow-y: auto; padding-right: 4px;" class="filter-scroll">
+            <a href="{{ all_brands_url }}" class="opt" style="display: flex; align-items: center; justify-content: space-between; padding: 6px 0; font-size: 14.5px; color: {% if selected_category == 'all' %}var(--blue); font-weight: 700{% else %}var(--ink){% endif %};">
+              <span>All offers</span>
+              <span class="ct">{{ total_count }}</span>
+            </a>
+            {% for cat in categories %}
+            <a href="{{ cat.url }}" class="opt" style="display: flex; align-items: center; justify-content: space-between; padding: 6px 0; font-size: 14px; color: {% if selected_category == cat.id %}var(--blue); font-weight: 700{% else %}var(--ink-2){% endif %};">
+              <span>{{ cat.name }}</span>
+              <span class="ct">{{ cat.count }}</span>
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="fgroup" style="padding: 16px 0;">
+          <h3 style="font-size: 15px; margin-bottom: 12px;">Offer type</h3>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            {% for pr in price_ranges %}
+            <a href="{{ pr.url }}" class="chip {% if pr.selected %}active{% endif %}" style="height: 34px; font-size: 13.5px; justify-content: space-between; width: 100%;">
+              <span>{{ pr.label }}</span>
+              {% if pr.selected %}<svg class="ic ic-s"><use href="#i-check"/></svg>{% endif %}
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div style="margin-top: 16px; padding: 14px; border-radius: 14px; background: var(--blue-tint); color: var(--ink);">
+          <b style="display: block; font-size: 14px;">New to StudentPeeps?</b>
+          <p style="font-size: 12.5px; color: var(--ink-2); margin-top: 4px;">Verify your student status once to unlock codes on exclusive offers.</p>
+          <a href="/account/v2/identify" class="btn-q" style="font-size: 13px; margin-top: 8px;">Sign up free</a>
+        </div>
+      </aside>
+
+      <main style="min-width: 0;">
+        {% if search_query or selected_category != 'all' or selected_price_ranges %}
+        <div class="applied" style="margin-bottom: 18px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+          <span style="font-size: 13px; color: var(--ink-3); font-weight: 600;">Filters:</span>
+          {% if selected_category != 'all' %}
+          <a href="{{ clear_category_url }}" class="chip active" style="height: 32px; font-size: 13px;">
+            Category: {{ selected_category_label }} <svg class="ic ic-s"><use href="#i-x"/></svg>
+          </a>
+          {% endif %}
+          {% if search_query %}
+          <a href="{{ clear_search_url }}" class="chip active" style="height: 32px; font-size: 13px;">
+            “{{ search_query }}” <svg class="ic ic-s"><use href="#i-x"/></svg>
+          </a>
+          {% endif %}
+          <a href="{{ clear_all_url }}" class="btn-q" style="font-size: 13px; margin-left: 6px;">Clear all</a>
+        </div>
+        {% endif %}
+
+        {% if not offers %}
+        <div class="empty" style="text-align: center; padding: 48px 20px;">
+          <svg class="ic" style="width: 48px; height: 48px; color: var(--ink-3); margin: 0 auto 12px;"><use href="#i-search"/></svg>
+          <h3>No offers match all of these</h3>
+          <p style="color: var(--ink-2); margin-top: 6px;">Loosening one filter usually fixes it. Try clearing your search or removing a category.</p>
+          <div style="margin-top: 18px;">
+            <a href="{{ clear_all_url }}" class="btn btn-p">Clear all filters</a>
+          </div>
+        </div>
+        {% else %}
+        <div class="grid disc-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px 18px;">
+          {% for offer in offers %}
+          {% include 'components/discount_offer_tile.html' with offer=offer %}
+          {% endfor %}
+        </div>
+        {% endif %}
+      </main>
+    </div>
+  </div>
+</div>
+{% endblock %}
