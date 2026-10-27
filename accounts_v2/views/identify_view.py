@@ -10,7 +10,7 @@ class IdentifyViewV2(View):
         request.session.pop('email', None)
         request.session.pop('phone', None)
         request.session['next_url'] = request.GET.get('next')
-        return render(request, 'account/login_or_signup.html')
+        return render(request, "pages/account/login_or_signup.html")
 
     def post(self, request):
         identifier = (request.POST.get('identifier') or '').strip()

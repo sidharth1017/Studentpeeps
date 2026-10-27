@@ -425,7 +425,7 @@ class Error_404_View(View):
 
 class IdVerificationMessage(View):
     def get(self, request):        
-        return render(request, 'account/id_verification_success.html')
+        return render(request, "pages/account/id_verification_success.html")
 
 
 class DiscountsPageView(View):
@@ -649,11 +649,22 @@ class DiscountExploreView(View):
 
 
 # Categories for Offers
+LEGACY_CATEGORY_SLUGS = {
+    "foodsanddrinks": "food_drink",
+    "healthandbeauty": "health_beauty",
+    "edtech": "education",
+    "booksandstationary": "books_stationary",
+    "homeandutilities": "home_utilities",
+}
+
+
 class CategoryPageView(View):
+    """Legacy /category/<slug>/ URLs → dynamic discount explore (preserves extra query params)."""
+
     def get(self, request, category_id):
         qd = request.GET.copy()
-        qd["category"] = category_id
-        return redirect(f"/discounts/explore/?{qd.urlencode()}")
+        qd["category"] = LEGACY_CATEGORY_SLUGS.get(category_id, category_id)
+        return redirect(f"/discounts/explore/?{qd.urlencode()}", permanent=True)
 
 class HelpCenterPageView(View):
     def get(self, request, slug):

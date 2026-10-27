@@ -51,7 +51,7 @@ class VerifyViewV2(View):
                     messages.error(request, "Something went wrong. Please try again.")
                     return redirect('/account/identify')
 
-        return render(request, 'account/verify_otp.html', {'phone': masked_details})
+        return render(request, "pages/account/verify_otp.html", {"phone": masked_details})
 
     def post(self, request):
         input_otp = request.POST.get('otp', '')

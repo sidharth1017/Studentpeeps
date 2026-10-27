@@ -54,7 +54,7 @@ def myaccount(request):
 
     return render(
         request,
-        "account/my_account.html",
+        "pages/account/my_account.html",
         {
             "profile": users,
             "orders": orders,
