@@ -1,0 +1,58 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}StudentPeeps | Verify OTP{% endblock %}
+
+{% block linkshead %}
+<meta name="description" content="Enter the OTP we sent you to log in to StudentPeeps.">
+{% endblock %}
+
+{% block body %}
+<div class="wrap">
+  <div class="auth">
+    <div class="co-sec auth-card">
+      <span class="auth-ic"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg></span>
+      <h1>Verify yourself</h1>
+      <p class="auth-sub">OTP sent to <b class="num">{{ phone }}</b></p>
+
+      {% for message in messages %}
+      <div class="{% if message.tags == 'error' %}ck-err{% else %}auth-ok{% endif %}" role="alert">
+        <svg class="ic ic-s" aria-hidden="true"><use href="#i-{% if message.tags == 'error' %}alert{% else %}check-c{% endif %}"/></svg>
+        <span>{{ message }}</span>
+      </div>
+      {% endfor %}
+
+      <form method="POST" class="auth-form">
+        {% csrf_token %}
+        <div class="fld">
+          <label class="lbl" for="otp-input">Enter OTP</label>
+          <input type="text" name="otp" id="otp-input" class="inp num auth-otp" required
+            inputmode="numeric" autocomplete="one-time-code" maxlength="6" autofocus placeholder="••••••">
+        </div>
+        <button class="btn btn-p btn-lg btn-blk" type="submit">Verify OTP</button>
+      </form>
+
+      <p class="auth-resend">
+        Haven’t received the OTP?
+        <span id="resend-container"><span id="countdown">Resend in 30s</span></span>
+      </p>
+      <p class="auth-resend" style="margin-top:-8px"><a class="btn-q" href="{% url 'IdentifyViewV2' %}">Use a different number or email</a></p>
+    </div>
+  </div>
+</div>
+
+<script>
+  let seconds = 30;
+  const container = document.getElementById('resend-container');
+
+  const interval = setInterval(() => {
+    seconds--;
+    if (seconds <= 0) {
+      clearInterval(interval);
+      container.innerHTML = `<a class="btn-q" href="{% url 'resend_otp' %}" id="resend-link">Resend</a>`;
+    } else {
+      document.getElementById('countdown').innerText = `Resend in ${seconds}s`;
+    }
+  }, 1000);
+</script>
+{% endblock %}

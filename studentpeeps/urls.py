@@ -24,8 +24,8 @@ from django_summernote.models import Attachment
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('account/', include('account.urls')),
-    path('account/v2/', include('accounts_v2.urls')),
+    path('account/', include('accounts_v2.urls')),
+    re_path(r'^account/v2/?(?P<path>.*)$', views.account_v2_redirect, name='account_v2_redirect'),
     path('offer/', include('brands_v2.urls')),
     path('giftcard/', include('giftcard.urls')),
     path('explore/', RedirectView.as_view(pattern_name='giftcard:explore', query_string=True)),
@@ -44,7 +44,7 @@ urlpatterns = [
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root' : settings.MEDIA_ROOT})
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-handler404 = 'account.views.error_404_view'
+handler404 = 'studentpeeps.views.error_404_view'
 
 try:
     admin.site.unregister(Attachment)

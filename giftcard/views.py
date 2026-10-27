@@ -147,7 +147,7 @@ class CartView(View):
         payment_methods = get_enabled_methods()
         default_method = next((m for m in payment_methods if m["is_best"]), payment_methods[0])
 
-        return render(request, "pages/cart_page.html", {
+        return render(request, "pages/cart/index.html", {
             "payment_methods": payment_methods,
             "default_method": default_method["key"],
             "cart": cart,
@@ -348,7 +348,7 @@ class InitiatePaymentView(LoginRequiredMixin, View):
     - For redirect gateways (PayU):  returns JSON with action_url + form_fields
       that the browser will auto-submit as a hidden HTML form.
     """
-    login_url = "/account/v2/identify"
+    login_url = "/account/identify"
 
     def handle_no_permission(self):
         if self.request.headers.get("Content-Type") == "application/json" or self.request.headers.get("x-requested-with") == "XMLHttpRequest":
@@ -466,7 +466,7 @@ class PaymentCallbackView(LoginRequiredMixin, View):
     Razorpay-specific: browser JS POSTs the payment result here after the modal closes.
     Verifies the signature, calls Woohoo API, clears cart.
     """
-    login_url = "/account/v2/identify"
+    login_url = "/account/identify"
 
     def post(self, request):
         try:
@@ -553,7 +553,7 @@ class PayUSuccessView(View):
         try:
             order = Order.objects.get(reference_id=reference_id)
         except Order.DoesNotExist:
-            return render(request, "pages/payment_failed.html", {
+            return render(request, "pages/checkout/payment_failed.html", {
                 "error": "Order not found. Please contact support."
             }, status=404)
 
@@ -582,7 +582,7 @@ class PayUSuccessView(View):
             order.status = Order.STATUS_FAILED
             order.gateway_payment_id = mihpayid
             order.save()
-            return render(request, "pages/payment_failed.html", {
+            return render(request, "pages/checkout/payment_failed.html", {
                 "error": verification.error_message,
                 "order": order,
             })
@@ -641,7 +641,7 @@ class PayUFailureView(View):
         except Order.DoesNotExist:
             order = None
 
-        return render(request, "pages/payment_failed.html", {
+        return render(request, "pages/checkout/payment_failed.html", {
             "error": error_msg,
             "order": order,
         })
@@ -652,22 +652,22 @@ class PayUFailureView(View):
 # ──────────────────────────────────────────────────────────────────────────────
 
 class OrderSuccessView(LoginRequiredMixin, View):
-    login_url = "/account/v2/identify"
+    login_url = "/account/identify"
 
     def get(self, request, reference_id):
         order = get_object_or_404(Order, reference_id=reference_id, user=request.user)
         if _is_on_hold(order):
             return redirect(reverse("giftcard:order_failed_refund", kwargs={"reference_id": order.reference_id}))
-        return render(request, "pages/order_success.html", {"order": order})
+        return render(request, "pages/orders/success.html", {"order": order})
 
 
 class OrderFailedRefundView(LoginRequiredMixin, View):
-    login_url = "/account/v2/identify"
+    login_url = "/account/identify"
 
     def get(self, request, reference_id):
         order = get_object_or_404(Order, reference_id=reference_id, user=request.user)
         on_hold = _is_on_hold(order)
-        return render(request, "pages/order_failed_refund.html", {
+        return render(request, "pages/orders/failed_refund.html", {
             "order": order,
             "on_hold": on_hold,
             "hold_message": (order.woohoo_response or {}).get("message", "") if on_hold else "",
@@ -675,7 +675,7 @@ class OrderFailedRefundView(LoginRequiredMixin, View):
 
 
 class OrderDetailView(LoginRequiredMixin, View):
-    login_url = "/account/v2/identify"
+    login_url = "/account/identify"
 
     def get(self, request, reference_id):
         order = get_object_or_404(Order, reference_id=reference_id, user=request.user)
@@ -751,7 +751,7 @@ class OrderDetailView(LoginRequiredMixin, View):
                         import logging
                         logging.getLogger(__name__).error(f"Error syncing order status: {str(e)}")
 
-        return render(request, "pages/order_detail.html", {
+        return render(request, "pages/orders/detail.html", {
             "order": order,
             "on_hold": on_hold,
             "hold_message": (order.woohoo_response or {}).get("message", "") if on_hold else "",
@@ -764,7 +764,14 @@ class OrderDetailView(LoginRequiredMixin, View):
 
 class GiftcardPageView(View):
     def get(self, request, sku):
-        provider_product = get_object_or_404(ProviderProduct, sku=sku)
+        provider_product = ProviderProduct.objects.filter(sku=sku).first()
+        if not provider_product:
+            return render(
+                request,
+                "pages/giftcards/not_found.html",
+                {"sku": sku},
+                status=404,
+            )
 
         resolver = ProductResolver(sku)
         giftcard_data = resolver.resolve()
@@ -790,7 +797,7 @@ class GiftcardPageView(View):
 
         from giftcard.payments.methods import get_enabled_methods
 
-        return render(request, "pages/giftcard_page.html", {
+        return render(request, "pages/giftcards/detail.html", {
             "giftcard": giftcard_data,
             "provider_product": provider_product,
             "seo": seo,
@@ -960,7 +967,7 @@ class ExploreView(View):
             'clear_search_url': clear_search_url,
             'clear_all_url': clear_all_url,
         }
-        return render(request, "pages/explore.html", context)
+        return render(request, "pages/giftcards/explore.html", context)
 
 
 class SearchSuggestView(View):

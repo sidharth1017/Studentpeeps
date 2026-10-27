@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /account*
+Disallow: /account/verify
+Disallow: /account/resend
+Disallow: /account?*
+Disallow: /admin*
+
+Sitemap: Sitemap: https://studentpeeps.club/sitemap.xml

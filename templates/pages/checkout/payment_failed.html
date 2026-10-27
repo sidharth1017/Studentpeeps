@@ -1,0 +1,28 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}Payment Failed — StudentPeeps{% endblock %}
+
+{% block body %}
+<div class="wrap">
+    <div class="ck" style="max-width:480px;padding-bottom:48px">
+        <div class="co-sec ord-state">
+            <span class="ord-badge r"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></span>
+            <h3>Payment didn’t go through</h3>
+            <p>{{ error|default:"We couldn't process your payment. No money was taken." }}</p>
+
+            {% if order %}
+            <div class="money" style="text-align:left;background:var(--surface-2);border:0">
+                <div class="mrow"><span>Order reference</span><span class="num">{{ order.reference_id }}</span></div>
+                <div class="mrow"><span>Amount</span><span>₹{{ order.total_amount }}</span></div>
+            </div>
+            {% endif %}
+
+            <div style="display:grid;gap:10px;width:100%">
+                <a href="{% url 'giftcard:cart_view' %}" class="btn btn-p btn-blk">Try again</a>
+                <a href="/" class="btn btn-s btn-blk">Back to home</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

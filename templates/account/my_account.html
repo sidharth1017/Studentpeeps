@@ -1,0 +1,187 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}StudentPeeps | My Account{% endblock %}
+
+{% block body %}
+{% with display_name=profile.firstname|default:user.first_name|default:"there" %}
+<div class="wrap">
+    <div class="acc">
+        <!-- Sidebar -->
+        <aside class="acc-side">
+            <div class="acc-me">
+                <span class="avatar">{{ display_name|slice:":1"|upper }}</span>
+                <div style="min-width:0">
+                    <b>{{ profile.firstname|default:user.first_name }} {{ profile.lastname|default:user.last_name }}</b>
+                    {% if user.email %}<span>{{ user.email }}</span>{% endif %}
+                    {% if profile.phone %}<span class="num">+91 {{ profile.phone }}</span>{% endif %}
+                </div>
+            </div>
+
+            <nav class="acc-nav" aria-label="Account sections">
+                <button type="button" class="active" data-section="personal-info" onclick="switchSection('personal-info', this)">
+                    <svg class="ic" aria-hidden="true"><use href="#i-user"/></svg>Personal info
+                </button>
+                <button type="button" data-section="my-orders" onclick="switchSection('my-orders', this)">
+                    <svg class="ic" aria-hidden="true"><use href="#i-bag"/></svg>My orders
+                    {% if orders %}<span class="pill" style="height:20px;font-size:11.5px">{{ orders|length }}</span>{% endif %}
+                </button>
+                <button type="button" data-section="faqs" onclick="switchSection('faqs', this)">
+                    <svg class="ic" aria-hidden="true"><use href="#i-help"/></svg>FAQs
+                </button>
+                <a href="/account/logout/" class="out">
+                    <svg class="ic" aria-hidden="true"><use href="#i-logout"/></svg>Sign out
+                </a>
+            </nav>
+
+            <div class="acc-me sm-only" style="padding:10px 14px">
+                <div class="acct-theme" style="border:0;padding:0;width:100%">
+                    <svg class="ic" aria-hidden="true"><use href="#i-sun"/></svg><span>Theme</span>
+                    <div class="seg" role="group" aria-label="Theme">
+                        <button type="button" data-theme-set="system" aria-pressed="false">Auto</button>
+                        <button type="button" data-theme-set="light" aria-pressed="false">Light</button>
+                        <button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Content -->
+        <main class="acc-main">
+            <!-- Personal Info -->
+            <section id="personal-info" class="acc-sec content-section">
+                <h2>Personal info</h2>
+                <p class="sub">Hi {{ display_name }}, keep your details up to date so receipts reach you.</p>
+                <form method="POST" action="{% url 'myaccount' %}">
+                    {% csrf_token %}
+                    <div class="acc-grid">
+                        <div class="fld">
+                            <label class="lbl" for="pf-fname">First name</label>
+                            <input class="inp" id="pf-fname" type="text" name="fname" autocomplete="given-name" value="{{ profile.firstname|default:'' }}">
+                        </div>
+                        <div class="fld">
+                            <label class="lbl" for="pf-lname">Last name</label>
+                            <input class="inp" id="pf-lname" type="text" name="lname" autocomplete="family-name" value="{{ profile.lastname|default:'' }}">
+                        </div>
+                        <div class="fld">
+                            <label class="lbl" for="pf-email">Email <small>can’t be changed</small></label>
+                            <input class="inp" id="pf-email" type="email" value="{{ user.email }}" readonly>
+                        </div>
+                        <div class="fld">
+                            <label class="lbl" for="pf-phone">Mobile number</label>
+                            <div class="pre">
+                                <span>+91</span>
+                                <input class="inp num" id="pf-phone" type="tel" name="phone" inputmode="numeric" autocomplete="tel-national" value="{{ profile.phone|default:'' }}">
+                            </div>
+                        </div>
+                        <div class="fld">
+                            <label class="lbl" for="pf-bday">Birthday <small>optional</small></label>
+                            <input class="inp" id="pf-bday" type="date" name="birthday" value="{{ profile.birthday|date:'Y-m-d' }}">
+                        </div>
+                    </div>
+
+                    <div class="acc-actions">
+                        <button type="submit" class="btn btn-p">Save changes</button>
+                    </div>
+                </form>
+
+                <div class="acc-note">
+                    <svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg>
+                    <p>Your details are encrypted and only used to deliver your gift cards and receipts. For bigger account changes, write to hi@studentpeeps.club.</p>
+                </div>
+            </section>
+
+            <!-- My Orders -->
+            <section id="my-orders" class="acc-sec content-section" style="display: none;">
+                <h2>My orders</h2>
+                <p class="sub">Every card you’ve bought, newest first.</p>
+
+                {% if orders %}
+                <div class="acc-orders">
+                    {% for order in orders %}
+                    {% with first_item=order.items_snapshot|first %}
+                    <a class="acc-order" href="{% url 'giftcard:order_detail' order.reference_id %}">
+                        <span class="ck-art"><svg class="ic" aria-hidden="true"><use href="#i-gift"/></svg></span>
+                        <div style="min-width:0">
+                            <b>{{ first_item.name|default:"Gift card" }}</b>
+                            <span class="meta">#{{ order.reference_id|slice:":8"|upper }} · {{ order.created_at|date:"d M Y" }} · Qty {{ first_item.quantity|default:1 }}</span><br>
+                            <span class="pill {% if order.status == 'COMPLETED' %}g{% elif order.status == 'FAILED' %}r{% else %}a{% endif %}">{{ order.get_status_display }}</span>
+                        </div>
+                        <div class="r">
+                            <b>₹{{ order.total_amount }}</b>
+                            <span>View</span>
+                        </div>
+                    </a>
+                    {% endwith %}
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty">
+                    <div class="ib"><svg class="ic" aria-hidden="true"><use href="#i-bag"/></svg></div>
+                    <h3>No orders yet</h3>
+                    <p>Cards you buy show up here, with their codes and receipts.</p>
+                    <a href="{% url 'giftcard:explore' %}" class="btn btn-p">Browse gift cards</a>
+                </div>
+                {% endif %}
+            </section>
+
+            <!-- FAQs -->
+            <section id="faqs" class="acc-sec content-section" style="display: none;">
+                <h2>Frequently asked questions</h2>
+                <p class="sub">Quick answers about StudentPeeps and your gift cards.</p>
+
+                <div class="faq">
+                    <details>
+                        <summary>What is StudentPeeps?<svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg></summary>
+                        <p class="a">StudentPeeps is a platform where university students can register and get student discounts on their favourite brands.</p>
+                    </details>
+                    <details>
+                        <summary>How do I get the StudentPeeps discount?<svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg></summary>
+                        <p class="a">To get a StudentPeeps account you must be attending a college or university that gives you an email address or ID card. Click Sign in and enter your details.</p>
+                    </details>
+                    <details>
+                        <summary>Can I use StudentPeeps without being a student?<svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg></summary>
+                        <p class="a">No, StudentPeeps offers are for students. Enjoy them while you’re in college!</p>
+                    </details>
+                    <details>
+                        <summary>Are gift cards refundable?<svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg></summary>
+                        <p class="a">Gift cards can’t be cancelled or returned once issued. Please check the terms and conditions before you buy.</p>
+                    </details>
+                </div>
+
+                <p style="margin-top:20px">
+                    <a href="{% url 'help_center_page' slug='frequently-asked-questions' %}" class="btn-q">View all FAQs <svg class="ic ic-s" aria-hidden="true"><use href="#i-chev-r"/></svg></a>
+                </p>
+            </section>
+        </main>
+    </div>
+</div>
+{% endwith %}
+
+<script>
+    function switchSection(sectionId, btn) {
+        document.querySelectorAll('.content-section').forEach(section => {
+            section.style.display = section.id === sectionId ? 'block' : 'none';
+        });
+        document.querySelectorAll('.acc-nav button').forEach(item => {
+            item.classList.toggle('active', item === btn);
+        });
+        if (history.replaceState) history.replaceState(null, '', '#' + sectionId);
+    }
+
+    // Open the section named in the URL hash (e.g. /account/myaccount/#my-orders)
+    function openFromHash() {
+        const id = location.hash.slice(1);
+        const btn = id && document.querySelector('.acc-nav button[data-section="' + id + '"]');
+        if (btn) { switchSection(id, btn); window.scrollTo(0, 0); }
+    }
+    window.addEventListener('hashchange', openFromHash);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        openFromHash();
+        {% for message in messages %}
+        if (typeof showToast === 'function') showToast("{{ message|escapejs }}", "{% if message.tags == 'error' %}error{% else %}success{% endif %}");
+        {% endfor %}
+    });
+</script>
+{% endblock %}

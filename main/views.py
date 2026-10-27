@@ -5,7 +5,7 @@ from django.contrib import messages
 from .models import Contact, RequestBrand, Foundation, Resource, Brand, Subscribe, Homepage, PolicyPage
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from account.tasks import send_subscribe_email, send_contact_mail
+from accounts_v2.tasks import send_subscribe_email, send_contact_mail
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -341,7 +341,7 @@ class Home(View):
             {'key': 'congrats', 'title': 'Congrats', 'sub': '', 'line': 'Placements, results, first jobs', 'pal': ('#2442E6', '#7C3FD6'), 'pt': 'p-confetti', 'theme_title': 'You did it!', 'category': 'milestone'},
         ]
 
-        return render(request, "pages/home_page.html", {
+        return render(request, "pages/home.html", {
             "categories": categories_data,
             "popular_cards": popular_cards,
             "popular_section": popular_section,
@@ -354,32 +354,20 @@ class Home(View):
         
 class OurStory(View):
     def get(self, request):
-        return render(request,'ourstory.html')
-
-class VerificationMessage(View):
-    def get(self, request):        
-        messages = request.session.get('institution_email')
-        return render(request,'verificationmsg.html', {'msg': messages})
-
-    def post(self, request):
-        return render(request,'verificationmsg.html')
+        return render(request, "marketing/our_story.html")
 
 class UploadMessage(View):
     def get(self, request):
         return render(request,'uploadmsg.html')
 
-class GoogleVerification(View):
-    def get(self, request):
-        return render(request,'verified.html')
-
 class UnSubscribe(View):
     def get(self, request):
-        return render(request,'unsubscribe.html')
+        return render(request, "marketing/newsletter_unsubscribe.html")
 
 class ContactUs(View):
     def get(self, request):
         messages = None
-        return render(request,'contactus.html',{'message' : messages})
+        return render(request, "marketing/contact.html", {"message": messages})
 
     def post(self, request):
         messages = None
@@ -396,19 +384,11 @@ class ContactUs(View):
             print(f"Email sending failed: {e}")
 
         messages = "Thanks for contacting us, we'll reach out you soon."
-        return render(request,'contactus.html',{'message' : messages})
+        return render(request, "marketing/contact.html", {"message": messages})
 
 class Community(View):
     def get(self, request):
         return render(request,'community.html')
-
-class FAQ(View):
-    def get(self, request):
-        return render(request,'faq.html')
-
-class Privacy(View):
-    def get(self, request):
-        return render(request,'privacy.html')
 
 class SubscribeView(View):
     def post(self, request):
@@ -420,7 +400,7 @@ class SubscribeView(View):
             subscribe.save()
             messages.success(request, "Thanks for subscribing to the Studentpeeps' community! We'll be sure to send you exclusive offers and deals straight to your inbox😊")
             try:
-                message = render_to_string('mail_body_subscribe.html')
+                message = render_to_string('emailers/subscribe_email_body.html')
                 send_subscribe_email(subject="your community access😎", email=email, message=message)
             except Exception as e:
                 print(f"Email sending failed: {e}")
@@ -429,7 +409,7 @@ class SubscribeView(View):
 
 class UnSubscribeView(View):
     def get(self, request):
-        return render(request,'unsubscribe.html')
+        return render(request, "marketing/newsletter_unsubscribe.html")
     def post(self, request):
         email = request.POST.get('unsubscribe_email')
         if Subscribe.objects.filter(email=email).exists():
@@ -441,11 +421,11 @@ class UnSubscribeView(View):
         
 class Error_404_View(View):
     def get(self, request):
-        return render(request, '404.html')
+        return render(request, "errors/not_found.html")
 
 class IdVerificationMessage(View):
     def get(self, request):        
-        return render(request,'account/idCardVerification.html')
+        return render(request, 'account/id_verification_success.html')
 
 
 class DiscountsPageView(View):
@@ -481,7 +461,7 @@ class DiscountsPageView(View):
             "offer_count": len(all_offers),
             "canonical_url": request.build_absolute_uri(request.path),
         }
-        return render(request, "pages/discounts_page.html", context)
+        return render(request, "pages/discounts/list.html", context)
 
 
 class DiscountExploreView(View):
@@ -665,7 +645,7 @@ class DiscountExploreView(View):
             "clear_search_url": clear_search_url,
             "clear_all_url": clear_all_url,
         }
-        return render(request, "pages/discount_explore.html", context)
+        return render(request, "pages/discounts/explore.html", context)
 
 
 # Categories for Offers
@@ -684,7 +664,7 @@ class HelpCenterPageView(View):
             "page": page,
         }
 
-        return render(request, "pages/help_center_page.html", context)
+        return render(request, "pages/help/policy.html", context)
 
 
 class GiftcardView(View):
@@ -708,7 +688,7 @@ class GiftcardView(View):
         ]
     }
 
-        return render(request, "pages/giftcard.html", context)
+        return render(request, "pages/giftcards/detail.html", context)
 
 
 class CartView(View):
@@ -732,4 +712,4 @@ class CartView(View):
         ]
     }
 
-        return render(request, "pages/cart_page.html", context)
+        return render(request, "pages/cart/index.html", context)

@@ -4,7 +4,7 @@
 {% block content %}
 
 <p style="margin-top: 40px;">Enter Email for Verification</p>
-<form method="POST" action="/account/v2/verify-id-upload-user">
+<form method="POST" action="/account/verify-id-upload-user">
     {% csrf_token %}
     <div>
         <div>
@@ -31,7 +31,7 @@
 <hr>
 
 <p style="margin-top: 40px;">Enter Email for Rejection Email</p>
-<form method="POST" action="/account/v2/reject-id-upload-user">
+<form method="POST" action="/account/reject-id-upload-user">
     {% csrf_token %}
     <div>
         <div>
@@ -57,7 +57,7 @@
 <hr>
 
 <p style="margin-top: 40px;">Enter Phone for Verification sms</p>
-<form method="POST" action="/account/v2/verify-id-upload-user-phone">
+<form method="POST" action="/account/verify-id-upload-user-phone">
     {% csrf_token %}
     <label for="exampleInputEmail1" class="form-label">Phone:</label>
     <input type="text" name="phone" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
@@ -72,7 +72,7 @@
 <hr>
 
 <p style="margin-top: 40px;">Enter Phone for Rejection sms</p>
-<form method="POST" action="/account/v2/reject-id-upload-user-phone">
+<form method="POST" action="/account/reject-id-upload-user-phone">
     {% csrf_token %}
     <label for="exampleInputEmail1" class="form-label">Phone:</label>
     <input type="text" name="phone" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"

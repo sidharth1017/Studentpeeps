@@ -20,7 +20,6 @@ def configure_logging() -> None:
         "celery",
         "giftcard",
         "accounts_v2",
-        "account",
         "studentpeeps",
         "studentpeeps.outbound",
         "studentpeeps.provider_api",

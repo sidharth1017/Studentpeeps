@@ -34,7 +34,6 @@ ALLOWED_HOSTS = ['studentpeeps.club', '139.59.79.183', 'www.studentpeeps.club', 
 
 # Application definition
 INSTALLED_APPS = [
-    'account',
     'accounts_v2',
     'main',
     'brands_v2',
@@ -156,7 +155,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'account.middlewares.MiddlewareToVerify',
+    'accounts_v2.middleware.MiddlewareToVerify',
 ]
 
 ROOT_URLCONF = 'studentpeeps.urls'

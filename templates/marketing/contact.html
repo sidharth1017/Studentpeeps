@@ -1,0 +1,65 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}StudentPeeps | Contact Us{% endblock %}
+
+{% block linkshead %}
+<meta name="description" content="Facing some issues or have a question? Contact StudentPeeps. One of our team members will get back to you within 12 hours.">
+{% endblock %}
+
+{% block body %}
+<div class="wrap">
+  <div class="contact">
+    <div class="ex-head">
+      <div>
+        <h1>Contact us</h1>
+        <p>Facing some issues or have a question? Let us help you.</p>
+      </div>
+    </div>
+
+    <div class="contact-grid">
+      <div class="co-sec">
+        {% if message %}
+        <div class="auth-ok" role="status">
+          <svg class="ic ic-s" aria-hidden="true"><use href="#i-check-c"/></svg>
+          <span>{{ message }}</span>
+        </div>
+        {% endif %}
+
+        <form action="{% url 'ContactUs' %}" method="POST" class="auth-form" style="margin-top:{% if message %}16px{% else %}0{% endif %}">
+          {% csrf_token %}
+          <div class="fld">
+            <label class="lbl" for="contact-email">Email</label>
+            <input type="email" name="email" class="inp" id="contact-email" placeholder="you@example.com" autocomplete="email" required>
+          </div>
+          <div class="fld">
+            <label class="lbl" for="contact-name">Name</label>
+            <input type="text" name="name" class="inp" id="contact-name" placeholder="Your name" autocomplete="name" required>
+          </div>
+          <div class="fld">
+            <label class="lbl" for="contact-message">How can we help?</label>
+            <textarea name="message" class="inp contact-msg" id="contact-message" placeholder="Tell us a little about your question or issue" required></textarea>
+          </div>
+          <button class="btn btn-p btn-lg btn-blk" type="submit">Send message</button>
+          <p class="hint" style="text-align:center">By sending this you agree to our <a class="btn-q" href="{% url 'help_center_page' slug='privacy-policy' %}">Privacy Policy</a>.</p>
+        </form>
+      </div>
+
+      <aside class="contact-side">
+        <div class="co-sec">
+          <h2><svg class="ic ic-s" aria-hidden="true"><use href="#i-mail"/></svg>Email us</h2>
+          <p><a class="btn-q" href="mailto:hi@studentpeeps.club">hi@studentpeeps.club</a></p>
+        </div>
+        <div class="co-sec">
+          <h2><svg class="ic ic-s" aria-hidden="true"><use href="#i-clock"/></svg>Reply time</h2>
+          <p class="hint" style="font-size:15px">One of our team members will get back to you within 12 hours.</p>
+        </div>
+        <div class="co-sec">
+          <h2><svg class="ic ic-s" aria-hidden="true"><use href="#i-help"/></svg>Quick answers</h2>
+          <p class="hint" style="font-size:15px">Your question may already be covered in our <a class="btn-q" href="{% url 'help_center_page' slug='frequently-asked-questions' %}">help center</a>.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+{% endblock %}

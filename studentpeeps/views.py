@@ -1,30 +1,24 @@
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 import requests
-from django.shortcuts import render
-from django.contrib.auth.models import User
+from django.shortcuts import redirect, render
 from django.views.generic.base import View
-from django.contrib.auth import logout
-from account.models import Registers, Upload
 
 
-# Create your views here
+def error_404_view(request, exception):
+    return render(request, "errors/not_found.html")
+
+
+def account_v2_redirect(request, path=""):
+    query = request.META.get("QUERY_STRING", "")
+    url = f"/account/{path}"
+    if query:
+        url = f"{url}?{query}"
+    return redirect(url, permanent=True)
+
+
 def UploadFunc(request):
-    if Registers.objects.filter(email=request.user.email).exists() or Upload.objects.filter(email=request.user.email).exists():
-        redirect_url = request.session.pop('login_next_url', '')
-        if redirect_url:
-            return HttpResponseRedirect(f'/{redirect_url}/')
-        else:
-            return HttpResponseRedirect('/')
-    else:
-        user = User.objects.get(pk=request.user.id)
-        logout(request)
-        request.session['google_sign_up'] = True
-        request.session['username'] = user.username
-        request.session['fname'] = user.first_name
-        request.session['lname'] = user.last_name
-        request.session['gender'] = ""
-        request.session['email'] = user.email
-        return HttpResponseRedirect('/account/upload/')
+    """Legacy Google OAuth callback — send users to the current login flow."""
+    return HttpResponseRedirect("/account/identify")
 
 
 def check_ip(request):
@@ -39,23 +33,23 @@ class Campus(View):
 
 class Sitemap(View):
     def get(self, request):
-        return render(request, 'sitemap.xml', content_type='text/xml')
+        return render(request, "site/sitemap.xml", content_type="text/xml")
 
 class Robots(View):
     def get(self, request):
-        return render(request, 'robots.txt', content_type='text/plain')
+        return render(request, "site/robots.txt", content_type="text/plain")
 
 class LLMFILE(View):
     def get(self, request):
-        return render(request, 'llms.txt', content_type='text/plain')
+        return render(request, "site/llms.txt", content_type="text/plain")
 
 class Ads(View):
     def get(self, request):
-        return render(request, 'ads.txt', content_type='text/plain')
+        return render(request, "site/ads.txt", content_type="text/plain")
 
 class ssl(View):
     def get(self, request):
-        return render(request, '3E4612F07E9BF0ED441A9D77F76CCF06.txt', content_type='text/plain')
+        return render(request, "site/ssl_certificate.txt", content_type="text/plain")
 
 
 class LoginNext(View):

@@ -1,10 +1,11 @@
 from django.urls import path
-from .views import resendOtpView, verifyViewV2, identifyViewV2
-from account.Views import myaccount
+
+from accounts_v2.views import identify_view, logout_view, myaccount_view, resend_otp_view, verify_view
 
 urlpatterns = [
-    path('identify', identifyViewV2.IdentifyViewV2.as_view(), name='IdentifyViewV2'),
-    path('verify', verifyViewV2.VerifyViewV2.as_view(), name='VerifyViewV2'),
-    path('resend', resendOtpView.ResendOtpView.as_view(), name='resend_otp'),
-    path('myaccount/', myaccount.myaccount, name="myaccount"),
+    path("identify", identify_view.IdentifyViewV2.as_view(), name="IdentifyViewV2"),
+    path("verify", verify_view.VerifyViewV2.as_view(), name="VerifyViewV2"),
+    path("resend", resend_otp_view.ResendOtpView.as_view(), name="resend_otp"),
+    path("myaccount/", myaccount_view.myaccount, name="myaccount"),
+    path("logout/", logout_view.Logout.as_view(), name="logout"),
 ]

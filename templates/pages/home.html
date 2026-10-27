@@ -1,0 +1,497 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}StudentPeeps — Gift cards for less than they’re worth{% endblock %}
+
+{% block body %}
+<!-- HERO SECTION -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <h1 class="h-xl">India’s trusted marketplace for gift&nbsp;cards <span class="h-emoji" aria-hidden="true">🎁</span></h1>
+        <p class="lede">Movies, food, fashion and 300+ more brands at up to {{ max_discount_pct|floatformat:-2 }}% off. Receive your codes instantly, ready to use.</p>
+        
+        <!-- Big Search Bar -->
+        <div class="bigsearch">
+          <form action="{% url 'giftcard:explore' %}" method="GET" style="margin:0">
+            <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+            <input type="search" name="search" placeholder="Search a brand or category" aria-label="Search gift cards" autocomplete="off">
+          </form>
+        </div>
+
+        <!-- Popular Brand Quick Chips -->
+        <div class="popchips">
+          <span>Popular</span>
+          <a class="chip" href="/giftcard/EGVGBPVRC001/">PVR INOX</a>
+          <a class="chip" href="/giftcard/EGCGBCINE001/">Cinepolis</a>
+          <a class="chip" href="/giftcard/EGCGBDEGCS001/">Domino’s</a>
+          <a class="chip" href="/giftcard/EGCGBSCLPL002/">Lenskart</a>
+          <a class="chip" href="/giftcard/EGCGBWS002/">Westside</a>
+        </div>
+      </div>
+
+      <!-- Student favourites (prototype hero panel) -->
+      {% if hero_section.visible %}
+      <div class="est picks">
+        <h2>{{ hero_section.title }}</h2>
+        <p class="hint" style="margin-top:4px">{{ hero_section.subtitle }}</p>
+        <ul class="pk">
+          {% for pick in hero_picks %}
+          <li>
+            <a href="/giftcard/{{ pick.sku }}/">
+              <div class="gc pk-thumb {{ pick.pattern_cls }}" style="--a:{{ pick.pal_0 }};--b:{{ pick.pal_1 }}" aria-hidden="true">
+                <div class="gc-in pk-thumb-in">
+                  <div class="gc-top">
+                    <div>
+                      <div class="gc-brand {{ pick.brand_size_cls }}">{{ pick.name }}</div>
+                      <div class="gc-kind">Gift card</div>
+                    </div>
+                  </div>
+                  <div class="gc-bot">
+                    <span></span>
+                    {% include "components/gc_corner_mark.html" %}
+                  </div>
+                </div>
+              </div>
+              <span class="pk-t">
+                <b>{{ pick.name }}</b>
+                <span>{{ pick.why }}</span>
+              </span>
+              <span class="pk-p">
+                {% if pick.discount > 0 %}
+                <span class="off">{{ pick.discount_display }} off</span>
+                {% else %}
+                <span class="pill a">No discount</span>
+                {% endif %}
+                <small>{{ pick.sample_amt_str }} for <b>{{ pick.pay_str }}</b> on UPI</small>
+              </span>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+        <a class="btn btn-p btn-blk" href="{{ hero_section.cta_href }}">{{ hero_section.cta_label }}</a>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- 4 Value Promises -->
+    <div class="promises">
+      <div class="promise">
+        <svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg>
+        <div>
+          <b>Brand-authorised codes</b>
+          <span>Issued by the brand or its official issuer</span>
+        </div>
+      </div>
+      <div class="promise">
+        <svg class="ic" aria-hidden="true"><use href="#i-bolt"/></svg>
+        <div>
+          <b>Instant delivery</b>
+          <span>Codes ready to use the moment you pay</span>
+        </div>
+      </div>
+      <div class="promise">
+        <svg class="ic" aria-hidden="true"><use href="#i-tag"/></svg>
+        <div>
+          <b>Every price shown upfront</b>
+          <span>See what each payment method costs before you pay</span>
+        </div>
+      </div>
+      <div class="promise">
+        <svg class="ic" aria-hidden="true"><use href="#i-help"/></svg>
+        <div>
+          <b>24/7 support</b>
+          <span>Help with any query, any time</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOP BY CATEGORY -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-h">
+      <div>
+        <h2>Shop by category</h2>
+      </div>
+      <a class="btn-q" href="{% url 'giftcard:explore' %}">All brands</a>
+    </div>
+    <div class="cats">
+      {% for cat in categories %}
+      <a class="cat" href="{% url 'giftcard:explore' %}?category={{ cat.category_id }}">
+        <svg class="ic" aria-hidden="true"><use href="#{{ cat.icon }}"/></svg>
+        <span>{{ cat.name }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- POPULAR WITH STUDENTS THIS WEEK (FROM DB PRODUCTS) -->
+{% if popular_section.visible %}
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-h">
+      <div>
+        <h2>{{ popular_section.title }}</h2>
+        <p>{{ popular_section.subtitle }}</p>
+      </div>
+      <a class="btn-q md-up" href="{{ popular_section.cta_href }}">{{ popular_section.cta_label }}</a>
+    </div>
+    <div class="rail">
+      {% for card in popular_cards %}
+      <a class="bt" href="/giftcard/{{ card.sku }}/">
+        <div class="gc {{ card.pattern_cls }}" style="--a:{{ card.pal_0 }};--b:{{ card.pal_1 }}" aria-hidden="true">
+          <div class="gc-in">
+            <div class="gc-top">
+              <div>
+                <div class="gc-brand {{ card.brand_size_cls }}">{{ card.display_brand }}</div>
+                <div class="gc-kind">Gift card</div>
+              </div>
+            </div>
+            <div class="gc-bot">
+              <span class="off">{{ card.discount_display }} off on UPI</span>
+              {% include "components/gc_corner_mark.html" with brand_logo_url=card.tile_brand_logo_url %}
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="bt-name">{{ card.display_brand }}</div>
+          <div class="bt-row" style="margin-top:3px">
+            <span class="bt-cat">{{ card.category_name }}</span>
+          </div>
+          <div class="bt-meta" style="margin-top:5px">
+            <span>{{ card.range_txt }}</span>
+            <span><svg class="ic"><use href="#{{ card.use_icon }}"/></svg>{{ card.use_txt }}</span>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- TREATS UNDER ₹300 (FROM DB PRODUCTS) -->
+<section class="sec" id="treats">
+  <div class="wrap">
+    <div class="sec-h">
+      <div>
+        <h2>Treats under ₹300</h2>
+        <p>Small gifts for exam week, late nights and “thanks for the notes”.</p>
+      </div>
+    </div>
+    <div class="treats">
+      {% for treat in treats %}
+      <a class="treat" href="/giftcard/{{ treat.sku }}/">
+        <div class="gc {{ treat.pattern_cls }}" style="--a:{{ treat.pal_0 }};--b:{{ treat.pal_1 }}" aria-hidden="true">
+          <div class="gc-in" style="padding: 10cqw;">
+            <div class="gc-top">
+              <div class="gc-brand" style="font-size: 13cqw;">{{ treat.display_brand }}</div>
+            </div>
+            <div class="gc-bot">
+              <span></span>
+              {% include "components/gc_corner_mark.html" %}
+            </div>
+          </div>
+        </div>
+        <div>
+          <b>{{ treat.tagline }}</b>
+          <span>{{ treat.display_brand }} gift card</span>
+        </div>
+        <div class="p num">
+          <span class="sr">You pay </span>{{ treat.pay_price_str }}
+          <small><span class="sr">Card value </span>{{ treat.card_value_str }}</small>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- GIFTS FOR EVERY OCCASION -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-h">
+      <div>
+        <h2>Gifts for every occasion</h2>
+        <p>Each one opens with its own card design and your note in handwriting.</p>
+      </div>
+    </div>
+    <div class="occs">
+      {% for occ in occasions %}
+      <a class="occ" href="{% url 'giftcard:explore' %}">
+        <div class="gc {{ occ.pt }}" style="--a:{{ occ.pal.0 }};--b:{{ occ.pal.1 }}" aria-hidden="true">
+          <div class="gc-in">
+            <div class="gc-top">
+              <div>
+                {% if occ.sub %}<div class="gc-sub">{{ occ.sub }}</div>{% endif %}
+                <div class="gc-theme">{{ occ.theme_title }}</div>
+              </div>
+            </div>
+            <div class="gc-bot">
+              <span></span>
+              <span class="gc-mark">studentpeeps</span>
+            </div>
+          </div>
+        </div>
+        <b>{{ occ.title }}</b>
+        <span>{{ occ.line }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- GIFTING THAT DOESN'T FEEL LIKE A PAYMENT (SPLIT SECTION) -->
+<section class="sec">
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <h2 style="font-size:clamp(26px,4vw,34px)">Gifting that doesn’t feel like a payment</h2>
+        <p class="lede" style="margin-top:10px">Pick a card, write a note, and we deliver it instantly, with your note in handwriting.</p>
+        
+        <ol class="steps3">
+          <li>
+            <div>
+              <b>Pick a brand and amount</b>
+              <span>Or start from an occasion and the design is picked for you.</span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <b>Write a note, add a voice note</b>
+              <span>It opens with the card, handwritten, in any language.</span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <b>We email it to them</b>
+              <span>Right away, or at the time you choose.</span>
+            </div>
+          </li>
+        </ol>
+
+        <a class="btn btn-p" href="/giftcard/EGCGBDEGCS001/" style="margin-top:24px">Send a gift</a>
+      </div>
+
+      <div class="chatprev" aria-label="Example of the email your friend receives">
+        <div class="cp-h">
+          <span class="avatar logo-av"><img src="{% static 'images/sp_mark.png' %}" alt=""></span>
+          <div>
+            <b>StudentPeeps</b>
+            <span>hi@studentpeeps.club</span>
+          </div>
+        </div>
+        <div class="bubble">
+          <div class="gc p-confetti" style="--a:#FF4F86;--b:#FF9F1C" aria-hidden="true">
+            <div class="gc-in">
+              <div class="gc-top">
+                <div>
+                  <div class="gc-sub">PVR INOX gift card</div>
+                  <div class="gc-theme">Happy birthday!</div>
+                </div>
+              </div>
+              <div class="gc-bot">
+                <div class="gc-amt"><small>Card value</small>₹1,000</div>
+                <span class="gc-mark">studentpeeps</span>
+              </div>
+            </div>
+          </div>
+          <p><b>Aditi sent you a gift</b><br>Hi Priya! Aditi sent you a ₹1,000 PVR INOX gift card with a note. Open your gift: <span class="lnk">peeps.gift/k8Q2x</span></p>
+          <time>12:00 AM</time>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVERY CARD, ONE WALLET (SPLIT SECTION) -->
+<section class="sec">
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <h2 style="font-size:clamp(26px,4vw,34px)">Every card, one wallet</h2>
+        <p class="lede" style="margin-top:10px">Every card you buy stays here, with its balance updated as you spend.</p>
+        <a class="btn btn-s" href="/account/myaccount/" style="margin-top:20px">Open your wallet</a>
+      </div>
+
+      <div class="wpromo">
+        <div class="wp-card">
+          <div class="gc p-waves" style="--a:#7C3FD6;--b:#30177D" aria-hidden="true">
+            <div class="gc-in" style="padding:10cqw">
+              <div class="gc-top"><div class="gc-brand" style="font-size:14cqw">Myntra</div></div>
+            </div>
+          </div>
+          <div>
+            <b>Myntra</b>
+            <span class="num">₹640 left of ₹1,000</span>
+          </div>
+          <span class="pill a">Expires in 18 days</span>
+        </div>
+
+        <div class="wp-card">
+          <div class="gc p-waves" style="--a:#FF7457;--b:#C9302B" aria-hidden="true">
+            <div class="gc-in" style="padding:10cqw">
+              <div class="gc-top"><div class="gc-brand" style="font-size:14cqw">BookMyShow</div></div>
+            </div>
+          </div>
+          <div>
+            <b>BookMyShow</b>
+            <span class="num">₹500 left of ₹500</span>
+          </div>
+          <span class="pill">Valid till Apr 2027</span>
+        </div>
+
+        <div class="wp-card">
+          <div class="gc p-grid" style="--a:#FF9F1C;--b:#F2542D" aria-hidden="true">
+            <div class="gc-in" style="padding:10cqw">
+              <div class="gc-top"><div class="gc-brand" style="font-size:14cqw">Starbucks</div></div>
+            </div>
+          </div>
+          <div>
+            <b>Starbucks</b>
+            <span class="num">₹500 left of ₹500</span>
+          </div>
+          <span class="pill b">Gift from Rohan</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT STUDENTS SAY (REVIEWS) -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-h">
+      <div>
+        <h2>What students say</h2>
+      </div>
+    </div>
+    <div class="quotes">
+      <figure class="quote">
+        <p>“Bought a PVR INOX card for a weekend movie. The code came by email in a minute and worked fine at the counter.”</p>
+        <footer>
+          <svg class="av" viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="32" r="32" fill="#FFE1EC"/>
+            <path d="M17 47 Q13 17 32 13.5 Q51 17 47 47 Z" fill="#1B1A22"/>
+            <path d="M5 64 Q8 46 32 44 Q56 46 59 64 Z" fill="#FF4F86"/>
+            <rect x="27" y="34" width="10" height="13" rx="4" fill="#C98D60"/>
+            <ellipse cx="32" cy="27" rx="11.5" ry="13.5" fill="#C98D60"/>
+            <circle cx="27.6" cy="28" r="1.5" fill="#1B1A22"/>
+            <circle cx="36.4" cy="28" r="1.5" fill="#1B1A22"/>
+            <path d="M28.5 33.2 Q32 36 35.5 33.2" stroke="#6E2F25" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+          </svg>
+          <span>
+            <b style="color:var(--ink);font-weight:640">Ishita</b><br>
+            2nd year, Pune
+          </span>
+        </footer>
+      </figure>
+
+      <figure class="quote">
+        <p>“Got my brother a Lenskart gift card for his birthday. Took a couple of minutes to set up and he used it the same week.”</p>
+        <footer>
+          <svg class="av" viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="32" r="32" fill="#E2E8FF"/>
+            <path d="M5 64 Q8 46 32 44 Q56 46 59 64 Z" fill="#2442E6"/>
+            <rect x="27" y="34" width="10" height="13" rx="4" fill="#B67A4F"/>
+            <ellipse cx="32" cy="27" rx="11.5" ry="13.5" fill="#B67A4F"/>
+            <path d="M20.5 25 Q20 11.5 32 11.5 Q44 11.5 43.5 24 Q38 16.5 30 17.5 Q24 18.5 20.5 25 Z" fill="#18171F"/>
+            <circle cx="27.6" cy="28" r="1.5" fill="#1B1A22"/>
+            <circle cx="36.4" cy="28" r="1.5" fill="#1B1A22"/>
+            <g fill="none" stroke="#1B1A22" stroke-width="1.1"><circle cx="27.6" cy="28" r="3.6"/><circle cx="36.4" cy="28" r="3.6"/><path d="M31.2 28h1.6"/></g>
+            <path d="M28.5 33.2 Q32 36 35.5 33.2" stroke="#6E2F25" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+          </svg>
+          <span>
+            <b style="color:var(--ink);font-weight:640">Aarav</b><br>
+            MBA, Bengaluru
+          </span>
+        </footer>
+      </figure>
+
+      <figure class="quote">
+        <p>“I buy a Westside card before I go shopping. The discount is small, but it adds up over a few visits.”</p>
+        <footer>
+          <svg class="av" viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="32" r="32" fill="#DDF5EC"/>
+            <path d="M5 64 Q8 46 32 44 Q56 46 59 64 Z" fill="#17BF91"/>
+            <rect x="27" y="34" width="10" height="13" rx="4" fill="#A86C44"/>
+            <ellipse cx="32" cy="27" rx="11.5" ry="13.5" fill="#A86C44"/>
+            <circle cx="32" cy="10.5" r="5.5" fill="#2A1C18"/>
+            <circle cx="27.6" cy="28" r="1.5" fill="#1B1A22"/>
+            <circle cx="36.4" cy="28" r="1.5" fill="#1B1A22"/>
+            <path d="M28.5 33.2 Q32 36 35.5 33.2" stroke="#6E2F25" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+          </svg>
+          <span>
+            <b style="color:var(--ink);font-weight:640">Sneha</b><br>
+            3rd year, Delhi
+          </span>
+        </footer>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- QUESTIONS, ANSWERED (FAQ ACCORDIONS) -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-h">
+      <div>
+        <h2>Questions, answered</h2>
+      </div>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>
+          <span>How quickly will I get my gift card?</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
+        </summary>
+        <p class="a">Most cards arrive in under a minute by email. If a brand takes longer, the card page says so before you pay.</p>
+      </details>
+
+      <details>
+        <summary>
+          <span>Are these real brand gift cards?</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
+        </summary>
+        <p class="a">Yes. Every card is issued by the brand or its authorised issuer and goes straight from them to you. We never resell used or second-hand cards.</p>
+      </details>
+
+      <details>
+        <summary>
+          <span>Why does the price change with how I pay?</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
+        </summary>
+        <p class="a">Banks and card networks charge different fees for each payment method, and we pass the difference on. UPI usually gets the biggest discount. Every method’s price is on the card page before you pay.</p>
+      </details>
+
+      <details>
+        <summary>
+          <span>Is there GST on gift cards?</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
+        </summary>
+        <p class="a">No GST is charged when you buy a gift card. The brand applies GST when you spend it.</p>
+      </details>
+
+      <details>
+        <summary>
+          <span>What if a code doesn’t work?</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
+        </summary>
+        <p class="a">Tell us within 7 days of buying. We’ll replace the card or refund you in full, whichever you prefer.</p>
+      </details>
+
+      <details>
+        <summary>
+          <span>Can I cancel an order?</span>
+          <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
+        </summary>
+        <p class="a">Cards are issued the moment you pay, so paid orders can’t be cancelled. Scheduled gifts can be cancelled for a full refund until an hour before they’re sent.</p>
+      </details>
+    </div>
+  </div>
+</section>
+{% endblock %}

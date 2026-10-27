@@ -1,0 +1,64 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}StudentPeeps | Login or Sign up{% endblock %}
+
+{% block linkshead %}
+<meta name="description"
+  content="Log in or sign up to StudentPeeps with your mobile number or email. We'll send an OTP to verify.">
+{% endblock %}
+
+{% block body %}
+<div class="wrap">
+  <div class="auth">
+    <div class="co-sec auth-card">
+      <span class="auth-ic"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></span>
+      <h1>Login or signup</h1>
+      <p class="auth-sub">We will send an OTP to verify</p>
+
+      {% for message in messages %}
+      <div class="{% if message.tags == 'error' %}ck-err{% else %}auth-ok{% endif %}" role="alert">
+        <svg class="ic ic-s" aria-hidden="true"><use href="#i-{% if message.tags == 'error' %}alert{% else %}check-c{% endif %}"/></svg>
+        <span>{{ message }}</span>
+      </div>
+      {% endfor %}
+
+      <form id="identify-form" method="POST" class="auth-form" novalidate>
+        {% csrf_token %}
+        <div class="fld">
+          <label class="lbl" for="identifier-input">Enter mobile number or email</label>
+          <input type="text" name="identifier" class="inp" id="identifier-input" required
+            autocomplete="username" inputmode="email" autofocus placeholder="10-digit mobile or you@example.com">
+          <p class="auth-err hide" id="identifier-err" role="alert">Enter a valid 10-digit mobile number or email address.</p>
+        </div>
+        <button class="btn btn-p btn-lg btn-blk" id="continue-btn" type="submit">Continue</button>
+      </form>
+
+      <p class="secure-l"><svg class="ic ic-s" aria-hidden="true"><use href="#i-lock"/></svg>No password needed. We only use your details to sign you in.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var form = document.getElementById('identify-form');
+    var input = document.getElementById('identifier-input');
+    var err = document.getElementById('identifier-err');
+    var phone = /^\d{10}$/, email = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    form.addEventListener('submit', function (e) {
+      var v = input.value.trim();
+      input.value = v;
+      if (!phone.test(v) && !email.test(v)) {
+        e.preventDefault();
+        err.classList.remove('hide');
+        input.classList.add('bad');
+        input.focus();
+      }
+    });
+    input.addEventListener('input', function () {
+      err.classList.add('hide');
+      input.classList.remove('bad');
+    });
+  })();
+</script>
+{% endblock %}

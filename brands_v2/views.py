@@ -46,7 +46,7 @@ class GetCodeView(View):
         offers = get_object_or_404(Offer, brand=brand, custom_id=offer_custom_id)
 
         if offers.isLoginRequired and not request.user.is_authenticated:
-            return redirect(f'/account/v2/identify?next={request.path}')
+            return redirect(f'/account/identify?next={request.path}')
 
         seo_obj = OfferSEO.objects.filter(offer=offers).first()
         if seo_obj:
@@ -118,4 +118,4 @@ class BrandPageView(View):
             'seo': seo_obj,
         }
 
-        return render(request, "pages/brand_page.html", context)
+        return render(request, "pages/brands/detail.html", context)
