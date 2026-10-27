@@ -1,12 +1,12 @@
 from django.contrib import admin
+from django_summernote.admin import SummernoteModelAdminMixin
+from unfold.admin import ModelAdmin
 from .models import Brand, Offer, OfferSEO, OfferCodeForUser, RedeemedCodes, Category, OfferDailyAnalytics
 from .forms import OfferAdminForm, BrandAdminForm
-from django_summernote.admin import SummernoteModelAdmin
 from django.utils.html import format_html
-import json
 
 @admin.register(Brand)
-class BrandAdmin(SummernoteModelAdmin):
+class BrandAdmin(SummernoteModelAdminMixin, ModelAdmin):
     form = BrandAdminForm
     summernote_fields = ('description', 'about')
     list_display = ('slug', 'name', 'website')
@@ -14,20 +14,20 @@ class BrandAdmin(SummernoteModelAdmin):
     list_per_page = 20
 
 @admin.register(Offer)
-class OfferAdmin(SummernoteModelAdmin):
+class OfferAdmin(SummernoteModelAdminMixin, ModelAdmin):
     form = OfferAdminForm
     list_display = ('custom_id', 'brand', 'title', 'category', "sorting", "isExclusive")
     search_fields = ('brand', 'title')
     list_filter = ('category',)
 
 @admin.register(OfferSEO)
-class OfferSEOAdmin(admin.ModelAdmin):
+class OfferSEOAdmin(ModelAdmin):
     list_display = ('offer', 'title')
     search_fields = ('offer__name', 'title', 'keywords')
     list_per_page = 20
 
 @admin.register(RedeemedCodes)
-class RedeemedCodesAdmin(admin.ModelAdmin):
+class RedeemedCodesAdmin(ModelAdmin):
     list_display = ('offer_custom_id', 'codes_count', 'created_at', 'updated_at')
     search_fields = ('offer_custom_id',)
     list_per_page = 50
@@ -58,13 +58,13 @@ class RedeemedCodesAdmin(admin.ModelAdmin):
     formatted_redeemed_codes_html.short_description = "Redeemed Codes Dashboard"
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(ModelAdmin):
     list_display = ('category_id', 'name', 'title')
     search_fields = ('name', 'meta_keywords')
     list_per_page = 50
 
 @admin.register(OfferDailyAnalytics)
-class OfferDailyAnalyticsAdmin(admin.ModelAdmin):
+class OfferDailyAnalyticsAdmin(ModelAdmin):
     readonly_fields = ("formatted_offers_html",)
 
     def offers_count(self, obj):

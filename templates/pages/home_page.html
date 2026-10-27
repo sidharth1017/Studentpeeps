@@ -32,9 +32,10 @@
       </div>
 
       <!-- Student favourites (prototype hero panel) -->
+      {% if hero_section.visible %}
       <div class="est picks">
-        <h2>Student favourites</h2>
-        <p class="hint" style="margin-top:4px">Where students spend the most, priced for UPI.</p>
+        <h2>{{ hero_section.title }}</h2>
+        <p class="hint" style="margin-top:4px">{{ hero_section.subtitle }}</p>
         <ul class="pk">
           {% for pick in hero_picks %}
           <li>
@@ -69,8 +70,9 @@
           </li>
           {% endfor %}
         </ul>
-        <a class="btn btn-p btn-blk" href="{% url 'giftcard:explore' %}?sort=disc">See all deals</a>
+        <a class="btn btn-p btn-blk" href="{{ hero_section.cta_href }}">{{ hero_section.cta_label }}</a>
       </div>
+      {% endif %}
     </div>
 
     <!-- 4 Value Promises -->
@@ -128,14 +130,15 @@
 </section>
 
 <!-- POPULAR WITH STUDENTS THIS WEEK (FROM DB PRODUCTS) -->
+{% if popular_section.visible %}
 <section class="sec">
   <div class="wrap">
     <div class="sec-h">
       <div>
-        <h2>Popular this week</h2>
-        <p>What people bought most in the last 7 days.</p>
+        <h2>{{ popular_section.title }}</h2>
+        <p>{{ popular_section.subtitle }}</p>
       </div>
-      <a class="btn-q md-up" href="{% url 'giftcard:explore' %}">See all</a>
+      <a class="btn-q md-up" href="{{ popular_section.cta_href }}">{{ popular_section.cta_label }}</a>
     </div>
     <div class="rail">
       {% for card in popular_cards %}
@@ -169,6 +172,7 @@
     </div>
   </div>
 </section>
+{% endif %}
 
 <!-- TREATS UNDER ₹300 (FROM DB PRODUCTS) -->
 <section class="sec" id="treats">

@@ -1,0 +1,84 @@
+{% extends "admin/base.html" %}
+{% load i18n log unfold %}
+
+{% block branding %}
+    {% include "unfold/helpers/site_branding.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="flex flex-col gap-6">
+    {% if alerts %}
+        {% component "unfold/components/card.html" with title="Needs attention" %}
+            <ul class="flex flex-col gap-2">
+                {% for alert in alerts %}
+                    <li>
+                        <a href="{{ alert.href }}" class="font-medium text-primary-600 dark:text-primary-400">{{ alert.text }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endcomponent %}
+    {% else %}
+        {% component "unfold/components/card.html" with title="Needs attention" %}
+            <p class="text-sm">Nothing is waiting. No stuck orders or low code pools.</p>
+        {% endcomponent %}
+    {% endif %}
+
+    <div class="flex flex-wrap gap-4">
+        {% for card in kpi_cards %}
+            <div style="flex: 1 1 220px; min-width: 220px;">
+                {% component "unfold/components/card.html" with title=card.title href=card.href %}
+                    <div style="font-size: 1.75rem; font-weight: 650; line-height: 1.2;">{{ card.value }}</div>
+                    <p class="text-sm" style="margin-top: 0.35rem; opacity: 0.75;">{{ card.detail }}</p>
+                {% endcomponent %}
+            </div>
+        {% endfor %}
+    </div>
+
+    {% component "unfold/components/card.html" with title="Offer code pulls, last 14 days" %}
+        {% include "admin/ops/_chart.html" %}
+    {% endcomponent %}
+
+    {% component "unfold/components/card.html" with title="Shortcuts" %}
+        <div class="flex flex-wrap gap-2">
+            {% for shortcut in shortcuts %}
+                {% component "unfold/components/button.html" with href=shortcut.href variant="default" %}
+                    {{ shortcut.title }}
+                {% endcomponent %}
+            {% endfor %}
+        </div>
+        <p class="text-sm" style="margin-top: 0.75rem; opacity: 0.75;">
+            Fetch brand logos runs as soon as that page opens. Refunds stay in the payment gateway; order pages show the gateway ids.
+        </p>
+    {% endcomponent %}
+
+    {% if request.user.is_superuser %}
+        <form method="post" action="{% url 'admin:ops_send_digest' %}">
+            {% csrf_token %}
+            {% component "unfold/components/button.html" with submit=1 variant="default" %}
+                Email this digest to staff
+            {% endcomponent %}
+        </form>
+    {% endif %}
+
+    {% get_admin_log 10 as admin_log for_user user %}
+    {% if admin_log %}
+        {% component "unfold/components/card.html" with title="Recent actions" %}
+            <ul class="flex flex-col gap-3">
+                {% for entry in admin_log %}
+                    <li class="text-sm">
+                        {% if entry.is_deletion or not entry.get_admin_url %}
+                            <span class="font-medium">{{ entry.object_repr }}</span>
+                        {% else %}
+                            <a href="{{ entry.get_admin_url }}" class="font-medium text-primary-600 dark:text-primary-400">{{ entry.object_repr }}</a>
+                        {% endif %}
+                        <span style="opacity: 0.7;">
+                            {% if entry.content_type %}{{ entry.content_type.name }}{% else %}{% trans "item" %}{% endif %}
+                            · {{ entry.action_time }}
+                        </span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endcomponent %}
+    {% endif %}
+</div>
+{% endblock %}

@@ -4,9 +4,9 @@ from . import views
 from django.views.generic.base import RedirectView
 from brands_v2.views import BrandPageView
 
-admin.site.site_header = "Login to Student Peeps"
-admin.site.site_title = "Dashboard"
-admin.site.index_title = "Welcome to Student Peeps Dashboard"
+admin.site.site_header = "Student Peeps"
+admin.site.site_title = "Student Peeps"
+admin.site.index_title = "Dashboard"
 
 urlpatterns = [
     path('', views.Home.as_view(), name="Home"),
@@ -17,8 +17,11 @@ urlpatterns = [
     path('ourstory/', views.OurStory.as_view(), name="OurStory"),
     path('verification-message/',
          views.VerificationMessage.as_view(), name="Verificationmsg"),
-    path('google-verification-message/',
-         views.GoogleVerifyMessage.as_view(), name="GoogleVerificationmsg"),
+    path(
+        'google-verification-message/',
+        RedirectView.as_view(url='/account/v2/identify', permanent=True),
+        name="GoogleVerificationmsg",
+    ),
     path('upload-message/', views.UploadMessage.as_view(), name="Uploadmsg"),
     path('google-verified/', views.GoogleVerification.as_view(), name="GoogleVerification"),
     path('contactus/', views.ContactUs.as_view(), name="ContactUs"),

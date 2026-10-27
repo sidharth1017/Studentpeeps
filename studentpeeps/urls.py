@@ -19,9 +19,8 @@ from django.conf.urls.static import static
 from django.views.static import serve
 from . import settings
 from . import views
-from accounts_v2.views.googleAuthView import GoogleAuthFun
-
 from django.views.generic import RedirectView
+from django_summernote.models import Attachment
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,8 +32,6 @@ urlpatterns = [
     path('explore', RedirectView.as_view(pattern_name='giftcard:explore', query_string=True)),
     path('event/', views.Campus.as_view(), name="Event"),
     path("", include("main.urls")),
-    path('social-auth/', include('social_django.urls', namespace='social')),
-    path('google-auth/', GoogleAuthFun, name='googleAuth'),
     path('google-upload/', views.UploadFunc, name="google-upload"),
     path('sitemap.xml/', views.Sitemap.as_view(), name="Sitemap"),
     path('robots.txt/', views.Robots.as_view(), name="Robots"),
@@ -48,3 +45,8 @@ urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'account.views.error_404_view'
+
+try:
+    admin.site.unregister(Attachment)
+except admin.sites.NotRegistered:
+    pass

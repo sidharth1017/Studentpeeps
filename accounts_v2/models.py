@@ -2,22 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
-# Create your models here.
-class AbandonedSignup(models.Model):
-    identifier = models.CharField(max_length=1000, default="", null=True, blank=True)
-    firstname = models.CharField(max_length=100, default="", null=True, blank=True)
-    lastname = models.CharField(max_length=100, default="", null=True, blank=True)
-    gender = models.CharField(max_length=100, default="", null=True, blank=True)
-    birthday = models.DateField(null=True, blank=True)
-    created_at = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        return self.identifier    
-
-    class Meta:
-        verbose_name_plural = "Abandoned Signups"     
 
 class Register(models.Model):
+    """Profile for someone who signed up with email or phone OTP."""
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=15, default="", null=True, blank=True)
     firstname = models.CharField(max_length=100, default="", blank=True)
@@ -32,66 +20,8 @@ class Register(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.firstname    
+        return self.user.email or self.phone or self.firstname or str(self.user_id)
 
     class Meta:
-        verbose_name_plural = "Register"       
-
-
-class UnVerified(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    email = models.CharField(max_length=1000, default="", null=True, blank=True)
-    phone = models.CharField(max_length=15, default="", null=True, blank=True)
-    firstname = models.CharField(max_length=100)
-    lastname = models.CharField(max_length=100)
-    gender = models.CharField(max_length=100)
-    birthday = models.DateField(null=True, blank=True)
-    institution = models.CharField(max_length=200)
-    institution_email = models.CharField(max_length=200)
-    graduation_year = models.CharField(max_length=100)
-    collegeId = models.ImageField(upload_to='collegeidcards/', null=True, blank=True)
-    verification_url = models.CharField(max_length=500, default="")
-    created_at = models.DateTimeField(default=timezone.now)
-    
-    def __str__(self):
-        return self.institution_email
-
-    class Meta:
-        verbose_name_plural = "Unverified Users"      
-
-class UnVerifiedIdUpload(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    email = models.CharField(max_length=1000, default="", null=True, blank=True)
-    phone = models.CharField(max_length=15, default="", null=True, blank=True)
-    firstname = models.CharField(max_length=100)
-    lastname = models.CharField(max_length=100)
-    gender = models.CharField(max_length=100)
-    birthday = models.DateField(null=True, blank=True)
-    collegeId = models.ImageField(upload_to='collegeidcards/', null=True, blank=True)
-    created_at = models.DateTimeField(default=timezone.now)
-    
-    def __str__(self):
-        return self.firstname
-
-    class Meta:
-        verbose_name_plural = "Unverified Id Upload Users"      
-
-class RejectedUsers(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=15, default="", null=True, blank=True)
-    firstname = models.CharField(max_length=100, default="", blank=True)
-    lastname = models.CharField(max_length=100, default="", blank=True)
-    gender = models.CharField(max_length=100, default="", blank=True)
-    birthday = models.DateField(null=True, blank=True)
-    institution = models.CharField(max_length=200, default="", blank=True)
-    institution_email = models.CharField(max_length=200, default="", blank=True)
-    graduation_year = models.CharField(max_length=100, default="", blank=True)
-    collegeId = models.ImageField(upload_to='collegeidcards/', null=True, blank=True)
-    is_verified = models.BooleanField(default=False)
-    created_at = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        return self.firstname    
-
-    class Meta:
-        verbose_name_plural = "Rejected Users"       
+        verbose_name = "Register"
+        verbose_name_plural = "Register"

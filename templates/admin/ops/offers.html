@@ -1,0 +1,50 @@
+{% extends "admin/base.html" %}
+{% load unfold %}
+
+{% block content %}
+<div class="flex flex-col gap-6">
+    {% component "unfold/components/card.html" with title="Static code pulls, last 14 days" %}
+        {% include "admin/ops/_chart.html" %}
+    {% endcomponent %}
+
+    {% component "unfold/components/card.html" with title="Dynamic offers with few codes" %}
+        <p class="text-sm" style="margin-bottom: 0.75rem;">
+            Showing offers that are not a single shared code and have {{ threshold }} or fewer codes left.
+        </p>
+        {% if offers %}
+            <div style="overflow-x: auto;">
+                <table class="w-full" style="border-collapse: collapse; font-size: 14px;">
+                    <thead>
+                        <tr>
+                            <th class="text-left" style="padding: 8px;">Brand</th>
+                            <th class="text-left" style="padding: 8px;">Offer</th>
+                            <th class="text-left" style="padding: 8px;">Left</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for offer in offers %}
+                            <tr style="border-top: 1px solid rgba(127,127,127,0.25);">
+                                <td style="padding: 8px;">{{ offer.brand }}</td>
+                                <td style="padding: 8px;"><a href="{{ offer.admin_url }}">{{ offer.title }}</a></td>
+                                <td style="padding: 8px;">{{ offer.remaining }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-sm">No dynamic offer is at or under {{ threshold }} codes.</p>
+        {% endif %}
+    {% endcomponent %}
+
+    {% component "unfold/components/card.html" with title="Catalog and merchandising" %}
+        <div class="flex flex-wrap gap-2">
+            {% for shortcut in shortcuts %}
+                {% component "unfold/components/button.html" with href=shortcut.href variant="default" %}
+                    {{ shortcut.title }}
+                {% endcomponent %}
+            {% endfor %}
+        </div>
+    {% endcomponent %}
+</div>
+{% endblock %}

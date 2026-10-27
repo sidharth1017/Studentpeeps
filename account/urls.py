@@ -3,7 +3,7 @@ from django.views.generic.base import RedirectView
 from django.contrib.auth import views as auth_views
 from django.contrib.auth import views as auth_views
 from . import views
-from .Views import login, logout, register, signup, upload, myaccount, yourdetail, uploademail, verification, send, sendmailtounverifieds, college
+from .Views import logout
 
 urlpatterns = [
     path('logout/', logout.Logout.as_view(), name='logout'),
@@ -13,15 +13,10 @@ urlpatterns = [
     # path('login/', RedirectView.as_view(url='/account/v2/identify', permanent=False)),
     # path('register/', register.Register.as_view(), name='register'),
     # path('yourdetail/', yourdetail.YourDetail.as_view(), name='yourdetail'),
-    # path('signup/', signup.SignUp.as_view(), name='signup'),
     # path('upload/', upload.UploadClass.as_view(), name='upload'),
     # path('login/', login.Login.as_view(), name='login'),
     # path('email/', include(email_urls)),
-    # path('activate/<uidb64>/<token>/<new>', verification.VerificationView.as_view(), name="activate"),
-    # path('send/', send.Send.as_view(), name="send"),
-    # path('sendmailtounverifieds/', sendmailtounverifieds.SendMailToUnverifieds.as_view(), name="SendMailToUnverifieds"),
     # path('YourDetail', views.YourDetail, name='YourDetail'),
-    # path('send_email', views.sendEmail, name="send_email"),
     # Reset Password Urls
     # path('reset_password/', auth_views.PasswordResetView.as_view(template_name="password_reset.html"),
     # name="reset_password"),
@@ -37,7 +32,6 @@ urlpatterns = [
     # Extra
     # path('signupview/', views.SignUpView, name='signupview'),
     # path('college/', college.CollegeView.as_view(), name='CollegeView'),
-    # path('test_email/', signup.TestEmail.as_view(), name='TestEmail'),
     # Razorpay
     # path('membership/', views.Membership, name='Membership'),
     # path('razorpay_callback/', views.RazorpayCallback, name='RazorpayCallback'),

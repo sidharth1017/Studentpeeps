@@ -1,11 +1,8 @@
-from datetime import date
-
 from brands_v2.models import Category
 
 from giftcard.models import Cart
 from giftcard.services.cart_service import CartService
-
-DIWALI_2026 = date(2026, 11, 8)
+from main.services.homepage_merchandising import active_promo_strip
 
 # Same five categories as the gift-card prototype header (slug order).
 SUBNAV_CATEGORY_SLUGS = (
@@ -18,19 +15,10 @@ SUBNAV_CATEGORY_SLUGS = (
 
 
 def _promo_strip():
-    today = date.today()
-    days = (DIWALI_2026 - today).days
-    if 0 <= days <= 45:
-        return {
-            "promo_strip_text": "Diwali is on Sunday, 8 November. Schedule gifts to land that morning.",
-            "promo_strip_href": "/giftcard/explore/?category=entertainment",
-            "promo_strip_link": "Diwali gifts",
-        }
-    return {
-        "promo_strip_text": "Pay with UPI for the best price on every card.",
-        "promo_strip_href": "/giftcard/explore/",
-        "promo_strip_link": "Browse cards",
-    }
+    try:
+        return active_promo_strip()
+    except Exception:
+        return {"promo_strip_visible": False}
 
 
 def subnav_categories(request):
@@ -59,7 +47,7 @@ def cart_count(request):
                 count = sum(item.get("quantity", 1) for item in cart.items)
         except Exception:
             pass
-            
+
     return {
         "global_cart_count": count,
         **_promo_strip(),

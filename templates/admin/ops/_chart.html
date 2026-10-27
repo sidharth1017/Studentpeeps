@@ -1,0 +1,9 @@
+<div class="flex" style="align-items: flex-end; gap: 6px; height: 160px;">
+    {% for point in offer_chart %}
+        <div class="flex flex-col" style="flex: 1 1 0; align-items: center; justify-content: flex-end; height: 100%; min-width: 0;">
+            <span style="font-size: 11px;">{{ point.total }}</span>
+            <div class="bg-primary-600" style="height: {{ point.width }}%; width: 100%; max-width: 28px; min-height: {% if point.total %}4px{% else %}0{% endif %}; border-radius: 4px 4px 0 0;" title="{{ point.label }}: {{ point.total }}"></div>
+            <span style="font-size: 10px; opacity: 0.7; margin-top: 4px;">{{ point.label }}</span>
+        </div>
+    {% endfor %}
+</div>

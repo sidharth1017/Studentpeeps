@@ -166,12 +166,14 @@
   </svg>
 
   <!-- TOP STRIP -->
-  <div class="strip">
+  {% if promo_strip_visible %}
+  <div class="strip" style="background: {{ promo_strip_bg }}; color: {{ promo_strip_color }};">
     <div class="wrap">
-      <span>{{ promo_strip_text|default:"Pay with UPI for the best price on every card." }}</span>
-      <a href="{{ promo_strip_href|default:'/giftcard/explore/' }}">{{ promo_strip_link|default:"Browse cards" }}</a>
+      <span>{{ promo_strip_text }}</span>
+      <a href="{{ promo_strip_href }}" style="color: {{ promo_strip_link_color }};">{{ promo_strip_link }}</a>
     </div>
   </div>
+  {% endif %}
 
   <!-- HEADER -->
   <header class="hdr">

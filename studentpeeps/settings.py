@@ -9,7 +9,9 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+from celery.schedules import crontab
 from django.contrib.messages import constants as messages
+from django.urls import reverse_lazy
 from pathlib import Path
 from decouple import config
 import os
@@ -38,16 +40,111 @@ INSTALLED_APPS = [
     'brands_v2',
     'utilities.apps.UtilitiesConfig',
     'giftcard',
+    'unfold',
+    'unfold.contrib.filters',
+    'unfold.contrib.forms',
+    'unfold.contrib.inlines',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'social_django',
     'storages',
     'django_summernote',
 ]
+
+UNFOLD = {
+    "SITE_TITLE": "Student Peeps",
+    "SITE_HEADER": "Student Peeps",
+    "SITE_SUBHEADER": "Operations",
+    "SITE_URL": "/",
+    "SITE_SYMBOL": "school",
+    "SHOW_HISTORY": True,
+    "STYLES": ["studentpeeps.settings.unfold_admin_theme"],
+    "COLORS": {
+        "base": {
+            "50": "oklch(98.5% 0 0)",
+            "100": "oklch(97% 0 0)",
+            "200": "oklch(92.2% 0 0)",
+            "300": "oklch(87% 0 0)",
+            "400": "oklch(70.8% 0 0)",
+            "500": "oklch(55.6% 0 0)",
+            "600": "oklch(43.9% 0 0)",
+            "700": "oklch(37.1% 0 0)",
+            "800": "oklch(26.9% 0 0)",
+            "900": "oklch(20.5% 0 0)",
+            "950": "oklch(14.5% 0 0)",
+        },
+        "primary": {
+            "50": "oklch(98.5% 0 0)",
+            "100": "oklch(96% 0 0)",
+            "200": "oklch(90% 0 0)",
+            "300": "oklch(82% 0 0)",
+            "400": "oklch(64% 0 0)",
+            "500": "oklch(45% 0 0)",
+            "600": "oklch(18% 0 0)",
+            "700": "oklch(14% 0 0)",
+            "800": "oklch(10% 0 0)",
+            "900": "oklch(7% 0 0)",
+            "950": "oklch(4% 0 0)",
+        },
+    },
+    "DASHBOARD_CALLBACK": "main.dashboard.dashboard_callback",
+    "SITE_VIEWS": [
+        ("ops/orders/", "ops_orders", "main.ops_views.OrdersAttentionView"),
+        ("ops/offers/", "ops_offers", "main.ops_views.OfferHealthView"),
+        ("ops/digest/", "ops_send_digest", "main.ops_views.SendDigestView"),
+    ],
+    "SIDEBAR": {
+        "show_search": True,
+        "show_all_applications": True,
+        "navigation": [
+            {
+                "title": "Today",
+                "separator": True,
+                "items": [
+                    {
+                        "title": "Dashboard",
+                        "icon": "dashboard",
+                        "link": reverse_lazy("admin:index"),
+                    },
+                    {
+                        "title": "Orders needing attention",
+                        "icon": "shopping_bag",
+                        "link": reverse_lazy("admin:ops_orders"),
+                    },
+                    {
+                        "title": "Offer health",
+                        "icon": "local_offer",
+                        "link": reverse_lazy("admin:ops_offers"),
+                    },
+                ],
+            },
+            {
+                "title": "Shortcuts",
+                "separator": True,
+                "items": [
+                    {
+                        "title": "Bulk upload offers",
+                        "icon": "upload",
+                        "link": reverse_lazy("bulk_upload"),
+                    },
+                    {
+                        "title": "Homepage sections",
+                        "icon": "dashboard_customize",
+                        "link": reverse_lazy("admin:main_homepagesection_changelist"),
+                    },
+                    {
+                        "title": "Gift card buying",
+                        "icon": "toggle_on",
+                        "link": reverse_lazy("admin:utilities_giftcardsettings_changelist"),
+                    },
+                ],
+            },
+        ],
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -186,27 +283,19 @@ MESSAGE_TAGS = \
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+def unfold_admin_theme(request):
+    from django.templatetags.static import static
+    return static("css/admin_theme.css")
+
 SESSION_SAVE_EVERY_REQUEST = True
 
 AUTHENTICATION_BACKENDS = (
-    'accounts_v2.backends.PhoneBackend', 
+    'accounts_v2.backends.PhoneBackend',
     'django.contrib.auth.backends.ModelBackend',
-    'social_core.backends.google.GoogleOAuth2',
 )
 
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
-
-# Local System
-# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY_LOCAL')
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET_LOCAL')
-
-# Production
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config(
-    'SOCIAL_AUTH_GOOGLE_OAUTH2_KEY_PRODUCTION')
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config(
-    'SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET_PRODUCTION')
-
-LOGIN_REDIRECT_URL = '/google-auth/'
+LOGIN_REDIRECT_URL = '/'
 
 # CELERY STUFF
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
@@ -219,6 +308,15 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = "Asia/Kolkata"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_BEAT_SCHEDULE = {
+    "ops-daily-digest": {
+        "task": "main.tasks.send_ops_digest",
+        "schedule": crontab(hour=9, minute=0),
+    },
+}
+
+# Comma-separated extras merged with active staff users who have an email.
+OPS_DIGEST_EMAILS = config("OPS_DIGEST_EMAILS", default="")
 
 # Twilio SMS Service
 TWILIO_ACCOUNT_SID=config('TWILIO_ACCOUNT_SID')

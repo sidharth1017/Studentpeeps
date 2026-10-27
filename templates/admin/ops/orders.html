@@ -1,0 +1,80 @@
+{% extends "admin/base.html" %}
+{% load unfold %}
+
+{% block content %}
+<div class="flex flex-col gap-6">
+    {% component "unfold/components/card.html" with title="What is in this list" %}
+        <p class="text-sm">
+            {{ counts.total }} orders: {{ counts.failed }} failed,
+            {{ counts.on_hold }} on hold because gift card buying was off,
+            {{ counts.in_progress }} placed with Woohoo and not finished,
+            {{ counts.confirmed_open }} paid but not placed.
+            Retry queues the existing Woohoo status poll. It does not refund.
+            Use the gateway order id and payment id in Razorpay or PayU for a refund.
+        </p>
+        <p class="text-sm" style="margin-top: 0.5rem;">
+            <a class="text-primary-600" href="{% url 'admin:utilities_giftcardsettings_changelist' %}">Gift card buying switch</a>
+        </p>
+    {% endcomponent %}
+
+    {% component "unfold/components/card.html" with title="Orders" %}
+        {% if rows %}
+            <div style="overflow-x: auto;">
+                <table class="w-full" style="border-collapse: collapse; font-size: 14px;">
+                    <thead>
+                        <tr>
+                            <th class="text-left" style="padding: 8px;">Reference</th>
+                            <th class="text-left" style="padding: 8px;">Status</th>
+                            <th class="text-left" style="padding: 8px;">Amount</th>
+                            <th class="text-left" style="padding: 8px;">Customer</th>
+                            <th class="text-left" style="padding: 8px;">Gateway ids</th>
+                            <th class="text-left" style="padding: 8px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in rows %}
+                            <tr style="border-top: 1px solid rgba(127,127,127,0.25);">
+                                <td style="padding: 8px;">
+                                    <a href="{{ row.admin_url }}">{{ row.reference_id }}</a>
+                                    <div style="font-size: 12px; opacity: 0.7;">{{ row.created_at }}</div>
+                                </td>
+                                <td style="padding: 8px;">
+                                    {{ row.status_label }}
+                                    {% if row.on_hold %}<div>On hold</div>{% endif %}
+                                </td>
+                                <td style="padding: 8px;">Rs {{ row.total_amount }}</td>
+                                <td style="padding: 8px;">{{ row.customer_email }}</td>
+                                <td style="padding: 8px;">
+                                    {{ row.payment_gateway }}<br>
+                                    order {{ row.gateway_order_id|default:"—" }}<br>
+                                    payment {{ row.gateway_payment_id|default:"—" }}<br>
+                                    woohoo {{ row.woohoo_order_id|default:"—" }}
+                                </td>
+                                <td style="padding: 8px;">
+                                    {% if row.can_retry and request.user.is_superuser %}
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="order_id" value="{{ row.id }}">
+                                            {% component "unfold/components/button.html" with submit=1 size="xs" %}
+                                                Retry Woohoo poll
+                                            {% endcomponent %}
+                                        </form>
+                                    {% elif row.on_hold %}
+                                        Held until buying is on. No Woohoo poll.
+                                    {% elif row.status == "FAILED" %}
+                                        Poll will not retry a failed order.
+                                    {% else %}
+                                        —
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-sm">No orders need a person.</p>
+        {% endif %}
+    {% endcomponent %}
+</div>
+{% endblock %}

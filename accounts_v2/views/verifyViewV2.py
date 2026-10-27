@@ -1,15 +1,13 @@
 # views.py
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import login
-from django.contrib.auth import authenticate
 from django.contrib import messages
-from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.views import View
 from accounts_v2.models import Register
 from accounts_v2.communication import send_otp,send_otp_email
 import random
 from django.db.models import Q
-from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 
@@ -69,19 +67,15 @@ class VerifyViewV2(View):
                     register = Register.objects.get(phone=phone)
                     user = register.user
                     user.backend = 'django.contrib.auth.backends.ModelBackend'
-                    if not register.is_verified:
-                        messages.error(request, "Your account is inactive. Please contact support.")
-                        return HttpResponseRedirect('/')
                     login(request, user)
                     return redirect(next_url)
 
                 elif email:
-                    register = Register.objects.get(Q(user__username=email) | Q(institution_email=email))
+                    register = Register.objects.get(
+                        Q(user__username=email) | Q(user__email=email) | Q(institution_email=email)
+                    )
                     user = register.user
                     user.backend = 'django.contrib.auth.backends.ModelBackend'
-                    if not register.is_verified:
-                        messages.error(request, "Your account is inactive. Please contact support.")
-                        return HttpResponseRedirect('/')
                     login(request, user)
                     return redirect(next_url)
 

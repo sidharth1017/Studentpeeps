@@ -6,7 +6,7 @@ class MiddlewareToVerify:
     def __call__(self, request):
         if "/accounts/login" in request.build_absolute_uri():
             if request.user.is_active==False:
-                return HttpResponseRedirect("https://studentpeeps.club/google-verification-message/")
+                return HttpResponseRedirect("https://studentpeeps.club/account/v2/identify")
 
         response = self.get_response(request)
         return response

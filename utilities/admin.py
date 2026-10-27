@@ -1,18 +1,19 @@
 from django.contrib import admin
+from unfold.admin import ModelAdmin
 from .models import Communication, OTPSendLog, GiftCardSettings, PaymentMethodOption
 
 # Register your models here.
-class CommunicationAdmin(admin.ModelAdmin):
+class CommunicationAdmin(ModelAdmin):
     list_display = ('channel', 'service')
 admin.site.register(Communication, CommunicationAdmin)
 
-class OTPSendLogAdmin(admin.ModelAdmin):
+class OTPSendLogAdmin(ModelAdmin):
     list_display = ('phone', 'count', 'date')
 admin.site.register(OTPSendLog, OTPSendLogAdmin)
 
 
 @admin.register(GiftCardSettings)
-class GiftCardSettingsAdmin(admin.ModelAdmin):
+class GiftCardSettingsAdmin(ModelAdmin):
     list_display = ('__str__', 'purchases_enabled', 'updated_at')
     list_editable = ('purchases_enabled',)
     fieldsets = (
@@ -37,7 +38,7 @@ class GiftCardSettingsAdmin(admin.ModelAdmin):
 
 
 @admin.register(PaymentMethodOption)
-class PaymentMethodOptionAdmin(admin.ModelAdmin):
+class PaymentMethodOptionAdmin(ModelAdmin):
     list_display = ('display_label', 'method', 'enabled', 'sort_order', 'fee_percent', 'discount_percent', 'description')
     list_editable = ('enabled', 'sort_order', 'fee_percent', 'discount_percent', 'description')
     list_display_links = ('display_label',)

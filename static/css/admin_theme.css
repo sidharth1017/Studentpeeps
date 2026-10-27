@@ -1,0 +1,11 @@
+/* Dark mode stays black and white: white accents on the black page. */
+html.dark {
+  --color-primary-400: oklch(92% 0 0);
+  --color-primary-500: oklch(96% 0 0);
+}
+
+html.dark .bg-primary-600 {
+  background-color: #fff;
+  color: #111;
+  border-color: #fff;
+}

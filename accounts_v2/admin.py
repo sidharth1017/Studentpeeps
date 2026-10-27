@@ -1,32 +1,45 @@
-# admin.py
 from django.contrib import admin
-from .models import Register, UnVerified, AbandonedSignup, UnVerifiedIdUpload, RejectedUsers
+from unfold.admin import ModelAdmin
 
-class RegisterAdmin(admin.ModelAdmin):
-    list_display = ('user_name', 'user_email', 'phone', 'institution_email', 'created_at', 'is_verified')
-    readonly_fields = ('created_at',)
-    list_filter = ('is_verified',)  # <-- Add this line for filtering by is_verified
-    search_fields = ('user__first_name', 'user__email', 'phone', 'firstname')
+from .models import Register
 
+
+@admin.register(Register)
+class RegisterAdmin(ModelAdmin):
+    """People who signed up with email or phone OTP."""
+
+    list_display = ("display_name", "user_email", "phone", "created_at")
+    list_select_related = ("user",)
+    search_fields = (
+        "user__email",
+        "user__username",
+        "user__first_name",
+        "user__last_name",
+        "firstname",
+        "lastname",
+        "phone",
+    )
+    readonly_fields = ("created_at",)
+    ordering = ("-created_at",)
+    date_hierarchy = "created_at"
+    fields = (
+        "user",
+        "phone",
+        "firstname",
+        "lastname",
+        "gender",
+        "birthday",
+        "created_at",
+    )
+
+    @admin.display(description="Name")
+    def display_name(self, obj):
+        full_name = (obj.user.get_full_name() or "").strip()
+        if full_name:
+            return full_name
+        profile_name = f"{obj.firstname} {obj.lastname}".strip()
+        return profile_name or obj.user.username
+
+    @admin.display(description="Email")
     def user_email(self, obj):
-        return obj.user.email
-    user_email.short_description = 'Email'
-
-    def user_name(self, obj):
-        return obj.user.first_name
-    user_name.short_description = 'First Name'
-
-admin.site.register(Register, RegisterAdmin)
-
-admin.site.register(UnVerified)
-admin.site.register(AbandonedSignup)
-
-@admin.register(UnVerifiedIdUpload)
-class UnVerifiedIdUploadAdmin(admin.ModelAdmin):
-    list_display = ('user', 'firstname', 'lastname', 'collegeId', 'created_at')
-    search_fields = ('user__first_name', 'user__email', 'phone', 'firstname')
-
-@admin.register(RejectedUsers)
-class RejectedUsersAdmin(admin.ModelAdmin):
-    list_display = ('user', 'firstname')
-
+        return obj.user.email or ""

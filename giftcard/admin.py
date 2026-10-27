@@ -1,4 +1,5 @@
 from django.contrib import admin
+from unfold.admin import ModelAdmin, StackedInline
 from django.utils.html import format_html
 
 from .models import (
@@ -26,7 +27,7 @@ def _brand_logo_preview(file_field):
     return "—"
 
 
-class ProductOverrideInline(admin.StackedInline):
+class ProductOverrideInline(StackedInline):
     model = ProductOverride
     can_delete = False
     extra = 0
@@ -58,54 +59,54 @@ class ProductOverrideInline(admin.StackedInline):
         return _brand_logo_preview(obj.brand_logo)
 
 @admin.register(Cart)
-class CartAdmin(admin.ModelAdmin):
+class CartAdmin(ModelAdmin):
     list_display = ('cart_id', 'user', 'session_key', 'is_active', 'created_at')
     search_fields = ('cart_id', 'user__username', 'session_key')
     list_filter = ('is_active', 'created_at')
 
 @admin.register(Order)
-class OrderAdmin(admin.ModelAdmin):
+class OrderAdmin(ModelAdmin):
     list_display  = ('reference_id', 'user', 'total_amount', 'status', 'payment_gateway', 'customer_email', 'created_at')
     search_fields = ('reference_id', 'user__username', 'customer_email', 'gateway_order_id', 'gateway_payment_id', 'woohoo_order_id')
     list_filter   = ('status', 'payment_gateway', 'created_at')
     readonly_fields = ('items_snapshot', 'woohoo_response', 'gateway_order_id', 'gateway_payment_id', 'woohoo_order_id')
 
 @admin.register(PaymentTransaction)
-class PaymentTransactionAdmin(admin.ModelAdmin):
+class PaymentTransactionAdmin(ModelAdmin):
     list_display  = ('order', 'gateway', 'gateway_order_id', 'gateway_payment_id', 'amount', 'status', 'created_at')
     search_fields = ('order__reference_id', 'gateway_order_id', 'gateway_payment_id')
     list_filter   = ('gateway', 'status', 'created_at')
     readonly_fields = ('raw_response',)
 
 @admin.register(Provider)
-class ProviderAdmin(admin.ModelAdmin):
+class ProviderAdmin(ModelAdmin):
     list_display = ('id', 'name', 'is_active')
     search_fields = ('id', 'name')
     list_per_page = 20
 
 @admin.register(ProviderCategory)
-class ProviderCategoryAdmin(admin.ModelAdmin):
+class ProviderCategoryAdmin(ModelAdmin):
     list_display = ('id', 'name', 'provider', 'provider_category_id')
     search_fields = ('id', 'name', 'provider_category_id')
     list_per_page = 20
 
 @admin.register(CategoryMapping)
-class CategoryMappingAdmin(admin.ModelAdmin):
+class CategoryMappingAdmin(ModelAdmin):
     list_display = ('platform_category', 'provider_category', 'is_primary')
     search_fields = ('platform_category__name', 'provider_category__name')
 
 @admin.register(ProviderAuthToken)
-class ProviderAuthTokenAdmin(admin.ModelAdmin):
+class ProviderAuthTokenAdmin(ModelAdmin):
     list_display = ('provider', 'token_type', 'expires_at', 'is_active')
     search_fields = ('provider__name',)
 
 @admin.register(ProviderApiLog)
-class ProviderApiLogAdmin(admin.ModelAdmin):
+class ProviderApiLogAdmin(ModelAdmin):
     list_display = ('provider', 'method', 'url', 'response_status', 'created_at')
     search_fields = ('provider__name',)
 
 @admin.register(ProviderProduct)
-class ProviderProductAdmin(admin.ModelAdmin):
+class ProviderProductAdmin(ModelAdmin):
     list_display = ("name", "sku", "provider", "override_logo_status")
     search_fields = ("provider__name", "sku", "name", "brand_name")
     inlines = (ProductOverrideInline,)
@@ -124,7 +125,7 @@ class ProviderProductAdmin(admin.ModelAdmin):
         return "Override exists, no logo file"
 
 @admin.register(ProductOverride)
-class ProductOverrideAdmin(admin.ModelAdmin):
+class ProductOverrideAdmin(ModelAdmin):
     list_display = ("product", "category", "name", "logo_fetched_at", "brand_logo_preview")
     search_fields = ("product__provider__name", "product__sku", "name", "brand_name", "logo_domain")
     readonly_fields = ("brand_logo_preview", "logo_dev_etag", "logo_fetched_at")

@@ -5,12 +5,10 @@ from django.contrib import messages
 from .models import Contact, RequestBrand, Foundation, Resource, Brand, Subscribe, Homepage, PolicyPage
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from account.tasks import send_brand_mail, send_course_mail, send_subscribe_email, send_contact_mail
+from account.tasks import send_subscribe_email, send_contact_mail
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from account.models import UnVerified
-from account.tasks import send_email
 import json
 from django.contrib.auth.models import User
 from brands_v2.models import Offer, Category
@@ -293,86 +291,18 @@ class Home(View):
                 'icon': icon,
             })
 
-        # -------------------------------------------------------------
-        # 2. Brand Design Metadata (Palette, Pattern, Discount, Use)
-        # -------------------------------------------------------------
-        BRAND_CONFIG = {
-            'EGVGBPVRC001': {'display': 'PVR INOX', 'discount': 12.0, 'pal': ('#2442E6', '#6440E0'), 'pt': 'p-rings', 'use': 'Online & in-store', 'use_icon': 'i-store'},
-            'EGCGBDEGCS001': {'display': "Domino's", 'discount': 4.5, 'pal': ('#FF9F1C', '#F2542D'), 'pt': 'p-stars', 'use': 'Online & in-store', 'use_icon': 'i-store'},
-            'EGCGBMYNC001': {'display': 'Myntra', 'discount': 0.75, 'pal': ('#7C3FD6', '#30177D'), 'pt': 'p-waves', 'use': 'Online', 'use_icon': 'i-globe'},
-            'EGVGBSTB001': {'display': 'Starbucks', 'discount': 3.75, 'pal': ('#FF9F1C', '#F2542D'), 'pt': 'p-grid', 'use': 'Online & in-store', 'use_icon': 'i-store'},
-            'EGCGBUBER001': {'display': 'Uber', 'discount': 1.5, 'pal': ('#2FA8FF', '#2350DB'), 'pt': 'p-lines', 'use': 'Online', 'use_icon': 'i-globe'},
-            'EGCGBCROM001': {'display': 'Croma', 'discount': 0.5, 'pal': ('#2442E6', '#6440E0'), 'pt': 'p-grid', 'use': 'Online & in-store', 'use_icon': 'i-store'},
-            'EGCGBLVSS001': {'display': "Levi's", 'discount': 5.25, 'pal': ('#C2337A', '#541750'), 'pt': 'p-stars', 'use': 'Online & in-store', 'use_icon': 'i-store'},
-            'EGCGBSCLPL002': {'display': 'Lenskart', 'discount': 5.25, 'pal': ('#7C3FD6', '#30177D'), 'pt': 'p-rings', 'use': 'Online & in-store', 'use_icon': 'i-store'},
-            'EGCGBCINE001': {'display': 'Cinepolis', 'discount': 16.5, 'pal': ('#7C3FD6', '#30177D'), 'pt': 'p-grid', 'use': 'Online & in-store', 'use_icon': 'i-store'},
-            'EGCGBDCN003': {'display': 'Decathlon', 'discount': 2.0, 'pal': ('#3A4160', '#14172F'), 'pt': 'p-rings', 'use': 'Online & in-store', 'use_icon': 'i-store'},
-            'EGCGBCCD001': {'display': 'Cafe Coffee Day', 'discount': 6.75, 'pal': ('#E3A866', '#B4602F'), 'pt': 'p-stars', 'use': 'In-store', 'use_icon': 'i-store'},
-            'EGVGBKFC001': {'display': 'KFC', 'discount': 2.75, 'pal': ('#E3A866', '#B4602F'), 'pt': 'p-grid', 'use': 'Online & in-store', 'use_icon': 'i-store'},
-            'EGCGBPZH001': {'display': 'Pizza Hut', 'discount': 4.5, 'pal': ('#E3A866', '#B4602F'), 'pt': 'p-grid', 'use': 'Online & in-store', 'use_icon': 'i-store'},
-            'EGCGBSUBW001': {'display': 'Subway', 'discount': 5.5, 'pal': ('#FF9F1C', '#F2542D'), 'pt': 'p-rings', 'use': 'In-store', 'use_icon': 'i-store'},
-            'EGCGBWS002': {'display': 'Westside', 'discount': 5.25, 'pal': ('#7C3FD6', '#30177D'), 'pt': 'p-waves', 'use': 'Online & in-store', 'use_icon': 'i-store'},
-            'EGCGBAJIORRL001': {'display': 'AJIO', 'discount': 3.25, 'pal': ('#7C3FD6', '#30177D'), 'pt': 'p-waves', 'use': 'Online', 'use_icon': 'i-globe'},
-            'EGCGBGRDM001': {'display': 'Giva Silver Coin', 'discount': 0.75, 'pal': ('#0A7368', '#17BF91'), 'pt': 'p-grid', 'use': 'Online', 'use_icon': 'i-globe'},
-            'EGCGBZOMA001': {'display': 'Zomato', 'discount': 2.5, 'pal': ('#FF7457', '#C9302B'), 'pt': 'p-rings', 'use': 'Online', 'use_icon': 'i-globe'},
-            'EGCGBBLINK002': {'display': 'Blinkit', 'discount': 2.5, 'pal': ('#17BF91', '#0A7368'), 'pt': 'p-lines', 'use': 'Online', 'use_icon': 'i-globe'},
-            'EGCGBBBS001': {'display': 'Bigbasket', 'discount': 1.0, 'pal': ('#7FC93A', '#1F8F57'), 'pt': 'p-zig', 'use': 'Online', 'use_icon': 'i-globe'},
-            'EGVGBAPOPHA001': {'display': 'Apollo Pharmacy', 'discount': 5.5, 'pal': ('#C2337A', '#541750'), 'pt': 'p-grid', 'use': 'Online & in-store', 'use_icon': 'i-store'},
-        }
+        from giftcard.brand_design import BRAND_CONFIG
+        from main.services.homepage_merchandising import (
+            build_hero_picks,
+            build_popular_cards,
+            max_brand_discount_pct,
+        )
+
+        hero_section, hero_picks = build_hero_picks()
+        popular_section, popular_cards = build_popular_cards()
 
         # -------------------------------------------------------------
-        # 3. Popular Cards Query
-        # -------------------------------------------------------------
-        popular_skus = list(BRAND_CONFIG.keys())
-        popular_products_qs = ProviderProduct.objects.filter(
-            sku__in=popular_skus, in_stock=True
-        ).select_related('override', 'override__category')
-
-        popular_products_map = {p.sku: p for p in popular_products_qs}
-        popular_cards = []
-
-        for sku in popular_skus:
-            prod = popular_products_map.get(sku)
-            if not prod:
-                continue
-
-            conf = BRAND_CONFIG.get(sku, {})
-            disp_brand = conf.get('display') or prod.brand_name or prod.name
-            min_p = int(prod.min_price or 100)
-            max_p = int(prod.max_price or 5000)
-
-            if min_p == max_p:
-                range_txt = f"₹{min_p:,}"
-            else:
-                range_txt = f"₹{min_p:,}–₹{max_p:,}"
-
-            # Brand length class
-            L = len(disp_brand)
-            b_cls = 'x3' if L > 30 else 'xxl' if L > 22 else 'xl' if L > 14 else 'long' if L > 9 else ''
-
-            cat_name = "Gift card"
-            if hasattr(prod, 'override') and prod.override.category:
-                cat_name = prod.override.category.name
-
-            popular_cards.append({
-                'sku': prod.sku,
-                'name': prod.name,
-                'display_brand': disp_brand,
-                'brand_size_cls': b_cls,
-                'tile_brand_logo_url': prod.tile_brand_logo_url,
-                'pal_0': conf.get('pal', ('#2442E6', '#6440E0'))[0],
-                'pal_1': conf.get('pal', ('#2442E6', '#6440E0'))[1],
-                'pattern_cls': conf.get('pt', 'p-dots'),
-                'discount_display': f"{conf.get('discount', 5.0)}%",
-                'range_txt': range_txt,
-                'category_name': cat_name,
-                'use_txt': conf.get('use', 'Online & in-store'),
-                'use_icon': conf.get('use_icon', 'i-store'),
-                'min_price': min_p,
-            })
-
-        # -------------------------------------------------------------
-        # 4. Treats Under ₹300
+        # 2. Treats Under ₹300
         # -------------------------------------------------------------
         TREATS_SPEC = [
             {'brand_name': 'Starbucks', 'sku': 'EGVGBSTB001', 'tagline': 'A coffee before the paper', 'card_val': 250, 'discount': 3.75, 'pal': ('#FF9F1C', '#F2542D'), 'pt': 'p-grid'},
@@ -400,73 +330,7 @@ class Home(View):
                 'pattern_cls': t['pt'],
             })
 
-        # -------------------------------------------------------------
-        # 5. Occasions Data
-        # -------------------------------------------------------------
-        max_discount_pct = max((c.get('discount', 0) for c in BRAND_CONFIG.values()), default=0)
-        picks_spec = [
-            {'sku': 'EGVGBPVRC001', 'name': 'PVR INOX', 'why': 'Movie nights'},
-            {'sku': 'EGCGBMYNC001', 'name': 'Myntra', 'why': 'Fashion'},
-            {'sku': 'EGCGBAJIORRL001', 'name': 'AJIO', 'why': 'Fashion'},
-            {'sku': 'EGCGBWS002', 'name': 'Westside', 'why': 'Fashion'},
-            {'sku': 'EGCGBSCLPL002', 'name': 'Lenskart', 'why': 'Glasses and lenses'},
-            {'sku': 'EGCGBGRDM001', 'name': 'Giva Silver', 'why': 'Silver jewellery'},
-            {'sku': 'EGCGBCINE001', 'name': 'Cinepolis', 'why': 'Movie nights'},
-        ]
-        pick_skus = [p['sku'] for p in picks_spec]
-        pick_products = {
-            p.sku: p for p in ProviderProduct.objects.filter(sku__in=pick_skus).select_related('override')
-        }
-        hero_picks = []
-        sample_amt = 1000
-
-        def _format_pick_inr(amount):
-            rounded = round(float(amount) * 100) / 100
-            if rounded == int(rounded):
-                return f"₹{int(rounded):,}"
-            return f"₹{rounded:,.2f}"
-
-        def _format_pick_disc(d):
-            d = float(d)
-            if d == int(d):
-                return f"{int(d)}%"
-            return f"{d:g}%"
-
-        def _pick_discount(prod, fallback):
-            if prod:
-                try:
-                    margin = prod.override.margin
-                    if margin is not None:
-                        from giftcard.services.margin_pricing import margin_as_percent
-                        return float(margin_as_percent(margin))
-                except Exception:
-                    pass
-            return float(fallback)
-
-        for spec in picks_spec:
-            sku = spec['sku']
-            conf = BRAND_CONFIG.get(sku, {})
-            prod = pick_products.get(sku) or popular_products_map.get(sku)
-            if not conf and not prod:
-                continue
-            pick_name = spec['name']
-            disc = _pick_discount(prod, conf.get('discount', 0))
-            pay_val = sample_amt * (1 - disc / 100)
-            L = len(pick_name)
-            b_cls = 'x3' if L > 30 else 'xxl' if L > 22 else 'xl' if L > 14 else 'long' if L > 9 else ''
-            hero_picks.append({
-                'sku': sku,
-                'name': pick_name,
-                'why': spec['why'],
-                'discount': disc,
-                'discount_display': _format_pick_disc(disc),
-                'sample_amt_str': f"₹{sample_amt:,}",
-                'pay_str': _format_pick_inr(pay_val),
-                'brand_size_cls': b_cls,
-                'pal_0': conf.get('pal', ('#2442E6', '#6440E0'))[0],
-                'pal_1': conf.get('pal', ('#2442E6', '#6440E0'))[1],
-                'pattern_cls': conf.get('pt', 'p-dots'),
-            })
+        max_discount_pct = max_brand_discount_pct()
 
         occasions = [
             {'key': 'diwali', 'title': 'Diwali', 'sub': 'Sun, 8 Nov', 'line': 'Lights, mithai, new clothes', 'pal': ('#3B1A8F', '#C2337A'), 'pt': 'p-diya', 'theme_title': 'Shubh Deepavali', 'category': 'festive'},
@@ -480,9 +344,11 @@ class Home(View):
         return render(request, "pages/home_page.html", {
             "categories": categories_data,
             "popular_cards": popular_cards,
+            "popular_section": popular_section,
             "treats": treats_list,
             "occasions": occasions,
             "hero_picks": hero_picks,
+            "hero_section": hero_section,
             "max_discount_pct": max_discount_pct,
         })
         
@@ -497,24 +363,6 @@ class VerificationMessage(View):
 
     def post(self, request):
         return render(request,'verificationmsg.html')
-
-class GoogleVerifyMessage(View):
-    def get(self, request):
-        return render(request,'googleverifymessage.html')
-
-    def post(self, request):
-        messages = None
-        Email = request.POST.get('verify')        
-        unverifiedUsers = UnVerified.objects.all()
-        for unverifiedUser in unverifiedUsers:
-            if unverifiedUser.email == Email or unverifiedUser.institution_email == Email:
-                message = render_to_string('mail_body_unverified.html', {'fname': unverifiedUser.firstname, 'lname': unverifiedUser.lastname, 'activate_url': unverifiedUser.verification_url})
-                send_email(subject="Sign up karke verify na karna, is not funny!", email=[unverifiedUser.institution_email], message=message)  
-                messages = "We've sent you mail on your university email verify yourself!"              
-                return render(request,'googleverifymessage.html',{'messages' : messages})
-
-        messages = "You have not signed up yet please do signup!"
-        return render(request,'googleverifymessage.html',{'messages' : messages})
 
 class UploadMessage(View):
     def get(self, request):
