@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
 
-{% block title %}{{ giftcard.brand_name|default:giftcard.name }} Gift Card — StudentPeeps{% endblock %}
+{% block title %}{{ giftcard.name }} — StudentPeeps{% endblock %}
 
 {% block linkshead %}
 <style>
@@ -73,6 +73,25 @@
     text-underline-offset: 2px;
   }
   .gc-tnc a:hover { color: var(--blue-2, var(--blue)); }
+  .gc-tnc-wrap.is-collapsed .gc-tnc {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+  }
+  .gc-tnc-toggle {
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 620;
+    color: var(--blue);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .gc-tnc-toggle:hover { color: var(--blue-2, var(--blue)); }
   .gc-highlights {
     display: grid;
     gap: 10px;
@@ -132,7 +151,7 @@
     <svg class="ic"><use href="#i-chev-r"/></svg>
     <a href="{% url 'giftcard:explore' %}">Gift cards</a>
     <svg class="ic"><use href="#i-chev-r"/></svg>
-    <span>{{ giftcard.brand_name|default:giftcard.name }}</span>
+    <span>{{ giftcard.name }}</span>
   </nav>
 
   <div class="pdp-grid">
@@ -237,7 +256,10 @@
           <div class="panel" style="padding: 20px;">
             <h2 style="font-size: 19px; margin-bottom: 12px;">Key terms</h2>
             {% if giftcard.tnc_content %}
-            <div class="gc-tnc terms">{{ giftcard.tnc_content|safe }}</div>
+            <div class="gc-tnc-wrap is-collapsed" id="keyTermsWrap">
+              <div class="gc-tnc terms" id="keyTermsContent">{{ giftcard.tnc_content|safe }}</div>
+            </div>
+            <button type="button" class="gc-tnc-toggle" id="keyTermsToggle" hidden aria-expanded="false" aria-controls="keyTermsContent">Read more</button>
             {% else %}
             <ul class="terms" style="display: grid; gap: 8px; font-size: 14.5px; color: var(--ink-2);">
               <li style="padding-left: 18px; position: relative;">• Valid for 12 months from the day it’s issued.</li>
@@ -261,7 +283,7 @@
     <!-- Right Column: Buy Box -->
     <div class="buy" style="min-width: 0; display: flex; flex-direction: column; gap: 20px;">
       <div>
-        <h1 style="font-size: 32px; letter-spacing: -.02em;">{{ giftcard.brand_name|default:giftcard.name }} gift card</h1>
+        <h1 style="font-size: 32px; letter-spacing: -.02em;">{{ giftcard.name }}</h1>
         {% if purchase_availability.can_purchase %}
         <p class="sub" style="font-size: 15.5px; color: var(--ink-2); margin-top: 6px;">Delivered by email and SMS in under a minute.</p>
         {% else %}
@@ -652,5 +674,25 @@
   }
 
   updatePrice();
+
+  (function initKeyTermsToggle() {
+    const wrap = document.getElementById('keyTermsWrap');
+    const btn = document.getElementById('keyTermsToggle');
+    const inner = document.getElementById('keyTermsContent');
+    if (!wrap || !btn || !inner) return;
+
+    wrap.classList.add('is-collapsed');
+    if (inner.scrollHeight <= inner.clientHeight + 2) {
+      wrap.classList.remove('is-collapsed');
+      return;
+    }
+    btn.hidden = false;
+    btn.addEventListener('click', function () {
+      const expanded = wrap.classList.toggle('is-expanded');
+      wrap.classList.toggle('is-collapsed', !expanded);
+      btn.textContent = expanded ? 'Read less' : 'Read more';
+      btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    });
+  })();
 </script>
 {% endblock %}

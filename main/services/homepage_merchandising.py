@@ -8,6 +8,7 @@ from django.utils import timezone
 from giftcard.brand_design import BRAND_CONFIG, brand_size_class
 from giftcard.models import ProviderProduct
 from giftcard.services.catalog_visibility import sellable_giftcard_q
+from giftcard.services.explore_catalog import tile_brand_name
 from giftcard.services.margin_pricing import margin_as_percent
 from main.models import HomepageFeaturedSku, HomepageSection, PromoStripBanner
 
@@ -235,9 +236,7 @@ def build_popular_cards():
         else:
             range_txt = f"₹{min_p:,}–₹{max_p:,}"
 
-        cat_name = "Gift card"
-        if hasattr(prod, "override") and prod.override.category:
-            cat_name = prod.override.category.name
+        cat_name = tile_brand_name(prod)
 
         popular_cards.append(
             {

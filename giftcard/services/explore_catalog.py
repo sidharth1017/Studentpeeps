@@ -3,15 +3,31 @@ from giftcard.services.gc_tile_style import product_tile_fields
 from giftcard.services.purchase_availability import purchase_availability_for
 
 
+def tile_brand_name(product: ProviderProduct) -> str:
+    override = getattr(product, "override", None)
+    if override and (override.brand_name or "").strip():
+        return override.brand_name.strip()
+    if (product.brand_name or "").strip():
+        return product.brand_name.strip()
+    return ""
+
+
+def tile_product_name(product: ProviderProduct) -> str:
+    """Override display name, else provider catalog product name."""
+    override = getattr(product, "override", None)
+    if override and (override.name or "").strip():
+        return override.name.strip()
+    if (product.name or "").strip():
+        return product.name.strip()
+    return ""
+
+
 def explore_product_card(product: ProviderProduct) -> dict:
     override = getattr(product, "override", None)
-    display_name = (
-        (override.name if override and override.name else None)
-        or product.brand_name
-        or product.name
-    )
+    brand_name = tile_brand_name(product)
+    title = tile_product_name(product)
     margin = getattr(override, "margin", None) if override else None
-    tile = product_tile_fields(product.sku, display_name, margin=margin)
+    tile = product_tile_fields(product.sku, brand_name, margin=margin)
     disc = tile["discount_pct"]
     if disc == int(disc):
         discount_label = f"{int(disc)}%"
@@ -19,16 +35,13 @@ def explore_product_card(product: ProviderProduct) -> dict:
         discount_label = f"{disc:g}%"
 
     avail = purchase_availability_for(product)
-    category_name = (
-        override.category.name
-        if override and override.category_id
-        else "Gift card"
-    )
 
     return {
         "sku": product.sku,
-        "name": display_name,
-        "category_name": category_name,
+        "name": brand_name,
+        "title": title,
+        "category_name": brand_name,
+        "brand_size_cls": tile["brand_size_cls"],
         "min_price": product.min_price,
         "max_price": product.max_price,
         "tile_brand_logo_url": product.tile_brand_logo_url,

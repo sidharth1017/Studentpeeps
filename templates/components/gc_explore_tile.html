@@ -6,7 +6,7 @@
     <div class="gc-in">
       <div class="gc-top">
         <div>
-          <div class="gc-brand">{{ card.name }}</div>
+          <div class="gc-brand {{ card.brand_size_cls }}">{{ card.name }}</div>
           <div class="gc-kind">Gift card</div>
         </div>
       </div>
@@ -21,13 +21,15 @@
     </div>
   </div>
   <div>
-    <div class="bt-name">{{ card.name }}</div>
+    <div class="bt-name">{{ card.title }}</div>
     {% if not card.can_purchase %}
     <p class="bt-status-below-name">{{ card.status_text }}</p>
     {% endif %}
+    {% if card.category_name and card.category_name != card.title %}
     <div class="bt-row" style="margin-top: 3px;">
       <span class="bt-cat">{{ card.category_name }}</span>
     </div>
+    {% endif %}
     <div class="bt-meta" style="margin-top: 5px;">
       <span>₹{{ card.min_price|floatformat:0 }}–₹{{ card.max_price|floatformat:0 }}</span>
       {% if card.can_purchase %}

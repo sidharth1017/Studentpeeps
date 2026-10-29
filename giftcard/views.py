@@ -1025,11 +1025,12 @@ class SearchSuggestView(View):
 
     @staticmethod
     def _brand(p):
+        from giftcard.services.explore_catalog import tile_brand_name
         from giftcard.services.gc_tile_style import product_tile_fields
 
         override = getattr(p, "override", None)
         cat = getattr(override, "category", None) if override else None
-        name = p.brand_name or p.name
+        name = tile_brand_name(p)
         margin = getattr(override, "margin", None) if override else None
         tile = product_tile_fields(p.sku, name, margin=margin)
         disc = tile["discount_pct"]

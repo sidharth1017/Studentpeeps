@@ -1,0 +1,1503 @@
+{
+  "live_count": 301,
+  "mismatch_count": 187,
+  "mismatch": [
+    {
+      "sku": "EGCGBAB001",
+      "display_brand": "Absolute Barbecues",
+      "product_name": "Absolute Barbecues E-Gift Card",
+      "stored_etag_prefix": "ce9c7fafdf6a41a6",
+      "expected_etag_prefix": "de25f8cf825b30b2",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBABPL001",
+      "display_brand": "Arvind Brands",
+      "product_name": "Arvind Brands E-Gift Card",
+      "stored_etag_prefix": "881ede68c4d61f91",
+      "expected_etag_prefix": "bd1cbbaabd3600da",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBAHJ001",
+      "display_brand": "Euphoria",
+      "product_name": "Euphoria Gold Coin E-Gift Card",
+      "stored_etag_prefix": "bced004745378753",
+      "expected_etag_prefix": "4695d0ccc5071459",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBAHJ002",
+      "display_brand": "Euphoria",
+      "product_name": "Euphoria Gold Jewellery E-Gift Card",
+      "stored_etag_prefix": "bced004745378753",
+      "expected_etag_prefix": "4695d0ccc5071459",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBAHJ003",
+      "display_brand": "Euphoria",
+      "product_name": "Euphoria Diamond Jewellery E-Gift Card",
+      "stored_etag_prefix": "bced004745378753",
+      "expected_etag_prefix": "4695d0ccc5071459",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBAMZM001",
+      "display_brand": "Amazon Pay",
+      "product_name": "Amazon Pay E-Gift Card-B2C Marketplace",
+      "stored_etag_prefix": "fc3784c0c4145f99",
+      "expected_etag_prefix": "b433d48b050665c8",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBARE001",
+      "display_brand": "Armani Exchange",
+      "product_name": "Armani Exchange-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "576ff5f18bd557c1",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBASS001",
+      "display_brand": "Allen Solly",
+      "product_name": "Allen Solly E-Gift Card",
+      "stored_etag_prefix": "c913ede9dff1cb0d",
+      "expected_etag_prefix": "f17b83ab9c658a8e",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBBATABC002",
+      "display_brand": "Bata",
+      "product_name": "BATA eGift Card",
+      "stored_etag_prefix": "0a0bb09ed70f80d5",
+      "expected_etag_prefix": "ab8cac90b730da97",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBBBLX001",
+      "display_brand": "Brooks Brothers",
+      "product_name": "Brooks Brothers-Luxe E-Gift Card",
+      "stored_etag_prefix": "",
+      "expected_etag_prefix": "4678bd4d4a098847",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBBCR001",
+      "display_brand": "Bodycraft",
+      "product_name": "Bodycraft Salon eGift Card",
+      "stored_etag_prefix": "22e097be1fcaa3e7",
+      "expected_etag_prefix": "945e3419d465ee45",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBBCRFT001",
+      "display_brand": "Bodycraft",
+      "product_name": "Bodycraft Clinic eGift Card",
+      "stored_etag_prefix": "22e097be1fcaa3e7",
+      "expected_etag_prefix": "945e3419d465ee45",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBBOATBB001",
+      "display_brand": "boAt",
+      "product_name": "Boat E-Gift Card",
+      "stored_etag_prefix": "290673fe6a2309c5",
+      "expected_etag_prefix": "a2e3916dbd95d51c",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBCBK001",
+      "display_brand": "Chumbak",
+      "product_name": "Chumbak E-Gift Card",
+      "stored_etag_prefix": "6123dc445816f9cc",
+      "expected_etag_prefix": "e080e79737fd2baa",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBCGHE002",
+      "display_brand": "CGH Earth",
+      "product_name": "CGH Earth E-Gift Card",
+      "stored_etag_prefix": "a10f83da5f0e10e2",
+      "expected_etag_prefix": "452320ca0f72c263",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBCINE001",
+      "display_brand": "Cinepolis",
+      "product_name": "Cinepolis E-Gift card",
+      "stored_etag_prefix": "617ef2e74220c9eb",
+      "expected_etag_prefix": "0d568c2345c7992e",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBCLTVP001",
+      "display_brand": "The Collective",
+      "product_name": "The Collective E-Gift Card",
+      "stored_etag_prefix": "1ebb4d6845c64cd0",
+      "expected_etag_prefix": "a1d5831fdf11c3f7",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBCROSS001",
+      "display_brand": "Crossword",
+      "product_name": "Crossword E-Gift Card",
+      "stored_etag_prefix": "3bcf30f2addf7f0c",
+      "expected_etag_prefix": "bafb819ddccb7794",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBDCN003",
+      "display_brand": "Decathlon",
+      "product_name": "Decathlon E-Gift Card",
+      "stored_etag_prefix": "b82646f097e70591",
+      "expected_etag_prefix": "74068eba042dd3e1",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBDEGCS001",
+      "display_brand": "Domino's",
+      "product_name": "Dominos E-Gift Card - Generic",
+      "stored_etag_prefix": "57e01698ee44ff2b",
+      "expected_etag_prefix": "41fb2458bf47072a",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBDKART001",
+      "display_brand": "DonateKart",
+      "product_name": "Donatekart E-Gift Card",
+      "stored_etag_prefix": "c62a631eab068ff7",
+      "expected_etag_prefix": "66e177e0f6593127",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBDUNE001",
+      "display_brand": "Dune London",
+      "product_name": "Dune London-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "c0a64cf863f2b4c7",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBEPON001",
+      "display_brand": "Epic On",
+      "product_name": "Epic On E-Gift Cards-1 month plan",
+      "stored_etag_prefix": "2df1b0f4bd671678",
+      "expected_etag_prefix": "d9da315c833ee2b6",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBEPON002",
+      "display_brand": "Epic On",
+      "product_name": "Epic On E-Gift Cards-3 month plan",
+      "stored_etag_prefix": "2df1b0f4bd671678",
+      "expected_etag_prefix": "d9da315c833ee2b6",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBEPON003",
+      "display_brand": "Epic On",
+      "product_name": "Epic On E-Gift Cards-6 month plan",
+      "stored_etag_prefix": "2df1b0f4bd671678",
+      "expected_etag_prefix": "d9da315c833ee2b6",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBEPON004",
+      "display_brand": "Epic On",
+      "product_name": "Epic On E-Gift Cards-12 month plan",
+      "stored_etag_prefix": "2df1b0f4bd671678",
+      "expected_etag_prefix": "d9da315c833ee2b6",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBFM001",
+      "display_brand": "FreshMenu",
+      "product_name": "FreshMenu E-Gift Card",
+      "stored_etag_prefix": "1484f9bb94fc0259",
+      "expected_etag_prefix": "641b731619561076",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBFN001",
+      "display_brand": "Forever New",
+      "product_name": "Forever New E-Gift Card",
+      "stored_etag_prefix": "66a81d193dda4e95",
+      "expected_etag_prefix": "3b8ee89f8630fa6f",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBGASLX001",
+      "display_brand": "GAS",
+      "product_name": "Gas-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "a63363acbf4f5d5d",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBGIB2B001",
+      "display_brand": "Goibibo",
+      "product_name": "GI Generic B2B E-Gift Card",
+      "stored_etag_prefix": "76197f7ddfa105d8",
+      "expected_etag_prefix": "47868ee48ae0fe76",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBGNB001",
+      "display_brand": "Nature's Basket",
+      "product_name": "Nature's Basket E-Gift Card",
+      "stored_etag_prefix": "e6f17abcd5371aa0",
+      "expected_etag_prefix": "97c90cd06ea07203",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBHME001",
+      "display_brand": "Nilkamal",
+      "product_name": "Nilkamal Homes E-Gift Card",
+      "stored_etag_prefix": "11ae849295c6e769",
+      "expected_etag_prefix": "ae40c78a1b4bb873",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBHML002",
+      "display_brand": "Hamleys",
+      "product_name": "Hamleys E-Gift Card",
+      "stored_etag_prefix": "352fb8bc50e0f0e9",
+      "expected_etag_prefix": "4cc0a03654229c87",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBHNG001",
+      "display_brand": "Health & Glow",
+      "product_name": "Health and Glow E-Gift Card",
+      "stored_etag_prefix": "f64879a58daf5374",
+      "expected_etag_prefix": "4f4f7b4a8bba685d",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBHUB001",
+      "display_brand": "Hugo Boss",
+      "product_name": "Hugo Boss-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "28c344e1702c61d1",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBHUSHBC002",
+      "display_brand": "Hush Puppies",
+      "product_name": "Hush Puppies eGift Card",
+      "stored_etag_prefix": "0a0bb09ed70f80d5",
+      "expected_etag_prefix": "add1768f68478ad5",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBIBG001",
+      "display_brand": "Goibibo",
+      "product_name": "Goibibo Hotel e-gift card",
+      "stored_etag_prefix": "76197f7ddfa105d8",
+      "expected_etag_prefix": "47868ee48ae0fe76",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBITCL005",
+      "display_brand": "ITC Hotels",
+      "product_name": "ITC Hotels E-Gift Card - B2C",
+      "stored_etag_prefix": "2afdfe084c35258e",
+      "expected_etag_prefix": "8b22c23b2315a1fc",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBJOCKEY002",
+      "display_brand": "Jockey",
+      "product_name": "Jockey E-Gift Card",
+      "stored_etag_prefix": "c82539b81ee3b88d",
+      "expected_etag_prefix": "cd52811f63e292b0",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBJOY001",
+      "display_brand": "Joyalukkas",
+      "product_name": "Joyalukkas Gold and Diamond E-Gift Card",
+      "stored_etag_prefix": "ccd67aeaa4d4d1f4",
+      "expected_etag_prefix": "1e59ccf5383e21e1",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBJOY002",
+      "display_brand": "Joyalukkas",
+      "product_name": "Joyalukkas Pure Gold E-Gift Card",
+      "stored_etag_prefix": "f5dc72de040c5a11",
+      "expected_etag_prefix": "1e59ccf5383e21e1",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBJOY003",
+      "display_brand": "Joyalukkas",
+      "product_name": "Joyalukkas Diamond E-Gift Card",
+      "stored_etag_prefix": "b0eaa07041955089",
+      "expected_etag_prefix": "1e59ccf5383e21e1",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBJSP001",
+      "display_brand": "Jio",
+      "product_name": "Jio Starter Pack \u2013 To Get New Jio SIM \u2013 349 Gift Voucher",
+      "stored_etag_prefix": "66efaa7b117bd01a",
+      "expected_etag_prefix": "9b9a0e2ff95c7ca5",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBKJ014",
+      "display_brand": "Kalyan Jewellers",
+      "product_name": "Kalyan Diamond E-Gift Card",
+      "stored_etag_prefix": "14bdf838ad73f97f",
+      "expected_etag_prefix": "39553fcc251cc8b0",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBKJ015",
+      "display_brand": "Kalyan Jewellers",
+      "product_name": "Kalyan Gold Jewellers E-Gift Card",
+      "stored_etag_prefix": "14bdf838ad73f97f",
+      "expected_etag_prefix": "39553fcc251cc8b0",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBKSP001",
+      "display_brand": "Kate Spade",
+      "product_name": "Kate Spade-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "164230a6c7b57d54",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBLBF003",
+      "display_brand": "Punjab Grill",
+      "product_name": "Punjab Grill E-Gift Card",
+      "stored_etag_prefix": "112dfe00760471ed",
+      "expected_etag_prefix": "1c5cd9a0c035dd04",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBLBF004",
+      "display_brand": "Asia Seven Express",
+      "product_name": "Asia Seven Express E-Gift Card",
+      "stored_etag_prefix": "112dfe00760471ed",
+      "expected_etag_prefix": "f219e18a4ff9148d",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBLBF005",
+      "display_brand": "Street Foods by Punjab Grill",
+      "product_name": "Street Foods By PUNJAB Grill E-Gift Card",
+      "stored_etag_prefix": "112dfe00760471ed",
+      "expected_etag_prefix": "1c5cd9a0c035dd04",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBLBF006",
+      "display_brand": "YouMee",
+      "product_name": "YouMee E-Gift Card",
+      "stored_etag_prefix": "112dfe00760471ed",
+      "expected_etag_prefix": "883405f51d2ac98b",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBLBF007",
+      "display_brand": "Zambar",
+      "product_name": "Zambar E-Gift Card",
+      "stored_etag_prefix": "112dfe00760471ed",
+      "expected_etag_prefix": "e4b31f4953484e3a",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBLKME001",
+      "display_brand": "Lakme",
+      "product_name": "Lakme Salon E-Gift Card",
+      "stored_etag_prefix": "1e59ccf5383e21e1",
+      "expected_etag_prefix": "35ecc8fdf49d0313",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBLM001",
+      "display_brand": "Lawrence & Mayo",
+      "product_name": "Lawrence And Mayo E-Gift Card",
+      "stored_etag_prefix": "bdb31b43b823c9a4",
+      "expected_etag_prefix": "0f1acd68c6a0856a",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBLSBO004",
+      "display_brand": "Lifestyle",
+      "product_name": "Lifestyle B2C E-Gift Voucher",
+      "stored_etag_prefix": "e1bab11911085714",
+      "expected_etag_prefix": "29ae19aa56e4f829",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBLSBO010",
+      "display_brand": "Lifestyle",
+      "product_name": "Lifestyle B2C E-Gift Voucher-Online",
+      "stored_etag_prefix": "e1bab11911085714",
+      "expected_etag_prefix": "29ae19aa56e4f829",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBLUXSD001",
+      "display_brand": "Superdry",
+      "product_name": "Superdry-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "8ffbdd045d1f2762",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBLUXSM001",
+      "display_brand": "Steve Madden",
+      "product_name": "Steve Madde-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "4ded5077ccea0f6a",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBLUXT001",
+      "display_brand": "Tumi",
+      "product_name": "Tumi-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "5928647a19928812",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBMARI002",
+      "display_brand": "Marriott",
+      "product_name": "Marriott India Egift Card-Dining Variant 1-B2C",
+      "stored_etag_prefix": "1333c1af2a866d7e",
+      "expected_etag_prefix": "d97eb158eba5674a",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBMARI004",
+      "display_brand": "Marriott",
+      "product_name": "Marriott India Egift Card-Dining Variant 2-B2C",
+      "stored_etag_prefix": "1333c1af2a866d7e",
+      "expected_etag_prefix": "d97eb158eba5674a",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBMARI006",
+      "display_brand": "Marriott",
+      "product_name": "Marriott India Egift Card-SPA Variant-B2C",
+      "stored_etag_prefix": "1333c1af2a866d7e",
+      "expected_etag_prefix": "d97eb158eba5674a",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBMC001",
+      "display_brand": "Mothercare",
+      "product_name": "MOTHER CARE-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "5923c8119d5c3d6c",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBMIK001",
+      "display_brand": "Michael Kors",
+      "product_name": "Michael Kors-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "f98382f5600e8ce2",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBMILT001",
+      "display_brand": "Milton",
+      "product_name": "Milton QC E-Gift Voucher",
+      "stored_etag_prefix": "a55cb28884701777",
+      "expected_etag_prefix": "83e91a311889c6f5",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBMK002",
+      "display_brand": "MiniKlub",
+      "product_name": "MiniKlub E-Gift Card",
+      "stored_etag_prefix": "7016fd069350fd7d",
+      "expected_etag_prefix": "8faf738fff3b2be5",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBMTHI002",
+      "display_brand": "Marriott",
+      "product_name": "Marriott Hotels India E-Gift Card - B2C",
+      "stored_etag_prefix": "1333c1af2a866d7e",
+      "expected_etag_prefix": "d97eb158eba5674a",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBNATSA001",
+      "display_brand": "Naturals Salon",
+      "product_name": "Naturals Salon E-Gift Card - 20K",
+      "stored_etag_prefix": "e12657369b5b1f06",
+      "expected_etag_prefix": "4da8f6215c02e70f",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBNATSA002",
+      "display_brand": "Naturals Salon",
+      "product_name": "Naturals Salon E-Gift Card - 10K",
+      "stored_etag_prefix": "e12657369b5b1f06",
+      "expected_etag_prefix": "4da8f6215c02e70f",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBNATSA003",
+      "display_brand": "Naturals Salon",
+      "product_name": "Naturals Salon E-Gift Card - 4K",
+      "stored_etag_prefix": "e12657369b5b1f06",
+      "expected_etag_prefix": "4da8f6215c02e70f",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBNJ001",
+      "display_brand": "Indriya",
+      "product_name": "INDRIYA - Aditya Birla Jewellery E-Gift Card",
+      "stored_etag_prefix": "8407484a587ad87a",
+      "expected_etag_prefix": "934ab098193e884a",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBNOVRD001",
+      "display_brand": "Indriya",
+      "product_name": "INDRIYA - Aditya Birla Gold Jewellery E-Gift Card",
+      "stored_etag_prefix": "8407484a587ad87a",
+      "expected_etag_prefix": "934ab098193e884a",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBNOVRD002",
+      "display_brand": "Indriya",
+      "product_name": "INDRIYA - Aditya Birla Studded Jewellery E-Gift Card",
+      "stored_etag_prefix": "8407484a587ad87a",
+      "expected_etag_prefix": "934ab098193e884a",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBO2SS001",
+      "display_brand": "Ode Spa",
+      "product_name": "Ode Spa Salon E-Gift Card",
+      "stored_etag_prefix": "88baa358d2953442",
+      "expected_etag_prefix": "b02d835eb225fc1d",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBPCHR001",
+      "display_brand": "The Postcard Hotels",
+      "product_name": "The Postcard Hotels E-Gift Cards",
+      "stored_etag_prefix": "1e59ccf5383e21e1",
+      "expected_etag_prefix": "d02f5466126641b0",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBPOL001",
+      "display_brand": "Polar Bear",
+      "product_name": "Polar Bear E-Gift Cards",
+      "stored_etag_prefix": "ea29f11432e2f2d7",
+      "expected_etag_prefix": "778accdb0120529f",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL001",
+      "display_brand": "Luxe Multi-Brand",
+      "product_name": "Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "bf42b25fd62f4b1e",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL005",
+      "display_brand": "Canali",
+      "product_name": "Canali-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "b0d0d98c1b259640",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL006",
+      "display_brand": "Charles Tyrwhitt",
+      "product_name": "CHARLES TYRWHITT-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "3317b1ed9b55c630",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL007",
+      "display_brand": "Diesel",
+      "product_name": "Diesel-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "b388538fbf22ff98",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL008",
+      "display_brand": "EA Sports",
+      "product_name": "EA7-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "e1e13199e61464f5",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL009",
+      "display_brand": "Emporio Armani",
+      "product_name": "Emporio Armani-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "1e59ccf5383e21e1",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL010",
+      "display_brand": "Giorgio Armani",
+      "product_name": "Giorgio Armani-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "1e59ccf5383e21e1",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL011",
+      "display_brand": "The White Crow",
+      "product_name": "The White Crow-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "310be21fd9bbdd45",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL012",
+      "display_brand": "La Martina",
+      "product_name": "La Martina-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "ad2f8a0fbb5fbef6",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL013",
+      "display_brand": "Maje",
+      "product_name": "MAJE-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "b8d25bb23b1445d7",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL014",
+      "display_brand": "Paul & Shark",
+      "product_name": "Paul and Shark-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "b5746f2c2abc910b",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL015",
+      "display_brand": "Sandro",
+      "product_name": "SANDRO-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "c2f2ba6f3dc10b6c",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL016",
+      "display_brand": "Superdry",
+      "product_name": "Superdry Sport-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "8ffbdd045d1f2762",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL017",
+      "display_brand": "Bottega Veneta",
+      "product_name": "Bottega Veneta-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "feabe97278fdd1c4",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL018",
+      "display_brand": "Jimmy Choo",
+      "product_name": "Jimmy Choo-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "2f00f00f73831737",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL019",
+      "display_brand": "Tory Burch",
+      "product_name": "Tory Burch-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "57aea62163cb5948",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL020",
+      "display_brand": "Valentino",
+      "product_name": "Valentino-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "57bbc1091e408511",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL021",
+      "display_brand": "Versace",
+      "product_name": "Versace-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "1e59ccf5383e21e1",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL022",
+      "display_brand": "Adidas",
+      "product_name": "Adidas Kids-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "536aea5ef0117b3a",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL023",
+      "display_brand": "Muji",
+      "product_name": "Muji-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "a8722f966527b1b8",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL024",
+      "display_brand": "Pottery Barn",
+      "product_name": "POTTERYBARN-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "9b992c132bab55a0",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL025",
+      "display_brand": "Villeroy & Boch",
+      "product_name": "Villeroy and Boch-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "1384d24d9e94244c",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL026",
+      "display_brand": "West Elm",
+      "product_name": "West Elm-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "a4bb641db0fe103f",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL027",
+      "display_brand": "Bally",
+      "product_name": "Bally-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "8f5013859c2aaedc",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL028",
+      "display_brand": "Dune London",
+      "product_name": "Dune-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "c0a64cf863f2b4c7",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL029",
+      "display_brand": "Salvatore Ferragamo",
+      "product_name": "Salvatore Ferragamo-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "b8d25bb23b1445d7",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL030",
+      "display_brand": "Tod's",
+      "product_name": "Tods-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "1e59ccf5383e21e1",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL031",
+      "display_brand": "Ritu Kumar",
+      "product_name": "RITU KUMAR-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "3d797df629caa538",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL033",
+      "display_brand": "AKOK",
+      "product_name": "AKOK-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "d8e3974c1bea113d",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL035",
+      "display_brand": "Pret A Manger",
+      "product_name": "Pret A Manger-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "641b731619561076",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBL036",
+      "display_brand": "Sunglass Hut",
+      "product_name": "SUNGLASS HUT-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "bb4b2c523fadb6ae",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBLC001",
+      "display_brand": "Coach",
+      "product_name": "Coach-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "89672ae03860f026",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRBLH001",
+      "display_brand": "Hamleys",
+      "product_name": "HAMLEYS - LUXE E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "4cc0a03654229c87",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRDM001",
+      "display_brand": "Joyalukkas",
+      "product_name": "Jos Alukkas Jewellery E-Gift Card",
+      "stored_etag_prefix": "a801c082aaad4d0c",
+      "expected_etag_prefix": "1e59ccf5383e21e1",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRDM002",
+      "display_brand": "Joyalukkas",
+      "product_name": "Jos Alukkas Coin E-Gift Card",
+      "stored_etag_prefix": "a801c082aaad4d0c",
+      "expected_etag_prefix": "1e59ccf5383e21e1",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRDM003",
+      "display_brand": "Joyalukkas",
+      "product_name": "Jos Alukkas Diamond E-Gift Card",
+      "stored_etag_prefix": "a801c082aaad4d0c",
+      "expected_etag_prefix": "1e59ccf5383e21e1",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRDSM001",
+      "display_brand": "Ratnadeep Supermarket",
+      "product_name": "Ratnadeep Retail E-Gift Card",
+      "stored_etag_prefix": "8cad217d22da7a97",
+      "expected_etag_prefix": "f3367a9d8d104e41",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBREL001",
+      "display_brand": "Reliance Digital",
+      "product_name": "Reliance Digital E-Gift Card",
+      "stored_etag_prefix": "51eacaf6b2d1c7c6",
+      "expected_etag_prefix": "e70b3bb5c2522702",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBREL004",
+      "display_brand": "MyJio Store",
+      "product_name": "My Jio Store E-Gift Card",
+      "stored_etag_prefix": "51eacaf6b2d1c7c6",
+      "expected_etag_prefix": "6b9f5556d05427c2",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRELSB001",
+      "display_brand": "Reliance Smart Bazaar",
+      "product_name": "Reliance Smart Bazaar E-Gift Card",
+      "stored_etag_prefix": "51eacaf6b2d1c7c6",
+      "expected_etag_prefix": "b787aa0f6ffe7eec",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRELSP001",
+      "display_brand": "Reliance Smart Point",
+      "product_name": "Reliance Smart Point E-Gift Card",
+      "stored_etag_prefix": "51eacaf6b2d1c7c6",
+      "expected_etag_prefix": "f61a35516be70c56",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRELSS001",
+      "display_brand": "Reliance Smart Superstore",
+      "product_name": "Reliance Smart Super Store E-Gift Card",
+      "stored_etag_prefix": "51eacaf6b2d1c7c6",
+      "expected_etag_prefix": "f61a35516be70c56",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBRRLTD008",
+      "display_brand": "JioMart",
+      "product_name": "Reliance Jio Mart E-Gift Card",
+      "stored_etag_prefix": "51eacaf6b2d1c7c6",
+      "expected_etag_prefix": "b3e910191492116e",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBSC001",
+      "display_brand": "Simon Carter",
+      "product_name": "Simon Carter eGift cards",
+      "stored_etag_prefix": "a3364604b1ff22a0",
+      "expected_etag_prefix": "49f9a8e7e1914cb5",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBSCLPL002",
+      "display_brand": "Lenskart",
+      "product_name": "Lenskart E-Gift Card",
+      "stored_etag_prefix": "f13bb08d26b6b073",
+      "expected_etag_prefix": "45903d8c0e7a5b2e",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBSH001",
+      "display_brand": "Sterling Holidays",
+      "product_name": "Sterling Holidays E-Gift Card",
+      "stored_etag_prefix": "a15ebc35c16f1659",
+      "expected_etag_prefix": "cdc4f3e4f3a5802d",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBSPLX001",
+      "display_brand": "Satya Paul",
+      "product_name": "Satya Paul-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "5f662aa33bd077db",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBSSLX001",
+      "display_brand": "Scotch & Soda",
+      "product_name": "Scotch & Soda-Luxe E-Gift Card",
+      "stored_etag_prefix": "010d5a14a45ead27",
+      "expected_etag_prefix": "b3f56f838157b12c",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBSTCAR021",
+      "display_brand": "Points for Good",
+      "product_name": "Points for Good E-Gift Card",
+      "stored_etag_prefix": "6cf0220e08eef072",
+      "expected_etag_prefix": "f916fb791e74b725",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBSTOC001",
+      "display_brand": "SOTC",
+      "product_name": "SOTC Travel E-Gift Cards",
+      "stored_etag_prefix": "8f84e379255d5363",
+      "expected_etag_prefix": "3135b70d9b1a736a",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBSUDI001",
+      "display_brand": "Surat Diamonds",
+      "product_name": "Surat Diamonds Main E-Gift Card",
+      "stored_etag_prefix": "99ba4357a244cbe2",
+      "expected_etag_prefix": "95240043558e3611",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBSUDI003",
+      "display_brand": "Surat Diamonds",
+      "product_name": "Surat Diamonds Solitaire E-Gift Card",
+      "stored_etag_prefix": "99ba4357a244cbe2",
+      "expected_etag_prefix": "95240043558e3611",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBTAJIHCLD001",
+      "display_brand": "Taj J Wellness Circle",
+      "product_name": "Taj Hotels J Wellness Circle Bliss Duo e-gift card for 2-for a 60 min therapy",
+      "stored_etag_prefix": "495d1f0d7eb724f4",
+      "expected_etag_prefix": "84420d164b378dce",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBTAJIHCLS001",
+      "display_brand": "Taj J Wellness Circle",
+      "product_name": "Taj Hotels J Wellness Circle Biss Solo e-gift card for a 60 min Therapy",
+      "stored_etag_prefix": "495d1f0d7eb724f4",
+      "expected_etag_prefix": "84420d164b378dce",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBTANISHQMIA002",
+      "display_brand": "Mia by Tanishq",
+      "product_name": "Mia By Tanishq E-Gift Card",
+      "stored_etag_prefix": "7894051335435ad6",
+      "expected_etag_prefix": "2633987a97be1f60",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBTBS001",
+      "display_brand": "Bikanervala",
+      "product_name": "Bikanervala E-Gift Card",
+      "stored_etag_prefix": "015069c6052cd601",
+      "expected_etag_prefix": "203245414c040e39",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBTC001",
+      "display_brand": "Toscano",
+      "product_name": "Toscano E-Gift Card",
+      "stored_etag_prefix": "45ef049a028dbfa4",
+      "expected_etag_prefix": "a68446071d1e7161",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBTCNS001",
+      "display_brand": "W for Woman",
+      "product_name": "TCNS W eGift Cards",
+      "stored_etag_prefix": "932e4437fdb9437c",
+      "expected_etag_prefix": "07d84c12ee5c7bfb",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBTCNS002",
+      "display_brand": "Aurelia",
+      "product_name": "TCNS Aurelia eGift Cards",
+      "stored_etag_prefix": "932e4437fdb9437c",
+      "expected_etag_prefix": "1b113ac3bfea0117",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBTCQP015",
+      "display_brand": "Tata CLiQ Luxury",
+      "product_name": "Tata CliQ Luxury E-Gift card",
+      "stored_etag_prefix": "78cc469d48666083",
+      "expected_etag_prefix": "23de45f511fa6be6",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBTNRS001",
+      "display_brand": "Taneira",
+      "product_name": "Taneira E-Gift card",
+      "stored_etag_prefix": "e9fd09c2790bdce2",
+      "expected_etag_prefix": "b05ebfe3bd11bd9d",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBTSR001",
+      "display_brand": "Imagine Apple",
+      "product_name": "Imagine Apple Premium Reseller E-Gift Card",
+      "stored_etag_prefix": "286252ff8aee6091",
+      "expected_etag_prefix": "f3277154eb2bbf5f",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBUL002",
+      "display_brand": "Urban Ladder",
+      "product_name": "Urban Ladder E-Gift Card",
+      "stored_etag_prefix": "11891c04da7adff1",
+      "expected_etag_prefix": "a5f3929a95f32178",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBUNICORN001",
+      "display_brand": "Unicorn Apple",
+      "product_name": "Unicorn Apple Premium Partner E-Gift Card",
+      "stored_etag_prefix": "3bc218123e769eb7",
+      "expected_etag_prefix": "f3277154eb2bbf5f",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBUOPL001",
+      "display_brand": "U.S. Polo Assn.",
+      "product_name": "US Polo E-Gift Card",
+      "stored_etag_prefix": "dc6095f2ae592459",
+      "expected_etag_prefix": "36fb3aaf91973d28",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBVM001",
+      "display_brand": "V-Mart",
+      "product_name": "V-Mart E-Gift Cards",
+      "stored_etag_prefix": "f6fae58e59f6009a",
+      "expected_etag_prefix": "152b6581702bbe8d",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBWDCF001",
+      "display_brand": "Wonderchef",
+      "product_name": "Wonderchef E-Gift Card",
+      "stored_etag_prefix": "9c15d2b4b04f036a",
+      "expected_etag_prefix": "a3c59bc734c14333",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGCGBWLCR001",
+      "display_brand": "Wildcraft",
+      "product_name": "Wildcraft E-Gift Card",
+      "stored_etag_prefix": "1027d0ed69d64ed3",
+      "expected_etag_prefix": "3670b3e7559526cb",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBAB001",
+      "display_brand": "Aeropostale",
+      "product_name": "Aeropostale-BAGLINE E-Gift Voucher",
+      "stored_etag_prefix": "a70b377a07ef854d",
+      "expected_etag_prefix": "28214a4d2377ad86",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBAPOPHA001",
+      "display_brand": "Apollo 24|7 Diagnostics",
+      "product_name": "Apollo247 Diagnostic E- Gift Vouchers",
+      "stored_etag_prefix": "397176b412531076",
+      "expected_etag_prefix": "73f888991ba3feed",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBAPOPHA004",
+      "display_brand": "Apollo Pharmacy",
+      "product_name": "Apollo Pharmacy E-Gift Vouchers",
+      "stored_etag_prefix": "397176b412531076",
+      "expected_etag_prefix": "e1252685ccfc2f06",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBBAGLINE001",
+      "display_brand": "Bagline",
+      "product_name": "BAGLINE E-Gift Voucher",
+      "stored_etag_prefix": "a70b377a07ef854d",
+      "expected_etag_prefix": "290673fe6a2309c5",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBBHJ001",
+      "display_brand": "Bhima Jewellers",
+      "product_name": "Bhima Jewellery E-Gift Card",
+      "stored_etag_prefix": "7285cd0234432788",
+      "expected_etag_prefix": "950a2da1153391a7",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBBHJ002",
+      "display_brand": "Bhima Jewellers",
+      "product_name": "Bhima Jewellers - Coin E-Gift Card",
+      "stored_etag_prefix": "7285cd0234432788",
+      "expected_etag_prefix": "950a2da1153391a7",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBBL001",
+      "display_brand": "HealthKart",
+      "product_name": "Healthkart E-Gift Voucher",
+      "stored_etag_prefix": "8948c57ef3877054",
+      "expected_etag_prefix": "f701ef483f9a93af",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBCITYMAX001",
+      "display_brand": "Funcity",
+      "product_name": "Funcity E-Gift Voucher",
+      "stored_etag_prefix": "e1bab11911085714",
+      "expected_etag_prefix": "cc9224b950b35bcf",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBESYB004",
+      "display_brand": "Easybuy",
+      "product_name": "EasyBuy B2C E-Gift Voucher",
+      "stored_etag_prefix": "e1bab11911085714",
+      "expected_etag_prefix": "8a931d904a5f5aaa",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBGAFK001",
+      "display_brand": "Gaana",
+      "product_name": "Gaana E-Gift Voucher-1M",
+      "stored_etag_prefix": "a24f293ff7250055",
+      "expected_etag_prefix": "0e1c1791400776ea",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBGAFK002",
+      "display_brand": "Gaana",
+      "product_name": "Gaana E-Gift Voucher-12M",
+      "stored_etag_prefix": "a24f293ff7250055",
+      "expected_etag_prefix": "0e1c1791400776ea",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBGFSMP001",
+      "display_brand": "ShemarooMe",
+      "product_name": "ShemarooMe-Premium Yearly-Rs 699 E-Gift Voucher",
+      "stored_etag_prefix": "e1bab11911085714",
+      "expected_etag_prefix": "1441f6de5827ba78",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBGFSMP004",
+      "display_brand": "ShemarooMe",
+      "product_name": "ShemarooMe-Premium Two Yearly Rs 999 E-Gift Voucher",
+      "stored_etag_prefix": "e1bab11911085714",
+      "expected_etag_prefix": "1441f6de5827ba78",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBGFSMP007",
+      "display_brand": "ShemarooMe",
+      "product_name": "ShemarooMe-Premium Quarterly-Rs 449 E-Gift Voucher",
+      "stored_etag_prefix": "e1bab11911085714",
+      "expected_etag_prefix": "1441f6de5827ba78",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBGFSMP010",
+      "display_brand": "ShemarooMe",
+      "product_name": "ShemarooMe-Premium Lite Yearly-Rs 449 E-Gift Voucher",
+      "stored_etag_prefix": "e1bab11911085714",
+      "expected_etag_prefix": "1441f6de5827ba78",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBGFSMP013",
+      "display_brand": "ShemarooMe",
+      "product_name": "ShemarooMe-Premium lite Two Yearly-Rs 699 E-Gift Voucher",
+      "stored_etag_prefix": "e1bab11911085714",
+      "expected_etag_prefix": "1441f6de5827ba78",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBGFSMP016",
+      "display_brand": "ShemarooMe",
+      "product_name": "ShemarooMe-Premium Lite Quarterly Rs 299 E-Gift Voucher",
+      "stored_etag_prefix": "e1bab11911085714",
+      "expected_etag_prefix": "1441f6de5827ba78",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBHB2C001",
+      "display_brand": "Helios",
+      "product_name": "Helios B2C E-Gift Card",
+      "stored_etag_prefix": "2422a572131fa4cf",
+      "expected_etag_prefix": "8a8ef504f1ea8221",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBHC008",
+      "display_brand": "Home Centre",
+      "product_name": "Homecentre B2C Online E-Gift Voucher",
+      "stored_etag_prefix": "a123f27bb3639f1a",
+      "expected_etag_prefix": "05e13b76d4cce0d3",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBHC011",
+      "display_brand": "Home Centre",
+      "product_name": "Homecentre B2C E-Gift Voucher",
+      "stored_etag_prefix": "a123f27bb3639f1a",
+      "expected_etag_prefix": "05e13b76d4cce0d3",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBJCB001",
+      "display_brand": "Juicy Couture",
+      "product_name": "Juicy Couture-BAGLINE E-Gift Voucher",
+      "stored_etag_prefix": "a70b377a07ef854d",
+      "expected_etag_prefix": "6b883bfe3c4a3e7c",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBKFC001",
+      "display_brand": "KFC",
+      "product_name": "KFC E-Gift Voucher",
+      "stored_etag_prefix": "db039f082ac32632",
+      "expected_etag_prefix": "1b87f42edc93360b",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBLCS0001",
+      "display_brand": "Le Creuset",
+      "product_name": "LE CREUSET E-Gift Voucher",
+      "stored_etag_prefix": "f8ca9be7cec94f74",
+      "expected_etag_prefix": "86719153517a7aa9",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBMAXBTB004",
+      "display_brand": "Max Fashion",
+      "product_name": "Max Fashion B2C Online E-Gift Voucher",
+      "stored_etag_prefix": "1e59ccf5383e21e1",
+      "expected_etag_prefix": "12e7a3c84c9d4eeb",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBMAXBTB010",
+      "display_brand": "Max Fashion",
+      "product_name": "Max Fashion B2C  E-Gift Voucher",
+      "stored_etag_prefix": "1e59ccf5383e21e1",
+      "expected_etag_prefix": "12e7a3c84c9d4eeb",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBMBZ001",
+      "display_brand": "MuscleBlaze",
+      "product_name": "Muscle Blaze E-Gift Voucher",
+      "stored_etag_prefix": "66d4666aef611ce8",
+      "expected_etag_prefix": "f9a35c9d548899da",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBMLBR003",
+      "display_brand": "Malabar",
+      "product_name": "Malabar Gold Jewellery E-Gift Voucher",
+      "stored_etag_prefix": "76dca8ae3e233c3b",
+      "expected_etag_prefix": "fadda0fae6bf2fef",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBMLBR004",
+      "display_brand": "Malabar",
+      "product_name": "Malabar Gold Coin E-Gift Voucher",
+      "stored_etag_prefix": "76dca8ae3e233c3b",
+      "expected_etag_prefix": "fadda0fae6bf2fef",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBNGPL001",
+      "display_brand": "Steam",
+      "product_name": "Steam E-Gift Voucher",
+      "stored_etag_prefix": "ab880a9f0658230e",
+      "expected_etag_prefix": "b07b91d625e5b77b",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBNQCSV001",
+      "display_brand": "Shopy Vision",
+      "product_name": "Shopy Vision E-Gift Voucher",
+      "stored_etag_prefix": "0ae63c50040ed7fb",
+      "expected_etag_prefix": "140eff5e74ad415c",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBPES001",
+      "display_brand": "Peter England",
+      "product_name": "Peter England E-Gift Voucher",
+      "stored_etag_prefix": "ef578ec6c57265c3",
+      "expected_etag_prefix": "ff4dc1610aa40ec4",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBPPE009",
+      "display_brand": "PhonePe",
+      "product_name": "PhonePe E-Gift Voucher",
+      "stored_etag_prefix": "9c79c23ca8c29624",
+      "expected_etag_prefix": "4e4fa5736a6a11cc",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBSHLFUEL001",
+      "display_brand": "Shell",
+      "product_name": "Shell Fuel E-Gift Voucher",
+      "stored_etag_prefix": "453ad08e16b07960",
+      "expected_etag_prefix": "b375ec1f17a88bd2",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBSTB001",
+      "display_brand": "Starbucks",
+      "product_name": "Starbucks E-Gift Voucher",
+      "stored_etag_prefix": "be271ed25009aabe",
+      "expected_etag_prefix": "c8c4f230ed3366e5",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBTEPB2C001",
+      "display_brand": "Titan Eye+",
+      "product_name": "TEP B2C E-Gift Card",
+      "stored_etag_prefix": "3d7a041c6e760faf",
+      "expected_etag_prefix": "7428e5f3e8a841b9",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBTHB001",
+      "display_brand": "Tommy Hilfiger",
+      "product_name": "Tommy Hilfiger-BAGLINE E-Gift Voucher",
+      "stored_etag_prefix": "a70b377a07ef854d",
+      "expected_etag_prefix": "73fa649d491e3b1d",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBUCB001",
+      "display_brand": "United Colors of Benetton",
+      "product_name": "United Colors of Benetton-BAGLINE E-Gift Voucher",
+      "stored_etag_prefix": "a70b377a07ef854d",
+      "expected_etag_prefix": "f2477fa2f22f4d44",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBVMARTUN001",
+      "display_brand": "Unlimited",
+      "product_name": "Unlimited E-Gift Card",
+      "stored_etag_prefix": "f6fae58e59f6009a",
+      "expected_etag_prefix": "78529d4f813ff06f",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBVSPL001",
+      "display_brand": "Healthians",
+      "product_name": "Healthians E-Gift Voucher",
+      "stored_etag_prefix": "e1bab11911085714",
+      "expected_etag_prefix": "c851c1904b2b5787",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBVSPL002",
+      "display_brand": "Dpauls",
+      "product_name": "Dpauls E-Gift Voucher",
+      "stored_etag_prefix": "e1bab11911085714",
+      "expected_etag_prefix": "b382bc6727f34030",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBWOTB2C001",
+      "display_brand": "World of Titan",
+      "product_name": "WOT B2C E-Gift Card",
+      "stored_etag_prefix": "83a383461e3da424",
+      "expected_etag_prefix": "7428e5f3e8a841b9",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "EGVGBWOTB2C002",
+      "display_brand": "World of Titan",
+      "product_name": "World of Titan SmartWatch E-Gift Card",
+      "stored_etag_prefix": "83a383461e3da424",
+      "expected_etag_prefix": "7428e5f3e8a841b9",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "GBV2TAJCORPEGC001",
+      "display_brand": "Taj Hotels",
+      "product_name": "Taj Hotels E-Gift Card",
+      "stored_etag_prefix": "495d1f0d7eb724f4",
+      "expected_etag_prefix": "99e76edd67a0c227",
+      "logo_domain_used": null
+    },
+    {
+      "sku": "Lysto40",
+      "display_brand": "Nintendo",
+      "product_name": "Nintendo Wallet Card",
+      "stored_etag_prefix": "e3adf3e6a9936fe9",
+      "expected_etag_prefix": "6e87eca0e60fc101",
+      "logo_domain_used": null
+    }
+  ],
+  "errors": []
+}
