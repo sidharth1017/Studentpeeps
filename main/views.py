@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, redirect
 from django.views.generic.base import View
 from django.contrib import messages
-from .models import Contact, RequestBrand, Foundation, Resource, Brand, Subscribe, Homepage, PolicyPage
+from .models import Contact, Foundation, Resource, Subscribe, Homepage, PolicyPage
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from accounts_v2.tasks import send_subscribe_email, send_contact_mail
@@ -199,9 +199,11 @@ class Home(View):
         # GIFTCARDS (ProviderProduct)
         # -----------------------------
         else:
+            from giftcard.services.catalog_visibility import sellable_giftcard_q
+
             giftcards = ProviderProduct.objects.filter(
+                sellable_giftcard_q(),
                 sku__in=offer_ids,
-                in_stock=True
             )
             giftcard_map = {g.sku: g for g in giftcards}
             ordered_giftcards = [
@@ -666,11 +668,39 @@ class CategoryPageView(View):
         qd["category"] = LEGACY_CATEGORY_SLUGS.get(category_id, category_id)
         return redirect(f"/discounts/explore/?{qd.urlencode()}", permanent=True)
 
+HELP_CENTER_TILE_META = {
+    "privacy-policy": ("i-shield", "How we collect, use, and protect your information."),
+    "refund-policy": ("i-tag", "Refunds, cancellations, and when they apply to gift cards."),
+    "terms-and-conditions": ("i-book", "Terms for using StudentPeeps and purchasing gift cards."),
+}
+
+
+class HelpCenterIndexView(View):
+    def get(self, request):
+        pages = []
+        for page in PolicyPage.objects.filter(status="active").order_by("title"):
+            icon, blurb = HELP_CENTER_TILE_META.get(
+                page.slug,
+                ("i-help", "Official guidance and policy from StudentPeeps."),
+            )
+            page.tile_icon = icon
+            page.tile_blurb = blurb
+            pages.append(page)
+        context = {
+            "pages": pages,
+            "canonical_url": request.build_absolute_uri(request.path),
+        }
+        return render(request, "pages/help/index.html", context)
+
+
 class HelpCenterPageView(View):
     def get(self, request, slug):
+        from main.services.policy_content import normalize_policy_html
+
         page = get_object_or_404(PolicyPage, slug=slug, status="active")
         page.og_url = request.build_absolute_uri()
         page.canonical_url = request.build_absolute_uri(request.path)
+        page.content = normalize_policy_html(page.content)
         context = {
             "page": page,
         }

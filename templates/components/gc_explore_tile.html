@@ -1,0 +1,40 @@
+<a class="bt{% if not card.can_purchase %} bt-unavail{% endif %}" href="{% url card.detail_url_name card.sku %}">
+  <div class="gc {{ card.pattern }}{% if not card.can_purchase %} gc-dim{% endif %}" style="--a: {{ card.pal_0 }}; --b: {{ card.pal_1 }};" aria-hidden="true">
+    {% if not card.can_purchase %}
+    {% include "components/gc_sold_out_tag.html" with tag_text=card.thumbnail_tag_text %}
+    {% endif %}
+    <div class="gc-in">
+      <div class="gc-top">
+        <div>
+          <div class="gc-brand">{{ card.name }}</div>
+          <div class="gc-kind">Gift card</div>
+        </div>
+      </div>
+      <div class="gc-bot">
+        {% if card.can_purchase %}
+        <span class="off">Up to {{ card.discount_label }} off</span>
+        {% else %}
+        <span class="off gc-off-muted">{{ card.thumbnail_tag_text }}</span>
+        {% endif %}
+        {% include "components/gc_corner_mark.html" with brand_logo_url=card.tile_brand_logo_url %}
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="bt-name">{{ card.name }}</div>
+    {% if not card.can_purchase %}
+    <p class="bt-status-below-name">{{ card.status_text }}</p>
+    {% endif %}
+    <div class="bt-row" style="margin-top: 3px;">
+      <span class="bt-cat">{{ card.category_name }}</span>
+    </div>
+    <div class="bt-meta" style="margin-top: 5px;">
+      <span>₹{{ card.min_price|floatformat:0 }}–₹{{ card.max_price|floatformat:0 }}</span>
+      {% if card.can_purchase %}
+      <span><svg class="ic"><use href="#i-store"/></svg>Online & in-store</span>
+      {% else %}
+      <span class="bt-sku-meta" title="Product SKU">{{ card.sku }}</span>
+      {% endif %}
+    </div>
+  </div>
+</a>

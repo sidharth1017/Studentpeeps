@@ -798,10 +798,16 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   color: var(--ink);
   background: var(--surface-2);
 }
-.subnav .sp {
-  margin-left: auto;
+.subnav a.is-active {
   color: var(--blue);
   font-weight: 620;
+}
+.subnav a.is-active:hover {
+  color: var(--blue-ink);
+  background: var(--blue-tint);
+}
+.subnav a.subnav-end {
+  margin-left: auto;
 }
 
 /* ==========================================================================
@@ -2608,6 +2614,159 @@ body.is-checkout .tabbar { display: none !important; }
 .contact-side { display: grid; gap: 16px; }
 .contact-side .co-sec h2 { margin-bottom: 8px; }
 .contact-msg { height: 140px; padding: 14px; resize: vertical; line-height: 1.5; }
+
+/* Help center index */
+.hc-page { padding: 0 0 56px; }
+.hc-page .crumbs { padding-top: 14px; }
+
+.hc-hero {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  margin: 8px 0 28px;
+  padding: 22px 22px 24px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--rule);
+  background: linear-gradient(128deg, var(--blue-tint) 0%, var(--surface) 52%, var(--surface) 100%);
+  box-shadow: 0 1px 0 rgba(15, 21, 51, 0.04);
+}
+@media (min-width: 640px) {
+  .hc-hero { padding: 28px 32px; gap: 22px; }
+}
+.hc-hero-mark {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 10px 24px -18px rgba(36, 66, 230, 0.55);
+}
+.hc-hero-mark .ic { width: 26px; height: 26px; }
+.hc-hero-copy h1 {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 38px);
+  font-stretch: 110%;
+  font-weight: 760;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  color: var(--ink) !important;
+}
+.hc-hero-copy p {
+  margin: 10px 0 0;
+  max-width: 52ch;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-3);
+}
+
+.hc-layout {
+  display: grid;
+  gap: 20px;
+  align-items: start;
+}
+@media (min-width: 1024px) {
+  .hc-layout {
+    grid-template-columns: minmax(0, 1fr) min(320px, 30%);
+    gap: 24px;
+  }
+}
+
+.hc-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 720px) {
+  .hc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.hc-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 190px;
+  padding: 22px 22px 18px;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 1px 0 rgba(15, 21, 51, 0.05);
+  transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+}
+.hc-tile:hover {
+  border-color: var(--rule-2);
+  box-shadow: var(--sh-float);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+.hc-tile:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+.hc-tile-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--surface-2);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+}
+.hc-tile-icon .ic { width: 22px; height: 22px; }
+.hc-tile-body h2 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-stretch: 106%;
+  font-weight: 760;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--ink);
+}
+.hc-tile-body p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+.hc-tile-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+}
+.hc-tile-date {
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.hc-tile-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 14px;
+  font-weight: 650;
+  color: var(--blue);
+  white-space: nowrap;
+}
+.hc-tile:hover .hc-tile-go { color: var(--blue-ink); }
+
+.hc-aside { display: grid; gap: 16px; }
+.hc-aside .co-sec h2 { margin-bottom: 10px; }
+.hc-tip { background: var(--surface-2); }
+
+.hc-empty .hint { margin: 0; font-size: 15px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hc-tile { transition: none; }
+  .hc-tile:hover { transform: none; }
+}
 
 /* Student discounts / coupons hub */
 .disc-hero { padding-top: 8px; }

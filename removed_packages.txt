@@ -14,4 +14,4 @@ django-summernote stays installed. Attachments are hidden in admin. Policy pages
 Optional cleanup on the server, after a database backup
 - Environment variables that settings.py no longer reads: SOCIAL_AUTH_GOOGLE_OAUTH2_KEY_PRODUCTION, SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET_PRODUCTION, and the local SOCIAL_AUTH_GOOGLE_OAUTH2_KEY_LOCAL / SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET_LOCAL pair if those exist.
 - The tesseract system package, if it was installed only for ID card OCR.
-- Unused tables the app no longer queries: accounts_v2_abandonedsignup, accounts_v2_unverified, accounts_v2_unverifiedidupload, accounts_v2_rejectedusers, and the social_auth_* tables. Do not drop accounts_v2_register. That table is the new signup list.
+- Unused tables the app no longer queries: accounts_v2_abandonedsignup, accounts_v2_unverified, accounts_v2_unverifiedidupload, accounts_v2_rejectedusers, main_brand, main_requestbrand, and the social_auth_* tables. Do not drop accounts_v2_register. That table is the new signup list. Do not drop brands_v2_* tables; student discount offers and gift card categories still use them.

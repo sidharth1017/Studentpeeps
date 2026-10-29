@@ -41,6 +41,8 @@ class ProductOverrideInline(StackedInline):
                     "category",
                     "name",
                     "margin",
+                    "status",
+                    "status_reason",
                     "brand_name",
                     "brand_code",
                     "brand_logo_preview",
@@ -126,12 +128,30 @@ class ProviderProductAdmin(ModelAdmin):
 
 @admin.register(ProductOverride)
 class ProductOverrideAdmin(ModelAdmin):
-    list_display = ("product", "category", "name", "logo_fetched_at", "brand_logo_preview")
+    list_display = (
+        "product",
+        "category",
+        "name",
+        "status",
+        "margin",
+        "logo_fetched_at",
+        "brand_logo_preview",
+    )
+    list_filter = ("status",)
     search_fields = ("product__provider__name", "product__sku", "name", "brand_name", "logo_domain")
     readonly_fields = ("brand_logo_preview", "logo_dev_etag", "logo_fetched_at")
     fieldsets = (
         (None, {
-            'fields': ('product', 'category', 'name', 'description', 'tnc_content', 'margin'),
+            'fields': (
+                'product',
+                'category',
+                'name',
+                'description',
+                'tnc_content',
+                'margin',
+                'status',
+                'status_reason',
+            ),
         }),
         ('Brand', {
             'fields': (

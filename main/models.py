@@ -16,19 +16,6 @@ class Contact(models.Model):
     def contact(self):
         self.save()
 
-class RequestBrand(models.Model):
-    name = models.CharField(max_length=50, default="")
-    email = models.CharField(max_length=50, default="")
-    brandname = models.CharField(max_length=100, default="")
-    brandsite = models.CharField(max_length=500)
-    want = models.CharField(max_length=1000, default="")
-
-    def __str__(self):
-        return self.brandname
-
-    def requestbrand(self):
-        self.save()
-        
 class Foundation(models.Model):
     name = models.CharField(max_length=50, default="")
     collegename = models.CharField(max_length=50, default="")
@@ -55,14 +42,6 @@ class Resource(models.Model):
 
     def resource(self):
         self.save()
-
-
-class Brand(models.Model):
-    name = models.CharField(max_length=100)
-    count = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.name
 
 
 class Subscribe(models.Model):

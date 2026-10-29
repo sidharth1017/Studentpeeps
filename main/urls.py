@@ -43,7 +43,7 @@ urlpatterns = [
     path('contactus/', views.ContactUs.as_view(), name="ContactUs"),
     path(
         'faq/',
-        RedirectView.as_view(url='/help-center/frequently-asked-questions/', permanent=True),
+        RedirectView.as_view(url='/help-center/', permanent=True),
         name="Faq",
     ),
     path(
@@ -58,6 +58,19 @@ urlpatterns = [
          views.IdVerificationMessage.as_view(), name="IdVerificationMessage"),
 
     path('brand/<slug:brand_slug>/', BrandPageView.as_view(), name='brand_page'),
+    path(
+        'help-center/terms-of-use/',
+        RedirectView.as_view(url='/help-center/terms-and-conditions/', permanent=True),
+    ),
+    path(
+        'help-center/refunds-and-cancellations/',
+        RedirectView.as_view(url='/help-center/refund-policy/', permanent=True),
+    ),
+    path(
+        'help-center/frequently-asked-questions/',
+        RedirectView.as_view(url='/help-center/', permanent=True),
+    ),
+    path('help-center/', views.HelpCenterIndexView.as_view(), name='help_center'),
     path('help-center/<slug:slug>/', views.HelpCenterPageView.as_view(), name='help_center_page'),
     
     path('giftcard-page/',

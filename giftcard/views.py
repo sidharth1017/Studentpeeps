@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from types import SimpleNamespace
 from giftcard.providers.woohoo.service.product_resolver import ProductResolver
+from giftcard.services.catalog_visibility import sellable_giftcard_q
 from giftcard.services.cart_service import CartService
 from giftcard.payments.registry import get_gateway
 from giftcard.providers.woohoo.service.order_service import WoohooOrderService
@@ -47,15 +48,32 @@ class AddToCartView(View):
                 messages.error(request, error_msg)
                 return redirect(request.META.get("HTTP_REFERER", "giftcard:explore"))
 
+        from giftcard.models import ProviderProduct
+        from giftcard.services.purchase_availability import purchase_availability_for
+
+        provider_product = ProviderProduct.objects.filter(sku=sku).select_related(
+            "override"
+        ).first()
+        if not provider_product:
+            return JsonResponse({"error": "Product not found"}, status=404)
+
+        avail = purchase_availability_for(provider_product)
+        if not avail.can_purchase:
+            error_msg = avail.detail_message or "This gift card is not available to buy."
+            if request.headers.get("x-requested-with") == "XMLHttpRequest" or request.headers.get(
+                "Content-Type"
+            ) == "application/json":
+                return JsonResponse({"error": error_msg}, status=400)
+            messages.error(request, error_msg)
+            return redirect(request.META.get("HTTP_REFERER", "giftcard:explore"))
+
         resolver = ProductResolver(sku)
         product = resolver.resolve()
         if not product:
             return JsonResponse({"error": "Product not found"}, status=404)
 
-        from giftcard.models import ProviderProduct
         from giftcard.services.product_pricing import validate_denomination
 
-        provider_product = ProviderProduct.objects.filter(sku=sku).first()
         if provider_product:
             ok, err = validate_denomination(provider_product, denomination)
             if not ok:
@@ -764,7 +782,9 @@ class OrderDetailView(LoginRequiredMixin, View):
 
 class GiftcardPageView(View):
     def get(self, request, sku):
-        provider_product = ProviderProduct.objects.filter(sku=sku).first()
+        provider_product = ProviderProduct.objects.filter(sku=sku).select_related(
+            "override"
+        ).first()
         if not provider_product:
             return render(
                 request,
@@ -787,6 +807,10 @@ class GiftcardPageView(View):
             {"question": "How to use this gift card?", "answer": f"Login to {giftcard_data.get('brand_name')} website, go to payment and enter the voucher code."},
             {"question": "What is the validity?", "answer": "Usually, these gift cards have a validity of 12 months from the date of issue."},
             {"question": "Is it refundable?", "answer": "Gift cards cannot be canceled or returned once issued."},
+            {
+                "question": "What if I don't receive the gift card?",
+                "answer": "In the rare case, it happens. Don't worry — just email us at hi@studentpeeps.club. We will either send the code or refund the amount in full.",
+            },
         ]
 
         similar_cards = [
@@ -796,10 +820,14 @@ class GiftcardPageView(View):
         ]
 
         from giftcard.payments.methods import get_enabled_methods
+        from giftcard.services.purchase_availability import purchase_availability_for
+
+        purchase_availability = purchase_availability_for(provider_product)
 
         return render(request, "pages/giftcards/detail.html", {
             "giftcard": giftcard_data,
             "provider_product": provider_product,
+            "purchase_availability": purchase_availability,
             "seo": seo,
             "faqs": faqs,
             "similar_cards": similar_cards,
@@ -835,8 +863,12 @@ class ExploreView(View):
             'fitness': {'icon': 'dumbbell', 'color': '#ff4d4d'},
         }
         
-        # Base queryset
-        products = ProviderProduct.objects.filter(in_stock=True).select_related('override', 'override__category')
+        from giftcard.services.explore_catalog import explore_product_card
+
+        # Base queryset — include unavailable SKUs so shoppers see what they cannot buy
+        products = ProviderProduct.objects.select_related(
+            'override', 'override__category'
+        )
         
         if query:
             products = products.filter(name__icontains=query)
@@ -882,18 +914,32 @@ class ExploreView(View):
         else:
             products = products.order_by('-created_at')
 
+        product_list = list(products)
+        available_cards = []
+        unavailable_cards = []
+        for prod in product_list:
+            card = explore_product_card(prod)
+            if card["can_purchase"]:
+                available_cards.append(card)
+            else:
+                unavailable_cards.append(card)
+
         # Get categories with counts
         all_categories = Category.objects.filter(isVisible=True).order_by('sorting')
         
-        # Total count
-        total_count = ProviderProduct.objects.filter(in_stock=True).count()
+        # Total count (purchasable catalog-wide)
+        total_count = ProviderProduct.objects.filter(sellable_giftcard_q()).count()
+        available_count = len(available_cards)
+        unavailable_count = len(unavailable_cards)
         
         # Build URLs to preserve filters
         # 1. Category URLs
         categories_with_meta = []
         for cat in all_categories:
             meta = category_meta.get(cat.category_id, {'icon': 'sparkles', 'color': '#3b82f6'})
-            count = ProviderProduct.objects.filter(in_stock=True, override__category=cat).count()
+            count = ProviderProduct.objects.filter(
+                sellable_giftcard_q(), override__category=cat
+            ).count()
             
             cat_qd = request.GET.copy()
             cat_qd['category'] = cat.category_id
@@ -953,10 +999,13 @@ class ExploreView(View):
         clear_all_url = '?'
             
         context = {
-            'products': products,
+            'available_cards': available_cards,
+            'unavailable_cards': unavailable_cards,
             'categories': categories_with_meta,
             'all_brands_url': all_brands_url,
             'total_count': total_count,
+            'available_count': available_count,
+            'unavailable_count': unavailable_count,
             'selected_category': category_id,
             'search_query': query,
             'sort_by': sort_by,
@@ -1008,7 +1057,9 @@ class SearchSuggestView(View):
         from .models import ProviderProduct
 
         q = request.GET.get("q", "").strip()[:60]
-        qs = ProviderProduct.objects.filter(in_stock=True).select_related("override", "override__category")
+        qs = ProviderProduct.objects.filter(sellable_giftcard_q()).select_related(
+            "override", "override__category"
+        )
         categories = Category.objects.filter(isVisible=True).order_by("sorting")
 
         if not q:
@@ -1046,7 +1097,9 @@ class SearchSuggestView(View):
             cats.append({
                 "id": c.category_id,
                 "name": c.name,
-                "count": ProviderProduct.objects.filter(in_stock=True, override__category=c).count(),
+                "count": ProviderProduct.objects.filter(
+                    sellable_giftcard_q(), override__category=c
+                ).count(),
             })
 
         return JsonResponse({"q": q, "brands": [self._brand(p) for p in ranked], "categories": cats})

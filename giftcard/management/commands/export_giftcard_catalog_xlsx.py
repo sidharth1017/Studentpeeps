@@ -85,6 +85,8 @@ def _override_row(o: ProductOverride) -> dict:
         "description": o.description,
         "tnc_content": o.tnc_content,
         "margin": o.margin,
+        "status": o.status,
+        "status_reason": o.status_reason,
         "brand_name": o.brand_name,
         "brand_code": o.brand_code,
         "brand_logo": logo,
@@ -104,10 +106,14 @@ def _load_rates_csv(path: Path) -> dict[str, Decimal]:
     with path.open(newline="", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            sku = (row.get("SKU") or "").strip()
+            sku = (row.get("SKU ID") or row.get("SKU") or "").strip()
             if not sku:
                 continue
-            raw = (row.get("UPI discount (% off face value)") or "").strip().replace("%", "")
+            raw = (
+                row.get("UPI discount %")
+                or row.get("UPI discount (% off face value)")
+                or ""
+            ).strip().replace("%", "")
             if not raw:
                 continue
             rates[sku] = Decimal(raw)

@@ -1,6 +1,7 @@
 from giftcard.models import ProviderProduct, ProductOverride
 
 from giftcard.services.margin_pricing import margin_as_percent
+from giftcard.services.purchase_availability import purchase_availability_for
 from giftcard.services.product_copy import format_short_description_html
 from giftcard.services.product_pricing import pricing_config_for_product
 
@@ -62,6 +63,8 @@ class ProductResolver:
         if not tnc_content:
             tnc_content = self.product.tnc_content or ""
 
+        avail = purchase_availability_for(self.product)
+
         return {
             "sku": self.product.sku,
             "name": self._value("name"),
@@ -100,4 +103,16 @@ class ProductResolver:
                 if self.override and self.override.margin is not None
                 else 0
             ),
+            "status": (
+                self.override.status
+                if self.override is not None
+                else True
+            ),
+            "can_purchase": avail.can_purchase,
+            "availability_label": avail.short_label,
+            "availability_status_text": avail.status_text,
+            "thumbnail_tag_text": avail.thumbnail_tag_text,
+            "availability_message": avail.detail_message,
+            "in_stock": avail.in_stock,
+            "is_live": avail.is_live,
         }

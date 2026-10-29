@@ -7,6 +7,7 @@ from django.utils import timezone
 
 from giftcard.brand_design import BRAND_CONFIG, brand_size_class
 from giftcard.models import ProviderProduct
+from giftcard.services.catalog_visibility import sellable_giftcard_q
 from giftcard.services.margin_pricing import margin_as_percent
 from main.models import HomepageFeaturedSku, HomepageSection, PromoStripBanner
 
@@ -142,9 +143,10 @@ def _load_products(skus: Iterable[str]):
         return {}
     return {
         p.sku: p
-        for p in ProviderProduct.objects.filter(sku__in=sku_list, in_stock=True).select_related(
-            "override", "override__category"
-        )
+        for p in ProviderProduct.objects.filter(
+            sellable_giftcard_q(),
+            sku__in=sku_list,
+        ).select_related("override", "override__category")
     }
 
 

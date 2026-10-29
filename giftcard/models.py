@@ -321,6 +321,18 @@ class ProductOverride(models.Model):
         blank=True
     )
 
+    status = models.BooleanField(
+        default=True,
+        verbose_name="Live",
+        help_text="Checked = live on storefront. Uncheck if NOT LIVE on the rate sheet.",
+    )
+
+    status_reason = models.TextField(
+        null=True,
+        blank=True,
+        help_text="From rate sheet Status / reason column",
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

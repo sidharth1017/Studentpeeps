@@ -18,7 +18,27 @@
     }
   }
   .preview .gc {
+    position: relative;
     box-shadow: 0 30px 50px -28px rgba(15,21,51,.7), inset 0 0 0 1px rgba(255,255,255,.18);
+  }
+  .preview .gc.gc-dim {
+    filter: saturate(0.4) brightness(0.94);
+  }
+  .gc-sold-out-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 4;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+    background: #555;
+    line-height: 1;
+    pointer-events: none;
   }
   .gc-tnc {
     font-size: 14.5px;
@@ -121,7 +141,10 @@
       <div style="position: sticky; top: 96px;">
         <!-- Card Art Preview -->
         <div class="preview" style="max-width: 500px; margin: 0 auto;">
-          <div class="gc p-dots" style="--a: #2442E6; --b: #6440E0;" aria-hidden="true" id="cardArtPreview">
+          <div class="gc p-dots{% if not purchase_availability.can_purchase %} gc-dim{% endif %}" style="--a: #2442E6; --b: #6440E0;" aria-hidden="true" id="cardArtPreview">
+            {% if not purchase_availability.can_purchase %}
+            {% include "components/gc_sold_out_tag.html" with tag_text=purchase_availability.thumbnail_tag_text %}
+            {% endif %}
             <div class="gc-in">
               <div class="gc-top">
                 <div>
@@ -239,7 +262,11 @@
     <div class="buy" style="min-width: 0; display: flex; flex-direction: column; gap: 20px;">
       <div>
         <h1 style="font-size: 32px; letter-spacing: -.02em;">{{ giftcard.brand_name|default:giftcard.name }} gift card</h1>
-        <p class="sub" style="font-size: 15.5px; color: var(--ink-2); margin-top: 6px;">Delivered by email in seconds.</p>
+        {% if purchase_availability.can_purchase %}
+        <p class="sub" style="font-size: 15.5px; color: var(--ink-2); margin-top: 6px;">Delivered by email and SMS in under a minute.</p>
+        {% else %}
+        <p class="gc-status-below-name" role="status" style="font-size: 15.5px; font-weight: 620; color: #b42318; margin-top: 8px;">{{ purchase_availability.status_text }}</p>
+        {% endif %}
         <div class="tags" style="display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 12px;">
           <span class="tag"><svg class="ic"><use href="#i-bolt"/></svg>Instant delivery</span>
           <span class="tag"><svg class="ic"><use href="#i-store"/></svg>Online & in-store</span>
@@ -343,18 +370,27 @@
         <input type="hidden" name="buy_now" id="buyNowField" value="false">
 
         <div class="ctas" style="display: grid; gap: 10px; grid-template-columns: 1.4fr 1fr;">
+          {% if purchase_availability.can_purchase %}
           <button type="button" onclick="handleCartAction(true)" class="btn btn-p btn-lg">
             Buy now
           </button>
           <button type="button" id="addToCartBtn" onclick="handleCartAction(false)" class="btn btn-s btn-lg">
             <span id="addToCartBtnText">Add to cart</span>
           </button>
+          {% else %}
+          <button type="button" class="btn btn-p btn-lg" disabled aria-disabled="true" style="opacity: 0.55; cursor: not-allowed;">
+            Buy now
+          </button>
+          <button type="button" class="btn btn-s btn-lg" disabled aria-disabled="true" style="opacity: 0.55; cursor: not-allowed;">
+            Add to cart
+          </button>
+          {% endif %}
         </div>
       </form>
 
       <p class="assure" style="display: flex; gap: 8px; font-size: 14px; color: var(--ink-2); align-items: flex-start;">
         <svg class="ic" style="color: var(--green); width: 18px; height: 18px; margin-top: 1px;"><use href="#i-check-c"/></svg>
-        <span>Code on WhatsApp and email in under a minute, and saved in your wallet.</span>
+        <span>Code on email and SMS in under a minute, and saved in your wallet.</span>
       </p>
 
       <div class="promise-box" style="display: grid; grid-template-columns: auto 1fr; gap: 12px; padding: 16px; border-radius: 16px; background: var(--green-tint);">

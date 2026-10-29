@@ -1,0 +1,74 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Help center — StudentPeeps{% endblock %}
+
+{% block meta %}
+<meta name="description" content="StudentPeeps help center — terms, privacy, refunds, and other policies.">
+<link rel="canonical" href="{{ canonical_url }}">
+{% endblock %}
+
+{% block body %}
+<div class="wrap hc-page">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <svg class="ic" aria-hidden="true"><use href="#i-chev-r"/></svg>
+    <span>Help center</span>
+  </nav>
+
+  <header class="hc-hero">
+    <div class="hc-hero-mark" aria-hidden="true">
+      <svg class="ic"><use href="#i-help"/></svg>
+    </div>
+    <div class="hc-hero-copy">
+      <h1>Help center</h1>
+      <p>Policies, refunds, and answers about gift cards on StudentPeeps. Choose a topic to read the full document.</p>
+    </div>
+  </header>
+
+  <div class="hc-layout">
+    <div class="hc-main">
+      {% if pages %}
+      <div class="hc-grid" role="list">
+        {% for page in pages %}
+        <a class="hc-tile" href="{% url 'help_center_page' slug=page.slug %}" role="listitem">
+          <span class="hc-tile-icon" aria-hidden="true">
+            <svg class="ic"><use href="#{{ page.tile_icon }}"/></svg>
+          </span>
+          <div class="hc-tile-body">
+            <h2>{{ page.title }}</h2>
+            <p>{{ page.tile_blurb }}</p>
+          </div>
+          <div class="hc-tile-foot">
+            {% if page.updated_at %}
+            <span class="hc-tile-date">Updated {{ page.updated_at|date:"j M Y" }}</span>
+            {% else %}
+            <span class="hc-tile-date"></span>
+            {% endif %}
+            <span class="hc-tile-go">Read <svg class="ic ic-s" aria-hidden="true"><use href="#i-chev-r"/></svg></span>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="co-sec hc-empty">
+        <p class="hint">No help articles are published yet.</p>
+        <p style="margin-top:12px"><a class="btn btn-p" href="{% url 'ContactUs' %}">Contact us</a></p>
+      </div>
+      {% endif %}
+    </div>
+
+    <aside class="hc-aside" aria-label="Need more help?">
+      <div class="co-sec">
+        <h2><svg class="ic ic-s" aria-hidden="true"><use href="#i-mail"/></svg>Still stuck?</h2>
+        <p class="hint" style="font-size:15px;line-height:1.5;margin:0">Email us and we’ll get back within 12 hours. Gift card missing? We’ll resend the code or refund you in full.</p>
+        <p style="margin:14px 0 0"><a class="btn-q" href="mailto:hi@studentpeeps.club">hi@studentpeeps.club</a></p>
+        <p style="margin:16px 0 0"><a class="btn btn-p btn-blk" href="{% url 'ContactUs' %}" style="width:100%;justify-content:center">Contact us</a></p>
+      </div>
+      <div class="co-sec hc-tip">
+        <h2><svg class="ic ic-s" aria-hidden="true"><use href="#i-bolt"/></svg>Quick tip</h2>
+        <p class="hint" style="font-size:15px;line-height:1.5;margin:0">Most gift cards arrive by email in under a minute. Check spam before reaching out.</p>
+      </div>
+    </aside>
+  </div>
+</div>
+{% endblock %}

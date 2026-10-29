@@ -27,7 +27,16 @@ def subnav_categories(request):
         for c in Category.objects.filter(isVisible=True, category_id__in=SUBNAV_CATEGORY_SLUGS)
     }
     ordered = [by_slug[slug] for slug in SUBNAV_CATEGORY_SLUGS if slug in by_slug]
-    return {"subnav_categories": ordered}
+
+    active_category = ""
+    if request.path.rstrip("/").endswith("/giftcard/explore"):
+        raw = (request.GET.get("category") or "all").strip()
+        active_category = raw if raw else "all"
+
+    return {
+        "subnav_categories": ordered,
+        "subnav_active_category": active_category,
+    }
 
 
 def cart_count(request):

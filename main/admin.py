@@ -26,12 +26,10 @@ class ContactAdmin(ModelAdmin):
     readonly_fields = ('created_at',)
 admin.site.register(Contact, ContactAdmin)
 
-# admin.site.register(RequestBrand)
 class FoundationAdmin(ModelAdmin):
     list_display = ('name','collegename','email', 'coursename')
 # admin.site.register(Foundation, FoundationAdmin)
 # admin.site.register(Resource)
-# admin.site.register(Brand)
 class SubscribeAdmin(ModelAdmin):
     list_display = ("email",)
     search_fields = ("email",)
