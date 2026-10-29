@@ -2469,6 +2469,19 @@ body.is-checkout .tabbar { display: none !important; }
   border-radius: 6px;
   box-shadow: none;
 }
+.sg-i .mini .sg-mini-photo {
+  width: 44px;
+  aspect-ratio: 1.586;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--blue-tint);
+}
+.sg-i .mini .sg-mini-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 .sg-i .mini .sg-mini-in {
   padding: 7cqw 6.5cqw 6cqw !important;
 }
@@ -2970,3 +2983,30 @@ body.is-checkout .tabbar { display: none !important; }
 }
 .disc-cta-box h2 { margin-bottom: 8px; }
 .disc-cta-box .lede { max-width: 520px; margin: 0 auto 20px; }
+
+.disc-pk-photo {
+  overflow: hidden;
+  background: var(--blue-tint);
+}
+.disc-pk-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.disc-home-tile .disc-card-rail {
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.disc-home-tile .disc-card-img {
+  aspect-ratio: 1.586;
+}
+.disc-home-tile .disc-card-fallback-gc {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+}
+.disc-home-tile:hover .disc-card {
+  box-shadow: 0 22px 34px -20px rgba(15, 21, 51, .75);
+  transform: translateY(-2px);
+}

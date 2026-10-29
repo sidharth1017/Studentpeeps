@@ -20,6 +20,7 @@ admin.site.index_title = "Dashboard"
 urlpatterns = [
     path('', views.Home.as_view(), name="Home"),
     path('discounts/explore/', views.DiscountExploreView.as_view(), name='DiscountExplore'),
+    path('discounts/search/suggest/', views.DiscountSearchSuggestView.as_view(), name='DiscountSearchSuggest'),
     path('discounts/', views.DiscountsPageView.as_view(), name='DiscountsPage'),
     path('coupons/', RedirectView.as_view(url='/discounts/', permanent=True)),
     path('category/<slug:category_id>/', views.CategoryPageView.as_view(), name='CategoryPage'),

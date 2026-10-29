@@ -19,10 +19,10 @@
 {% block body %}
 <div class="wrap" style="padding-top: 14px; padding-bottom: 40px;">
   <nav class="crumbs" aria-label="Breadcrumb">
-    <a href="/">Home</a>
+    <a href="{% url 'DiscountsPage' %}">Coupons</a>
     <svg class="ic"><use href="#i-chev-r"/></svg>
     {% if selected_category != 'all' %}
-    <a href="{% url 'DiscountExplore' %}">Coupons</a>
+    <a href="{% url 'DiscountExplore' %}">All offers</a>
     <svg class="ic"><use href="#i-chev-r"/></svg>
     <span>{{ selected_category_label }}</span>
     {% else %}
@@ -33,16 +33,14 @@
   <div class="ex-head">
     <div>
       <h1>{% if search_query %}Results for “{{ search_query }}”{% elif selected_category != 'all' %}{{ selected_category_label }}{% else %}All student offers{% endif %}</h1>
-      <p id="exCount">{{ total_count }} offer{{ total_count|pluralize }}</p>
+      <p id="exCount">{{ filtered_count }} offer{{ filtered_count|pluralize }}{% if filtered_count != total_count %} <span class="hint" style="font-size: inherit;">of {{ total_count }}</span>{% endif %}</p>
     </div>
 
     <div class="sortsel md-up">
       <label for="sortSelect">Sort</label>
       <select id="sortSelect" onchange="location.href=this.value;">
         <option value="{{ sort_urls.popular }}" {% if sort_by == 'popular' %}selected{% endif %}>Most popular</option>
-        <option value="{{ sort_urls.name }}" {% if sort_by == 'name' %}selected{% endif %}>Name (A to Z)</option>
-        <option value="{{ sort_urls.price_low }}" {% if sort_by == 'price-low' %}selected{% endif %}>Price: Low to High</option>
-        <option value="{{ sort_urls.price_high }}" {% if sort_by == 'price-high' %}selected{% endif %}>Price: High to Low</option>
+        <option value="{{ sort_urls.name }}" {% if sort_by == 'name' %}selected{% endif %}>Brand (A to Z)</option>
       </select>
     </div>
   </div>
@@ -108,9 +106,9 @@
         </div>
 
         <div style="margin-top: 16px; padding: 14px; border-radius: 14px; background: var(--blue-tint); color: var(--ink);">
-          <b style="display: block; font-size: 14px;">New to StudentPeeps?</b>
-          <p style="font-size: 12.5px; color: var(--ink-2); margin-top: 4px;">Verify your student status once to unlock codes on exclusive offers.</p>
-          <a href="/account/identify" class="btn-q" style="font-size: 13px; margin-top: 8px;">Sign up free</a>
+          <b style="display: block; font-size: 14px;">Stay in the loop</b>
+          <p style="font-size: 12.5px; color: var(--ink-2); margin-top: 4px;">Join our WhatsApp community for fresh codes and limited-time drops.</p>
+          <a href="https://chat.whatsapp.com/Ji0iuidzfq57cNI5gCBNlO" class="btn-q" style="font-size: 13px; margin-top: 8px;" target="_blank" rel="noopener">Join on WhatsApp</a>
         </div>
       </aside>
 

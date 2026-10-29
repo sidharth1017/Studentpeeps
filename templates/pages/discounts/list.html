@@ -4,13 +4,13 @@
 {% block title %}Student Discounts &amp; Coupons — StudentPeeps{% endblock %}
 
 {% block metatags %}
-<meta name="description" content="Verified student discounts, coupon codes and exclusive offers on 40+ brands — Spotify, Microsoft, Myntra, Udemy and more. Free with student verification." />
-<meta name="keywords" content="student discounts, student coupons, student offers India, promo codes for students, verified student deals" />
+<meta name="description" content="Student discounts, coupon codes and exclusive offers on {{ offer_count }}+ brands — Spotify, Microsoft, Myntra, Udemy and more. Free to browse." />
+<meta name="keywords" content="student discounts, student coupons, student offers India, promo codes for students, brand deals" />
 {% endblock %}
 
 {% block ogmetatags %}
 <meta property="og:title" content="Student Discounts &amp; Coupons — StudentPeeps">
-<meta property="og:description" content="Verified student discounts and coupon codes on top brands. Sign up free and start saving.">
+<meta property="og:description" content="Coupon codes and exclusive offers on top brands. Browse deals and save.">
 <meta property="og:url" content="{{ canonical_url }}">
 <link rel="canonical" href="{{ canonical_url }}">
 {% endblock %}
@@ -18,33 +18,109 @@
 {% block body %}
 <section class="hero disc-hero">
   <div class="wrap">
-    <nav class="crumbs" aria-label="Breadcrumb">
-      <a href="/">Home</a>
-      <svg class="ic" aria-hidden="true"><use href="#i-chev-r"/></svg>
-      <span>Coupons</span>
-    </nav>
-    <div class="hero-grid disc-hero-grid">
+    <div class="hero-grid">
       <div>
-        <p class="pill a disc-kicker">Free for verified students</p>
-        <h1 class="h-xl">Get student discounts when you shop</h1>
-        <p class="lede">Join thousands of students enjoying verified discounts on {{ offer_count }}+ offers from brands like Indigo, Udemy, Microsoft, Spotify and Rapido.</p>
-        <div class="disc-hero-actions">
-          {% if request.user.is_authenticated %}
-          <a class="btn btn-p btn-blk" href="{% url 'DiscountExplore' %}?category=exclusive">Check best offers</a>
-          {% else %}
-          <a class="btn btn-p btn-blk" href="/account/identify">Login / Sign up</a>
-          {% endif %}
-          <a class="btn btn-s" href="{% url 'DiscountExplore' %}">Show me all offers</a>
+        <h1 class="h-xl">Student coupons &amp; brand codes <span class="h-emoji" aria-hidden="true">🏷️</span></h1>
+        <p class="lede">{{ offer_count }}+ deals on tech, travel, fashion and subscriptions — open an offer, copy the code, save at checkout.</p>
+
+        <div class="bigsearch">
+          <form action="{% url 'DiscountExplore' %}" method="GET" style="margin:0">
+            <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+            <input type="search" name="search" placeholder="Search a brand or offer" aria-label="Search coupons" autocomplete="off">
+          </form>
+        </div>
+
+        {% if quick_chips %}
+        <div class="popchips">
+          <span>Popular</span>
+          {% for chip in quick_chips %}
+          <a class="chip" href="{{ chip.link }}">{{ chip.brand_name }}</a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      {% if hero_picks %}
+      <div class="est picks">
+        <h2>Top picks this week</h2>
+        <p class="hint" style="margin-top:4px">Codes ready on the next screen — no extra steps.</p>
+        <ul class="pk">
+          {% for pick in hero_picks %}
+          <li>
+            <a href="{{ pick.link }}">
+              {% if pick.thumbnail_url %}
+              <div class="gc pk-thumb disc-pk-photo" aria-hidden="true">
+                <img src="{{ pick.thumbnail_url }}" alt="">
+              </div>
+              {% else %}
+              <div class="gc pk-thumb {{ pick.pattern_cls }}" style="--a:{{ pick.pal_0 }};--b:{{ pick.pal_1 }}" aria-hidden="true">
+                <div class="gc-in pk-thumb-in">
+                  <div class="gc-top">
+                    <div>
+                      <div class="gc-brand {{ pick.brand_size_cls }}">{{ pick.brand_name }}</div>
+                      <div class="gc-kind">Coupon</div>
+                    </div>
+                  </div>
+                  <div class="gc-bot">
+                    <span></span>
+                    {% if pick.brand_logo %}
+                    <span class="gc-mark gc-mark-sp"><img src="{{ pick.brand_logo }}" alt=""></span>
+                    {% else %}
+                    <span class="gc-mark">sp</span>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+              <span class="pk-t">
+                <b>{{ pick.brand_name }}</b>
+                <span>{{ pick.why }}</span>
+              </span>
+              <span class="pk-p">
+                {% if pick.is_exclusive %}
+                <span class="pill a">Exclusive</span>
+                {% else %}
+                <span class="off">Open offer</span>
+                {% endif %}
+                <small>Tap for <b>code</b></small>
+              </span>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+        <a class="btn btn-p btn-blk" href="{% url 'DiscountExplore' %}?category=exclusive">See exclusive deals</a>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="promises">
+      <div class="promise">
+        <svg class="ic" aria-hidden="true"><use href="#i-tag"/></svg>
+        <div>
+          <b>Real brand codes</b>
+          <span>Official coupons and student pricing links</span>
         </div>
       </div>
-      <div class="est disc-hero-panel">
-        <h2>How it works</h2>
-        <ol class="disc-steps">
-          <li><b>Sign up</b> with your college email or ID card</li>
-          <li><b>Verify</b> your student status in one step</li>
-          <li><b>Unlock</b> coupon codes and exclusive brand links</li>
-        </ol>
-        <a class="btn-q" href="https://chat.whatsapp.com/Ji0iuidzfq57cNI5gCBNlO" target="_blank" rel="noopener">Join WhatsApp deals community</a>
+      <div class="promise">
+        <svg class="ic" aria-hidden="true"><use href="#i-bolt"/></svg>
+        <div>
+          <b>Instant access</b>
+          <span>Get Code opens your coupon in one tap</span>
+        </div>
+      </div>
+      <div class="promise">
+        <svg class="ic" aria-hidden="true"><use href="#i-sparkles"/></svg>
+        <div>
+          <b>Exclusive drops</b>
+          <span>StudentPeeps-only offers marked on each card</span>
+        </div>
+      </div>
+      <div class="promise">
+        <svg class="ic" aria-hidden="true"><use href="#i-help"/></svg>
+        <div>
+          <b>Always free to browse</b>
+          <span>New deals on WhatsApp and Instagram first</span>
+        </div>
       </div>
     </div>
   </div>
@@ -55,93 +131,122 @@
   <div class="wrap">
     <div class="sec-h">
       <div>
-        <h2>Browse by category</h2>
-        <p class="hint">Same categories as before — tech, fashion, travel and more.</p>
+        <h2>Shop by category</h2>
+        <p>Same layout as gift cards — pick a lane and explore.</p>
       </div>
       <a class="btn-q" href="{% url 'DiscountExplore' %}">All offers</a>
     </div>
-    <div class="chiprow disc-cats" role="group" aria-label="Offer categories">
-      <a class="chip" href="{% url 'DiscountExplore' %}">All</a>
+    <div class="cats">
       {% for cat in discount_categories %}
-      <a class="chip" href="{% url 'DiscountExplore' %}?category={{ cat.category_id|urlencode }}">{{ cat.name }}</a>
+      <a class="cat" href="{% url 'DiscountExplore' %}?category={{ cat.category_id|urlencode }}">
+        <svg class="ic" aria-hidden="true"><use href="#{{ cat.icon }}"/></svg>
+        <span>{{ cat.name }}</span>
+      </a>
       {% endfor %}
     </div>
   </div>
 </section>
 {% endif %}
 
-{% if recommended_offers %}
+{% if trending_rail %}
 <section class="sec">
   <div class="wrap">
     <div class="sec-h">
       <div>
-        <h2>Recommended for you</h2>
-        <p class="hint">Hand-picked student deals to start with.</p>
+        <h2>Trending with students</h2>
+        <p>What people are opening most right now.</p>
       </div>
+      <a class="btn-q md-up" href="{% url 'DiscountExplore' %}">See all</a>
     </div>
-    <div class="rail disc-rail">
-      {% for offer in recommended_offers %}
-      {% include 'components/discount_offer_tile.html' with offer=offer %}
+    <div class="rail">
+      {% for offer in trending_rail %}
+      {% include 'components/discount_home_rail_tile.html' with offer=offer %}
       {% endfor %}
     </div>
   </div>
 </section>
 {% endif %}
 
-<section class="sec disc-social">
+{% if popular_rail %}
+<section class="sec">
   <div class="wrap">
-    <div class="disc-social-grid">
+    <div class="sec-h">
       <div>
-        <h2 class="disc-social-heading">Let&rsquo;s get social</h2>
-        <p class="hint">Follow us and join our community for internship opportunities with brands, networking, free training, courses, and cool events.</p>
-        <div class="disc-social-links">
-          <a class="btn btn-s" href="https://www.instagram.com/studentpeeps/" target="_blank" rel="noopener">Instagram</a>
-          <a class="btn btn-s" href="https://chat.whatsapp.com/Ji0iuidzfq57cNI5gCBNlO" target="_blank" rel="noopener">WhatsApp</a>
+        <h2>Popular coupons</h2>
+        <p>{{ offer_count }} offers — tap any card for codes and steps.</p>
+      </div>
+      <a class="btn-q md-up" href="{% url 'DiscountExplore' %}">Browse all</a>
+    </div>
+    <div class="rail">
+      {% for offer in popular_rail %}
+      {% include 'components/discount_home_rail_tile.html' with offer=offer %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="sec">
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <h2 style="font-size:clamp(26px,4vw,34px)">Never miss a fresh code</h2>
+        <p class="lede" style="margin-top:10px">We post limited-time coupons and brand tie-ups on WhatsApp and Instagram before they hit the site.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:22px">
+          <a class="btn btn-p" href="https://chat.whatsapp.com/Ji0iuidzfq57cNI5gCBNlO" target="_blank" rel="noopener">Join WhatsApp</a>
+          <a class="btn btn-s" href="https://www.instagram.com/studentpeeps/" target="_blank" rel="noopener">Follow on Instagram</a>
         </div>
       </div>
-      <div class="disc-social-media">
-        <img src="{% static 'images/socials_video.gif' %}" alt="" loading="lazy" width="480" height="270">
+      <div class="disc-social-media" style="max-width:420px;margin:0 auto">
+        <img src="{% static 'images/socials_video.gif' %}" alt="" loading="lazy" width="480" height="270" style="width:100%;height:auto;border-radius:var(--r-lg);border:1px solid var(--rule)">
       </div>
     </div>
   </div>
 </section>
 
-{% if featured_offers %}
 <section class="sec">
   <div class="wrap">
-    <div class="sec-h">
-      <div>
-        <h2>Featured student discounts</h2>
-        <p class="hint">{{ offer_count }} verified offers — tap any card for codes and steps.</p>
-      </div>
-      <a class="btn btn-p" href="{% url 'DiscountExplore' %}">View all offers</a>
-    </div>
-    <div class="grid disc-grid">
-      {% for offer in featured_offers %}
-      {% if forloop.counter == 2 %}
-      <aside class="disc-testimonial" aria-label="Student testimonial">
-        <img src="{% static 'images/testimonial-img.jpg' %}" alt="" width="72" height="72" loading="lazy">
-        <blockquote>
-          Studentpeeps has changed my life both financially and professionally. Whenever I need to buy something, I know there&rsquo;s one big brother who&rsquo;ll help me out. Every student deserves to be a Studentpeep!
-        </blockquote>
-        <p class="disc-testimonial-name">Jasraj Singh</p>
-        <p class="disc-testimonial-meta">Student at Christ University</p>
-      </aside>
-      {% endif %}
-      {% include 'components/discount_offer_tile.html' with offer=offer %}
-      {% endfor %}
+    <div class="quotes">
+      <figure class="quote">
+        <p>&ldquo;Studentpeeps has changed my life both financially and professionally. Whenever I need to buy something, I know there&rsquo;s one big brother who&rsquo;ll help me out.&rdquo;</p>
+        <footer>
+          <img src="{% static 'images/testimonial-img.jpg' %}" alt="" width="48" height="48" style="width:48px;height:48px;border-radius:50%;object-fit:cover">
+          <span>
+            <b style="color:var(--ink);font-weight:640">Jasraj Singh</b><br>
+            Christ University
+          </span>
+        </footer>
+      </figure>
+      <figure class="quote">
+        <p>&ldquo;I grab Spotify and Myntra codes here before every sale. Takes seconds and the steps on each page are clear.&rdquo;</p>
+        <footer>
+          <svg class="av" viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="32" r="32" fill="#E2E8FF"/>
+            <path d="M5 64 Q8 46 32 44 Q56 46 59 64 Z" fill="#2442E6"/>
+            <ellipse cx="32" cy="27" rx="11.5" ry="13.5" fill="#B67A4F"/>
+          </svg>
+          <span>
+            <b style="color:var(--ink);font-weight:640">Priya</b><br>
+            2nd year, Bengaluru
+          </span>
+        </footer>
+      </figure>
+      <figure class="quote">
+        <p>&ldquo;Travel offers on IndiGo and Rapido saved me real money during internship season.&rdquo;</p>
+        <footer>
+          <svg class="av" viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="32" r="32" fill="#DDF5EC"/>
+            <path d="M5 64 Q8 46 32 44 Q56 46 59 64 Z" fill="#17BF91"/>
+            <ellipse cx="32" cy="27" rx="11.5" ry="13.5" fill="#A86C44"/>
+          </svg>
+          <span>
+            <b style="color:var(--ink);font-weight:640">Rohan</b><br>
+            MBA, Delhi
+          </span>
+        </footer>
+      </figure>
     </div>
   </div>
 </section>
-{% endif %}
 
-<section class="sec disc-cta">
-  <div class="wrap">
-    <div class="disc-cta-box">
-      <h2>You&rsquo;re missing out!</h2>
-      <p class="lede">Come share the madness and become a peep today — verify once, save on every brand.</p>
-      <a class="btn btn-p btn-blk" href="/account/identify">Become a StudentPeep</a>
-    </div>
-  </div>
-</section>
 {% endblock %}

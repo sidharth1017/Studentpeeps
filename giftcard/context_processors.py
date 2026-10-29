@@ -1,3 +1,5 @@
+from django.urls import reverse
+
 from brands_v2.models import Category
 
 from giftcard.models import Cart
@@ -21,6 +23,15 @@ def _promo_strip():
         return {"promo_strip_visible": False}
 
 
+def _coupons_nav_mode(request) -> bool:
+    path = request.path or ""
+    return (
+        path.startswith("/discounts")
+        or path.startswith("/offer/")
+        or path.startswith("/brand/")
+    )
+
+
 def subnav_categories(request):
     by_slug = {
         c.category_id: c
@@ -28,14 +39,44 @@ def subnav_categories(request):
     }
     ordered = [by_slug[slug] for slug in SUBNAV_CATEGORY_SLUGS if slug in by_slug]
 
+    coupons_nav = _coupons_nav_mode(request)
     active_category = ""
-    if request.path.rstrip("/").endswith("/giftcard/explore"):
+    path_norm = request.path.rstrip("/")
+    if path_norm.endswith("/giftcard/explore"):
         raw = (request.GET.get("category") or "all").strip()
         active_category = raw if raw else "all"
+    elif path_norm.endswith("/discounts/explore"):
+        raw = (request.GET.get("category") or "all").strip()
+        active_category = raw if raw else "all"
+
+    if coupons_nav:
+        nav_home_url = reverse("DiscountsPage")
+        nav_explore_url = reverse("DiscountExplore")
+        nav_search_suggest_url = reverse("DiscountSearchSuggest")
+        nav_search_placeholder = "Search Spotify, Myntra, Dell…"
+        nav_search_label = "Search coupons"
+        nav_product_label = "Coupons"
+        subnav_all_label = "All offers"
+    else:
+        nav_home_url = "/"
+        nav_explore_url = reverse("giftcard:explore")
+        nav_search_suggest_url = reverse("giftcard:search_suggest")
+        nav_search_placeholder = "Search PVR INOX, Myntra, Domino’s…"
+        nav_search_label = "Search gift cards"
+        nav_product_label = "Gift cards"
+        subnav_all_label = "All brands"
 
     return {
         "subnav_categories": ordered,
         "subnav_active_category": active_category,
+        "coupons_nav": coupons_nav,
+        "nav_home_url": nav_home_url,
+        "nav_explore_url": nav_explore_url,
+        "nav_search_suggest_url": nav_search_suggest_url,
+        "nav_search_placeholder": nav_search_placeholder,
+        "nav_search_label": nav_search_label,
+        "nav_product_label": nav_product_label,
+        "subnav_all_label": subnav_all_label,
     }
 
 

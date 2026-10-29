@@ -42,16 +42,6 @@ def offer_as_tile(offer, brand_offer_map):
     }
 
 
-RECOMMENDED_DISCOUNT_OFFER_IDS = [
-    "spxdailyobjects15",
-    "spxdell7percent",
-    "spxnilkamal5",
-    "spxblissclub10",
-    "spxbb6",
-    "spxwtf25",
-]
-
-
 # Create your views here.
 @method_decorator(csrf_exempt, name="dispatch")
 # class Home(View):
@@ -434,34 +424,18 @@ class DiscountsPageView(View):
     """Student discount coupons & promo codes (legacy offers hub, new UI)."""
 
     def get(self, request):
-        brand_offer_map = brand_offer_count_map()
+        from main.services.discount_home import build_discount_home_context
 
-        recommended_qs = Offer.objects.filter(
-            custom_id__in=RECOMMENDED_DISCOUNT_OFFER_IDS
-        ).select_related("brand")
-        offers_by_id = {o.custom_id: o for o in recommended_qs}
-        recommended_offers = [
-            offer_as_tile(offers_by_id[oid], brand_offer_map)
-            for oid in RECOMMENDED_DISCOUNT_OFFER_IDS
-            if oid in offers_by_id
-        ]
-
-        all_offers = list(Offer.objects.select_related("brand").order_by("-sorting"))
-        featured_sample = random.sample(all_offers, min(15, len(all_offers)))
-        featured_offers = [
-            offer_as_tile(offer, brand_offer_map) for offer in featured_sample
-        ]
-
-        discount_categories = list(
-            Category.objects.filter(isVisible=True).order_by("sorting")
+        all_offers = list(
+            Offer.objects.select_related("brand", "category").order_by("-sorting")
         )
+        featured_sample = random.sample(all_offers, min(12, len(all_offers)))
+        home_ctx = build_discount_home_context(featured_sample=featured_sample)
 
         context = {
-            "recommended_offers": recommended_offers,
-            "featured_offers": featured_offers,
-            "discount_categories": discount_categories,
             "offer_count": len(all_offers),
             "canonical_url": request.build_absolute_uri(request.path),
+            **home_ctx,
         }
         return render(request, "pages/discounts/list.html", context)
 
@@ -484,7 +458,7 @@ class DiscountExploreView(View):
 
     ACCESS_FILTERS = [
         {"id": "exclusive", "label": "Exclusive offers"},
-        {"id": "open", "label": "Open to all students"},
+        {"id": "open", "label": "Open to everyone"},
     ]
 
     def _offer_count_for_category(self, category_id):
@@ -550,9 +524,14 @@ class DiscountExploreView(View):
             offers_qs = offers_qs.order_by("-sorting")
 
         brand_offer_map = brand_offer_count_map()
+        filtered_count = offers_qs.count()
         offers = [offer_as_tile(o, brand_offer_map) for o in offers_qs]
 
-        all_categories = list(Category.objects.filter(isVisible=True).order_by("sorting"))
+        all_categories = list(
+            Category.objects.filter(isVisible=True, offers__isnull=False)
+            .distinct()
+            .order_by("sorting")
+        )
         total_count = Offer.objects.count()
 
         categories_with_meta = []
@@ -636,6 +615,7 @@ class DiscountExploreView(View):
             "categories": categories_with_meta,
             "all_brands_url": all_brands_url,
             "total_count": total_count,
+            "filtered_count": filtered_count,
             "selected_category": category_id,
             "selected_category_label": self._selected_category_label(category_id),
             "search_query": query,
@@ -648,6 +628,103 @@ class DiscountExploreView(View):
             "clear_all_url": clear_all_url,
         }
         return render(request, "pages/discounts/explore.html", context)
+
+
+class DiscountSearchSuggestView(View):
+    """Live search suggestions for coupon header / home search (mirrors gift-card suggest API)."""
+
+    TRENDING = ["Spotify", "Myntra", "Dell", "Microsoft", "Indigo", "Rapido"]
+
+    @staticmethod
+    def _offer_payload(offer, brand_offer_map):
+        from main.services.discount_home import enrich_offer_tile
+
+        tile = enrich_offer_tile(offer, brand_offer_map)
+        return {
+            "name": tile["brand_name"],
+            "title": tile["title"],
+            "link": tile["link"],
+            "category": tile["category_name"],
+            "thumbnail_url": tile["thumbnail_url"] or "",
+            "is_exclusive": tile["is_exclusive"],
+            "pal_0": tile["pal_0"],
+            "pal_1": tile["pal_1"],
+            "pattern": tile["pattern_cls"],
+            "brand_size_cls": tile["brand_size_cls"],
+        }
+
+    def get(self, request):
+        q = request.GET.get("q", "").strip()[:60]
+        brand_offer_map = brand_offer_count_map()
+        qs = Offer.objects.select_related("brand", "category")
+        categories = Category.objects.filter(isVisible=True, offers__isnull=False).distinct().order_by("sorting")
+
+        if not q:
+            trending, seen = [], set()
+            for term in self.TRENDING:
+                offer = qs.filter(
+                    Q(brand__name__icontains=term)
+                    | Q(title__icontains=term)
+                    | Q(subtitle__icontains=term)
+                ).first()
+                if offer and offer.custom_id not in seen:
+                    seen.add(offer.custom_id)
+                    trending.append(self._offer_payload(offer, brand_offer_map))
+            return JsonResponse(
+                {
+                    "q": q,
+                    "brands": trending,
+                    "categories": [
+                        {
+                            "id": c.category_id,
+                            "name": c.name,
+                            "count": Offer.objects.filter(category=c).count(),
+                        }
+                        for c in categories
+                    ],
+                }
+            )
+
+        matches = qs.filter(
+            Q(title__icontains=q)
+            | Q(subtitle__icontains=q)
+            | Q(brand__name__icontains=q)
+            | Q(category__name__icontains=q)
+        )
+        ql = q.lower()
+        ranked = sorted(
+            matches[:60],
+            key=lambda o: (
+                0 if o.brand.name.lower().startswith(ql) else 1,
+                o.brand.name.lower(),
+            ),
+        )
+        offers, seen_brands = [], set()
+        for offer in ranked:
+            key = offer.brand.name.strip().lower()
+            if key in seen_brands:
+                continue
+            seen_brands.add(key)
+            offers.append(offer)
+        offers = offers[:8]
+
+        cats = []
+        for c in categories.filter(name__icontains=q):
+            cats.append(
+                {
+                    "id": c.category_id,
+                    "name": c.name,
+                    "count": Offer.objects.filter(category=c).count(),
+                }
+            )
+
+        return JsonResponse(
+            {
+                "q": q,
+                "brands": [self._offer_payload(o, brand_offer_map) for o in offers],
+                "categories": cats,
+            }
+        )
 
 
 # Categories for Offers

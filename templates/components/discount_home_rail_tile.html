@@ -1,0 +1,30 @@
+<a class="bt disc-home-tile" href="{{ offer.link }}">
+  <div class="disc-card disc-card-rail">
+    <div class="disc-card-img">
+      {% if offer.thumbnail_url %}
+      <img src="{{ offer.thumbnail_url }}" alt="{{ offer.title }}" loading="lazy" width="400" height="250">
+      {% else %}
+      <div class="gc {{ offer.pattern_cls }} disc-card-fallback-gc" style="--a:{{ offer.pal_0 }};--b:{{ offer.pal_1 }}" aria-hidden="true">
+        <div class="gc-in">
+          <div class="gc-top">
+            <div class="gc-brand {{ offer.brand_size_cls }}">{{ offer.brand_name }}</div>
+            <div class="gc-kind">Coupon</div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      {% if offer.is_exclusive %}
+      <span class="disc-badge">Exclusive</span>
+      {% endif %}
+    </div>
+  </div>
+  <div>
+    <div class="bt-name">{{ offer.brand_name }}</div>
+    <div class="bt-row" style="margin-top:3px">
+      <span class="bt-cat">{{ offer.category_name }}</span>
+    </div>
+    <div class="bt-meta" style="margin-top:5px">
+      <span>{{ offer.title }}</span>
+    </div>
+  </div>
+</a>

@@ -179,29 +179,29 @@
   <header class="hdr">
     <div class="wrap hdr-row">
       <!-- Logo -->
-      <a class="logo" href="/" aria-label="StudentPeeps home">
+      <a class="logo" href="{{ nav_home_url }}" aria-label="StudentPeeps home">
         <span class="logo-mark"><img class="logo-img" src="{% static 'images/sp_mark.png' %}" alt="" width="35" height="36"></span>
         <span class="logo-word">StudentPeeps</span>
-        <span class="logo-sub md-up">Gift cards</span>
+        <span class="logo-sub md-up">{{ nav_product_label }}</span>
       </a>
 
       <!-- Desktop Search Bar -->
       <div class="hsearch lg-only" role="search">
-        <form action="{% url 'giftcard:explore' %}" method="GET" style="margin:0">
+        <form action="{{ nav_explore_url }}" method="GET" style="margin:0">
           <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
-          <input type="search" name="search" placeholder="Search PVR INOX, Myntra, Domino’s…" aria-label="Search gift cards" autocomplete="off" value="{{ search_query|default:'' }}">
+          <input type="search" name="search" placeholder="{{ nav_search_placeholder }}" aria-label="{% if coupons_nav %}Search coupons{% else %}Search gift cards{% endif %}" autocomplete="off" value="{{ search_query|default:'' }}">
         </form>
       </div>
 
       <!-- Quick Action Icons -->
       <div class="hacts">
         <!-- Search icon for mobile -->
-        <a class="icon-btn not-lg js-open-search" href="{% url 'giftcard:explore' %}" aria-label="Search">
+        <a class="icon-btn not-lg js-open-search" href="{{ nav_explore_url }}" aria-label="Search">
           <svg class="ic ic-l" aria-hidden="true"><use href="#i-search"/></svg>
         </a>
 
         <!-- Explore link -->
-        <a class="icon-btn md-up" href="{% url 'giftcard:explore' %}" title="Explore gift cards" aria-label="Explore gift cards">
+        <a class="icon-btn md-up" href="{{ nav_explore_url }}" title="{% if coupons_nav %}Explore coupons{% else %}Explore gift cards{% endif %}" aria-label="{% if coupons_nav %}Explore coupons{% else %}Explore gift cards{% endif %}">
           <svg class="ic ic-l" aria-hidden="true"><use href="#i-grid"/></svg>
         </a>
 
@@ -223,10 +223,14 @@
     <!-- Category Subnav -->
     <nav class="subnav wrap" aria-label="Top categories">
       {% for cat in subnav_categories %}
-      <a href="{% url 'giftcard:explore' %}?category={{ cat.category_id|urlencode }}"{% if subnav_active_category == cat.category_id %} class="is-active" aria-current="page"{% endif %}>{{ cat.name }}</a>
+      <a href="{% if coupons_nav %}{% url 'DiscountExplore' %}?category={{ cat.category_id|urlencode }}{% else %}{% url 'giftcard:explore' %}?category={{ cat.category_id|urlencode }}{% endif %}"{% if subnav_active_category == cat.category_id %} class="is-active" aria-current="page"{% endif %}>{{ cat.name }}</a>
       {% endfor %}
-      <a href="{% url 'giftcard:explore' %}"{% if subnav_active_category == 'all' %} class="is-active" aria-current="page"{% endif %}>All brands</a>
+      <a href="{{ nav_explore_url }}"{% if subnav_active_category == 'all' %} class="is-active" aria-current="page"{% endif %}>{{ subnav_all_label }}</a>
+      {% if coupons_nav %}
+      <a href="/" class="subnav-end">Gift cards</a>
+      {% else %}
       <a href="{% url 'DiscountsPage' %}" class="subnav-end{% if '/discounts' in request.path %} is-active{% endif %}"{% if '/discounts' in request.path %} aria-current="page"{% endif %}>Coupons</a>
+      {% endif %}
     </nav>
   </header>
 
@@ -300,11 +304,11 @@
 
   <!-- MOBILE TAB BAR -->
   <nav class="tabbar" aria-label="Main navigation">
-    <a href="/" {% if request.path == '/' %}aria-current="page"{% endif %}>
+    <a href="{{ nav_home_url }}" {% if coupons_nav and '/discounts' in request.path and '/discounts/explore' not in request.path %}aria-current="page"{% elif not coupons_nav and request.path == '/' %}aria-current="page"{% endif %}>
       <svg class="ic"><use href="#i-home"/></svg>
       <span>Home</span>
     </a>
-    <a href="{% url 'giftcard:explore' %}" {% if '/giftcard/explore' in request.path %}aria-current="page"{% endif %}>
+    <a href="{{ nav_explore_url }}" {% if coupons_nav and '/discounts/explore' in request.path or not coupons_nav and '/giftcard/explore' in request.path %}aria-current="page"{% endif %}>
       <svg class="ic"><use href="#i-grid"/></svg>
       <span>Explore</span>
     </a>
@@ -378,12 +382,15 @@
   </script>
   <script>
     window.SP_SEARCH = {
-      suggestUrl: "{% url 'giftcard:search_suggest' %}",
-      exploreUrl: "{% url 'giftcard:explore' %}",
+      suggestUrl: "{{ nav_search_suggest_url }}",
+      exploreUrl: "{{ nav_explore_url }}",
+      mode: "{% if coupons_nav %}coupons{% else %}giftcards{% endif %}",
+      searchLabel: "{{ nav_search_label }}",
+      placeholder: "{{ nav_search_placeholder }}",
       markUrl: "{% static 'images/sp_mark.png' %}"
     };
   </script>
-  <script src="{% static 'js/sp_search.js' %}?v=2" defer></script>
+  <script src="{% static 'js/sp_search.js' %}?v=3" defer></script>
   <script>
     /* Theme switch: Auto follows the OS, Light/Dark are remembered in this browser */
     (function () {

@@ -2,6 +2,7 @@
 (function () {
   var cfg = window.SP_SEARCH || {};
   var SUGGEST = cfg.suggestUrl, EXPLORE = cfg.exploreUrl;
+  var MODE = cfg.mode === 'coupons' ? 'coupons' : 'giftcards';
   if (!SUGGEST || !EXPLORE) return;
 
   var ICON = function (id, cls) { return '<svg class="ic ' + (cls || '') + '" aria-hidden="true"><use href="#i-' + id + '"/></svg>'; };
@@ -50,10 +51,50 @@
       right + '</a>';
   }
 
+  function offerItem(o) {
+    var pat = esc(o.pattern || 'p-dots');
+    var pal0 = esc(o.pal_0 || '#2442E6');
+    var pal1 = esc(o.pal_1 || '#6440E0');
+    var bcls = esc(o.brand_size_cls || '');
+    var tile;
+    if (o.thumbnail_url) {
+      tile = '<div class="gc sg-mini sg-mini-photo" aria-hidden="true"><img src="' + esc(o.thumbnail_url) + '" alt=""></div>';
+    } else {
+      tile =
+        '<div class="gc ' + pat + ' sg-mini" style="--a:' + pal0 + ';--b:' + pal1 + '" aria-hidden="true">' +
+        '<div class="gc-in sg-mini-in">' +
+        '<div class="gc-top"><div>' +
+        '<div class="gc-brand ' + bcls + '">' + esc(o.name) + '</div>' +
+        '<div class="gc-kind">Coupon</div></div></div>' +
+        '<div class="gc-bot"><span></span>' + gcMarkHtml() + '</div>' +
+        '</div></div>';
+    }
+    var right = o.is_exclusive
+      ? '<span class="r"><span class="pill a">Exclusive</span></span>'
+      : '<span class="r sg-p">Open</span>';
+    return '<a class="sg-i" href="' + esc(o.link) + '">' +
+      '<span class="mini">' + tile + '</span>' +
+      '<span class="sg-t">' + esc(o.name) + '<small>' + esc(o.title || o.category) + '</small></span>' +
+      right + '</a>';
+  }
+
+  function itemFn(b) {
+    return MODE === 'coupons' ? offerItem(b) : brandItem(b);
+  }
+
   function render(q, d) {
     var out = [];
+    var itemLabel = MODE === 'coupons' ? 'Offers' : 'Brands';
+    var countLabel = MODE === 'coupons' ? 'offers' : 'brands';
+    var emptyTitle = MODE === 'coupons'
+      ? 'No offers match “' + esc(q) + '”'
+      : 'No brands match “' + esc(q) + '”';
+    var emptyHint = MODE === 'coupons'
+      ? 'Try another spelling or browse by category.'
+      : 'Check the spelling, or browse by category. We add brands every week.';
+
     if (!q) {
-      if (d.brands.length) out.push('<div class="sg-h">Trending now</div>' + d.brands.map(brandItem).join(''));
+      if (d.brands.length) out.push('<div class="sg-h">Trending now</div>' + d.brands.map(itemFn).join(''));
       if (d.categories.length) {
         out.push('<div class="sg-h">Categories</div><div class="sg-chips">' + d.categories.map(function (c) {
           return '<a class="chip" href="' + EXPLORE + '?category=' + encodeURIComponent(c.id) + '">' + esc(c.name) + '</a>';
@@ -61,15 +102,15 @@
       }
       return out.join('');
     }
-    if (d.brands.length) out.push('<div class="sg-h">Brands</div>' + d.brands.map(brandItem).join(''));
+    if (d.brands.length) out.push('<div class="sg-h">' + itemLabel + '</div>' + d.brands.map(itemFn).join(''));
     if (d.categories.length) {
       out.push('<div class="sg-h">Categories</div>' + d.categories.map(function (c) {
         return '<a class="sg-i" href="' + EXPLORE + '?category=' + encodeURIComponent(c.id) + '">' + ICON('grid') +
-          '<span class="sg-t">' + esc(c.name) + '</span><span class="r sg-p">' + c.count + ' brands</span></a>';
+          '<span class="sg-t">' + esc(c.name) + '</span><span class="r sg-p">' + c.count + ' ' + countLabel + '</span></a>';
       }).join(''));
     }
     if (!d.brands.length && !d.categories.length) {
-      out.push('<div class="sg-empty"><b>No brands match “' + esc(q) + '”</b><p class="hint">Check the spelling, or browse by category. We add brands every week.</p></div>');
+      out.push('<div class="sg-empty"><b>' + emptyTitle + '</b><p class="hint">' + emptyHint + '</p></div>');
     } else {
       out.push('<a class="sg-i sg-all" href="' + EXPLORE + '?search=' + encodeURIComponent(q) + '">' + ICON('search') +
         '<span class="sg-t">See all results for “' + esc(q) + '”</span></a>');
@@ -85,7 +126,7 @@
     function show(q) {
       var n = ++seq;
       fetchSuggest(q).then(function (d) {
-        if (n !== seq) return; // a newer keystroke is in flight
+        if (n !== seq) return;
         box.innerHTML = render(q, d);
         box.classList.remove('hide');
       }).catch(function () { /* leave the form submit as the fallback */ });
@@ -110,7 +151,6 @@
       } else if (e.key === 'Enter') {
         if (list[i]) { e.preventDefault(); list[i].click(); }
         else if (!input.form && input.value.trim()) { e.preventDefault(); location.href = EXPLORE + '?search=' + encodeURIComponent(input.value.trim()); }
-        // otherwise the surrounding <form> submits to the explore page
       } else if (e.key === 'Escape') {
         hide();
         if (opts.onEscape) opts.onEscape();
@@ -124,7 +164,6 @@
     return { show: show, hide: hide };
   }
 
-  /* Dropdowns under the header search and the home page big search. */
   document.querySelectorAll('.hsearch input[type="search"], .bigsearch input[type="search"]').forEach(function (input) {
     var host = input.closest('.hsearch, .bigsearch');
     var box = document.createElement('div');
@@ -134,17 +173,19 @@
     attach(input, box);
   });
 
-  /* Full-screen search on phones/tablets. */
   var overlay = null;
+  var searchLabel = cfg.searchLabel || 'Search gift cards';
+  var placeholder = cfg.placeholder || 'Search brands or categories';
+
   function openOverlay() {
     if (!overlay) {
       overlay = document.createElement('div');
       overlay.className = 'sg-ov hide';
       overlay.setAttribute('role', 'dialog');
-      overlay.setAttribute('aria-label', 'Search gift cards');
+      overlay.setAttribute('aria-label', searchLabel);
       overlay.innerHTML =
         '<div class="sg-ov-h"><form class="msrch" action="' + EXPLORE + '" method="GET">' + ICON('search') +
-        '<input id="sq" type="search" name="search" placeholder="Search brands or categories" aria-label="Search gift cards"></form>' +
+        '<input id="sq" type="search" name="search" placeholder="' + esc(placeholder) + '" aria-label="' + esc(searchLabel) + '"></form>' +
         '<button type="button" class="btn-q sg-cancel">Cancel</button></div>' +
         '<div class="sg-ov-b sugg-static"></div>';
       document.body.appendChild(overlay);
