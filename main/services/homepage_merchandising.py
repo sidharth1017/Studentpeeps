@@ -237,6 +237,13 @@ def build_popular_cards():
             range_txt = f"₹{min_p:,}–₹{max_p:,}"
 
         cat_name = tile_brand_name(prod)
+        disc = _pick_discount(prod, conf.get("discount", 0))
+        if disc < 0:
+            upi_badge = f"{_format_pick_disc(abs(disc))} UPI fee"
+        elif disc > 0:
+            upi_badge = f"{_format_pick_disc(disc)} off on UPI"
+        else:
+            upi_badge = "UPI at face value"
 
         popular_cards.append(
             {
@@ -248,7 +255,9 @@ def build_popular_cards():
                 "pal_0": conf.get("pal", ("#2442E6", "#6440E0"))[0],
                 "pal_1": conf.get("pal", ("#2442E6", "#6440E0"))[1],
                 "pattern_cls": conf.get("pt", "p-dots"),
-                "discount_display": f"{conf.get('discount', 5.0)}%",
+                "discount": disc,
+                "discount_display": _format_pick_disc(disc),
+                "upi_badge": upi_badge,
                 "range_txt": range_txt,
                 "category_name": cat_name,
                 "use_txt": conf.get("use", "Online & in-store"),
@@ -263,4 +272,11 @@ def build_popular_cards():
 
 
 def max_brand_discount_pct():
-    return max((c.get("discount", 0) for c in BRAND_CONFIG.values()), default=0)
+    products = _load_products(BRAND_CONFIG.keys())
+    best = 0.0
+    for sku, conf in BRAND_CONFIG.items():
+        prod = products.get(sku)
+        disc = _pick_discount(prod, conf.get("discount", 0))
+        if disc > best:
+            best = disc
+    return best

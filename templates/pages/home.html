@@ -152,7 +152,7 @@
               </div>
             </div>
             <div class="gc-bot">
-              <span class="off">{{ card.discount_display }} off on UPI</span>
+              <span class="off{% if card.discount <= 0 %} gc-off-muted{% endif %}">{{ card.upi_badge }}</span>
               {% include "components/gc_corner_mark.html" with brand_logo_url=card.tile_brand_logo_url %}
             </div>
           </div>
