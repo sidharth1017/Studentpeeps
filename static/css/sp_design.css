@@ -926,6 +926,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .est-calc { max-width: 720px; margin-left: auto; margin-right: auto; }
 
 .pk {
+  --pk-thumb-w: 76px;
   display: grid;
   gap: 2px;
   margin: 14px -8px 16px;
@@ -934,7 +935,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 }
 .pk a {
   display: grid;
-  grid-template-columns: 76px minmax(0, 1fr) auto;
+  grid-template-columns: var(--pk-thumb-w) minmax(0, 1fr) auto;
   gap: 12px;
   align-items: center;
   padding: 8px;
@@ -945,7 +946,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .pk .gc {
   border-radius: 8px;
   box-shadow: none;
-  width: 76px;
+  width: var(--pk-thumb-w);
   aspect-ratio: 1.586;
   flex: none;
 }
@@ -964,12 +965,22 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   font-size: 4.5cqw;
   margin-top: 0.8cqw;
 }
-.pk .gc-bot .gc-mark-sp,
-.pk .gc-bot .gc-mark-badge {
-  width: 9cqw;
-  height: 9cqw;
-  padding: 1.2cqw;
-  border-radius: 2cqw;
+/* Hero picks: logo badge sized like explore / Popular rail (.bt) */
+.pk .gc-bot .gc-mark-badge,
+.pk .gc-bot .gc-mark.gc-mark-sp {
+  width: 26cqw;
+  height: 26cqw;
+  padding: 3.4cqw;
+  border-radius: 4.6cqw;
+}
+@container (max-width: 150px) {
+  .pk .gc .gc-mark-badge,
+  .pk .gc .gc-mark.gc-mark-sp {
+    width: 20cqw;
+    height: 20cqw;
+    padding: 2.6cqw;
+    border-radius: 4cqw;
+  }
 }
 .pk .gc-bot > span:first-child { display: none; }
 .pk-p .off {

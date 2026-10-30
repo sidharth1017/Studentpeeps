@@ -395,7 +395,7 @@ RAZORPAY_KEY_SECRET = config("RAZORPAY_KEY_SECRET")
 # PayU India
 PAYU_MERCHANT_KEY  = config("PAYU_MERCHANT_KEY")
 PAYU_MERCHANT_SALT = config("PAYU_MERCHANT_SALT")
-PAYU_USE_TEST      = True   # Set False for production
+PAYU_USE_TEST      = config("PAYU_USE_TEST", default=True, cast=bool)
 
 # Datadog Log Management (JSON stdout + optional HTTP intake)
 DD_API_KEY = config("DD_API_KEY", default="")

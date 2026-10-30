@@ -490,9 +490,21 @@
     }
   }
 
+  function roundPaise(x) {
+    return Math.round((x + Number.EPSILON) * 100) / 100;
+  }
+
+  function formatRupee(amount) {
+    const v = roundPaise(amount);
+    if (v === Math.floor(v)) {
+      return "₹" + v.toLocaleString("en-IN", { maximumFractionDigits: 0 });
+    }
+    return "₹" + v.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
   function formatMarginPct(pct) {
     if (!Number.isFinite(pct)) return "0";
-    const rounded = Math.round(pct * 100) / 100;
+    const rounded = roundPaise(pct);
     return rounded % 1 === 0 ? String(rounded.toFixed(0)) : String(rounded);
   }
 
@@ -504,13 +516,13 @@
     const originalTotal = amount * qty;
 
     const pct = discountPercent;
-    const adjustment = (originalTotal * pct) / 100;
-    const savings = Math.round(adjustment);
-    const finalAmount = Math.round(originalTotal - savings);
+    // Same as checkout: apply margin % to face value, round only to paise at each step.
+    const platformPay = originalTotal - (originalTotal * pct / 100);
+    const adjustment = originalTotal - platformPay;
 
-    finalPriceEl.textContent = "₹" + finalAmount.toLocaleString("en-IN");
-    cardValueDisp.textContent = "₹" + originalTotal.toLocaleString("en-IN");
-    cardOverlayAmount.textContent = "₹" + amount.toLocaleString("en-IN");
+    finalPriceEl.textContent = formatRupee(platformPay);
+    cardValueDisp.textContent = formatRupee(originalTotal);
+    cardOverlayAmount.textContent = formatRupee(amount);
 
     if (discountPercentDisp) {
       discountPercentDisp.textContent = formatMarginPct(pct);
@@ -520,21 +532,21 @@
     const msavePrefix = document.getElementById('msavePrefix');
     const upiDiscountPrefix = document.getElementById('upiDiscountPrefix');
     if (pct >= 0) {
-      savingsDisp.textContent = "−₹" + savings.toLocaleString("en-IN");
+      savingsDisp.textContent = "−" + formatRupee(adjustment);
       savingsDisp.style.color = 'var(--green)';
       if (upiDiscountPrefix) upiDiscountPrefix.textContent = 'UPI discount';
-      totalSavedPill.textContent = "₹" + savings.toLocaleString("en-IN");
+      totalSavedPill.textContent = formatRupee(adjustment);
       if (msaveEl && msavePrefix) {
         msaveEl.style.display = pct > 0 ? '' : 'none';
         msaveEl.style.color = 'var(--green)';
         msavePrefix.textContent = 'You save ';
       }
     } else {
-      const surcharge = Math.abs(savings);
-      savingsDisp.textContent = "+₹" + surcharge.toLocaleString("en-IN");
+      const surcharge = Math.abs(adjustment);
+      savingsDisp.textContent = "+" + formatRupee(surcharge);
       savingsDisp.style.color = 'var(--amber, #d97706)';
       if (upiDiscountPrefix) upiDiscountPrefix.textContent = 'UPI adjustment';
-      totalSavedPill.textContent = "₹" + surcharge.toLocaleString("en-IN");
+      totalSavedPill.textContent = formatRupee(surcharge);
       if (msaveEl && msavePrefix) {
         msaveEl.style.display = '';
         msaveEl.style.color = 'var(--ink-2)';
@@ -542,13 +554,13 @@
       }
     }
 
-    const platformPay = finalAmount;
     document.querySelectorAll('.gc-pm-row').forEach(row => {
       const net = parseFloat(row.dataset.net || '0');
       const payEl = row.querySelector('.gc-pm-pay');
       if (!payEl) return;
-      const methodPay = Math.round(platformPay * (1 + net / 100));
-      payEl.textContent = '₹' + methodPay.toLocaleString('en-IN');
+      const gSurchAmt = roundPaise(platformPay * (net / 100));
+      const methodPay = roundPaise(platformPay + gSurchAmt);
+      payEl.textContent = formatRupee(methodPay);
       payEl.style.color = 'var(--ink)';
     });
 

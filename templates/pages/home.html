@@ -44,13 +44,15 @@
                 <div class="gc-in pk-thumb-in">
                   <div class="gc-top">
                     <div>
+                      {% if not pick.tile_brand_logo_url %}
                       <div class="gc-brand {{ pick.brand_size_cls }}">{{ pick.name }}</div>
+                      {% endif %}
                       <div class="gc-kind">Gift card</div>
                     </div>
                   </div>
                   <div class="gc-bot">
                     <span></span>
-                    {% include "components/gc_corner_mark.html" %}
+                    {% include "components/gc_corner_mark.html" with brand_logo_url=pick.tile_brand_logo_url %}
                   </div>
                 </div>
               </div>
@@ -211,6 +213,7 @@
   </div>
 </section>
 
+{% comment %}
 <!-- GIFTS FOR EVERY OCCASION -->
 <section class="sec">
   <div class="wrap">
@@ -307,6 +310,7 @@
     </div>
   </div>
 </section>
+{% endcomment %}
 
 <!-- EVERY CARD, ONE WALLET (SPLIT SECTION) -->
 <section class="sec">

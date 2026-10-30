@@ -192,6 +192,7 @@ def build_hero_picks():
                 "sample_amt_str": f"₹{sample_amt:,}",
                 "pay_str": _format_pick_inr(pay_val),
                 "brand_size_cls": brand_size_class(pick_name),
+                "tile_brand_logo_url": prod.tile_brand_logo_url if prod else "",
                 "pal_0": conf.get("pal", ("#2442E6", "#6440E0"))[0],
                 "pal_1": conf.get("pal", ("#2442E6", "#6440E0"))[1],
                 "pattern_cls": conf.get("pt", "p-dots"),
