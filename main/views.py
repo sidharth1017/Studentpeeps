@@ -79,10 +79,6 @@ class Home(View):
             payment.save()
             messages.success(request, "You are now member of Studentpeeps!!")
         return JsonResponse({"message": "Done!"})
-        
-class OurStory(View):
-    def get(self, request):
-        return render(request,'ourstory.html')
 
 class VerificationMessage(View):
     def get(self, request):        

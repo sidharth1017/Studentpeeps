@@ -11,7 +11,6 @@ admin.site.index_title = "Welcome to Student Peeps Dashboard"
 urlpatterns = [
     path('', views.Home.as_view(), name="Home"),
     path('category/<slug:category_id>/', views.CategoryPageView.as_view(), name='CategoryPage'),
-    path('ourstory/', views.OurStory.as_view(), name="OurStory"),
     path('verification-message/',
          views.VerificationMessage.as_view(), name="Verificationmsg"),
     path('google-verification-message/',
