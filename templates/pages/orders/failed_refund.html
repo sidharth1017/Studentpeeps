@@ -5,13 +5,13 @@
 
 {% block body %}
 <div class="wrap">
-    <div class="ck" style="max-width:480px;padding-bottom:48px">
+    <div class="ck ord-failed">
         <div class="co-sec ord-state">
             <span class="ord-badge a"><svg class="ic" aria-hidden="true"><use href="#i-alert"/></svg></span>
             {% if on_hold %}
             <h3>Your order can’t be processed right now</h3>
             <p>{{ hold_message }}</p>
-            <div class="auth-ok" style="text-align:left">
+            <div class="auth-ok ord-callout-ok">
                 <svg class="ic ic-s" aria-hidden="true"><use href="#i-check-c"/></svg>
                 <span>Payment received. Your money is safe.</span>
             </div>
@@ -20,25 +20,28 @@
             <p>Your payment went through, but we hit a problem generating your gift card. If money was deducted, it will be <b>refunded within 24–48 hours</b> to your original payment method.</p>
             {% endif %}
 
-            {% if not on_hold and order and order.woohoo_response and order.woohoo_response.error %}
-            <div class="ck-err" style="text-align:left">
-                <svg class="ic" aria-hidden="true"><use href="#i-alert"/></svg>
-                <span><b>Provider error:</b> {{ order.woohoo_response.error }}</span>
+            {% if not on_hold and fulfillment_issue %}
+            <div class="ord-callout">
+                <svg class="ic ic-s" aria-hidden="true"><use href="#i-info"/></svg>
+                <div>
+                    <b>What went wrong</b>
+                    <p>{{ fulfillment_issue }}</p>
+                </div>
             </div>
             {% endif %}
 
             {% if order %}
-            <div class="money" style="text-align:left;background:var(--surface-2);border:0">
+            <div class="money ord-failed-summary">
                 <div class="mrow"><span>Status</span><span>{% if on_hold %}<span class="pill a">On hold</span>{% else %}<span class="pill a">Refund pending</span>{% endif %}</span></div>
                 <div class="mrow"><span>Order reference</span><span class="num">{{ order.reference_id }}</span></div>
-                <div class="mrow"><span>Amount paid</span><span>₹{{ order.total_amount }}</span></div>
+                <div class="mrow"><span>Amount paid</span><span>₹{{ order.total_amount|floatformat:2 }}</span></div>
                 {% if order.gateway_payment_id %}
-                <div class="mrow"><span>Payment ID</span><span class="num" style="overflow:hidden;text-overflow:ellipsis;max-width:170px" title="{{ order.gateway_payment_id }}">{{ order.gateway_payment_id }}</span></div>
+                <div class="mrow"><span>Payment ID</span><span class="num ord-failed-payid" title="{{ order.gateway_payment_id }}">{{ order.gateway_payment_id }}</span></div>
                 {% endif %}
             </div>
             {% endif %}
 
-            <div style="display:grid;gap:10px;width:100%">
+            <div class="ck-stack">
                 <a href="/" class="btn btn-p btn-blk">Continue shopping</a>
                 <a href="mailto:hi@studentpeeps.club?subject=Refund%20Query%20-%20{% if order %}{{ order.reference_id }}{% endif %}" class="btn btn-s btn-blk">Contact support</a>
             </div>

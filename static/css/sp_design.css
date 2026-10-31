@@ -2090,7 +2090,14 @@ body.is-checkout .tabbar { display: none !important; }
 .ck-row .tx { flex: 1; min-width: 0; }
 .ck-row .tx b { display: block; font-size: 15.5px; font-weight: 640; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ck-row .tx span { font-size: 13.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
-.ck-row .amt-r { font-weight: 700; font-variant-numeric: tabular-nums; }
+.ck-row .amt-r {
+  flex: none;
+  min-width: 4.75em;
+  text-align: right;
+  font-size: 15.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
 .ck-who { padding: 14px 18px; }
 @media (min-width: 640px) { .ck-who { padding: 14px 24px; } }
 .ck-who b { display: block; font-size: 16px; font-weight: 660; }
@@ -2114,6 +2121,7 @@ body.is-checkout .tabbar { display: none !important; }
 .ck-trust { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 18px; font-size: 13.5px; color: var(--ink-3); }
 .ck-trust span { display: inline-flex; align-items: center; gap: 6px; }
 .ck-trust .ic { width: 15px; height: 15px; color: var(--green); }
+.ck-stack { display: grid; gap: 10px; }
 .ck-spin { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid currentColor; border-right-color: transparent; animation: ckSpin .7s linear infinite; }
 @keyframes ckSpin { to { transform: rotate(360deg); } }
 #btn-pay-now[disabled] { opacity: .7; cursor: not-allowed; }
@@ -2399,10 +2407,14 @@ body.is-checkout .tabbar { display: none !important; }
 @media (min-width: 1024px) { .ord-grid { grid-template-columns: minmax(0, 1fr) 360px; gap: 24px; } }
 .ord-col { display: grid; gap: 16px; min-width: 0; }
 
-.ord-hero { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; margin: 8px 0 6px; }
-.ord-hero h1 { font-size: 30px; font-stretch: 112%; font-weight: 760; letter-spacing: -.02em; margin: 8px 0 0; }
-.ord-hero p { color: var(--ink-2); font-size: 15.5px; }
-.ord-hero .ord-ref { margin-top: 6px; }
+.ord-hero { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; margin: 0 0 22px; padding: 4px 0 0; }
+.ord-hero h1 { font-size: 30px; font-stretch: 112%; font-weight: 760; letter-spacing: -.02em; margin: 0; line-height: 1.12; }
+.ord-hero p { color: var(--ink-2); font-size: 15.5px; margin: 0; max-width: 36ch; line-height: 1.45; }
+.ord-hero .ord-ref { margin-top: 2px; }
+.ck.ord-confirm { max-width: 540px; padding-bottom: 48px; }
+@media (min-width: 640px) { .ck.ord-confirm { padding-bottom: 64px; } }
+.ord-confirm-trust { gap: 8px 10px; padding: 2px 0; }
+.ord-confirm .secure-l { margin: 0; }
 .ord-badge { width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; flex: none; }
 .ord-badge .ic { width: 34px; height: 34px; stroke-width: 2.4; }
 .ord-badge.g { background: var(--green-tint); color: var(--green); box-shadow: 0 0 0 8px color-mix(in srgb, var(--green-tint) 50%, transparent); }
@@ -2412,8 +2424,28 @@ body.is-checkout .tabbar { display: none !important; }
 
 .ord-state { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; padding: 28px 22px; }
 .ord-state h3 { font-size: 21px; margin: 0; }
-.ord-state p { color: var(--ink-2); font-size: 15px; max-width: 46ch; }
+.ord-state p { color: var(--ink-2); font-size: 15px; max-width: 46ch; line-height: 1.45; margin: 0; }
 .ord-state .money { width: 100%; }
+.ck.ord-failed { max-width: 480px; padding-bottom: 48px; }
+@media (min-width: 640px) { .ck.ord-failed { padding-bottom: 64px; } }
+.ord-failed .secure-l { margin-top: 16px; }
+.ord-failed-summary { text-align: left; background: var(--surface-2); border: 0; border-radius: 14px; }
+.ord-failed-payid { overflow: hidden; text-overflow: ellipsis; max-width: 170px; }
+.ord-callout {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--rule);
+  text-align: left;
+}
+.ord-callout .ic { flex: none; color: var(--ink-3); margin-top: 2px; }
+.ord-callout b { display: block; font-size: 14px; font-weight: 680; color: var(--ink); margin-bottom: 4px; }
+.ord-callout p { margin: 0; font-size: 14px; line-height: 1.45; color: var(--ink-2); font-weight: 520; }
+.ord-callout-ok { width: 100%; text-align: left; }
 
 .ord-kv { display: flex; gap: 12px; align-items: flex-start; padding: 6px 0; }
 .ord-kv > .ic { color: var(--ink-3); margin-top: 3px; flex: none; }

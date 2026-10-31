@@ -683,12 +683,16 @@ class OrderFailedRefundView(LoginRequiredMixin, View):
     login_url = "/account/identify"
 
     def get(self, request, reference_id):
+        from giftcard.provider_user_message import user_message_for_provider_error
+
         order = get_object_or_404(Order, reference_id=reference_id, user=request.user)
         on_hold = _is_on_hold(order)
+        raw_error = (order.woohoo_response or {}).get("error") if isinstance(order.woohoo_response, dict) else None
         return render(request, "pages/orders/failed_refund.html", {
             "order": order,
             "on_hold": on_hold,
             "hold_message": (order.woohoo_response or {}).get("message", "") if on_hold else "",
+            "fulfillment_issue": user_message_for_provider_error(raw_error),
         })
 
 

@@ -3,6 +3,20 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from unittest.mock import patch, MagicMock
 from giftcard.models import Order
+from giftcard.provider_user_message import user_message_for_provider_error
+
+
+class ProviderUserMessageTests(TestCase):
+    def test_cloudfront_403_html_is_sanitized(self):
+        raw = "HTTP 403: <!DOCTYPE HTML><TITLE>ERROR: The request could not be satisfied</TITLE>Request blocked."
+        msg = user_message_for_provider_error(raw)
+        self.assertNotIn("<!DOCTYPE", msg or "")
+        self.assertNotIn("CloudFront", msg or "")
+        self.assertIn("gift card partner", msg or "")
+
+    def test_short_json_message_passthrough(self):
+        raw = '{"message": "Insufficient wallet balance"}'
+        self.assertEqual(user_message_for_provider_error(raw), "Insufficient wallet balance")
 
 
 class GiftcardCallbackTests(TestCase):

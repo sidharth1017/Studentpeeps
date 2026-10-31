@@ -16,6 +16,8 @@ from pathlib import Path
 from decouple import config
 import os
 
+from studentpeeps.integration_env import WOOHOO_BASE_URL_BY_ENV, resolve_integration_env
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -369,9 +371,12 @@ ZEPTO_SMTP = {
 }
 
 
-# Woohoo API Config
-# WOOHOO_BASE_URL = "https://sandbox.woohoo.in"
-WOOHOO_BASE_URL = "https://extapi12.woohoo.in"
+# Woohoo — WOOHOO_ENV picks sandbox vs production API host; credentials use WOOHOO_* below
+WOOHOO_ENV = resolve_integration_env("WOOHOO_ENV")
+WOOHOO_BASE_URL = config(
+    "WOOHOO_BASE_URL",
+    default=WOOHOO_BASE_URL_BY_ENV[WOOHOO_ENV],
+)
 WOOHOO_CLIENT_ID = config("WOOHOO_CLIENT_ID")
 WOOHOO_CLIENT_SECRET = config("WOOHOO_CLIENT_SECRET")
 WOOHOO_USERNAME = config("WOOHOO_USERNAME")
@@ -392,10 +397,17 @@ ACTIVE_PAYMENT_GATEWAY = "payu"
 RAZORPAY_KEY_ID     = config("RAZORPAY_KEY_ID")
 RAZORPAY_KEY_SECRET = config("RAZORPAY_KEY_SECRET")
 
-# PayU India
-PAYU_MERCHANT_KEY  = config("PAYU_MERCHANT_KEY")
+# PayU India — set PAYU_ENV=sandbox|production (or legacy PAYU_USE_TEST=true|false)
+if config("PAYU_ENV", default="").strip():
+    PAYU_ENV = resolve_integration_env("PAYU_ENV")
+else:
+    PAYU_ENV = resolve_integration_env(
+        "PAYU_ENV",
+        legacy_test_flag=config("PAYU_USE_TEST", default=True, cast=bool),
+    )
+PAYU_USE_TEST = PAYU_ENV == "sandbox"
+PAYU_MERCHANT_KEY = config("PAYU_MERCHANT_KEY")
 PAYU_MERCHANT_SALT = config("PAYU_MERCHANT_SALT")
-PAYU_USE_TEST      = config("PAYU_USE_TEST", default=True, cast=bool)
 
 # Datadog Log Management (JSON stdout + optional HTTP intake)
 DD_API_KEY = config("DD_API_KEY", default="")
