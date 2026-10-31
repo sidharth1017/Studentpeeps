@@ -2,6 +2,16 @@ from giftcard.models import Cart
 from decimal import Decimal
 
 
+def stash_guest_cart_session_for_login(request):
+    """
+    Call immediately before django.contrib.auth.login().
+    login() cycles the session key; guest carts are keyed by the pre-login session.
+    """
+    session = getattr(request, "session", None)
+    if session and session.session_key:
+        request._guest_cart_session_key = session.session_key
+
+
 class CartService:
 
     def __init__(self, request):
@@ -65,9 +75,15 @@ class CartService:
     # Merge Guest Cart on Login
     # ----------------------------------------
 
-    def merge_guest_cart(self, user):
+    def merge_guest_cart(self, user, guest_session_key=None):
+        session_key = guest_session_key or getattr(
+            self.request, "_guest_cart_session_key", None
+        ) or self.session_key
+        if not session_key:
+            return
+
         guest_cart = Cart.objects.filter(
-            session_key=self.session_key,
+            session_key=session_key,
             is_active=True
         ).first()
 

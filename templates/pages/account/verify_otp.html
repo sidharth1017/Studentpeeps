@@ -16,8 +16,8 @@
       <p class="auth-sub">OTP sent to <b class="num">{{ phone }}</b></p>
 
       {% for message in messages %}
-      <div class="{% if message.tags == 'error' %}ck-err{% else %}auth-ok{% endif %}" role="alert">
-        <svg class="ic ic-s" aria-hidden="true"><use href="#i-{% if message.tags == 'error' %}alert{% else %}check-c{% endif %}"/></svg>
+      <div class="{% if 'danger' in message.tags or 'error' in message.tags %}ck-err{% else %}auth-ok{% endif %}" role="alert">
+        <svg class="ic ic-s" aria-hidden="true"><use href="#i-{% if 'danger' in message.tags or 'error' in message.tags %}alert{% else %}check-c{% endif %}"/></svg>
         <span>{{ message }}</span>
       </div>
       {% endfor %}

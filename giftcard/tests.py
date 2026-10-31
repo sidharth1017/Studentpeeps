@@ -2,8 +2,41 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
 from unittest.mock import patch, MagicMock
-from giftcard.models import Order
+from giftcard.models import Cart, Order
 from giftcard.provider_user_message import user_message_for_provider_error
+from giftcard.services.cart_service import CartService
+from django.contrib.auth.models import AnonymousUser
+from django.test import RequestFactory
+from django.contrib.sessions.backends.db import SessionStore
+
+
+class GuestCartMergeTests(TestCase):
+    def test_merge_finds_cart_by_pre_login_session_key(self):
+        user = User.objects.create_user(username="cartmerge", password="pass")
+        guest_item = {
+            "sku": "TEST-SKU",
+            "name": "Test Card",
+            "denomination": "500",
+            "quantity": 1,
+            "unit_price": "500",
+            "margin": "0",
+            "final_price": "500",
+        }
+        old_session_key = "guest-session-key-abc"
+        Cart.objects.create(session_key=old_session_key, is_active=True, items=[guest_item])
+
+        request = RequestFactory().get("/")
+        request.session = SessionStore()
+        request.session.create()
+        request.user = AnonymousUser()
+        request._guest_cart_session_key = old_session_key
+
+        CartService(request).merge_guest_cart(user, guest_session_key=old_session_key)
+
+        user_cart = Cart.objects.get(user=user, is_active=True)
+        self.assertEqual(len(user_cart.items), 1)
+        self.assertEqual(user_cart.items[0]["sku"], "TEST-SKU")
+        self.assertFalse(Cart.objects.filter(session_key=old_session_key).exists())
 
 
 class ProviderUserMessageTests(TestCase):
@@ -17,6 +50,36 @@ class ProviderUserMessageTests(TestCase):
     def test_short_json_message_passthrough(self):
         raw = '{"message": "Insufficient wallet balance"}'
         self.assertEqual(user_message_for_provider_error(raw), "Insufficient wallet balance")
+
+
+class OrderAccessTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(username="orderaccess", password="password")
+        self.client.force_login(self.user)
+
+    def test_invalid_order_reference_shows_branded_not_found(self):
+        response = self.client.get(
+            reverse("giftcard:order_failed_refund", kwargs={"reference_id": "STDPS-not-a-real-order"})
+        )
+        self.assertEqual(response.status_code, 404)
+        self.assertTemplateUsed(response, "pages/orders/not_found.html")
+        self.assertNotContains(response, "URLconf")
+
+    def test_other_users_order_is_not_found(self):
+        other = User.objects.create_user(username="otheruser", password="password")
+        Order.objects.create(
+            user=other,
+            reference_id="STDPS-secret-order",
+            total_amount=100,
+            provider_id="woohoo",
+            status=Order.STATUS_COMPLETED,
+        )
+        response = self.client.get(
+            reverse("giftcard:order_detail", kwargs={"reference_id": "STDPS-secret-order"})
+        )
+        self.assertEqual(response.status_code, 404)
+        self.assertTemplateUsed(response, "pages/orders/not_found.html")
 
 
 class GiftcardCallbackTests(TestCase):

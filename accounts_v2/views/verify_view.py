@@ -10,6 +10,34 @@ import random
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
+from django.utils.http import url_has_allowed_host_and_scheme
+from giftcard.services.cart_service import stash_guest_cart_session_for_login
+from accounts_v2.flash_messages import discard_checkout_flash_messages
+
+
+def _store_next_url(request):
+    next_param = request.GET.get('next')
+    if next_param:
+        request.session['next_url'] = next_param
+
+
+def _safe_next_redirect(request, fallback='/'):
+    next_url = request.session.pop('next_url', None) or request.GET.get('next')
+    if next_url and url_has_allowed_host_and_scheme(
+        url=next_url,
+        allowed_hosts={request.get_host()},
+        require_https=request.is_secure(),
+    ):
+        return redirect(next_url)
+    return redirect(fallback)
+
+
+def _login_and_redirect(request, user):
+    stash_guest_cart_session_for_login(request)
+    user.backend = 'django.contrib.auth.backends.ModelBackend'
+    login(request, user)
+    return _safe_next_redirect(request)
+
 
 class VerifyViewV2(View):
     def get(self, request):
@@ -17,6 +45,9 @@ class VerifyViewV2(View):
         email = request.session.get('email')
         if not phone and not email:
             return redirect('/account/identify')
+
+        discard_checkout_flash_messages(request)
+        _store_next_url(request)
 
         if phone:
             masked_details = phone[:2] + 'X' * 6 + phone[-2:]
@@ -60,24 +91,18 @@ class VerifyViewV2(View):
         if stored_hashed_otp and check_password(input_otp, stored_hashed_otp):
             phone = request.session.get('phone')
             email = request.session.get('email')
-            next_url = request.session.pop('next_url', None) or '/'
+            _store_next_url(request)
 
             try:
                 if phone:
                     register = Register.objects.get(phone=phone)
-                    user = register.user
-                    user.backend = 'django.contrib.auth.backends.ModelBackend'
-                    login(request, user)
-                    return redirect(next_url)
+                    return _login_and_redirect(request, register.user)
 
                 elif email:
                     register = Register.objects.get(
                         Q(user__username=email) | Q(user__email=email) | Q(institution_email=email)
                     )
-                    user = register.user
-                    user.backend = 'django.contrib.auth.backends.ModelBackend'
-                    login(request, user)
-                    return redirect(next_url)
+                    return _login_and_redirect(request, register.user)
 
             except Register.DoesNotExist:
                 users = User.objects.filter(Q(username=email) | Q(email=email)).distinct()
@@ -86,14 +111,10 @@ class VerifyViewV2(View):
                     if not user.is_active:
                         user.is_active = True
                         user.save()
-                        user.backend = 'django.contrib.auth.backends.ModelBackend'
-                        login(request, user)
-
+                        response = _login_and_redirect(request, user)
                         request.session['user_id'] = user.id
-                        return redirect(next_url)
-                    user.backend = 'django.contrib.auth.backends.ModelBackend'
-                    login(request, user)
-                    return redirect(next_url)
+                        return response
+                    return _login_and_redirect(request, user)
                 else:
                     user = User.objects.create_user(username=phone or email, email=email or '')
                     register = Register(user=user, phone=phone)
@@ -101,11 +122,9 @@ class VerifyViewV2(View):
                     register.save()
                     user.save()
 
-                    user.backend = 'django.contrib.auth.backends.ModelBackend'
-                    login(request, user)
-
+                    response = _login_and_redirect(request, user)
                     request.session['user_id'] = register.id
-                    return redirect(next_url)
+                    return response
         else:
             messages.error(request, "Invalid OTP.")
             return redirect('/account/verify')

@@ -1,10 +1,9 @@
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import render, redirect
 from django.views import View
 from .models import ProviderProduct, Cart, Order, PaymentTransaction
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 import json
-from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
 from django.db import transaction
 from django.utils import timezone
@@ -44,10 +43,7 @@ class AddToCartView(View):
             error_msg = "Oops! You can only place up to 5 gift cards in a single order."
             if request.headers.get("x-requested-with") == "XMLHttpRequest" or request.headers.get("Content-Type") == "application/json":
                 return JsonResponse({"error": error_msg}, status=400)
-            else:
-                from django.contrib import messages
-                messages.error(request, error_msg)
-                return redirect(request.META.get("HTTP_REFERER", "giftcard:explore"))
+            return redirect(request.META.get("HTTP_REFERER", "giftcard:explore"))
 
         from giftcard.models import ProviderProduct
         from giftcard.services.purchase_availability import purchase_availability_for
@@ -65,7 +61,6 @@ class AddToCartView(View):
                 "Content-Type"
             ) == "application/json":
                 return JsonResponse({"error": error_msg}, status=400)
-            messages.error(request, error_msg)
             return redirect(request.META.get("HTTP_REFERER", "giftcard:explore"))
 
         resolver = ProductResolver(sku)
@@ -80,7 +75,6 @@ class AddToCartView(View):
             if not ok:
                 if request.headers.get("x-requested-with") == "XMLHttpRequest":
                     return JsonResponse({"error": err}, status=400)
-                messages.error(request, err)
                 return redirect(request.META.get("HTTP_REFERER", "giftcard:explore"))
 
         from giftcard.services.margin_pricing import price_after_margin
@@ -101,11 +95,21 @@ class AddToCartView(View):
         }
 
         service.add_item(product_data)
+        cart = service.get_cart()
+        cart_total_qty = sum(int(item["quantity"]) for item in cart.items)
 
         if buy_now:
+            if request.headers.get("x-requested-with") == "XMLHttpRequest":
+                return JsonResponse({
+                    "redirect": reverse("giftcard:cart_view"),
+                    "cart_count": cart_total_qty,
+                })
             return redirect("giftcard:cart_view")
 
-        return JsonResponse({"message": "Added to cart", "cart_count": len(service.get_cart().items)})
+        return JsonResponse({
+            "message": "Added to cart",
+            "cart_count": cart_total_qty,
+        })
 
 
 class UpdateCartItemView(View):
@@ -748,11 +752,24 @@ class PayUFailureView(View):
 # Order Success Page
 # ──────────────────────────────────────────────────────────────────────────────
 
+def _get_order_for_current_user(request, reference_id):
+    if not reference_id:
+        return None
+    return Order.objects.filter(reference_id=reference_id, user=request.user).first()
+
+
+def _order_not_found_page(request):
+    """Branded 404 — avoid Http404 so DEBUG mode never shows the Django debug page."""
+    return render(request, "pages/orders/not_found.html", status=404)
+
+
 class OrderSuccessView(LoginRequiredMixin, View):
     login_url = "/account/identify"
 
     def get(self, request, reference_id):
-        order = get_object_or_404(Order, reference_id=reference_id, user=request.user)
+        order = _get_order_for_current_user(request, reference_id)
+        if order is None:
+            return _order_not_found_page(request)
         if _is_on_hold(order):
             return redirect(reverse("giftcard:order_failed_refund", kwargs={"reference_id": order.reference_id}))
         return render(request, "pages/orders/success.html", {"order": order})
@@ -764,7 +781,9 @@ class OrderFailedRefundView(LoginRequiredMixin, View):
     def get(self, request, reference_id):
         from giftcard.provider_user_message import user_message_for_provider_error
 
-        order = get_object_or_404(Order, reference_id=reference_id, user=request.user)
+        order = _get_order_for_current_user(request, reference_id)
+        if order is None:
+            return _order_not_found_page(request)
         on_hold = _is_on_hold(order)
         raw_error = (order.woohoo_response or {}).get("error") if isinstance(order.woohoo_response, dict) else None
         return render(request, "pages/orders/failed_refund.html", {
@@ -779,8 +798,10 @@ class OrderDetailView(LoginRequiredMixin, View):
     login_url = "/account/identify"
 
     def get(self, request, reference_id):
-        order = get_object_or_404(Order, reference_id=reference_id, user=request.user)
-        
+        order = _get_order_for_current_user(request, reference_id)
+        if order is None:
+            return _order_not_found_page(request)
+
         is_terminal_status = order.status in (Order.STATUS_COMPLETED, Order.STATUS_FAILED)
         identifier = order.woohoo_order_id or order.reference_id
         on_hold = _is_on_hold(order)

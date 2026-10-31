@@ -1,0 +1,20 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}Order not found — StudentPeeps{% endblock %}
+
+{% block body %}
+<div class="wrap">
+  <div class="ck" style="max-width:480px;padding-bottom:48px">
+    <div class="co-sec ord-state">
+      <span class="ord-badge r"><svg class="ic" aria-hidden="true"><use href="#i-alert"/></svg></span>
+      <h3>We couldn’t find that order</h3>
+      <p>This link may be incorrect, expired, or tied to another account. Check your email for the right order link, or start a new purchase.</p>
+      <div style="display:grid;gap:10px;width:100%">
+        <a href="{% url 'giftcard:explore' %}" class="btn btn-p btn-blk">Browse gift cards</a>
+        <a href="/" class="btn btn-s btn-blk">Back to home</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

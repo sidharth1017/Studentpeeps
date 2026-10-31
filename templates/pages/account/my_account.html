@@ -163,7 +163,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         openFromHash();
         {% for message in messages %}
-        if (typeof showToast === 'function') showToast("{{ message|escapejs }}", "{% if message.tags == 'error' %}error{% else %}success{% endif %}");
+        if (typeof showToast === 'function') showToast("{{ message|escapejs }}", "{% if 'danger' in message.tags or 'error' in message.tags %}error{% else %}success{% endif %}");
         {% endfor %}
     });
 </script>
