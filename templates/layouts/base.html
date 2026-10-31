@@ -48,7 +48,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Anek+Latin:wdth,wght@75..125,300..800&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
 
   <!-- Core Prototype Design System -->
-  <link rel="stylesheet" href="{% static 'css/sp_design.css' %}?v=20261030a" />
+  <link rel="stylesheet" href="{% static 'css/sp_design.css' %}?v=20261031d" />
   <script>
     /* Apply the saved theme before first paint. Default is Light; "system" follows the OS. */
     (function () {
@@ -200,15 +200,6 @@
           <svg class="ic ic-l" aria-hidden="true"><use href="#i-search"/></svg>
         </a>
 
-        <!-- Explore link -->
-        <a class="icon-btn md-up" href="{{ nav_explore_url }}" title="{% if coupons_nav %}Explore coupons{% else %}Explore gift cards{% endif %}" aria-label="{% if coupons_nav %}Explore coupons{% else %}Explore gift cards{% endif %}">
-          <svg class="ic ic-l" aria-hidden="true"><use href="#i-grid"/></svg>
-        </a>
-
-        <a class="icon-btn md-up" href="/account/myaccount/" title="Your wallet" aria-label="Your wallet">
-          <svg class="ic ic-l" aria-hidden="true"><use href="#i-wallet"/></svg>
-        </a>
-
         <!-- Cart button with badge -->
         <a class="icon-btn" href="/giftcard/cart/" aria-label="Cart">
           <svg class="ic ic-l" aria-hidden="true"><use href="#i-cart"/></svg>
@@ -216,6 +207,41 @@
             {{ global_cart_count|default:"0" }}
           </span>
         </a>
+
+        <!-- Account / Sign In (hover or focus opens the menu, which holds the theme switch) -->
+        <div class="acct-wrap md-up">
+          {% if user.is_authenticated %}
+          <a class="acct" href="/account/myaccount/" aria-haspopup="true">
+            <span class="avatar">{{ user.first_name|default:"S"|slice:":1"|upper }}</span>
+            <span>{{ user.first_name|default:"Account" }}</span>
+          </a>
+          {% else %}
+          <a class="acct" href="/account/identify" aria-haspopup="true"><span>Sign in</span></a>
+          {% endif %}
+          <div class="acct-menu" role="menu">
+            <div class="acct-list">
+              {% if user.is_authenticated %}
+              <a href="/account/myaccount/" role="menuitem"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg>My account</a>
+              <a href="/account/myaccount/#my-orders" role="menuitem"><svg class="ic" aria-hidden="true"><use href="#i-bag"/></svg>My orders</a>
+              {% else %}
+              <a href="/account/identify" role="menuitem"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg>Sign in</a>
+              {% endif %}
+              <a href="/ourstory/" role="menuitem"><svg class="ic" aria-hidden="true"><use href="#i-book"/></svg>Our story</a>
+              <div class="acct-theme">
+                <svg class="ic" aria-hidden="true"><use href="#i-sun"/></svg><span>Theme</span>
+                <div class="seg" role="group" aria-label="Theme">
+                  <button type="button" data-theme-set="system" aria-pressed="false">Auto</button>
+                  <button type="button" data-theme-set="light" aria-pressed="false">Light</button>
+                  <button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+                </div>
+              </div>
+              <a href="mailto:hi@studentpeeps.club" role="menuitem"><svg class="ic" aria-hidden="true"><use href="#i-help"/></svg>Help and support</a>
+              {% if user.is_authenticated %}
+              <a href="/account/logout/" role="menuitem" class="out"><svg class="ic" aria-hidden="true"><use href="#i-logout"/></svg>Sign out</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -390,7 +416,7 @@
       markUrl: "{% static 'images/sp_mark.png' %}"
     };
   </script>
-  <script src="{% static 'js/sp_search.js' %}?v=3" defer></script>
+  <script src="{% static 'js/sp_search.js' %}?v=4" defer></script>
   <script>
     /* Theme switch: Auto follows the OS, Light/Dark are remembered in this browser */
     (function () {

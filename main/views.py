@@ -285,6 +285,7 @@ class Home(View):
 
         from giftcard.brand_design import BRAND_CONFIG
         from main.services.homepage_merchandising import (
+            _load_products,
             build_hero_picks,
             build_popular_cards,
             max_brand_discount_pct,
@@ -305,11 +306,14 @@ class Home(View):
             {'brand_name': 'Cafe Coffee Day', 'sku': 'EGCGBCCD001', 'tagline': 'Thanks for the notes', 'card_val': 100, 'discount': 6.75, 'pal': ('#E3A866', '#B4602F'), 'pt': 'p-stars'},
         ]
 
+        treat_products = _load_products([t['sku'] for t in TREATS_SPEC])
         treats_list = []
         for t in TREATS_SPEC:
             disc_amt = t['card_val'] * (t['discount'] / 100.0)
             pay_val = t['card_val'] - disc_amt
             pay_str = f"₹{pay_val:.2f}".rstrip('0').rstrip('.')
+            prod = treat_products.get(t['sku'])
+            logo_url = prod.tile_brand_logo_url if prod else ""
             treats_list.append({
                 'sku': t['sku'],
                 'display_brand': t['brand_name'],
@@ -320,6 +324,60 @@ class Home(View):
                 'pal_0': t['pal'][0],
                 'pal_1': t['pal'][1],
                 'pattern_cls': t['pt'],
+                'tile_brand_logo_url': logo_url or "",
+            })
+
+        # -------------------------------------------------------------
+        # Wallet promo (homepage demo cards)
+        # -------------------------------------------------------------
+        WALLET_PROMO_SPEC = [
+            {
+                'sku': 'EGCGBMYNC001',
+                'name': 'Myntra',
+                'pill_label': 'Expires in 18 days',
+                'pill_class': 'a',
+            },
+            {
+                'sku': '',
+                'resolve_brand': 'BookMyShow',
+                'name': 'BookMyShow',
+                'pal': ('#FF7457', '#C9302B'),
+                'pill_label': 'Valid till Apr 2027',
+                'pill_class': '',
+            },
+            {
+                'sku': 'EGVGBSTB001',
+                'name': 'Starbucks',
+                'pill_label': 'Valid till Jun 2026',
+                'pill_class': 'b',
+            },
+        ]
+        from giftcard.services.catalog_visibility import sellable_giftcard_q
+
+        wallet_skus = [s['sku'] for s in WALLET_PROMO_SPEC if s.get('sku')]
+        wallet_products = _load_products(wallet_skus)
+        wallet_promo_cards = []
+        for spec in WALLET_PROMO_SPEC:
+            prod = wallet_products.get(spec['sku']) if spec.get('sku') else None
+            if not prod and spec.get('resolve_brand'):
+                prod = (
+                    ProviderProduct.objects.filter(
+                        sellable_giftcard_q(),
+                        brand_name__icontains=spec['resolve_brand'],
+                    )
+                    .select_related('override', 'override__category')
+                    .first()
+                )
+            conf = BRAND_CONFIG.get(spec.get('sku') or '', {})
+            pal = spec.get('pal') or conf.get('pal', ('#2442E6', '#6440E0'))
+            logo_url = prod.tile_brand_logo_url if prod else ""
+            wallet_promo_cards.append({
+                'name': spec['name'],
+                'pill_label': spec.get('pill_label', ''),
+                'pill_class': spec.get('pill_class', ''),
+                'pal_0': pal[0],
+                'pal_1': pal[1],
+                'tile_brand_logo_url': logo_url or "",
             })
 
         max_discount_pct = max_brand_discount_pct()
@@ -341,6 +399,7 @@ class Home(View):
             "occasions": occasions,
             "hero_picks": hero_picks,
             "hero_section": hero_section,
+            "wallet_promo_cards": wallet_promo_cards,
             "max_discount_pct": max_discount_pct,
         })
         

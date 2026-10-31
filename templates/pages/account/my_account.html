@@ -130,28 +130,7 @@
                 <h2>Frequently asked questions</h2>
                 <p class="sub">Quick answers about StudentPeeps and your gift cards.</p>
 
-                <div class="faq">
-                    <details>
-                        <summary>What is StudentPeeps?<svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg></summary>
-                        <p class="a">StudentPeeps is a platform where university students can register and get student discounts on their favourite brands.</p>
-                    </details>
-                    <details>
-                        <summary>How do I get the StudentPeeps discount?<svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg></summary>
-                        <p class="a">To get a StudentPeeps account you must be attending a college or university that gives you an email address or ID card. Click Sign in and enter your details.</p>
-                    </details>
-                    <details>
-                        <summary>Can I use StudentPeeps without being a student?<svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg></summary>
-                        <p class="a">No, StudentPeeps offers are for students. Enjoy them while you’re in college!</p>
-                    </details>
-                    <details>
-                        <summary>Are gift cards refundable?<svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg></summary>
-                        <p class="a">Gift cards can’t be cancelled or returned once issued. Please check the terms and conditions before you buy.</p>
-                    </details>
-                    <details>
-                        <summary>What if I don’t receive the gift card?<svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg></summary>
-                        <p class="a">In the rare case, it happens. Don’t worry — just email us at <a href="mailto:hi@studentpeeps.club">hi@studentpeeps.club</a>. We will either send the code or refund the amount in full.</p>
-                    </details>
-                </div>
+                {% include "components/giftcard_home_faq.html" %}
 
                 <p style="margin-top:20px">
                     <a href="{% url 'help_center' %}" class="btn-q">Help center <svg class="ic ic-s" aria-hidden="true"><use href="#i-chev-r"/></svg></a>

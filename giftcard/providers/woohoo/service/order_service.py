@@ -7,7 +7,7 @@ Reference: https://developers.woohoo.in/docs/rest-api-v3-revamp/order-api/
 import uuid
 from django.conf import settings
 
-from giftcard.models import Provider
+from giftcard.models import Order, Provider
 from giftcard.providers.woohoo.api_client import WoohooApiClient
 from giftcard.providers.woohoo import endpoints
 
@@ -42,6 +42,10 @@ class WoohooOrderService:
         first_name = (customer.get("name") or "User").split(" ")[0]
         last_name  = " ".join((customer.get("name") or "User").split(" ")[1:]) or "User"
 
+        delivery_mode = getattr(our_order, "woohoo_delivery_mode", None) or Order.WOOHOO_DELIVERY_EMAIL
+        if delivery_mode not in dict(Order.WOOHOO_DELIVERY_MODE_CHOICES):
+            delivery_mode = Order.WOOHOO_DELIVERY_EMAIL
+
         payload = {
             "address": {
                 "firstname": first_name,
@@ -58,7 +62,7 @@ class WoohooOrderService:
                 "telephone": phone,
                 "country": "IN"
             },
-            "deliveryMode": "API",
+            "deliveryMode": delivery_mode,
             "payments": [
                 {
                     "code": "svc",

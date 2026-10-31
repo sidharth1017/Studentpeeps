@@ -43,11 +43,6 @@
   .bt-unavail .bt-meta {
     color: var(--ink-3);
   }
-  .bt-sku-meta {
-    font-size: 11.5px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    color: var(--ink-3);
-  }
   .ex-section-title {
     font-size: 17px;
     font-weight: 680;
@@ -221,7 +216,7 @@
         {% if unavailable_cards %}
         <div class="ex-unavail-block">
           <h2 class="ex-section-title">Currently unavailable</h2>
-          <p class="ex-section-sub">Shown for transparency — you cannot purchase these SKUs right now (not live and/or out of stock).</p>
+          <p class="ex-section-sub">Shown for transparency — you cannot purchase these gift cards right now (not live and/or out of stock).</p>
           <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px 18px;">
             {% for card in unavailable_cards %}
             {% include "components/gc_explore_tile.html" with card=card %}

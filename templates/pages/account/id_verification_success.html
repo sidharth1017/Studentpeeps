@@ -94,44 +94,15 @@
 {% endblock %}
 
 {% block body %}
-<div style="position: relative; overflow: hidden auto; background-color: #F6F5F6;">
-    <div
-        style="position: relative; width: 100%; max-width: 520px; min-width: 320px; margin: 10px auto; padding: 2em 2em 1em; text-align: center;">
-        <img style="width: 70%;" src="https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/logos/tickanimation.gif" alt="">
-        
-        <h2>Welcome to Studentpeeps</h2> 
-        <p style="color: rgb(60, 61, 61); margin-top: 0.5em;">Your Student ID is verified.</p>
-        <p style="color: rgb(60, 61, 61); margin-top: 0.5em;">Thanks for signup!</p>
-        
-        <div style="margin-top: 1.5em;">
-            <div style="margin-top: -8px;">
-                <div style="text-align: left;">
-                    <div id="datashow"
-                        style="border-radius: 5px; background: rgb(239, 244, 244); padding: 0px; margin-top: 0.5em; transition: max-height 0.15s ease-out 0s;display: none;">
-                        <div style="font-size: 14px; margin-left: 10px;">
-                            <p style="margin-bottom: 0.5em;">If you don't see an email from us within a few minutes,
-                                follow these steps:</p>
-                            <ul style="padding-left: 1em; margin-bottom: 0px;">
-                                <li>Check your college/university email not your personal email. </li>
-                                <li>Make sure you've entered the correct college email. 
-                                    Check your spam</li>  
-                                <li>In case of any further help, mail us at <a href="mailto: hi@studentpeeps.club"> hi@studentpeeps.club</a></li>                           
-                            </ul>
-                        </div>
-                    </div>
-                </div> 
-            </div>
+<div class="verify-success-page">
+    <div class="verify-success-card">
+        <img style="width: 70%; max-width: 280px; margin: 0 auto;" src="https://vc-thumbnails.blr1.cdn.digitaloceanspaces.com/studentpeeps/logos/tickanimation.gif" alt="">
 
-            <div style="margin-top: 1.5em;">
-                <div style="margin-top: 0.5em;">
-                    <div id="buttons" class="row justify-content-start mt-4">
-                        <div class="button col">
-                            <a href="/all"><button id="re-enter" class="btn btn-primary mt-2 another">Explore Student Discounts</button></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <h2>Welcome to Studentpeeps</h2>
+        <p>Your Student ID is verified.</p>
+        <p>Thanks for signup!</p>
+
+        <a href="/all" class="btn btn-p btn-blk">Explore Student Discounts</a>
     </div>
 </div>
 

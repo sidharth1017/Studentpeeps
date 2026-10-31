@@ -97,7 +97,7 @@ class AddToCartView(View):
             "unit_price": str(unit_price),
             "margin": str(margin_raw),
             "final_price": str(final_price),
-            "image": product.get("base_image") or product.get("thumbnail"),
+            "brand_logo": product.get("tile_brand_logo") or product.get("brand_logo"),
         }
 
         service.add_item(product_data)
@@ -170,6 +170,7 @@ class CartView(View):
             "payment_methods": payment_methods,
             "default_method": default_method["key"],
             "cart": cart,
+            "cart_items": _order_items_for_display(cart.items),
             "total_amount": cart.total_amount(),
             "active_gateway": settings.ACTIVE_PAYMENT_GATEWAY,
             "user_name": user_name,
@@ -194,6 +195,30 @@ class RemoveFromCartView(View):
 def _is_on_hold(order):
     """True when the order was paid for but deliberately not sent to Woohoo (admin switch off)."""
     return isinstance(order.woohoo_response, dict) and bool(order.woohoo_response.get("on_hold"))
+
+
+def _order_items_for_display(items_snapshot: list) -> list:
+    """Line items with brand logos for order UI (not full gift-card artwork)."""
+    if not items_snapshot:
+        return []
+
+    skus = [item.get("sku") for item in items_snapshot if item.get("sku")]
+    products_by_sku = {
+        p.sku: p
+        for p in ProviderProduct.objects.filter(sku__in=skus).select_related("override")
+    }
+
+    rows = []
+    for item in items_snapshot:
+        row = dict(item)
+        logo = row.get("brand_logo")
+        if not logo:
+            product = products_by_sku.get(row.get("sku"))
+            if product:
+                logo = product.tile_brand_logo_url or product.brand_logo or None
+        row["brand_logo"] = logo or None
+        rows.append(row)
+    return rows
 
 
 def _clear_cart_for_order_user(order):
@@ -446,6 +471,9 @@ class InitiatePaymentView(LoginRequiredMixin, View):
         customer_name  = data.get("name", "").strip()
         customer_email = data.get("email", "").strip()
         customer_phone = data.get("phone", "").strip()
+        delivery_mode = (data.get("delivery_mode") or Order.WOOHOO_DELIVERY_EMAIL).strip().upper()
+        if delivery_mode not in dict(Order.WOOHOO_DELIVERY_MODE_CHOICES):
+            delivery_mode = Order.WOOHOO_DELIVERY_EMAIL
 
         if not all([customer_name, customer_email, customer_phone]):
             return JsonResponse({"error": "Name, email and phone are required."}, status=400)
@@ -482,6 +510,7 @@ class InitiatePaymentView(LoginRequiredMixin, View):
             customer_name=customer_name,
             customer_email=customer_email,
             customer_phone=customer_phone,
+            woohoo_delivery_mode=delivery_mode,
             payment_gateway=gw_name,
         )
 
@@ -825,6 +854,7 @@ class OrderDetailView(LoginRequiredMixin, View):
 
         return render(request, "pages/orders/detail.html", {
             "order": order,
+            "order_items": _order_items_for_display(order.items_snapshot),
             "on_hold": on_hold,
             "hold_message": (order.woohoo_response or {}).get("message", "") if on_hold else "",
         })
@@ -1092,6 +1122,7 @@ class SearchSuggestView(View):
             disc_label = f"{int(disc)}%"
         else:
             disc_label = f"{disc:g}%"
+        logo = p.tile_brand_logo_url or ""
         return {
             "name": name,
             "sku": p.sku,
@@ -1104,6 +1135,7 @@ class SearchSuggestView(View):
             "brand_size_cls": tile["brand_size_cls"],
             "discount_label": disc_label,
             "discount_pct": disc,
+            "logo_url": logo,
         }
 
     def get(self, request):

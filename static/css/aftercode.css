@@ -36,7 +36,7 @@ body.active::before {
   width: 100%;
   margin: auto;
   padding-top: 1px;
-  background: #fff;
+  background: var(--surface);
 }
 
 .wrapper.active {

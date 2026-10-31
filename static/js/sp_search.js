@@ -25,20 +25,23 @@
     return '<span class="gc-mark" aria-hidden="true">studentpeeps</span>';
   }
 
-  function brandItem(b) {
-    var range = b.min && b.max ? '₹' + b.min.toLocaleString('en-IN') + ' – ₹' + b.max.toLocaleString('en-IN') : '';
-    var pat = esc(b.pattern || 'p-dots');
+  function pkMarkHtml(b) {
     var pal0 = esc(b.pal_0 || '#2442E6');
     var pal1 = esc(b.pal_1 || '#6440E0');
-    var bcls = esc(b.brand_size_cls || '');
-    var tile =
-      '<div class="gc ' + pat + ' sg-mini" style="--a:' + pal0 + ';--b:' + pal1 + '" aria-hidden="true">' +
-      '<div class="gc-in sg-mini-in">' +
-      '<div class="gc-top"><div>' +
-      '<div class="gc-brand ' + bcls + '">' + esc(b.name) + '</div>' +
-      '<div class="gc-kind">Gift card</div></div></div>' +
-      '<div class="gc-bot"><span></span>' + gcMarkHtml() + '</div>' +
-      '</div></div>';
+    var initial = esc(String(b.name || '?').charAt(0));
+    if (b.logo_url) {
+      return '<span class="pk-mark sg-pk-mark" style="--a:' + pal0 + ';--b:' + pal1 + '" aria-hidden="true">' +
+        '<img src="' + esc(b.logo_url) + '" alt="" width="72" height="72" loading="lazy" ' +
+        'onerror="this.hidden=true;this.parentElement.classList.add(\'is-fallback\');">' +
+        '<span class="pk-mark-fallback">' + initial + '</span></span>';
+    }
+    return '<span class="pk-mark sg-pk-mark is-fallback" style="--a:' + pal0 + ';--b:' + pal1 + '" aria-hidden="true">' +
+      '<span class="pk-mark-fallback">' + initial + '</span></span>';
+  }
+
+  function brandItem(b) {
+    var range = b.min && b.max ? '₹' + b.min.toLocaleString('en-IN') + ' – ₹' + b.max.toLocaleString('en-IN') : '';
+    var tile = pkMarkHtml(b);
     var right = '';
     if (b.discount_pct > 0) {
       right = '<span class="r"><span class="off">' + esc(b.discount_label || '') + ' off</span></span>';

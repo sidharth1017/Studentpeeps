@@ -36,26 +36,32 @@
       <div class="est picks">
         <h2>{{ hero_section.title }}</h2>
         <p class="hint" style="margin-top:4px">{{ hero_section.subtitle }}</p>
-        <ul class="pk">
+        <ul class="pk pk-brands">
           {% for pick in hero_picks %}
           <li>
             <a href="/giftcard/{{ pick.sku }}/">
+              {% if pick.tile_brand_logo_url %}
+              <span class="pk-mark" style="--a:{{ pick.pal_0 }};--b:{{ pick.pal_1 }}">
+                <img src="{{ pick.tile_brand_logo_url }}" alt="" width="72" height="72" loading="lazy"
+                  onerror="this.hidden=true;this.parentElement.classList.add('is-fallback');">
+                <span class="pk-mark-fallback" aria-hidden="true">{{ pick.name|slice:":1" }}</span>
+              </span>
+              {% else %}
               <div class="gc pk-thumb {{ pick.pattern_cls }}" style="--a:{{ pick.pal_0 }};--b:{{ pick.pal_1 }}" aria-hidden="true">
                 <div class="gc-in pk-thumb-in">
                   <div class="gc-top">
                     <div>
-                      {% if not pick.tile_brand_logo_url %}
                       <div class="gc-brand {{ pick.brand_size_cls }}">{{ pick.name }}</div>
-                      {% endif %}
                       <div class="gc-kind">Gift card</div>
                     </div>
                   </div>
                   <div class="gc-bot">
                     <span></span>
-                    {% include "components/gc_corner_mark.html" with brand_logo_url=pick.tile_brand_logo_url %}
+                    {% include "components/gc_corner_mark.html" %}
                   </div>
                 </div>
               </div>
+              {% endif %}
               <span class="pk-t">
                 <b>{{ pick.name }}</b>
                 <span>{{ pick.why }}</span>
@@ -188,17 +194,17 @@
     <div class="treats">
       {% for treat in treats %}
       <a class="treat" href="/giftcard/{{ treat.sku }}/">
-        <div class="gc {{ treat.pattern_cls }}" style="--a:{{ treat.pal_0 }};--b:{{ treat.pal_1 }}" aria-hidden="true">
-          <div class="gc-in" style="padding: 10cqw;">
-            <div class="gc-top">
-              <div class="gc-brand" style="font-size: 13cqw;">{{ treat.display_brand }}</div>
-            </div>
-            <div class="gc-bot">
-              <span></span>
-              {% include "components/gc_corner_mark.html" %}
-            </div>
-          </div>
-        </div>
+        {% if treat.tile_brand_logo_url %}
+        <span class="pk-mark" style="--a:{{ treat.pal_0 }};--b:{{ treat.pal_1 }}" aria-hidden="true">
+          <img src="{{ treat.tile_brand_logo_url }}" alt="" width="72" height="72" loading="lazy"
+            onerror="this.hidden=true;this.parentElement.classList.add('is-fallback');">
+          <span class="pk-mark-fallback">{{ treat.display_brand|slice:":1" }}</span>
+        </span>
+        {% else %}
+        <span class="pk-mark is-fallback" style="--a:{{ treat.pal_0 }};--b:{{ treat.pal_1 }}" aria-hidden="true">
+          <span class="pk-mark-fallback">{{ treat.display_brand|slice:":1" }}</span>
+        </span>
+        {% endif %}
         <div>
           <b>{{ treat.tagline }}</b>
           <span>{{ treat.display_brand }} gift card</span>
@@ -323,44 +329,27 @@
       </div>
 
       <div class="wpromo">
+        {% for card in wallet_promo_cards %}
         <div class="wp-card">
-          <div class="gc p-waves" style="--a:#7C3FD6;--b:#30177D" aria-hidden="true">
-            <div class="gc-in" style="padding:10cqw">
-              <div class="gc-top"><div class="gc-brand" style="font-size:14cqw">Myntra</div></div>
-            </div>
-          </div>
+          {% if card.tile_brand_logo_url %}
+          <span class="pk-mark" style="--a:{{ card.pal_0 }};--b:{{ card.pal_1 }}" aria-hidden="true">
+            <img src="{{ card.tile_brand_logo_url }}" alt="" width="72" height="72" loading="lazy"
+              onerror="this.hidden=true;this.parentElement.classList.add('is-fallback');">
+            <span class="pk-mark-fallback">{{ card.name|slice:":1" }}</span>
+          </span>
+          {% else %}
+          <span class="pk-mark is-fallback" style="--a:{{ card.pal_0 }};--b:{{ card.pal_1 }}" aria-hidden="true">
+            <span class="pk-mark-fallback">{{ card.name|slice:":1" }}</span>
+          </span>
+          {% endif %}
           <div>
-            <b>Myntra</b>
-            <span class="num">₹640 left of ₹1,000</span>
+            <b>{{ card.name }}</b>
           </div>
-          <span class="pill a">Expires in 18 days</span>
+          {% if card.pill_label %}
+          <span class="pill{% if card.pill_class %} {{ card.pill_class }}{% endif %}">{{ card.pill_label }}</span>
+          {% endif %}
         </div>
-
-        <div class="wp-card">
-          <div class="gc p-waves" style="--a:#FF7457;--b:#C9302B" aria-hidden="true">
-            <div class="gc-in" style="padding:10cqw">
-              <div class="gc-top"><div class="gc-brand" style="font-size:14cqw">BookMyShow</div></div>
-            </div>
-          </div>
-          <div>
-            <b>BookMyShow</b>
-            <span class="num">₹500 left of ₹500</span>
-          </div>
-          <span class="pill">Valid till Apr 2027</span>
-        </div>
-
-        <div class="wp-card">
-          <div class="gc p-grid" style="--a:#FF9F1C;--b:#F2542D" aria-hidden="true">
-            <div class="gc-in" style="padding:10cqw">
-              <div class="gc-top"><div class="gc-brand" style="font-size:14cqw">Starbucks</div></div>
-            </div>
-          </div>
-          <div>
-            <b>Starbucks</b>
-            <span class="num">₹500 left of ₹500</span>
-          </div>
-          <span class="pill b">Gift from Rohan</span>
-        </div>
+        {% endfor %}
       </div>
     </div>
   </div>
@@ -447,63 +436,7 @@
         <h2>Questions, answered</h2>
       </div>
     </div>
-    <div class="faq">
-      <details open>
-        <summary>
-          <span>How quickly will I get my gift card?</span>
-          <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
-        </summary>
-        <p class="a">Most cards arrive in under a minute by email. If a brand takes longer, the card page says so before you pay.</p>
-      </details>
-
-      <details>
-        <summary>
-          <span>Are these real brand gift cards?</span>
-          <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
-        </summary>
-        <p class="a">Yes. Every card is issued by the brand or its authorised issuer and goes straight from them to you. We never resell used or second-hand cards.</p>
-      </details>
-
-      <details>
-        <summary>
-          <span>Why does the price change with how I pay?</span>
-          <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
-        </summary>
-        <p class="a">Banks and card networks charge different fees for each payment method, and we pass the difference on. UPI usually gets the biggest discount. Every method’s price is on the card page before you pay.</p>
-      </details>
-
-      <details>
-        <summary>
-          <span>Is there GST on gift cards?</span>
-          <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
-        </summary>
-        <p class="a">No GST is charged when you buy a gift card. The brand applies GST when you spend it.</p>
-      </details>
-
-      <details>
-        <summary>
-          <span>What if a code doesn’t work?</span>
-          <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
-        </summary>
-        <p class="a">Tell us within 7 days of buying. We’ll replace the card or refund you in full, whichever you prefer.</p>
-      </details>
-
-      <details>
-        <summary>
-          <span>What if I don’t receive the gift card?</span>
-          <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
-        </summary>
-        <p class="a">In the rare case, it happens. Don’t worry — just email us at <a href="mailto:hi@studentpeeps.club">hi@studentpeeps.club</a>. We will either send the code or refund the amount in full.</p>
-      </details>
-
-      <details>
-        <summary>
-          <span>Can I cancel an order?</span>
-          <svg class="ic" aria-hidden="true"><use href="#i-chev-d"/></svg>
-        </summary>
-        <p class="a">Cards are issued the moment you pay, so paid orders can’t be cancelled. Scheduled gifts can be cancelled for a full refund until an hour before they’re sent.</p>
-      </details>
-    </div>
+    {% include "components/giftcard_home_faq.html" with faq_first_open=True %}
   </div>
 </section>
 {% endblock %}

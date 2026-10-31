@@ -34,8 +34,6 @@
       <span>₹{{ card.min_price|floatformat:0 }}–₹{{ card.max_price|floatformat:0 }}</span>
       {% if card.can_purchase %}
       <span><svg class="ic"><use href="#i-store"/></svg>Online & in-store</span>
-      {% else %}
-      <span class="bt-sku-meta" title="Product SKU">{{ card.sku }}</span>
       {% endif %}
     </div>
   </div>

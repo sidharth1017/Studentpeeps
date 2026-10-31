@@ -447,6 +447,19 @@ class Order(models.Model):
     customer_email = models.EmailField(blank=True)
     customer_phone = models.CharField(max_length=20, blank=True)
 
+    WOOHOO_DELIVERY_EMAIL = "EMAIL"
+    WOOHOO_DELIVERY_SMS = "SMS"
+    WOOHOO_DELIVERY_MODE_CHOICES = [
+        (WOOHOO_DELIVERY_EMAIL, "Email"),
+        (WOOHOO_DELIVERY_SMS, "SMS"),
+    ]
+    woohoo_delivery_mode = models.CharField(
+        max_length=10,
+        choices=WOOHOO_DELIVERY_MODE_CHOICES,
+        default=WOOHOO_DELIVERY_EMAIL,
+        help_text="How Woohoo delivers gift card codes to the customer.",
+    )
+
     # --- Payment Gateway ---
     payment_gateway   = models.CharField(max_length=50, default="razorpay")
     gateway_order_id  = models.CharField(max_length=100, blank=True, help_text="e.g. Razorpay order_id")

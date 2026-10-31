@@ -73,12 +73,14 @@
         </div>
 
         <div class="co-sec flush">
-          {% for item in cart.items %}
+          {% for item in cart_items %}
           <div class="ck-item cart-item" data-sku="{{ item.sku }}" data-amount="{{ item.denomination }}"
             data-quantity="{{ item.quantity }}" data-margin="{{ item.margin }}" data-name="{{ item.name }}"
             data-final-price="{{ item.final_price }}">
             <a class="ck-info" href="{% url 'giftcard:giftcard_page' item.sku %}">
-              <span class="ck-art"><svg class="ic" aria-hidden="true"><use href="#i-gift"/></svg></span>
+              <span class="ck-art{% if item.brand_logo %} ck-art--logo{% endif %}">
+                {% if item.brand_logo %}<img src="{{ item.brand_logo }}" alt="">{% else %}<svg class="ic" aria-hidden="true"><use href="#i-gift"/></svg>{% endif %}
+              </span>
               <span style="min-width:0">
                 <b class="item-name-label">{{ item.name }}</b>
                 <span>₹<span class="item-denomination-label">{{ item.denomination }}</span> × <span class="item-qty-label">{{ item.quantity }}</span></span>
@@ -121,11 +123,6 @@
             <svg class="ic ic-s" aria-hidden="true"><use href="#i-check-c"/></svg>
             <span id="promo-success-text"></span>
           </p>
-          <div class="promo-hints">
-            <button type="button" class="promo-hint" data-code="STUDENT10" data-disc="10">
-              <svg class="ic ic-s" aria-hidden="true"><use href="#i-tag"/></svg> STUDENT10 <em>10% off</em>
-            </button>
-          </div>
         </div>
 
         <div class="ck-bar">
@@ -169,7 +166,28 @@
               <input type="tel" id="cust-phone" class="inp num" placeholder="10-digit mobile" inputmode="numeric"
                 autocomplete="tel-national" value="{{ user_phone|default:'' }}" />
             </div>
-            <p class="hint">Codes arrive by email and SMS in under a minute.</p>
+          </div>
+          <div class="fld">
+            <span class="lbl">Send codes via</span>
+            <div class="pms" role="radiogroup" aria-label="Gift card delivery">
+              <button type="button" class="pm delivery-mode-box on" role="radio" aria-checked="true" data-mode="EMAIL" data-label="Email">
+                <span class="ib"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg></span>
+                <span class="tx">
+                  <b>Email</b>
+                  <span>We’ll email codes to the address above</span>
+                </span>
+                <span class="rd"></span>
+              </button>
+              <button type="button" class="pm delivery-mode-box" role="radio" aria-checked="false" data-mode="SMS" data-label="SMS">
+                <span class="ib"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg></span>
+                <span class="tx">
+                  <b>SMS</b>
+                  <span>We’ll text codes to your mobile number</span>
+                </span>
+                <span class="rd"></span>
+              </button>
+            </div>
+            <p class="hint">Codes are also saved in your StudentPeeps account.</p>
           </div>
         </div>
 
@@ -242,11 +260,13 @@
             <span>Items (<span id="review-item-count">{{ cart.items|length }}</span>)</span>
             <button type="button" class="act btn-q" onclick="checkoutFlow.goToStep(1)">Edit</button>
           </div>
-          {% for item in cart.items %}
+          {% for item in cart_items %}
           <div class="ck-row review-item" data-sku="{{ item.sku }}" data-name="{{ item.name }}"
             data-denomination="{{ item.denomination }}" data-quantity="{{ item.quantity }}"
             data-final-price="{{ item.final_price }}">
-            <span class="ck-art"><svg class="ic" aria-hidden="true"><use href="#i-gift"/></svg></span>
+            <span class="ck-art{% if item.brand_logo %} ck-art--logo{% endif %}">
+              {% if item.brand_logo %}<img src="{{ item.brand_logo }}" alt="">{% else %}<svg class="ic" aria-hidden="true"><use href="#i-gift"/></svg>{% endif %}
+            </span>
             <div class="tx">
               <b class="review-name-label">{{ item.name }}</b>
               <span>₹{{ item.denomination }} × <span class="review-qty">{{ item.quantity }}</span></span>
@@ -264,6 +284,7 @@
           <div class="ck-who">
             <b id="review-name">Customer</b>
             <span><span id="review-email">email</span> · <span id="review-phone">phone</span></span>
+            <span style="display:block;margin-top:6px;color:var(--ink-3);font-size:14px">Codes via <b id="review-delivery">Email</b></span>
           </div>
         </div>
 
@@ -381,6 +402,17 @@
         goToStep(3);
       });
 
+      document.querySelectorAll('.delivery-mode-box').forEach(box => {
+        box.addEventListener('click', () => {
+          document.querySelectorAll('.delivery-mode-box').forEach(b => {
+            b.classList.remove('on');
+            b.setAttribute('aria-checked', 'false');
+          });
+          box.classList.add('on');
+          box.setAttribute('aria-checked', 'true');
+        });
+      });
+
       document.getElementById('btn-continue-4')?.addEventListener('click', () => goToStep(4));
 
       // Pay Now → Razorpay
@@ -415,18 +447,12 @@
 
       // Promo Logic
       document.getElementById('btn-apply-promo')?.addEventListener('click', () => {
-        const code = document.getElementById('promo-input').value.trim().toUpperCase();
-        if (code === "STUDENT10") applyPromo(10, code);
-        else if (code === "FIRST5") applyPromo(5, code);
-        else if (code === "PEEPS15") applyPromo(15, code);
-        else showToast("Invalid Promo Code", "error");
-      });
-
-      // Promo hints click mapping
-      document.querySelectorAll('.promo-hint').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.getElementById('promo-input').value = btn.dataset.code;
-        });
+        const code = document.getElementById('promo-input').value.trim();
+        if (!code) {
+          showToast("Enter a promo code", "error");
+          return;
+        }
+        showToast("Invalid Promo Code", "error");
       });
 
       // Quantity Plus/Minus listeners
@@ -640,8 +666,20 @@
       });
     }
 
+    function detailsFilled() {
+      const name = document.getElementById('cust-name')?.value.trim() || '';
+      const phone = document.getElementById('cust-phone')?.value.trim() || '';
+      return Boolean(name && phone);
+    }
+
     function goToStep(targetStep) {
       if (targetStep > TOTAL_STEPS || targetStep < 1) return;
+
+      if (targetStep >= 3 && !detailsFilled()) {
+        showToast('Please fill in your name and mobile number before continuing.', 'error');
+        if (currentStep === 2) return;
+        targetStep = 2;
+      }
 
       // 1. Show the target view
       for (let i = 1; i <= TOTAL_STEPS; i++) {
@@ -668,6 +706,10 @@
         document.getElementById('review-name').textContent = name;
         document.getElementById('review-email').textContent = email;
         document.getElementById('review-phone').textContent = phone;
+        const deliveryBox = document.querySelector('.delivery-mode-box.on');
+        const deliveryLabel = deliveryBox?.dataset.label || 'Email';
+        const reviewDelivery = document.getElementById('review-delivery');
+        if (reviewDelivery) reviewDelivery.textContent = deliveryLabel;
 
         // Sync quantities, names, and prices to Review items from cart data attributes
         document.querySelectorAll('.cart-item').forEach(row => {
@@ -781,7 +823,13 @@
           'Content-Type': 'application/json',
           'X-CSRFToken': getCsrfToken(),
         },
-        body: JSON.stringify({ name, email, phone, pay_method: checkoutFlow.getMethod() }),
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          pay_method: checkoutFlow.getMethod(),
+          delivery_mode: document.querySelector('.delivery-mode-box.on')?.dataset.mode || 'EMAIL',
+        }),
       });
 
       const initiateData = await initiateResp.json();

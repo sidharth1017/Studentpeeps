@@ -2,31 +2,36 @@
 
 {% block title %}{{ page.meta_title|default:page.title }}{% endblock %}
 
-{% block meta %}
+{% block metatags %}
 <meta name="description" content="{{ page.meta_description }}">
-<link rel="canonical" href="{{ page.canonical_url }}">
+{% endblock %}
+
+{% block ogmetatags %}
 <meta property="og:title" content="{{ page.title }}">
 <meta property="og:url" content="{{ page.og_url }}">
+<link rel="canonical" href="{{ page.canonical_url }}">
 {% endblock %}
 
 {% block body %}
-<section class="min-h-screen w-full text-gray-300">
-  <div class="max-w-4xl mx-auto px-4 py-16">
+<div class="wrap hc-policy-page">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <svg class="ic" aria-hidden="true"><use href="#i-chev-r"/></svg>
+    <a href="{% url 'help_center' %}">Help center</a>
+    <svg class="ic" aria-hidden="true"><use href="#i-chev-r"/></svg>
+    <span>{{ page.title }}</span>
+  </nav>
 
-    <h1 class="text-center text-3xl md:text-4xl font-semibold text-black tracking-wide">
-      {{ page.title }}
-    </h1>
+  <article class="hc-policy-doc">
+    <h1>{{ page.title }}</h1>
 
     {% if page.updated_at %}
-      <p class="text-center text-gray-400 mt-2 text-sm">
-        Updated on {{ page.updated_at|date:"jS F, Y" }}
-      </p>
+    <p class="hc-policy-updated">Updated on {{ page.updated_at|date:"jS F, Y" }}</p>
     {% endif %}
 
-    <div class="policy-body mt-10 leading-relaxed text-[15px] md:text-base text-gray-800 space-y-4">
-       {{ page.content|safe }}
+    <div class="hc-policy-body">
+      {{ page.content|safe }}
     </div>
-
-  </div>
-</section>
+  </article>
+</div>
 {% endblock %}

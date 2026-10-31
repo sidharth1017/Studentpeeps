@@ -33,10 +33,10 @@
             <div class="ord-col">
                 <div class="co-sec flush">
                     <div class="co-sh"><span>Order items</span></div>
-                    {% for item in order.items_snapshot %}
+                    {% for item in order_items %}
                     <div class="ck-row">
-                        <span class="ck-art">
-                            {% if item.image %}<img src="{{ item.image }}" alt="">{% else %}<svg class="ic" aria-hidden="true"><use href="#i-gift"/></svg>{% endif %}
+                        <span class="ck-art{% if item.brand_logo %} ck-art--logo{% endif %}">
+                            {% if item.brand_logo %}<img src="{{ item.brand_logo }}" alt="">{% else %}<svg class="ic" aria-hidden="true"><use href="#i-gift"/></svg>{% endif %}
                         </span>
                         <div class="tx">
                             <b>{{ item.name }}</b>
@@ -147,6 +147,10 @@
                         <div><b class="num">{{ order.customer_phone }}</b><span>Phone</span></div>
                     </div>
                     {% endif %}
+                    <div class="ord-kv">
+                        <svg class="ic ic-s" aria-hidden="true"><use href="#i-bolt"/></svg>
+                        <div><b>{{ order.get_woohoo_delivery_mode_display }}</b><span>Codes sent via</span></div>
+                    </div>
                 </div>
 
                 <div class="co-sec">

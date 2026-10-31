@@ -1,5 +1,7 @@
 function copyElementText(id) {
-    var text = document.getElementById(id).innerText;
+    var el = document.getElementById(id);
+    var codeEl = el && el.querySelector(".offer-code-value");
+    var text = codeEl ? codeEl.innerText : el.innerText;
     var elem = document.createElement("textarea");
     document.body.appendChild(elem);
     elem.value = text;
