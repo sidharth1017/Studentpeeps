@@ -7,6 +7,49 @@ from giftcard.providers.woohoo.service.order_service import WoohooOrderService
 logger = logging.getLogger(__name__)
 
 
+@shared_task(bind=True, max_retries=2, default_retry_delay=60)
+def place_woohoo_order_task(self, order_id):
+    """
+    Place the Woohoo gift-card order after payment is confirmed.
+    Runs asynchronously so PayU/Razorpay callbacks can respond immediately.
+    """
+    try:
+        order = Order.objects.get(id=order_id)
+    except Order.DoesNotExist:
+        logger.error("place_woohoo_order_task: order id=%s not found", order_id)
+        return False
+
+    if order.status == Order.STATUS_COMPLETED:
+        return True
+    if order.status == Order.STATUS_FAILED:
+        return False
+    if order.status not in (Order.STATUS_PAYMENT_CONFIRMED, Order.STATUS_WOOHOO_PLACED):
+        logger.info(
+            "place_woohoo_order_task: skip order %s (status=%s)",
+            order.reference_id,
+            order.status,
+        )
+        return False
+
+    from giftcard.views import _is_on_hold, _place_woohoo_order
+
+    try:
+        success = _place_woohoo_order(order)
+    except Exception as exc:
+        logger.exception(
+            "place_woohoo_order_task: unhandled error for order %s",
+            order.reference_id,
+        )
+        raise self.retry(exc=exc)
+
+    order.refresh_from_db()
+    if not success and not _is_on_hold(order) and order.status != Order.STATUS_FAILED:
+        order.status = Order.STATUS_FAILED
+        order.save(update_fields=["status"])
+
+    return success
+
+
 @shared_task(bind=True, max_retries=3)
 def poll_woohoo_order_status_task(self, order_id, max_attempts=15, interval_seconds=10):
     """

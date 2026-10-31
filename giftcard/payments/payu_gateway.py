@@ -12,6 +12,10 @@ Hash format (response verification):
   SHA512( salt|status||||||udf5|udf4|udf3|udf2|udf1|email|firstname|productinfo|amount|txnid|key )
 
 Docs: https://devguide.payu.in/payment-gateway/web-integration/seamless/
+
+Register the S2S webhook in the PayU dashboard:
+  https://<your-domain>/giftcard/payment/payu/webhook/
+(Same hash verification as surl; fulfillment runs in Celery after payment is confirmed.)
 """
 import hashlib
 from decimal import Decimal

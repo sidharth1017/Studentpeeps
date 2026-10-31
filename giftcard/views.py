@@ -5,7 +5,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 import json
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+from django.db import transaction
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -193,6 +194,69 @@ class RemoveFromCartView(View):
 def _is_on_hold(order):
     """True when the order was paid for but deliberately not sent to Woohoo (admin switch off)."""
     return isinstance(order.woohoo_response, dict) and bool(order.woohoo_response.get("on_hold"))
+
+
+def _clear_cart_for_order_user(order):
+    """Clear active cart without touching request.session (PayU cross-site POST)."""
+    if not order.user_id:
+        return
+    cart = Cart.objects.filter(user=order.user, is_active=True).first()
+    if cart:
+        cart.items = []
+        cart.save(update_fields=["items"])
+
+
+def _queue_woohoo_fulfillment(order_id: int) -> bool:
+    """
+    Enqueue Woohoo placement once per paid order (safe if surl and webhook both fire).
+    Returns True when a new task was queued.
+    """
+    from giftcard.tasks import place_woohoo_order_task
+
+    with transaction.atomic():
+        order = Order.objects.select_for_update().get(pk=order_id)
+        if order.status not in (
+            Order.STATUS_PAYMENT_CONFIRMED,
+            Order.STATUS_WOOHOO_PLACED,
+        ):
+            return False
+
+        woohoo_response = order.woohoo_response if isinstance(order.woohoo_response, dict) else {}
+        if woohoo_response.get("fulfillment_queued"):
+            return False
+
+        woohoo_response = {**woohoo_response, "fulfillment_queued": True}
+        order.woohoo_response = woohoo_response
+        order.save(update_fields=["woohoo_response", "updated_at"])
+
+    place_woohoo_order_task.delay(order_id)
+    return True
+
+
+def _finalize_successful_gateway_payment(order, gateway_payment_id: str) -> None:
+    """Confirm payment if needed, clear cart once, enqueue Woohoo fulfillment (idempotent)."""
+    clear_cart = False
+    order_id = order.pk
+    with transaction.atomic():
+        order = Order.objects.select_for_update().get(pk=order_id)
+        if order.status == Order.STATUS_PAYMENT_INITIATED:
+            order.status = Order.STATUS_PAYMENT_CONFIRMED
+            order.gateway_payment_id = gateway_payment_id
+            order.save(update_fields=["status", "gateway_payment_id", "updated_at"])
+            clear_cart = True
+        elif order.status in (
+            Order.STATUS_PAYMENT_CONFIRMED,
+            Order.STATUS_WOOHOO_PLACED,
+            Order.STATUS_COMPLETED,
+        ):
+            if gateway_payment_id and not order.gateway_payment_id:
+                order.gateway_payment_id = gateway_payment_id
+                order.save(update_fields=["gateway_payment_id", "updated_at"])
+
+    _queue_woohoo_fulfillment(order_id)
+    if clear_cart:
+        order = Order.objects.get(pk=order_id)
+        _clear_cart_for_order_user(order)
 
 
 def _hold_order(order):
@@ -521,21 +585,8 @@ class PaymentCallbackView(LoginRequiredMixin, View):
             order.save()
             return JsonResponse({"error": verification.error_message, "redirect": "/giftcard/cart/"}, status=400)
 
-        order.status = Order.STATUS_PAYMENT_CONFIRMED
-        order.gateway_payment_id = verification.gateway_payment_id
-        order.save()
-
-        woohoo_success = _place_woohoo_order(order)
+        _finalize_successful_gateway_payment(order, verification.gateway_payment_id)
         CartService(request).clear_cart()
-
-        if not woohoo_success:
-            if not _is_on_hold(order):
-                order.status = Order.STATUS_FAILED
-                order.save(update_fields=["status"])
-            return JsonResponse({
-                "success": True,
-                "redirect": reverse("giftcard:order_failed_refund", kwargs={"reference_id": order.reference_id}),
-            })
 
         return JsonResponse({
             "success":  True,
@@ -547,88 +598,87 @@ class PaymentCallbackView(LoginRequiredMixin, View):
 # Payment – Step 2b: PayU callbacks  (browser redirect from PayU)
 # ──────────────────────────────────────────────────────────────────────────────
 
-@method_decorator(csrf_exempt, name="dispatch")
-class PayUSuccessView(View):
+def _handle_payu_payment_payload(request, payload, *, browser_redirect: bool):
     """
-    PayU POSTs to this URL after a successful payment.
-    We verify the hash, then confirm the order and call Woohoo.
-    CSRF exempt because PayU posts from their domain.
+    Shared PayU success handling for browser surl and server webhook.
+    Verifies payment, confirms order, queues Woohoo; responds fast for PayU's loading page.
     """
+    reference_id = payload.get("udf1", "")
 
-    def post(self, request):
-        payload = request.POST.dict()
-        return self._handle(request, payload)
-
-    def get(self, request):
-        # Fallback for test redirects
-        payload = request.GET.dict()
-        return self._handle(request, payload)
-
-    def _handle(self, request, payload):
-        # reference_id is stored in udf1 by our PayU gateway
-        reference_id = payload.get("udf1", "")
-
-        try:
-            order = Order.objects.get(reference_id=reference_id)
-        except Order.DoesNotExist:
+    try:
+        order = Order.objects.get(reference_id=reference_id)
+    except Order.DoesNotExist:
+        if browser_redirect:
             return render(request, "pages/checkout/payment_failed.html", {
                 "error": "Order not found. Please contact support."
             }, status=404)
+        return HttpResponse("order not found", status=404)
 
-        if order.status not in (Order.STATUS_PAYMENT_INITIATED,):
-            # Already processed (duplicate callback) — redirect to correct page based on current status
+    if order.status not in (Order.STATUS_PAYMENT_INITIATED,):
+        if browser_redirect:
             if order.status == Order.STATUS_FAILED:
                 return redirect(reverse("giftcard:order_failed_refund", kwargs={"reference_id": order.reference_id}))
             return redirect(reverse("giftcard:order_success", kwargs={"reference_id": order.reference_id}))
+        return HttpResponse("ok")
 
-        gateway = get_gateway(order.payment_gateway)
-        verification = gateway.verify_payment(payload)
+    gateway = get_gateway(order.payment_gateway)
+    verification = gateway.verify_payment(payload)
+    mihpayid = payload.get("mihpayid", "")
 
-        mihpayid = payload.get("mihpayid", "")
+    PaymentTransaction.objects.filter(
+        order=order,
+        gateway_order_id=order.gateway_order_id,
+    ).update(
+        gateway_payment_id=mihpayid,
+        status="SUCCESS" if verification.success else "FAILED",
+        raw_response=payload,
+    )
 
-        # Audit log
-        PaymentTransaction.objects.filter(
-            order=order,
-            gateway_order_id=order.gateway_order_id,
-        ).update(
-            gateway_payment_id=mihpayid,
-            status="SUCCESS" if verification.success else "FAILED",
-            raw_response=payload,
-        )
-
-        if not verification.success:
-            order.status = Order.STATUS_FAILED
-            order.gateway_payment_id = mihpayid
-            order.save()
+    if not verification.success:
+        order.status = Order.STATUS_FAILED
+        order.gateway_payment_id = mihpayid
+        order.save(update_fields=["status", "gateway_payment_id", "updated_at"])
+        if browser_redirect:
             return render(request, "pages/checkout/payment_failed.html", {
                 "error": verification.error_message,
                 "order": order,
             })
+        return HttpResponse("verification failed", status=400)
 
-        order.status = Order.STATUS_PAYMENT_CONFIRMED
-        order.gateway_payment_id = mihpayid
-        order.save()
+    _finalize_successful_gateway_payment(order, mihpayid or verification.gateway_payment_id)
 
-        woohoo_success = _place_woohoo_order(order)
-
-        # Clear cart manually instead of using CartService(request)
-        # Because PayU POSTs back cross-domain without the SameSite session cookie,
-        # interacting with request.session here triggers Django to generate a brand NEW session cookie,
-        # which overwrites the user's logged-in session on the redirect, logging them out!
-        if order.user:
-            from giftcard.models import Cart
-            cart = Cart.objects.filter(user=order.user, is_active=True).first()
-            if cart:
-                cart.items = []
-                cart.save()
-
-        if not woohoo_success:
-            if not _is_on_hold(order):
-                order.status = Order.STATUS_FAILED
-                order.save(update_fields=["status"])
-            return redirect(reverse("giftcard:order_failed_refund", kwargs={"reference_id": order.reference_id}))
-
+    if browser_redirect:
         return redirect(reverse("giftcard:order_success", kwargs={"reference_id": order.reference_id}))
+    return HttpResponse("success")
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class PayUSuccessView(View):
+    """
+    PayU POSTs to this URL after a successful payment (browser surl).
+    Verify hash, confirm payment, queue Woohoo in Celery, redirect immediately.
+    CSRF exempt because PayU posts from their domain.
+    """
+
+    def post(self, request):
+        return _handle_payu_payment_payload(request, request.POST.dict(), browser_redirect=True)
+
+    def get(self, request):
+        return _handle_payu_payment_payload(request, request.GET.dict(), browser_redirect=True)
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class PayUWebhookView(View):
+    """
+    PayU server-to-server webhook (configure in PayU dashboard).
+    Same verification and fulfillment as surl; returns 200 quickly.
+    """
+
+    def post(self, request):
+        return _handle_payu_payment_payload(request, request.POST.dict(), browser_redirect=False)
+
+    def get(self, request):
+        return _handle_payu_payment_payload(request, request.GET.dict(), browser_redirect=False)
 
 
 @method_decorator(csrf_exempt, name="dispatch")

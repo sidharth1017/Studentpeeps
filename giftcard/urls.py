@@ -18,6 +18,7 @@ urlpatterns = [
     # Payment flow (PayU specific redirects)
     path('payment/payu/success/', views.PayUSuccessView.as_view(),   name='payu_success'),
     path('payment/payu/failure/', views.PayUFailureView.as_view(),   name='payu_failure'),
+    path('payment/payu/webhook/', views.PayUWebhookView.as_view(),   name='payu_webhook'),
 
     # Post-payment UI
     path('order/<str:reference_id>/success/', views.OrderSuccessView.as_view(), name='order_success'),
